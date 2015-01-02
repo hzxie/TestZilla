@@ -4,7 +4,7 @@
 <html lang="en-US">
 <head>
     <meta charset="UTF-8">
-    <title>TestZilla</title>
+    <title>Page Not Found | TestZilla</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="谢浩哲">
@@ -12,7 +12,6 @@
     <link rel="shortcut icon" href="<c:url value="/favicon.ico" />">
 </head>
 <body>
-    <h1>Hello</h1>
-    <c:redirect url="/"></c:redirect>
+    <h1>Page Not Found</h1>
 </body>
 </html>
