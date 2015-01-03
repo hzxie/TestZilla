@@ -1,0 +1,7 @@
+div#content div.column img {
+	max-height: 100%;
+}
+
+div#content div#error {
+	padding-top: 10em;
+}

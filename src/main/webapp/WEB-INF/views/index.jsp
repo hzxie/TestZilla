@@ -22,8 +22,15 @@
         <div id="assistive-menu" class="row">
             <div class="column">
                 <div class="ui secondary menu right floated">
+                <c:choose>
+                <c:when test="${isLogin}">
+                    <a class="item" href="<c:url value="/accounts/dashboard" />">Dashboard</a>
+                </c:when>
+                <c:otherwise>
                     <a class="item" href="<c:url value="/accounts/login" />">Sign In</a>
                     <a class="item" href="<c:url value="/accounts/join" />">Sign Up</a>
+                </c:otherwise>
+                </c:choose>
                     <a class="item" href="<c:url value="/help" />">Help Center</a>
                     <a class="item" href="<c:url value="/search" />"><i class="fa fa-search"></i> Search</a>
                     <div class="ui language floating dropdown link item" id="languages">
@@ -88,7 +95,7 @@
         </div> <!-- .row -->
         <div id="copyright" class="column row">
             <div class="column">
-                <p>Copyright&copy; 2015 <a href="<c:url value="/" />#">TestZilla</a>. All rights reserved.</p>
+                <p>Copyright&copy; 2015 <a href="<c:url value="/" />">TestZilla</a>. All rights reserved.</p>
             </div> <!-- .column -->
         </div> <!-- #copyright -->
     </footer>
