@@ -1,0 +1,40 @@
+div#content {
+	margin: 0 auto 20px;
+	width: 320px;
+}
+
+div#content h2 {
+	color: #0073da;
+}
+
+div#content div.error.message {
+	display: none;
+}
+
+div#content form#login-form a {
+	color: #0073da;
+	font-weight: normal;
+	float: right;
+}
+
+footer {
+	background-color: transparent;
+	color: #333;
+}
+
+footer div#copyright {
+	border-top: none;
+}
+
+footer div#copyright p {
+	font-size: 1em;
+	text-align: center;
+}
+
+footer div#copyright a {
+	color: #333;
+}
+
+footer div#copyright a:hover {
+	color: #0073da;
+}
