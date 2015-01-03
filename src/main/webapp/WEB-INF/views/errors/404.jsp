@@ -10,6 +10,8 @@
     <meta name="author" content="谢浩哲">
     <!-- Icon -->
     <link rel="shortcut icon" href="<c:url value="/favicon.ico" />">
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="<c:url value="/assets/css/errors/404.css" />">
 </head>
 <body>
     <h1>Page Not Found</h1>

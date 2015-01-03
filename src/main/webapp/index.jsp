@@ -12,7 +12,6 @@
     <link rel="shortcut icon" href="<c:url value="/favicon.ico" />">
 </head>
 <body>
-    <h1>Hello</h1>
     <c:redirect url="/"></c:redirect>
 </body>
 </html>

@@ -93,7 +93,7 @@
         </div> <!-- #copyright -->
     </footer>
     <!-- Java Script -->
-    <!-- -->
+    <!-- Placed at the end of the document so the pages load faster -->
     <script type="text/javascript">
         $(function() {
             $('.ui.dropdown').dropdown();
