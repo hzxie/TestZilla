@@ -23,7 +23,7 @@ public class DefaultController {
      * @param session - HttpSession对象
      * @return 一个包含首页信息的ModelAndView对象
      */
-    @RequestMapping(value = "/*", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView indexView(HttpServletRequest request, HttpSession session) {
         ModelAndView view = new ModelAndView("index");
         return view;
