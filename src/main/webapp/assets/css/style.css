@@ -1,5 +1,5 @@
 html, body {
-	background-color: #f5f5f5;
+	background-color: #fff;
 	font-family: "Segoe UI", "Microsoft YaHei";
 	margin: 0;
 	padding: 0;
@@ -26,6 +26,18 @@ header div#navigation nav.menu > a.item {
 header div#navigation nav.menu > a.item:hover,
 header div#navigation nav.menu > a.item.active {
 	color: #0073da;
+}
+
+div#content {
+	background-color: #fff;
+}
+
+div#content header#sub-header {
+	background-color: #f5f5f5;
+}
+
+div#content header#sub-header h2 {
+	padding: 1rem;
 }
 
 footer {

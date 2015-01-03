@@ -21,11 +21,59 @@ public class DefaultController {
      * 显示应用程序的首页.
      * @param request - HttpRequest对象
      * @param session - HttpSession对象
-     * @return 一个包含首页信息的ModelAndView对象
+     * @return 一个包含首页内容的ModelAndView对象
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView indexView(HttpServletRequest request, HttpSession session) {
         ModelAndView view = new ModelAndView("index");
+        return view;
+    }
+    
+    /**
+     * 显示搜索页面.
+     * @param request - HttpRequest对象
+     * @param session - HttpSession对象
+     * @return 一个包含搜索页内容的ModelAndView对象
+     */
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public ModelAndView searchView(HttpServletRequest request, HttpSession session) {
+        ModelAndView view = new ModelAndView("search");
+        return view;
+    }
+    
+    /**
+     * 显示关于页面.
+     * @param request - HttpRequest对象
+     * @param session - HttpSession对象
+     * @return 一个包含关于页内容的ModelAndView对象
+     */
+    @RequestMapping(value = "/about", method = RequestMethod.GET)
+    public ModelAndView aboutView(HttpServletRequest request, HttpSession session) {
+        ModelAndView view = new ModelAndView("about");
+        return view;
+    }
+    
+    /**
+     * 显示帮助页.
+     * @param request - HttpRequest对象
+     * @param session - HttpSession对象
+     * @return 一个包含帮助页内容的ModelAndView对象
+     */
+    @RequestMapping(value = "/help", method = RequestMethod.GET)
+    public ModelAndView helpView(HttpServletRequest request, HttpSession session) {
+        ModelAndView view = new ModelAndView("help");
+        return view;
+    }
+    
+    /**
+     * 显示服务条款页面.
+     * @param request - HttpRequest对象
+     * @param session - HttpSession对象
+     * @return 一个包含服务条款页内容的ModelAndView对象
+     */
+    @RequestMapping(value = "/terms", method = RequestMethod.GET)
+    public ModelAndView termsView(HttpServletRequest request, HttpSession session) {
+        ModelAndView view = new ModelAndView("terms");
         return view;
     }
     
