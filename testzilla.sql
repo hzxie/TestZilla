@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 04, 2015 at 01:39 下午
+-- Generation Time: Jan 04, 2015 at 02:38 下午
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `tz_bug_status` (
 `bug_status_id` int(4) NOT NULL,
   `bug_status_slug` varchar(24) NOT NULL,
   `bug_status_name` varchar(24) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tz_bug_status`
@@ -99,7 +99,8 @@ INSERT INTO `tz_bug_status` (`bug_status_id`, `bug_status_slug`, `bug_status_nam
 (5, 'wontfix', 'Won''t Fix'),
 (6, 'later', 'Fix Later'),
 (7, 'duplicate', 'Duplicate'),
-(8, 'worksforme', 'Can''t Reappear');
+(8, 'worksforme', 'Can''t Reappear'),
+(9, 'enhancement', 'Enhancement');
 
 -- --------------------------------------------------------
 
@@ -323,7 +324,7 @@ MODIFY `bug_severity_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 -- AUTO_INCREMENT for table `tz_bug_status`
 --
 ALTER TABLE `tz_bug_status`
-MODIFY `bug_status_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+MODIFY `bug_status_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `tz_points_logs`
 --
