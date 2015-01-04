@@ -1,13 +1,17 @@
 package com.happystudio.testzilla.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -18,135 +22,135 @@ import javax.persistence.Table;
 @Table(name = "tz_users")
 public class User implements Serializable {
 	/**
-     * User类的默认构造函数. 
-     */
-    public User() { }
-   
-    /**
-     * User类的构造函数.
-     * @param username - 用户名
-     * @param password - 密码
-     * @param userGroup - 用户组
-     * @param realName - 用户真实姓名或公司名称
-     * @param email - 电子邮件地址
-     * @param country - 用户所在国家
-     * @param province - 用户所在省份
-     * @param city - 用户所在城市
-     * @param phone - 用户的联系电话
-     * @param isIndividual - 是否为个人用户
-     * @param isEmailValidated - 是否验证了电子邮件地址
-     * @param isInspected - 用户资料是否被审核
-     * @param isApproved - 用户资料是否通过审核
-     */
-    public User(String username, String password, UserGroup userGroup, String realName, 
-    		    String email, String country, String province, String city, String phone,
-    		    boolean isIndividual, boolean isEmailValidated, boolean isInspected, boolean isApproved) {
-        this.username = username;
-        this.password = password;
-        this.userGroup = userGroup;
-        this.realName = realName;
-        this.email = email;
-        this.country = country;
-        this.province = province;
-        this.city = city;
-        this.phone = phone;
-        this.isIndividual = isIndividual;
-        this.isEmailValidated = isEmailValidated;
-        this.isInspected = isInspected;
-        this.isApproved = isApproved;
-    }
-    
-    /**
-     * User类的构造函数(用于单元测试).
-     * @param uid - 用户唯一标识符
-     * @param username - 用户名
-     * @param password - 密码
-     * @param userGroup - 用户组
-     * @param realName - 用户真实姓名或公司名称
-     * @param email - 电子邮件地址
-     * @param country - 用户所在国家
-     * @param province - 用户所在省份
-     * @param city - 用户所在城市
-     * @param phone - 用户的联系电话
-     * @param isIndividual - 是否为个人用户
-     * @param isEmailValidated - 是否验证了电子邮件地址
-     * @param isInspected - 用户资料是否被审核
-     * @param isApproved - 用户资料是否通过审核
-     */
-    public User(int uid, String username, String password, UserGroup userGroup, String realName, 
-		    String email, String country, String province, String city, String phone,
-		    boolean isIndividual, boolean isEmailValidated, boolean isInspected, boolean isApproved) {
-    	this(username, password, userGroup, realName, email, country, province, city, 
-    			phone, isIndividual, isEmailValidated, isInspected, isApproved);
-    	this.uid = uid;
-    }
-    
-    /**
-     * 获取用户唯一标识符.
-     * @return 用户唯一标识符
-     */
-    public int getUid() {
-        return uid;
-    }
-    
-    /**
-     * 设置用户唯一标识符.
-     * @param uid - 用户唯一标识符
-     */
-    public void setUid(int uid) {
-        this.uid = uid;
-    }
-    
-    /**
-     * 获取用户名.
-     * @return 用户名
-     */
-    public String getUsername() {
-        return username;
-    }
+	 * User类的默认构造函数. 
+	 */
+	public User() { }
 
-    /**
-     * 设置用户名.
-     * @param Username - 用户名
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    
-    /**
-     * 获取密码(已采用MD5加密).
-     * @return 密码
-     */
-    public String getPassword() {
-        return password;
-    }
+	/**
+	 * User类的构造函数.
+	 * @param username - 用户名
+	 * @param password - 密码
+	 * @param userGroup - 用户组
+	 * @param realName - 用户真实姓名或公司名称
+	 * @param email - 电子邮件地址
+	 * @param country - 用户所在国家
+	 * @param province - 用户所在省份
+	 * @param city - 用户所在城市
+	 * @param phone - 用户的联系电话
+	 * @param isIndividual - 是否为个人用户
+	 * @param isEmailValidated - 是否验证了电子邮件地址
+	 * @param isInspected - 用户资料是否被审核
+	 * @param isApproved - 用户资料是否通过审核
+	 */
+	public User(String username, String password, UserGroup userGroup, String realName, 
+				String email, String country, String province, String city, String phone,
+				boolean isIndividual, boolean isEmailValidated, boolean isInspected, boolean isApproved) {
+		this.username = username;
+		this.password = password;
+		this.userGroup = userGroup;
+		this.realName = realName;
+		this.email = email;
+		this.country = country;
+		this.province = province;
+		this.city = city;
+		this.phone = phone;
+		this.isIndividual = isIndividual;
+		this.isEmailValidated = isEmailValidated;
+		this.isInspected = isInspected;
+		this.isApproved = isApproved;
+	}
+	
+	/**
+	 * User类的构造函数(用于单元测试).
+	 * @param uid - 用户唯一标识符
+	 * @param username - 用户名
+	 * @param password - 密码
+	 * @param userGroup - 用户组
+	 * @param realName - 用户真实姓名或公司名称
+	 * @param email - 电子邮件地址
+	 * @param country - 用户所在国家
+	 * @param province - 用户所在省份
+	 * @param city - 用户所在城市
+	 * @param phone - 用户的联系电话
+	 * @param isIndividual - 是否为个人用户
+	 * @param isEmailValidated - 是否验证了电子邮件地址
+	 * @param isInspected - 用户资料是否被审核
+	 * @param isApproved - 用户资料是否通过审核
+	 */
+	public User(long uid, String username, String password, UserGroup userGroup, String realName, 
+			String email, String country, String province, String city, String phone,
+			boolean isIndividual, boolean isEmailValidated, boolean isInspected, boolean isApproved) {
+		this(username, password, userGroup, realName, email, country, province, city, 
+				phone, isIndividual, isEmailValidated, isInspected, isApproved);
+		this.uid = uid;
+	}
+	
+	/**
+	 * 获取用户唯一标识符.
+	 * @return 用户唯一标识符
+	 */
+	public long getUid() {
+		return uid;
+	}
+	
+	/**
+	 * 设置用户唯一标识符.
+	 * @param uid - 用户唯一标识符
+	 */
+	public void setUid(long uid) {
+		this.uid = uid;
+	}
+	
+	/**
+	 * 获取用户名.
+	 * @return 用户名
+	 */
+	public String getUsername() {
+		return username;
+	}
 
-    /**
-     * 设置密码.
-     * @param password - 密码
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	/**
+	 * 设置用户名.
+	 * @param Username - 用户名
+	 */
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	/**
+	 * 获取密码(已采用MD5加密).
+	 * @return 密码
+	 */
+	public String getPassword() {
+		return password;
+	}
 
-    /**
-     * 获取用户组.
-     * @return 用户组对象
-     */
-    public UserGroup getUserGroup() {
-        return userGroup;
-    }
+	/**
+	 * 设置密码.
+	 * @param password - 密码
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    /**
-     * 设置用户组.
-     * @param userGroup - 用户组对象
-     */
-    public void setUserGroup(UserGroup userGroup) {
-        this.userGroup = userGroup;
-    }
+	/**
+	 * 获取用户组.
+	 * @return 用户组对象
+	 */
+	public UserGroup getUserGroup() {
+		return userGroup;
+	}
 
-    /**
-     * 获取用户的真实姓名或公司名称.
+	/**
+	 * 设置用户组.
+	 * @param userGroup - 用户组对象
+	 */
+	public void setUserGroup(UserGroup userGroup) {
+		this.userGroup = userGroup;
+	}
+
+	/**
+	 * 获取用户的真实姓名或公司名称.
 	 * @return 用户的真实姓名或公司名称
 	 */
 	public String getRealName() {
@@ -162,20 +166,20 @@ public class User implements Serializable {
 	}
 
 	/**
-     * 获取电子邮件地址.
-     * @return 电子邮件地址
-     */
-    public String getEmail() {
-        return email;
-    }
+	 * 获取电子邮件地址.
+	 * @return 电子邮件地址
+	 */
+	public String getEmail() {
+		return email;
+	}
 
-    /**
-     * 设置电子邮件地址
-     * @param email - 电子邮件地址
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	/**
+	 * 设置电子邮件地址
+	 * @param email - 电子邮件地址
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	/**
 	 * 获取用户所在国家.
@@ -304,105 +308,174 @@ public class User implements Serializable {
 	public void setApproved(boolean isApproved) {
 		this.isApproved = isApproved;
 	}
+
+	/**
+	 * 获取产品列表(用于1-N关联).
+	 * @return 产品列表
+	 */
+	public List<Product> getProducts() {
+		return products;
+	}
 	
+	/**
+	 * 设置产品列表.
+	 * @param products - 产品列表
+	 */
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
+	
+	/**
+	 * 获取Bug列表(用于1-N关联).
+	 * @return 产品列表
+	 */
+	public List<Bug> getBugs() {
+		return bugs;
+	}
+	
+	/**
+	 * 设置产品列表.
+	 * @param products - 产品列表
+	 */
+	public void setBugs(List<Bug> bugs) {
+		this.bugs = bugs;
+	}
+
+	/**
+	 * 获取积分记录列表(用于1-N关联).
+	 * @return 积分记录列表
+	 */
+	public List<PointsLog> getPointsLogs() {
+		return pointsLogs;
+	}
+
+	/**
+	 * 设置积分记录列表.
+	 * @param pointsLogs - 积分记录列表
+	 */
+	public void setPointsLogs(List<PointsLog> pointsLogs) {
+		this.pointsLogs = pointsLogs;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return String.format("User: [Uid=%s, Username=%s, Password=%s, UserGroup={%s}, RealName=%s, Email=%s, ]", 
-                new Object[] { uid, username, password, userGroup, realName, email });
+		return String.format("User: [Uid=%s, Username=%s, UserGroup={%s}, RealName=%s, Email=%s]", 
+				new Object[] { uid, username, userGroup, realName, email });
 	}
+	
+	/**
+	 * 用户的唯一标识符.
+	 */
+	@Id
+	@GeneratedValue
+	@Column(name = "uid")
+	private long uid;
+	
+	/**
+	 * 用户名.
+	 */
+	@Column(name = "username")
+	private String username;
 
 	/**
-     * 用户的唯一标识符.
-     */
-    @Id
-    @GeneratedValue
-    @Column(name = "uid")
-    private int uid;
-    
-    /**
-     * 用户名.
-     */
-    @Column(name = "username")
-    private String username;
+	 * 密码(已采用MD5加密).
+	 */
+	@Column(name = "password")
+	private String password;
 
-    /**
-     * 密码(已采用MD5加密).
-     */
-    @Column(name = "password")
-    private String password;
+	/**
+	 * 用户组对象.
+	 */
+	@ManyToOne(targetEntity = UserGroup.class)
+	@JoinColumn(name = "user_group_id")
+	private UserGroup userGroup;
 
-    /**
-     * 用户组对象.
-     */
-    @ManyToOne(targetEntity = UserGroup.class)
-    @JoinColumn(name = "user_group_id")
-    private UserGroup userGroup;
-
-    /**
-     * 用户的真实姓名或公司名称.
-     */
-    @Column(name = "real_name")
-    private String realName;
-    
-    /**
-     * 电子邮件地址.
-     */
-    @Column(name = "email")
-    private String email;
-    
-    /**
-     * 用户所在国家.
-     */
-    @Column(name = "country")
-    private String country;
-    
-    /**
-     * 用户所在省份.
-     */
-    @Column(name = "province")
-    private String province;
-    
-    /**
-     * 用户所在城市.
-     */
-    @Column(name = "city")
-    private String city;
-    
-    /**
-     * 用户的联系电话.
-     */
-    @Column(name = "phone")
-    private String phone;
-    
-    /**
-     * 是否为个人用户.
-     */
-    @Column(name = "is_individual")
-    private boolean isIndividual;
-    
-    /**
-     * 是否验证了电子邮件地址.
-     */
-    @Column(name = "is_email_validated")
-    private boolean isEmailValidated;
-    
-    /**
-     * 用户资料是否被审核.
-     */
-    @Column(name = "is_inspected")
-    private boolean isInspected;
-    
-    /**
-     * 用户资料是否通过审核.
-     */
-    @Column(name = "is_approved")
-    private boolean isApproved;
-    
-    /**
+	/**
+	 * 用户的真实姓名或公司名称.
+	 */
+	@Column(name = "real_name")
+	private String realName;
+	
+	/**
+	 * 电子邮件地址.
+	 */
+	@Column(name = "email")
+	private String email;
+	
+	/**
+	 * 用户所在国家.
+	 */
+	@Column(name = "country")
+	private String country;
+	
+	/**
+	 * 用户所在省份.
+	 */
+	@Column(name = "province")
+	private String province;
+	
+	/**
+	 * 用户所在城市.
+	 */
+	@Column(name = "city")
+	private String city;
+	
+	/**
+	 * 用户的联系电话.
+	 */
+	@Column(name = "phone")
+	private String phone;
+	
+	/**
+	 * 是否为个人用户.
+	 */
+	@Column(name = "is_individual")
+	private boolean isIndividual;
+	
+	/**
+	 * 是否验证了电子邮件地址.
+	 */
+	@Column(name = "is_email_validated")
+	private boolean isEmailValidated;
+	
+	/**
+	 * 用户资料是否被审核.
+	 */
+	@Column(name = "is_inspected")
+	private boolean isInspected;
+	
+	/**
+	 * 用户资料是否通过审核.
+	 */
+	@Column(name = "is_approved")
+	private boolean isApproved;
+	
+	/**
+	 * 产品列表(以便1-N关联).
+	 */
+	@OneToMany(targetEntity = Product.class, 
+				fetch = FetchType.LAZY, mappedBy = "developer")
+	private List<Product> products = new ArrayList<Product>();
+	
+	/**
+	 * Bug列表(以便1-N关联).
+	 */
+	@OneToMany(targetEntity = Bug.class, 
+			fetch = FetchType.LAZY, mappedBy = "hunter")
+	private List<Bug> bugs = new ArrayList<Bug>();
+	
+	/**
+	 * 积分记录列表(以便1-N关联).
+	 */
+	@OneToMany(targetEntity = PointsLog.class, 
+			fetch = FetchType.LAZY, mappedBy = "user")
+	private List<PointsLog> pointsLogs = new ArrayList<PointsLog>();
+	
+	/**
 	 * 唯一的序列化标识符.
 	 */
-	private static final long serialVersionUID = 1540715610889693930L;
+	private static final long serialVersionUID = -8408754534627167252L;
 }

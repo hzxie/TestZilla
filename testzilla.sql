@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 04, 2015 at 07:58 上午
+-- Generation Time: Jan 04, 2015 at 01:39 下午
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `tz_options` (
 
 CREATE TABLE IF NOT EXISTS `tz_points_logs` (
 `points_log_id` bigint(20) NOT NULL,
-  `points_uid` bigint(20) NOT NULL,
+  `points_to_uid` bigint(20) NOT NULL,
   `points_get_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `points_rule_id` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `tz_points_logs` (
 CREATE TABLE IF NOT EXISTS `tz_points_rules` (
 `points_rule_id` int(4) NOT NULL,
   `points_rule_reputation` int(4) NOT NULL,
-  `points_rule_points` int(4) NOT NULL,
+  `points_rule_money` int(4) NOT NULL,
   `points_rule_title` varchar(32) NOT NULL,
   `points_rule_description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -268,7 +268,7 @@ ALTER TABLE `tz_bug_status`
 -- Indexes for table `tz_points_logs`
 --
 ALTER TABLE `tz_points_logs`
- ADD PRIMARY KEY (`points_log_id`), ADD KEY `points_uid` (`points_uid`,`points_rule_id`);
+ ADD PRIMARY KEY (`points_log_id`), ADD KEY `points_uid` (`points_to_uid`,`points_rule_id`), ADD KEY `points_rule_id` (`points_rule_id`);
 
 --
 -- Indexes for table `tz_points_rules`
@@ -362,6 +362,13 @@ ADD CONSTRAINT `tz_bugs_ibfk_2` FOREIGN KEY (`bug_category_id`) REFERENCES `tz_b
 ADD CONSTRAINT `tz_bugs_ibfk_3` FOREIGN KEY (`bug_status_id`) REFERENCES `tz_bug_status` (`bug_status_id`),
 ADD CONSTRAINT `tz_bugs_ibfk_4` FOREIGN KEY (`bug_severity_id`) REFERENCES `tz_bug_severities` (`bug_severity_id`),
 ADD CONSTRAINT `tz_bugs_ibfk_5` FOREIGN KEY (`bug_hunter_id`) REFERENCES `tz_users` (`uid`);
+
+--
+-- Constraints for table `tz_points_logs`
+--
+ALTER TABLE `tz_points_logs`
+ADD CONSTRAINT `tz_points_logs_ibfk_1` FOREIGN KEY (`points_to_uid`) REFERENCES `tz_users` (`uid`),
+ADD CONSTRAINT `tz_points_logs_ibfk_2` FOREIGN KEY (`points_rule_id`) REFERENCES `tz_points_rules` (`points_rule_id`);
 
 --
 -- Constraints for table `tz_products`
