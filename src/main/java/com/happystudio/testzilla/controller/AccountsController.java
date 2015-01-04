@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.happystudio.testzilla.model.User;
 import com.happystudio.testzilla.service.UserService;
-import com.happystudio.testzilla.util.DigestUtils;
 
 /**
  * 处理用户账户相关的请求.
