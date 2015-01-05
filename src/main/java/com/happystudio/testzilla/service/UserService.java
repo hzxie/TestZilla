@@ -16,12 +16,19 @@ import com.happystudio.testzilla.model.User;
 public class UserService {
     /**
      * 验证用户身份是否有效.
-     * @param username - 用户名
+     * @param username - 用户名或电子邮件地址
      * @param password - 密码(已使用MD5加密)
      * @return 一个User的对象或一个空引用
      */
     public User isAccountValid(String username, String password) {
-        User user = userDao.getUserUsingUsername(username);
+        boolean isUsingEmail = username.indexOf('@') != -1;
+        User user = null;
+        
+        if ( !isUsingEmail ) {
+        	user = userDao.getUserUsingUsername(username);
+        } else {
+        	user = userDao.getUserUsingEmail(username);
+        }
         if ( user != null && user.getPassword().equals(password) ) {
             return user;
         }

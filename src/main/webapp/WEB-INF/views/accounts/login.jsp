@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<jsp:useBean id="date" class="java.util.Date" />
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
@@ -65,7 +67,7 @@
     <footer class="ui page stackable grid">
         <div id="copyright" class="column row">
             <div class="column">
-                <p>Copyright&copy; 2015 <a href="<c:url value="/" />">TestZilla</a>. All rights reserved.</p>
+                <p>Copyright&copy; <%= new java.text.SimpleDateFormat("yyyy").format(new java.util.Date()) %> <a href="<c:url value="/" />">TestZilla</a>. All rights reserved.</p>
             </div> <!-- .column -->
         </div> <!-- #copyright -->
     </footer>

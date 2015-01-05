@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 04, 2015 at 02:38 下午
+-- Generation Time: Jan 05, 2015 at 02:18 下午
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -197,23 +197,23 @@ CREATE TABLE IF NOT EXISTS `tz_users` (
   `user_group_id` int(4) NOT NULL,
   `real_name` varchar(32) NOT NULL,
   `email` varchar(64) NOT NULL,
-  `country` varchar(16) NOT NULL,
-  `province` varchar(16) NOT NULL,
-  `city` varchar(16) NOT NULL,
+  `country` varchar(24) NOT NULL,
+  `province` varchar(24) NOT NULL,
+  `city` varchar(24) DEFAULT NULL,
   `phone` varchar(24) NOT NULL,
-  `website` varchar(128) DEFAULT NULL,
+  `website` varchar(64) DEFAULT NULL,
   `is_individual` tinyint(1) NOT NULL DEFAULT '1',
   `is_email_validated` tinyint(1) NOT NULL DEFAULT '0',
   `is_inspected` tinyint(1) NOT NULL DEFAULT '0',
   `is_approved` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1002 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tz_users`
 --
 
 INSERT INTO `tz_users` (`uid`, `username`, `password`, `user_group_id`, `real_name`, `email`, `country`, `province`, `city`, `phone`, `website`, `is_individual`, `is_email_validated`, `is_inspected`, `is_approved`) VALUES
-(1000, 'Administrator', '785ee107c11dfe36de668b1ae7baacbb', 3, 'Administrator', 'support@testzilla.org', 'China', 'Zhejiang', 'Hangzhou', '+86-571-12345678', 'http://www.testzilla.org', 0, 1, 1, 1),
+(1000, 'Administrator', '785ee107c11dfe36de668b1ae7baacbb', 3, 'Administrator', 'support@testzilla.org', 'China', 'Zhejiang', 'Hangzhou', '+86-571-12345678', 'http://testzilla.org', 0, 1, 1, 1),
 (1001, 'zjhzxhz', '785ee107c11dfe36de668b1ae7baacbb', 1, '谢浩哲', 'zjhzxhz@gmail.com', 'China', 'Zhejiang', 'Hangzhou', '+86-15695719136', 'http://zjhzxhz.com', 1, 1, 1, 1);
 
 -- --------------------------------------------------------
@@ -344,7 +344,7 @@ MODIFY `product_category_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 -- AUTO_INCREMENT for table `tz_users`
 --
 ALTER TABLE `tz_users`
-MODIFY `uid` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1001;
+MODIFY `uid` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1002;
 --
 -- AUTO_INCREMENT for table `tz_user_groups`
 --

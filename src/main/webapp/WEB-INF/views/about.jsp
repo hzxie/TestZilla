@@ -21,12 +21,7 @@
     <!-- Header -->
     <%@ include file="/WEB-INF/views/include/header.jsp" %>
     <!-- Content -->
-    <div id="content">
-        <header id="sub-header" class="ui page stackable grid">
-            <h2>About Us</h2>
-        </header> <!-- #sub-header -->
-        <section class="ui page stackable grid">
-        </section>
+    <div id="content" class="ui page stackable grid">
     </div> <!-- #content -->
     <!-- Footer -->
     <%@ include file="/WEB-INF/views/include/footer.jsp" %>

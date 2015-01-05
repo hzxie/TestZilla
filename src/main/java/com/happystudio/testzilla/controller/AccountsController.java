@@ -137,7 +137,7 @@ public class AccountsController {
      * @param request - Http Servlet Request对象
      * @return 包含注册页面信息的ModelAndView对象
      */
-    @RequestMapping(value = "/register")
+    @RequestMapping(value = "/join")
     public ModelAndView registerView(HttpServletRequest request) {
         return new ModelAndView("accounts/join");
     }

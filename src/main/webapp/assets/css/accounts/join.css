@@ -1,0 +1,46 @@
+div#content {
+	margin-bottom: 40px;
+}
+
+div#content div#slogan h2 {
+	color: #666;
+	margin-top: 0;
+}
+
+div#content h3 {
+	margin-top: 0;
+}
+
+div#content div#steps a.step {
+	width: 33.3%;
+}
+
+div#content div#steps a.step.active i.icon,
+div#content div#steps a.step.active i.fa {
+	color: #009fda;
+}
+
+div#content div.error {
+	display: none;
+}
+
+div#content div#tips div.attached h3 {
+	margin-bottom: 0;
+}
+
+div#content div#tips div.bottom {
+	font-weight: normal;
+}
+
+div#content div#tips i.icon,
+div#content div#tips i.fa {
+	color: #60b044;
+	display: inline-block;
+}
+
+/* All Mobile Sizes (devices and browser) */
+@media only screen and (max-width: 767px) {
+	div#content div#steps a.step {
+		width: 100%;
+	}
+}

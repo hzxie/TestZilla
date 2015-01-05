@@ -48,6 +48,25 @@ public class UserDao {
     }
     
     /**
+     * 通过电子邮件地址获取用户对象.
+     * @param email - 电子邮件地址
+     * @return 一个用户对象的实例
+     */
+    @Transactional
+    public User getUserUsingEmail(String email) {
+        Session session = sessionFactory.getCurrentSession();
+        @SuppressWarnings("unchecked")
+        List<User> users = (List<User>)session.createQuery("FROM User WHERE email = ?0")
+                                                .setString("0", email).list();
+        for (User user : users ) {
+            if ( user.getEmail().equals(email) ) {
+                return user;
+            }
+        }
+        return null;
+    }
+    
+    /**
      * 创建一个新的用户对象.
      * @param user - 用户对象的实例
      * @return 操作是否成功完成

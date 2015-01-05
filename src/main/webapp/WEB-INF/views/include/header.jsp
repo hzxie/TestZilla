@@ -7,6 +7,7 @@
                 <c:choose>
                 <c:when test="${isLogin}">
                     <a class="item" href="<c:url value="/accounts/dashboard" />"><i class="fa fa-user"></i> ${user.username}</a>
+                    <a class="item" href="<c:url value="/accounts/login?logout=true" />">Logout</a>
                 </c:when>
                 <c:otherwise>
                     <a class="item" href="<c:url value="/accounts/login" />">Sign In</a>
