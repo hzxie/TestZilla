@@ -43,7 +43,7 @@
                         <i class="icon mail"></i>
                         <div class="content">
                             <div class="title">Step 2</div> <!-- .title -->
-                            <div class="description">Validate your email</div> <!-- .description -->
+                            <div class="description">Verify your email</div> <!-- .description -->
                         </div> <!-- .content -->
                     </a>
                     <a class="step">
@@ -63,7 +63,7 @@
                     <div class="header">Error Message</div>
                     <p></p>
                 </div> <!-- .error -->
-                <form id="join-form" class="ui form segment" onSubmit="return false;">
+                <form id="join-form" class="ui form segment" onSubmit="onSubmit(); return false;">
                     <div class="two fields">
                         <div class="field required">
                             <label>Account Type</label>
@@ -82,7 +82,7 @@
                             <div class="ui selection dropdown" tabindex="0">
                                 <div class="default text"></div>
                                 <i class="dropdown icon"></i>
-                                <input name="hidden-field" type="hidden">
+                                <input id="invididual-or-enterprise" type="hidden">
                                 <div class="menu transition hidden" tabindex="-1">
                                     <div class="item" data-value="individual">Individual</div>
                                     <div class="item" data-value="enterprise">Enterprise</div>
@@ -112,7 +112,7 @@
                     </div> <!-- .fields -->
                     <div class="two fields">
                         <div class="field required">
-                            <label for="real-name">Real Name</label>
+                            <label for="real-name">Your Name</label>
                             <input id="real-name" type="text" maxlength="32" />
                         </div> <!-- .field -->
                         <div class="field required">
@@ -146,11 +146,8 @@
                             <input id="website" type="text" maxlength="64" />
                         </div> <!-- .field -->
                     </div> <!-- .fields -->
-                    <div class="inline field">
-                        <div class="ui checkbox">
-                            <input type="checkbox">
-                            <label>By clicking on &quot;Create Account&quot; below, you are agreeing to the <a href="<c:url value="/terms" />" target="_blank">Terms of Service</a>.</label>
-                        </div> <!-- .checkbox -->
+                    <div class="field">
+                        <label>By clicking on &quot;Create Account&quot; below, you are agreeing to the <a href="<c:url value="/terms" />" target="_blank">Terms of Service</a>.</label>
                     </div> <!-- .field -->
                     <button class="ui positive button fluid" type="submit">Create Account</button>
                 </form> <!-- #join-form -->
@@ -197,11 +194,129 @@
         });
     </script>
     <script type="text/javascript">
-        $('#account-type').change(function() {
-            if ( $(this).val() == 'tester' ) {
+        $('#invididual-or-enterprise').change(function() {
+            var realNameLabel  = $('#real-name').parent().find('label');
+
+            if ( $(this).val() == 'individual' ) {
+                realNameLabel.html('Your Name');
             } else {
+                realNameLabel.html('Company Name');
             }
         });
+    </script>
+    <script type="text/javascript">
+        function onSubmit() {
+            var username        = $('#username').val(),
+                password        = $('#password').val(),
+                confirmPassword = $('#confirm-password').val(),
+                userGroup       = $('#account-type').val(),
+                realName        = $('#real-name').val(),
+                email           = $('#email').val(),
+                country         = $('#country').val(),
+                province        = $('#province').val(),
+                city            = $('#city').val(),
+                phone           = $('#phone').val(),
+                website         = $('#website').val(),
+                isIndividual    = $('#invididual-or-enterprise').val() == 'individual';
+
+            return doJoinAction(username, password, confirmPassword, userGroup, realName, 
+                                email, country, province, city, phone, website, isIndividual);
+        }
+    </script>
+    <script type="text/javascript">
+        function doJoinAction(username, password, confirmPassword, userGroup, realName, 
+                              email, country, province, city, phone, website, isIndividual) {
+            $('#join-form').addClass('loading');
+            
+            var postData = {
+                'username': username, 
+                'password': password, 
+                'confirmPassword': confirmPassword, 
+                'userGroup': userGroup, 
+                'realName': realName, 
+                'email': email, 
+                'country': country, 
+                'province': province, 
+                'city': city, 
+                'phone': phone, 
+                'website': website, 
+                'isIndividual': isIndividual
+            };
+            $.ajax({
+                type: 'POST',
+                url: '<c:url value="/accounts/join.action" />',
+                data: postData,
+                dataType: 'JSON',
+                success: function(result) {
+                    processResult(result);
+                }
+            });
+        }
+    </script>
+    <script type="text/javascript">
+        function processResult(result) {
+            if ( result['isSuccessful'] ) {
+                window.location.href = '<c:url value="/accounts/verifyEmail" />';
+            } else {
+                var errorMessage  = '';
+
+                if ( result['isUsernameEmpty'] ) {
+                    errorMessage += 'You can\'t leave <strong>Username</strong> empty.<br />';
+                } else if ( !result['isUsernameLegal'] ) {
+                    var username = $('#username').val();
+                    if ( username.length < 6 || username.length > 16 ) {
+                        errorMessage += 'The length of <strong>Username</strong> must between 6 and 16 characters.<br />';
+                    } else if ( !username[0].match(/[a-z]/i) ) {
+                        errorMessage += '<strong>Username</strong> must start with a letter(a-z).<br />';
+                    } else {
+                        errorMessage += '<strong>Username</strong> can only contain letters(a-z), numbers, and underlines(_).<br />';
+                    }
+                } else if ( result['isUsernameExists'] ) {
+                    errorMessage += 'Someone already has that username.<br />';
+                }
+                if ( result['isPasswordEmpty'] ) {
+                    errorMessage += 'You can\'t leave <strong>Password</strong> empty.<br />';
+                } else if ( !result['isPasswordLegal'] ) {
+                    errorMessage += 'The length of <strong>Password</strong> must between 6 and 16 characters.<br />';
+                } else if ( !result['isPasswordMatched'] ) {
+                    errorMessage += 'These passwords don\'t match<br />';
+                }
+                if ( !result['isUserGroupLegal'] ) {
+                    errorMessage += 'Please choose your <strong>Account Type</strong>.<br />';
+                }
+                if ( result['isEmailEmpty'] ) {
+                    errorMessage += 'You can\'t leave <strong>Email</strong> empty.<br />';
+                } else if ( !result['isEmailLegal'] ) {
+                    errorMessage += 'The <strong>Email</strong> seems invalid.<br />';
+                } else if ( result['isEmailExists'] ) {
+                    errorMessage += 'Someone already use that email.<br />';
+                }
+                if ( result['isCountryEmpty'] ) {
+                    errorMessage += 'You can\'t leave <strong>Country</strong> empty.<br />';
+                } else if ( !result['isCountryLegal'] ) {
+                    errorMessage += 'The length of <strong>Country</strong> must not exceed 24 characters.<br />';
+                }
+                if ( result['isProvinceEmpty'] ) {
+                    errorMessage += 'You can\'t leave <strong>State(Province)</strong> empty.<br />';
+                } else if ( !result['isProvinceLegal'] ) {
+                    errorMessage += 'The length of <strong>State(Province)</strong> must not exceed 24 characters.<br />';
+                }
+                if ( !result['isCityLegal'] ) {
+                    errorMessage += 'The length of <strong>City</strong> must not exceed 24 characters.<br />';
+                }
+                if ( result['isPhoneEmpty'] ) {
+                    errorMessage += 'You can\'t leave <strong>Phone</strong> empty.<br />';
+                } else if ( !result['isPhoneLegal'] ) {
+                    errorMessage += 'The <strong>Phone</strong> seems invalid.<br />';
+                }
+                if ( !result['isWebsiteLegal'] ) {
+                    errorMessage += 'The <strong>Website</strong> seems invalid.<br />';
+                }
+                $('#join-form').removeClass('loading');
+                $('.error > p').html(errorMessage);
+                $('.error').css('display', 'block');
+            }
+        }
     </script>
 </body>
 </html>

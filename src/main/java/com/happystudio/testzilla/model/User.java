@@ -37,14 +37,15 @@ public class User implements Serializable {
 	 * @param province - 用户所在省份
 	 * @param city - 用户所在城市
 	 * @param phone - 用户的联系电话
+	 * @param website - 用户的个人主页
 	 * @param isIndividual - 是否为个人用户
-	 * @param isEmailValidated - 是否验证了电子邮件地址
+	 * @param isEmailVerified - 是否验证了电子邮件地址
 	 * @param isInspected - 用户资料是否被审核
 	 * @param isApproved - 用户资料是否通过审核
 	 */
 	public User(String username, String password, UserGroup userGroup, String realName, 
-				String email, String country, String province, String city, String phone,
-				boolean isIndividual, boolean isEmailValidated, boolean isInspected, boolean isApproved) {
+				String email, String country, String province, String city, String phone, 
+				String website, boolean isIndividual, boolean isEmailVerified) {
 		this.username = username;
 		this.password = password;
 		this.userGroup = userGroup;
@@ -54,10 +55,9 @@ public class User implements Serializable {
 		this.province = province;
 		this.city = city;
 		this.phone = phone;
+		this.website = website;
 		this.isIndividual = isIndividual;
-		this.isEmailValidated = isEmailValidated;
-		this.isInspected = isInspected;
-		this.isApproved = isApproved;
+		this.isEmailVerified = isEmailVerified;
 	}
 	
 	/**
@@ -72,16 +72,17 @@ public class User implements Serializable {
 	 * @param province - 用户所在省份
 	 * @param city - 用户所在城市
 	 * @param phone - 用户的联系电话
+	 * @param website - 用户的个人主页
 	 * @param isIndividual - 是否为个人用户
-	 * @param isEmailValidated - 是否验证了电子邮件地址
+	 * @param isEmailVerified - 是否验证了电子邮件地址
 	 * @param isInspected - 用户资料是否被审核
 	 * @param isApproved - 用户资料是否通过审核
 	 */
 	public User(long uid, String username, String password, UserGroup userGroup, String realName, 
-			String email, String country, String province, String city, String phone,
-			boolean isIndividual, boolean isEmailValidated, boolean isInspected, boolean isApproved) {
+			String email, String country, String province, String city, String phone, String website,
+			boolean isIndividual, boolean isEmailVerified) {
 		this(username, password, userGroup, realName, email, country, province, city, 
-				phone, isIndividual, isEmailValidated, isInspected, isApproved);
+				phone, website, isIndividual, isEmailVerified);
 		this.uid = uid;
 	}
 	
@@ -246,6 +247,22 @@ public class User implements Serializable {
 	}
 
 	/**
+	 * 获取用户的个人主页.
+	 * @return 用户的个人主页
+	 */
+	public String getWebsite() {
+		return website;
+	}
+
+	/**
+	 * 设置用户的个人主页.
+	 * @param website - 用户的个人主页
+	 */
+	public void setWebsite(String website) {
+		this.website = website;
+	}
+
+	/**
 	 * 获取是否为个人用户.
 	 * @return 是否为个人用户
 	 */
@@ -265,48 +282,16 @@ public class User implements Serializable {
 	 * 获取是否验证了电子邮件地址.
 	 * @return 是否验证了电子邮件地址
 	 */
-	public boolean isEmailValidated() {
-		return isEmailValidated;
+	public boolean isEmailVerified() {
+		return isEmailVerified;
 	}
 
 	/**
 	 * 设置是否验证了电子邮件地址.
-	 * @param isEmailValidated - 是否验证了电子邮件地址
+	 * @param isEmailVerified - 是否验证了电子邮件地址
 	 */
-	public void setEmailValidated(boolean isEmailValidated) {
-		this.isEmailValidated = isEmailValidated;
-	}
-
-	/**
-	 * 获取用户资料是否通过审核.
-	 * @return 用户资料是否通过审核
-	 */
-	public boolean isInspected() {
-		return isInspected;
-	}
-
-	/**
-	 * 设置用户资料是否通过审核.
-	 * @param isInspected - 用户资料是否通过审核
-	 */
-	public void setInspected(boolean isInspected) {
-		this.isInspected = isInspected;
-	}
-
-	/**
-	 * 获取用户资料是否通过审核.
-	 * @return 用户资料是否通过审核
-	 */
-	public boolean isApproved() {
-		return isApproved;
-	}
-
-	/**
-	 * 设置用户资料是否通过审核.
-	 * @param isApproved - 用户资料是否通过审核
-	 */
-	public void setApproved(boolean isApproved) {
-		this.isApproved = isApproved;
+	public void setEmailVerified(boolean isEmailVerified) {
+		this.isEmailVerified = isEmailVerified;
 	}
 
 	/**
@@ -430,6 +415,12 @@ public class User implements Serializable {
 	private String phone;
 	
 	/**
+	 * 用户的个人主页.
+	 */
+	@Column(name = "website")
+	private String website;
+	
+	/**
 	 * 是否为个人用户.
 	 */
 	@Column(name = "is_individual")
@@ -438,20 +429,8 @@ public class User implements Serializable {
 	/**
 	 * 是否验证了电子邮件地址.
 	 */
-	@Column(name = "is_email_validated")
-	private boolean isEmailValidated;
-	
-	/**
-	 * 用户资料是否被审核.
-	 */
-	@Column(name = "is_inspected")
-	private boolean isInspected;
-	
-	/**
-	 * 用户资料是否通过审核.
-	 */
-	@Column(name = "is_approved")
-	private boolean isApproved;
+	@Column(name = "is_email_verified")
+	private boolean isEmailVerified;
 	
 	/**
 	 * 产品列表(以便1-N关联).

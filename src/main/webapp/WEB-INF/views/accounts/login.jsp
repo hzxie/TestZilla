@@ -101,7 +101,6 @@
             };
             $.ajax({
                 type: 'POST',
-                async: false,
                 url: '<c:url value="/accounts/login.action" />',
                 data: postData,
                 dataType: 'JSON',

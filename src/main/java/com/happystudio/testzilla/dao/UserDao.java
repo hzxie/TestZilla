@@ -19,7 +19,7 @@ public class UserDao {
     /**
      * 通过用户唯一标识符获取用户对象.
      * @param uid - 用户唯一标识符
-     * @return 一个用户对象的实例
+     * @return 一个用户对象或空引用
      */
     @Transactional
     public User getUserUsingUid(int uid) {
@@ -31,7 +31,7 @@ public class UserDao {
     /**
      * 通过用户名获取用户对象.
      * @param username - 用户名
-     * @return 一个用户对象的实例
+     * @return 一个用户对象或空引用
      */
     @Transactional
     public User getUserUsingUsername(String username) {
@@ -50,7 +50,7 @@ public class UserDao {
     /**
      * 通过电子邮件地址获取用户对象.
      * @param email - 电子邮件地址
-     * @return 一个用户对象的实例
+     * @return 一个用户对象或空引用
      */
     @Transactional
     public User getUserUsingEmail(String email) {
@@ -68,7 +68,7 @@ public class UserDao {
     
     /**
      * 创建一个新的用户对象.
-     * @param user - 用户对象的实例
+     * @param user - 用户对象
      * @return 操作是否成功完成
      */
     @Transactional
@@ -86,7 +86,7 @@ public class UserDao {
     
     /**
      * 更新用户信息.
-     * @param user - 用户对象的实例
+     * @param user - 用户对象
      * @return 操作是否成功完成
      */
     @Transactional

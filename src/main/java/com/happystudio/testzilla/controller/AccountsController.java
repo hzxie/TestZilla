@@ -77,7 +77,7 @@ public class AccountsController {
     /**
      * 处理用户的异步登录请求.
      * @param username - 用户名
-     * @param password - 密码
+     * @param password - 密码(已使用MD5加密)
      * @param request - Http Servlet Request对象
      * @return 一个包含若干标志位的JSON数据
      */
@@ -97,6 +97,8 @@ public class AccountsController {
     
     /**
      * 获取用户登录验证结果.
+     * 说明: 我们推荐在Service中处理业务逻辑, 但由于此处需要通过User对象创建Session.
+     *       为避免数据库的二次读写, 我们在Controller中完成该操作.
      * @param username - 用户名
      * @param password - 密码
      * @return 一个包含若干标志位的HashMap
@@ -139,7 +141,58 @@ public class AccountsController {
      */
     @RequestMapping(value = "/join")
     public ModelAndView registerView(HttpServletRequest request) {
-        return new ModelAndView("accounts/join");
+    	ModelAndView view = null;
+        if ( isLoggedIn(request.getSession()) ) {
+            view = new ModelAndView("redirect:/");
+        } else {
+    	    view = new ModelAndView("accounts/join");
+        }
+        return view;
+    }
+    
+    /**
+     * 处理用户异步注册请求.
+     * @param username - 用户名
+     * @param password - 密码
+     * @param confirmPassword - 确认密码
+     * @param userGroupSlug - 用户组的唯一英文简称
+     * @param realName - 用户真实姓名或公司名称
+     * @param email - 电子邮件地址
+	 * @param country - 用户所在国家
+	 * @param province - 用户所在省份
+	 * @param city - 用户所在城市
+	 * @param phone - 用户的联系电话
+     * @param website - 用户的个人主页
+	 * @param isIndividual - 是否为个人用户
+     * @param request - HttpRequest对象
+     * @return 一个包含若干标志位的JSON数据
+     */
+    @RequestMapping(value = "/join.action", method = RequestMethod.POST)
+    public @ResponseBody HashMap<String, Boolean> joinAction(
+            @RequestParam(value="username", required=true) String username,
+            @RequestParam(value="password", required=true) String password,
+            @RequestParam(value="confirmPassword", required=true) String confirmPassword,
+            @RequestParam(value="userGroup", required=true) String userGroupSlug,
+            @RequestParam(value="realName", required=true) String realName,
+            @RequestParam(value="email", required=true) String email,
+            @RequestParam(value="country", required=true) String country,
+            @RequestParam(value="province", required=true) String province,
+            @RequestParam(value="city", required=false) String city,
+            @RequestParam(value="phone", required=true) String phone,
+            @RequestParam(value="website", required=false) String website,
+            @RequestParam(value="isIndividual", required=true) boolean isIndividual,
+            HttpServletRequest request) {
+    	String ipAddress = request.getRemoteAddr();
+        HashMap<String, Boolean> result = userService.createUser(username, password, 
+        		confirmPassword, userGroupSlug, realName, email, country, province, 
+        		city, phone, website, isIndividual);
+        
+        if ( result.get("isSuccessful") ) {
+            this.user = userService.getUserUsingUsername(username);
+        	getSession(request, this.user);
+            logger.info(String.format("User: [Username=%s] created at %s", new Object[] {username, ipAddress}));
+        }
+        return result;
     }
 
     /**
