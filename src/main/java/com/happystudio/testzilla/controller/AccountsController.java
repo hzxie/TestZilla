@@ -57,8 +57,9 @@ public class AccountsController {
     private void destroySession(HttpServletRequest request, HttpSession session) {
         session.removeAttribute("isLoggedIn");
         
+        User currentUser = (User)session.getAttribute("user");
         String ipAddress = request.getRemoteAddr();
-        logger.info(String.format("%s logged out at %s", new Object[] {user, ipAddress}));
+        logger.info(String.format("%s logged out at %s", new Object[] {currentUser, ipAddress}));
     }
     
     /**
@@ -87,39 +88,15 @@ public class AccountsController {
             @RequestParam(value="password", required=true) String password,
             HttpServletRequest request) {
     	String ipAddress = request.getRemoteAddr();
-        HashMap<String, Boolean> result = getLoginResult(username, password);
+        HashMap<String, Boolean> result = userService.isAccountValid(username, password);
         logger.info(String.format("User: [Username=%s] tried to log in at %s", new Object[] {username, ipAddress}));
         if ( result.get("isSuccessful") ) {
-            getSession(request, this.user);
+            User user = userService.getUserUsingUsernameOrEmail(username);
+        	getSession(request, user);
         }
         return result;
     }
-    
-    /**
-     * 获取用户登录验证结果.
-     * 说明: 我们推荐在Service中处理业务逻辑, 但由于此处需要通过User对象创建Session.
-     *       为避免数据库的二次读写, 我们在Controller中完成该操作.
-     * @param username - 用户名
-     * @param password - 密码
-     * @return 一个包含若干标志位的HashMap
-     */
-    private HashMap<String, Boolean> getLoginResult(String username, String password) {
-        HashMap<String, Boolean> result = new HashMap<String, Boolean>();
-        result.put("isUsernameEmpty", username.isEmpty());
-        result.put("isPasswordEmpty", password.isEmpty());
-        result.put("isAccountValid", false);
-        result.put("isSuccessful", false);
-        
-        if ( !result.get("isUsernameEmpty") && !result.get("isPasswordEmpty") ) {
-            this.user = userService.isAccountValid(username,password);
-            if ( user != null ) {
-                result.put("isAccountValid", true);
-                result.put("isSuccessful", true);
-            }
-        }
-        return result;
-    }
-    
+
     /**
      * 为登录的用户创建Session.
      * @param request - HttpServletRequest对象
@@ -188,18 +165,34 @@ public class AccountsController {
         		city, phone, website, isIndividual);
         
         if ( result.get("isSuccessful") ) {
-            this.user = userService.getUserUsingUsername(username);
-        	getSession(request, this.user);
+            User user = userService.getUserUsingUsernameOrEmail(username);
+        	getSession(request, user);
             logger.info(String.format("User: [Username=%s] created at %s", new Object[] {username, ipAddress}));
         }
         return result;
     }
-
-    /**
-     * 用户对象, 包含用户的基本信息.
-     */
-    private User user = null;
     
+    /**
+     * 显示用户验证电子邮件页面.
+     * @param request - HttpRequest对象
+     * @return 包含验证电子邮件页面信息的ModelAndView对象
+     */
+    @RequestMapping(value = "/verifyEmail", method = RequestMethod.GET)
+    public ModelAndView verifyEmailView(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User currentUser = (User)session.getAttribute("user");
+    	ModelAndView view = null;
+    	
+        if ( !isLoggedIn(session) ) {
+            view = new ModelAndView("redirect:/accounts/login");
+        } else if ( currentUser.isEmailVerified() ) {
+            view = new ModelAndView("redirect:/");
+        } else {
+            view = new ModelAndView("accounts/verifyEmail");
+        }
+        return view;
+    }
+
     /**
      * 自动注入的UserService对象.
      */

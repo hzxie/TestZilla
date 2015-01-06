@@ -20,12 +20,20 @@ import com.happystudio.testzilla.util.DigestUtils;
 @Transactional
 public class UserService {
 	/**
-	 * 通过用户名获取用户对象.
-	 * @param username - 用户名
+	 * 通过用户名或电子邮件地址获取用户对象.
+	 * @param username - 用户名或电子邮件地址
 	 * @return 一个User对象或空引用
 	 */
-	public User getUserUsingUsername(String username) {
-		return userDao.getUserUsingUsername(username);
+	public User getUserUsingUsernameOrEmail(String username) {
+		boolean isUsingEmail = username.indexOf('@') != -1;
+	    User user = null;
+	        
+	    if ( !isUsingEmail ) {
+	    	user = userDao.getUserUsingUsername(username);
+	    } else {
+	    	user = userDao.getUserUsingEmail(username);
+	    }
+	    return user;
 	}
 	
     /**
@@ -34,19 +42,21 @@ public class UserService {
      * @param password - 密码(已使用MD5加密)
      * @return 一个User的对象或空引用
      */
-    public User isAccountValid(String username, String password) {
-        boolean isUsingEmail = username.indexOf('@') != -1;
-        User user = null;
-        
-        if ( !isUsingEmail ) {
-        	user = userDao.getUserUsingUsername(username);
-        } else {
-        	user = userDao.getUserUsingEmail(username);
+    public HashMap<String, Boolean> isAccountValid(String username, String password) {
+        HashMap<String, Boolean> result = new HashMap<String, Boolean>();
+        result.put("isUsernameEmpty", username.isEmpty());
+        result.put("isPasswordEmpty", password.isEmpty());
+        result.put("isAccountValid", false);
+        result.put("isSuccessful", false);
+
+        if ( !result.get("isUsernameEmpty") && !result.get("isPasswordEmpty") ) {
+        	User user = getUserUsingUsernameOrEmail(username);
+        	if ( user != null && user.getPassword().equals(password) ) {
+        		result.put("isAccountValid", true);
+                result.put("isSuccessful", true);
+        	}
         }
-        if ( user != null && user.getPassword().equals(password) ) {
-            return user;
-        }
-        return null;
+        return result;
     }
     
     /**
