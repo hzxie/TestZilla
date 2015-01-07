@@ -178,7 +178,9 @@ public class AccountsController {
      * @return 包含验证电子邮件页面信息的ModelAndView对象
      */
     @RequestMapping(value = "/verifyEmail", method = RequestMethod.GET)
-    public ModelAndView verifyEmailView(HttpServletRequest request) {
+    public ModelAndView verifyEmailView(
+            @RequestParam(value="code", required=false) String code,
+    		HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		User currentUser = (User)session.getAttribute("user");
     	ModelAndView view = null;
@@ -189,6 +191,8 @@ public class AccountsController {
             view = new ModelAndView("redirect:/");
         } else {
             view = new ModelAndView("accounts/verifyEmail");
+            view.addObject("email", currentUser.getEmail())
+            	.addObject("code", code);
         }
         return view;
     }

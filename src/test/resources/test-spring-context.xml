@@ -11,9 +11,12 @@
 	http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+	<!-- Base Components -->
+	<context:annotation-config />
+	<context:component-scan base-package="com.happystudio.testzilla" />
+
 	<!-- Enable @Controller annotation support -->
 	<mvc:annotation-driven />
-	<context:component-scan base-package="com.happystudio.testzilla" />
 
 	<!-- Map simple view name such as "test" into /WEB-INF/test.jsp -->
 	<bean
@@ -29,7 +32,7 @@
 	<!-- JDBC Data Source. It is assumed you have MySQL running on localhost 
 		port 3306 with username root and blank password. Change below if it's not 
 		the case -->
-	<bean id="oesDataSource" class="com.alibaba.druid.pool.DruidDataSource"
+	<bean id="testzillaDataSource" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://127.0.0.1:3306/test?characterEncoding=UTF-8" />
@@ -39,9 +42,9 @@
 	</bean>
 
 	<!-- Hibernate Session Factory -->
-	<bean id="oesSessionFactory"
+	<bean id="testzillaSessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-		<property name="dataSource" ref="oesDataSource" />
+		<property name="dataSource" ref="testzillaDataSource" />
 		<property name="packagesToScan">
 			<array>
 				<value>com.happystudio.testzilla.model</value>
@@ -57,9 +60,17 @@
 	<!-- Hibernate Transaction Manager -->
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-		<property name="sessionFactory" ref="oesSessionFactory" />
+		<property name="sessionFactory" ref="testzillaSessionFactory" />
 	</bean>
 
 	<!-- Activates annotation based transaction management -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<!-- MailGun.org Authentication -->
+	<bean id="mailSender"
+		class="com.happystudio.testzilla.util.MailSender">
+		<property name="smtpHost" value="smtp.mailgun.org" />
+		<property name="smtpUsername" value="postmaster@testzilla.org" />
+		<property name="smtpPassword" value="" />
+	</bean>
 </beans>

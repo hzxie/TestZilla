@@ -57,6 +57,14 @@
             </div> <!-- #steps -->
         </div> <!-- .row -->
         <div class="row">
+        <c:choose>
+        <c:when test="${code == null}">
+            Code is null
+        </c:when>
+        <c:otherwise>
+            Code isn't null
+        </c:otherwise>
+        </c:choose>
         </div> <!-- .row  -->
     </div> <!-- #content -->
     <!-- Footer -->
