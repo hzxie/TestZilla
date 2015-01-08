@@ -3,18 +3,13 @@ package com.happystudio.testzilla.util;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * 电子邮件发送测试类.
  * 注意: 仅供开发调试使用.
  * @author Xie Haozhe
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath:test-spring-context.xml"})
 public class MailSenderTest {
 	@Autowired
     private MailSender mailSender;

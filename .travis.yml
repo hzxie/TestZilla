@@ -7,10 +7,10 @@ jdk:
 services: mysql
 
 before_script:
-  - mysql -e 'CREATE DATABASE testzilla;'
-  - mysql testzilla < testzilla.sql
+  - mysql -e 'CREATE DATABASE test;'
+  - mysql test < testzilla.sql
 
 script: mvn test
 
 after_script:
-  - mysql -e 'DROP DATABASE testzilla;'
+  - mysql -e 'DROP DATABASE test;'

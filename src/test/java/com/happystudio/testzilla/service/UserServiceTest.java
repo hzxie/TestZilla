@@ -1,6 +1,7 @@
 package com.happystudio.testzilla.service;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -34,6 +35,7 @@ public class UserServiceTest {
      * 测试数据: 已存在的用户名
      * 预期结果: 
      */
+    @Test
     public void testCreateUserUsingExistingUsernameAndExistingEmail() {
     	String username = "zjhzxhz";
     	String password = DigestUtils.md5Hex("zjhzxhz");
