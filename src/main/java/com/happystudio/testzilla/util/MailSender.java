@@ -1,20 +1,18 @@
 package com.happystudio.testzilla.util;
 
-import java.util.Properties;
-import java.util.Date;
+import java.util.Map;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.velocity.app.VelocityEngine;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Component;
-
-import com.sun.mail.smtp.SMTPTransport;
+import org.springframework.ui.velocity.VelocityEngineUtils;
 
 /**
  * 邮件发送服务.
@@ -23,77 +21,67 @@ import com.sun.mail.smtp.SMTPTransport;
 @Component
 public class MailSender {
 	/**
+	 * MailSender的构造函数.
+	 * @param velocityEngine - Velocity模板解析引擎对象
+	 * @param mailSender - JavaMailSender对象
+	 */
+	@Autowired
+	public MailSender(VelocityEngine velocityEngine, JavaMailSender mailSender) {
+		this.velocityEngine = velocityEngine;
+		this.mailSender = mailSender;
+	}
+	
+	/**
+	 * 解析电子邮件模板内容.
+	 * @param templateLocation - 电子邮件模板相对路径
+	 * @param model - 电子邮件的附加信息
+	 * @return 解析后的电子邮件内容
+	 */
+	public String getMailContent(String templateLocation, Map<String, Object> model) {
+		return VelocityEngineUtils.
+				mergeTemplateIntoString(velocityEngine, templateLocation, defaultEncoding, model);
+	}
+	
+	/**
 	 * 发送电子邮件到指定收件人.
 	 * @param recipient - 收件人的电子邮件地址
 	 * @param subject - 邮件的主题
-	 * @param templatePath - 邮件的模板
-	 * @throws MessagingException 
-	 * @throws AddressException 
+	 * @param body - 邮件的内容
 	 */
-	public void sendMail(String recipient, String subject, String text) 
-			throws AddressException, MessagingException {
-		Properties props = System.getProperties();
-        props.put("mail.smtps.host", smtpHost);
-        props.put("mail.smtps.auth", "true");
-        
-        Session session = Session.getInstance(props, null);
-        Message msg = new MimeMessage(session);
-        msg.setFrom(new InternetAddress("noreply@testzilla.org"));
-        msg.setRecipients(Message.RecipientType.TO, 
-        					InternetAddress.parse(recipient, false));
-        msg.setSubject(subject);
-        msg.setText(text);
-        msg.setSentDate(new Date());
-        SMTPTransport t = (SMTPTransport)session.getTransport("smtps");
-        t.connect(smtpHost, smtpUsername, smtpPassword);
-        t.sendMessage(msg, msg.getAllRecipients());
-        
-        logger.info(String.format("An Email{Recipient: %s, Subject: %s} has been sent with server response %s.", 
-        			new Object[] {recipient, subject, t.getLastServerResponse()}));
-        t.close();
-	}
-	
-	/**
-	 * 设置Smtp服务器地址.
-	 * @param smtpHost - Smtp服务器地址
-	 */
-	public void setSmtpHost(String smtpHost) {
-		this.smtpHost = smtpHost;
-	}
-	
-	/**
-	 * 设置Smtp服务器登录用户名.
-	 * @param smtpUsername - Smtp服务器登录用户名
-	 */
-	public void setSmtpUsername(String smtpUsername) {
-		this.smtpUsername = smtpUsername;
+	public void sendMail(final String recipient, final String subject, final String body) { 
+		MimeMessagePreparator preparator = new MimeMessagePreparator() {
+			public void prepare(MimeMessage mimeMessage) throws Exception {
+				MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+				message.setTo(recipient);
+				message.setFrom("noreply@testzilla.org");
+				message.setSubject(subject);
+				message.setText(body, true);
+			}
+		};
+		mailSender.send(preparator);
+		logger.info(String.format("An Email{Recipient: %s, Subject: %s} has been sent.", 
+					new Object[] {recipient, subject}));
 	}
 
 	/**
-	 * 设置Smtp服务器登录密码.
-	 * @param smtpPassword - Smtp服务器登录密码
+	 * 自动注入的VelocityEngine对象.
+	 * 用于解析Email模板.
 	 */
-	public void setSmtpPassword(String smtpPassword) {
-		this.smtpPassword = smtpPassword;
-	}
-
-	/**
-	 * Smtp服务器地址.
-	 */
-	private String smtpHost;
+	private final VelocityEngine velocityEngine;
 	
 	/**
-	 * Smtp服务器登录用户名.
+	 * 自动注入的JavaMailSender对象.
+	 * 用于发送电子邮件.
 	 */
-	private String smtpUsername;
+	private final JavaMailSender mailSender;
 	
 	/**
-	 * Smtp服务器登录密码.
+	 * 电子邮件默认编码.
 	 */
-	private String smtpPassword;
+	private final String defaultEncoding = "UTF-8"; 
 	
 	/**
-     * 日志记录器.
-     */
-    private Logger logger = LogManager.getLogger(MailSender.class);
+	 * 日志记录器.
+	 */
+	private Logger logger = LogManager.getLogger(MailSender.class);
 }

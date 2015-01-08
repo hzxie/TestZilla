@@ -3,6 +3,7 @@ package com.happystudio.testzilla.util;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 
 /**
  * MD5加密函数类.
@@ -27,5 +28,13 @@ public class DigestUtils {
 			e.printStackTrace();
 		}
 		return md5;
+	}
+	
+	/**
+	 * 生成GUID.
+	 * @return GUID
+	 */
+	public static String generateGuid() {
+		return UUID.randomUUID().toString();
 	}
 }

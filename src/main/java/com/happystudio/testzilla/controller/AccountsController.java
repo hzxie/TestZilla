@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.happystudio.testzilla.model.User;
 import com.happystudio.testzilla.service.UserService;
+import com.happystudio.testzilla.util.DigestUtils;
 
 /**
  * 处理用户账户相关的请求.
@@ -116,7 +117,7 @@ public class AccountsController {
      * @param request - Http Servlet Request对象
      * @return 包含注册页面信息的ModelAndView对象
      */
-    @RequestMapping(value = "/join")
+    @RequestMapping(value = "/join", method = RequestMethod.GET)
     public ModelAndView registerView(HttpServletRequest request) {
     	ModelAndView view = null;
         if ( isLoggedIn(request.getSession()) ) {
@@ -167,9 +168,23 @@ public class AccountsController {
         if ( result.get("isSuccessful") ) {
             User user = userService.getUserUsingUsernameOrEmail(username);
         	getSession(request, user);
-            logger.info(String.format("User: [Username=%s] created at %s", new Object[] {username, ipAddress}));
+        	sendActivationMail(user);
+            logger.info(String.format("User: [Username=%s] created at %s.", new Object[] {username, ipAddress}));
         }
         return result;
+    }
+    
+    /**
+     * 向注册的用户发送电子邮件确认信.
+     * @param user - 当前注册用户的User对象
+     */
+    private void sendActivationMail(User user) {
+    	String username = user.getUsername();
+    	String email = user.getEmail();
+    	String code = DigestUtils.generateGuid();
+    	
+    	userService.dumpEmailConfidential(email, code);
+    	userService.sendActivationMail(username, email, code);
     }
     
     /**

@@ -1,8 +1,10 @@
 package com.happystudio.testzilla.service;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +13,7 @@ import com.happystudio.testzilla.dao.UserGroupDao;
 import com.happystudio.testzilla.model.User;
 import com.happystudio.testzilla.model.UserGroup;
 import com.happystudio.testzilla.util.DigestUtils;
+import com.happystudio.testzilla.util.MailSender;
 
 /**
  * 用户Service对象. 为Controller提供服务.
@@ -229,6 +232,33 @@ public class UserService {
     }
     
     /**
+     * 保存电子邮件随机确认代码.
+     * @param email - 用户的电子邮件
+     * @param code - 随机生成的确认代码
+     */
+    public void dumpEmailConfidential(String email, String code) {
+    	// TODO: Complete this method
+    }
+    
+    /**
+     * 向新注册的用户(更改电子邮件地址的用户)发送验证邮件.
+     * @param username - 用户的用户名
+     * @param email - 用户的电子邮件
+     * @param code - 随机生成的确认代码
+     */
+    public void sendActivationMail(String username, String email, String code) {
+    	String templatePath = "/verifyEmail.vm";
+    	Map<String, Object> model = new HashMap<String, Object>();
+    	model.put("username", username);
+    	model.put("email", email);
+    	model.put("code", code);
+    	
+    	String subject = "Activate Your Account";
+    	String body = mailSender.getMailContent(templatePath, model);
+    	mailSender.sendMail(email, subject, body);
+    }
+    
+    /**
      * 自动注入的UserDAO对象.
      */
     @Autowired
@@ -239,5 +269,13 @@ public class UserService {
      */
     @Autowired
     private UserGroupDao userGroupDao;
+    
+    /**
+     * 自动注入的MailSender对象.
+     * 用于发送电子邮件至用户邮箱.
+     */
+    @Autowired
+    @Qualifier("testzillaMailSender")
+    private MailSender mailSender;
 }
 

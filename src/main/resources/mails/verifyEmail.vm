@@ -1,0 +1,36 @@
+<div style="padding:0;margin:0;background:#e9e9e9;font-family:'Segoe UI', 'Microsoft YaHei'">
+<table width="625" style="background:#e9e9e9" cellspacing="0" cellpadding="0" border="0">
+	<tbody>
+		<tr>
+			<td>
+				<div style="color:#1b1b1b;background:#fff;border:1px solid #aaa;border-radius:5px;margin:15px;">
+					<table cellspacing="0" cellpadding="0" border="0">
+						<tbody>
+							<tr>
+								<td style="padding:15px 15px 0 15px;background:#fff;border-radius:4px 4px 0 0;">
+									<div>
+										<img src="http://testzilla.org/assets/img/logo.png" alt="Testzilla" height="60" width="250">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td style="padding:15px; background:#fff; border-radius:0 0 4px 4px;font-size:12px;">
+									Hi ${username}, <br />
+									There's just one step left to create your TestZilla account. <br /><br />
+									To access your account and be eligible to receive testing projects, we need you to confirm your email address. <br />
+									<a href="http://www.testzilla.org/account/verifyEmail?email=${email}&code=${code}">Click here to confirm your email address</a>. <br /><br />
+									Thank you, <br />
+									The Testzilla Team. <br /><br />
+									<div style="border-top:3px solid #eee;color:#999;font-size:11px;line-height:1.2">
+										<br>Powered by <a href="http://testzilla.org" target="_blank" style="color: #005399;text-decoration: none;">Testzilla</a>. All rights reserved.<br>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>            
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</div>
