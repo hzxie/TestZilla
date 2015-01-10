@@ -61,7 +61,7 @@
                 <div class="ui attached segment fluid">
                     <a class="ui ribbon label">Email has been sent.</a>
                     <p>
-                        An activation email has been sent to ${email}.<br />
+                        An activation email has been sent to <span id="email">${email}</span>.<br />
                         <button class="ui primary button">Go to MailBox</button>
                     </p>
                 </div> <!-- .segment -->
@@ -74,5 +74,19 @@
     <!-- Java Script -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script type="text/javascript" src="<c:url value="/assets/js/site.js" />"></script>
+    <script type="text/javascript">
+        $('#email-sent button.primary').click(function() {
+            var email       = $('#email').html(),
+                domain      = email.split('@')[1],
+                redirectUrl = '';
+
+            if ( domain == 'gmail.com' ) {
+                redirectUrl = 'mail.google.com';
+            } else {
+                redirectUrl = 'mail.' + domain;
+            }
+            window.href.location = redirectUrl;
+        });
+    </script>
 </body>
 </html>
