@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class MailSenderTest {
 	@Autowired
-    private MailSender mailSender;
+	private MailSender mailSender;
 	
 	/**
 	 * 测试用例: 测试发送电子邮件.
@@ -20,14 +20,14 @@ public class MailSenderTest {
 	 */
 	public void testSendMail() {
 		String templatePath = "/verifyEmail.vm";
-    	Map<String, Object> model = new HashMap<String, Object>();
-    	model.put("username", "zjhzxhz");
-    	model.put("email", "zjhzxhz@gmail.com");
-    	model.put("code", "hello");
-    	
-    	String subject = "Activate Your Account";
-    	String body = mailSender.getMailContent(templatePath, model);
-    	
-    	mailSender.sendMail("zjhzxhz@gmail.com", subject, body);
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("username", "zjhzxhz");
+		model.put("email", "zjhzxhz@gmail.com");
+		model.put("code", "hello");
+		
+		String subject = "Activate Your Account";
+		String body = mailSender.getMailContent(templatePath, model);
+		
+		mailSender.sendMail("zjhzxhz@gmail.com", subject, body);
 	}
 }

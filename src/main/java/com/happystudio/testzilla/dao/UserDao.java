@@ -22,7 +22,7 @@ public class UserDao {
      * @return 一个用户对象或空引用
      */
     @Transactional
-    public User getUserUsingUid(int uid) {
+    public User getUserUsingUid(long uid) {
         Session session = sessionFactory.getCurrentSession();
         User user = (User)session.get(User.class, uid);
         return user;
@@ -106,7 +106,7 @@ public class UserDao {
      * @return 操作是否成功完成
      */
     @Transactional
-    public boolean deleteUser(int uid) {
+    public boolean deleteUser(long uid) {
         Session session = sessionFactory.getCurrentSession();
         User user = (User)session.get(User.class, uid);
         

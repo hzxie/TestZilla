@@ -67,8 +67,8 @@ public class UserGroupDaoTest {
 	}
 	
 	/**
-     * 待测试的UserGroupDao对象.
-     */
-    @Autowired
-    private UserGroupDao userGroupDao;
+	 * 待测试的UserGroupDao对象.
+	 */
+	@Autowired
+	private UserGroupDao userGroupDao;
 }

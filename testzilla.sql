@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 06, 2015 at 07:43 上午
+-- Generation Time: Jan 09, 2015 at 05:21 下午
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -17,8 +17,22 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `testzilla`
+-- Database: `test`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `test_multi_sets`()
+    DETERMINISTIC
+begin
+        select user() as first_col;
+        select user() as first_col, now() as second_col;
+        select user() as first_col, now() as second_col, now() as third_col;
+        end$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -101,6 +115,17 @@ INSERT INTO `tz_bug_status` (`bug_status_id`, `bug_status_slug`, `bug_status_nam
 (7, 'duplicate', 'Duplicate'),
 (8, 'worksforme', 'Can''t Reappear'),
 (9, 'enhancement', 'Enhancement');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tz_mails`
+--
+
+CREATE TABLE IF NOT EXISTS `tz_mails` (
+  `email` varchar(64) CHARACTER SET latin1 NOT NULL,
+  `code` varchar(64) CHARACTER SET latin1 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -204,7 +229,7 @@ CREATE TABLE IF NOT EXISTS `tz_users` (
   `website` varchar(64) DEFAULT NULL,
   `is_individual` tinyint(1) NOT NULL DEFAULT '1',
   `is_email_verified` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=1002 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1005 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tz_users`
@@ -264,6 +289,12 @@ ALTER TABLE `tz_bug_status`
  ADD PRIMARY KEY (`bug_status_id`);
 
 --
+-- Indexes for table `tz_mails`
+--
+ALTER TABLE `tz_mails`
+ ADD PRIMARY KEY (`email`);
+
+--
 -- Indexes for table `tz_points_logs`
 --
 ALTER TABLE `tz_points_logs`
@@ -291,7 +322,7 @@ ALTER TABLE `tz_product_categories`
 -- Indexes for table `tz_users`
 --
 ALTER TABLE `tz_users`
- ADD PRIMARY KEY (`uid`), ADD UNIQUE KEY `username` (`username`,`email`), ADD KEY `user_group_id` (`user_group_id`);
+ ADD PRIMARY KEY (`uid`), ADD UNIQUE KEY `username` (`username`), ADD UNIQUE KEY `email` (`email`), ADD KEY `tz_users_ibfk_1` (`user_group_id`);
 
 --
 -- Indexes for table `tz_user_groups`
@@ -342,7 +373,7 @@ MODIFY `product_category_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 -- AUTO_INCREMENT for table `tz_users`
 --
 ALTER TABLE `tz_users`
-MODIFY `uid` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1002;
+MODIFY `uid` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1005;
 --
 -- AUTO_INCREMENT for table `tz_user_groups`
 --
