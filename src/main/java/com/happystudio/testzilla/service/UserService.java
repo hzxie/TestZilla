@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.happystudio.testzilla.dao.MailVerificationDao;
 import com.happystudio.testzilla.dao.UserDao;
 import com.happystudio.testzilla.dao.UserGroupDao;
+import com.happystudio.testzilla.model.MailVerification;
 import com.happystudio.testzilla.model.User;
 import com.happystudio.testzilla.model.UserGroup;
 import com.happystudio.testzilla.util.DigestUtils;
@@ -237,7 +239,8 @@ public class UserService {
      * @param code - 随机生成的确认代码
      */
     public void dumpEmailConfidential(String email, String code) {
-    	// TODO: Complete this method
+    	MailVerification verification = new MailVerification(email, code);
+    	mailVerificationDao.createMailVerification(verification);
     }
     
     /**
@@ -269,6 +272,12 @@ public class UserService {
      */
     @Autowired
     private UserGroupDao userGroupDao;
+    
+    /**
+     * 自动注入的MailVerificationDao对象.
+     */
+    @Autowired
+    private MailVerificationDao mailVerificationDao; 
     
     /**
      * 自动注入的MailSender对象.

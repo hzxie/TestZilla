@@ -120,7 +120,7 @@ public class UserDaoTest {
 	/**
 	 * 测试用例: 测试createUser()方法
 	 * 测试数据: 使用合法的数据集, 但系统中已存在该用户名
-	 * 预期结果: 返回false, 表示操作未成功完成
+	 * 预期结果: 抛出ConstraintViolationException异常
 	 */
     @Test(expected = org.hibernate.exception.ConstraintViolationException.class)
 	public void testCreateUserUsingExistingUsername() {
@@ -134,7 +134,7 @@ public class UserDaoTest {
     /**
 	 * 测试用例: 测试createUser()方法
 	 * 测试数据: 使用合法的数据集, 但系统中已存在该电子邮件地址
-	 * 预期结果: 返回false, 表示操作未成功完成
+	 * 预期结果: 抛出ConstraintViolationException异常
 	 */
     @Test(expected = org.hibernate.exception.ConstraintViolationException.class)
 	public void testCreateUserUsingExistingEmail() {
@@ -148,7 +148,7 @@ public class UserDaoTest {
     /**
      * 测试用例: 测试createUser()方法
      * 测试数据: 使用不合法的数据(缺少必填项)
-     * 预期结果: 抛出DataException异常
+     * 预期结果: 返回false, 表示操作未成功完成
      */
     @Test
     public void testCreateUserEmptyUsername() {
@@ -176,7 +176,7 @@ public class UserDaoTest {
     /**
      * 测试用例: 测试createUser()方法
      * 测试数据: 使用不合法的数据(不存在的外键值)
-     * 预期结果: 抛出DataException异常
+     * 预期结果: 抛出ConstraintViolationException异常
      */
     @Test(expected = org.hibernate.exception.ConstraintViolationException.class)
     public void testCreateUserIllegalUserGroup() {
@@ -223,6 +223,20 @@ public class UserDaoTest {
     
     /**
      * 测试用例: 测试updateUser()方法
+     * 测试数据: 使用不合法的数据(已存在的电子邮件地址)
+     * 预期结果: 抛出ConstraintViolationException异常
+     */
+    @Test(expected = org.hibernate.exception.ConstraintViolationException.class)
+    public void testUpdateUserUsingExistingEmail() {
+    	User user = userDao.getUserUsingUid(1000);
+        Assert.assertNotNull(user);
+    	
+        user.setEmail("zjhzxhz@gmail.com");
+        userDao.updateUser(user);
+    }
+    
+    /**
+     * 测试用例: 测试updateUser()方法
      * 测试数据: 使用不合法的数据(过长的密码)
      * 预期结果: 抛出DataException异常
      */
@@ -232,13 +246,13 @@ public class UserDaoTest {
         Assert.assertNotNull(user);
     	
         user.setPassword(DigestUtils.md5Hex("Password") + "X");
-        Assert.assertFalse(userDao.updateUser(user));
+        userDao.updateUser(user);
     }
     
     /**
      * 测试用例: 测试updateUser()方法
      * 测试数据: 使用不合法的数据(不存在的外键值)
-     * 预期结果: 抛出DataException异常
+     * 预期结果: 抛出ConstraintViolationException异常
      */
     @Test(expected = org.hibernate.exception.ConstraintViolationException.class)
     public void testUpdateUserIllegalUserGroup() {
