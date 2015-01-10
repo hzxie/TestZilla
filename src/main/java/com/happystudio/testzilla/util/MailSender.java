@@ -58,14 +58,13 @@ public class MailSender {
 				message.setText(body, true);
 			}
 		};
-		Thread t = new Thread(new Runnable() {
+		new Thread(new Runnable() {
 			public void run() {
 				mailSender.send(preparator);
 				logger.info(String.format("An Email{Recipient: %s, Subject: %s} has been sent.", 
-							new Object[] {recipient, subject}));
+						new Object[] {recipient, subject}));
 			}
-		});
-		t.start();
+		}).start();
 	}
 
 	/**
