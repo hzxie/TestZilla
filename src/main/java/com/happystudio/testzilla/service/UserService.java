@@ -234,13 +234,31 @@ public class UserService {
     }
     
     /**
-     * 保存电子邮件随机确认代码.
+     * 保存电子邮件随机验证代码.
      * @param email - 用户的电子邮件
-     * @param code - 随机生成的确认代码
+     * @param code - 随机生成的验证代码
      */
-    public void dumpEmailConfidential(String email, String code) {
+    public void dumpEmailConfidential(String email, String code) { 
+    	mailVerificationDao.deleteMailVerification(email);
+    		
     	MailVerification verification = new MailVerification(email, code);
     	mailVerificationDao.createMailVerification(verification);
+    }
+    
+    /**
+     * 验证电子邮件验证凭据有效性.
+     * @param email - 待验证的电子邮件地址
+     * @param code - 随机生成的验证代码
+     * @return 电子邮件验证凭据有效性
+     */
+    public boolean isEmailCondidentialValid(String email, String code) {
+    	MailVerification verification = mailVerificationDao.getMailVerification(email);
+    	
+    	if ( verification.getCode().equals(code) ) {
+    		mailVerificationDao.deleteMailVerification(email);
+    		return true;
+    	}
+    	return false;
     }
     
     /**

@@ -194,6 +194,7 @@ public class AccountsController {
      */
     @RequestMapping(value = "/verifyEmail", method = RequestMethod.GET)
     public ModelAndView verifyEmailView(
+    		@RequestParam(value="email", required=false) String email,
             @RequestParam(value="code", required=false) String code,
     		HttpServletRequest request) {
 		HttpSession session = request.getSession();
@@ -205,11 +206,36 @@ public class AccountsController {
         } else if ( currentUser.isEmailVerified() ) {
             view = new ModelAndView("redirect:/");
         } else {
-            view = new ModelAndView("accounts/verifyEmail");
-            view.addObject("email", currentUser.getEmail())
-            	.addObject("code", code);
+        	view = new ModelAndView("accounts/verifyEmail");
+            view.addObject("email", currentUser.getEmail());
+        }
+        if ( email != null && code != null ) {
+        	if ( userService.isEmailCondidentialValid(email, code) ) {
+        		view = new ModelAndView("redirect:/accounts/dashboard");
+        	}
         }
         return view;
+    }
+    
+    /**
+     * 显示用户控制面板.
+     * @param request - HttpRequest对象
+     * @return 包含用户控制面板页面信息的ModelAndView对象
+     */
+    @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+    public ModelAndView dashboardView(HttpServletRequest request) {
+    	HttpSession session = request.getSession();
+    	User currentUser = (User)session.getAttribute("user");
+    	ModelAndView view = null;
+    	
+    	if ( !isLoggedIn(session) ) {
+            view = new ModelAndView("redirect:/accounts/login");
+        } else if ( currentUser.getUserGroup().getUserGroupSlug().equals("administrator") ) {
+        	view = new ModelAndView("redirect:/administration/dashboard");
+        } else {
+        	view = new ModelAndView("accounts/dashboard");
+        }
+    	return view;
     }
 
     /**
