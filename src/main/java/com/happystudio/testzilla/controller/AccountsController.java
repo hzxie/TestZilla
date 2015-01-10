@@ -210,7 +210,9 @@ public class AccountsController {
             view.addObject("email", currentUser.getEmail());
         }
         if ( email != null && code != null ) {
-        	if ( userService.isEmailCondidentialValid(email, code) ) {
+        	if ( currentUser.getEmail().equals(email) &&
+        		 userService.isEmailCondidentialValid(email, code) ) {
+        		currentUser.setEmailVerified(true);
         		view = new ModelAndView("redirect:/accounts/dashboard");
         	}
         }

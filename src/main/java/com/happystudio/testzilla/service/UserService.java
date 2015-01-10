@@ -254,8 +254,12 @@ public class UserService {
     public boolean isEmailCondidentialValid(String email, String code) {
     	MailVerification verification = mailVerificationDao.getMailVerification(email);
     	
-    	if ( verification.getCode().equals(code) ) {
+    	if ( verification != null && verification.getCode().equals(code) ) {
     		mailVerificationDao.deleteMailVerification(email);
+    		
+    		User user = userDao.getUserUsingEmail(email);
+    		user.setEmailVerified(true);
+    		userDao.updateUser(user);
     		return true;
     	}
     	return false;

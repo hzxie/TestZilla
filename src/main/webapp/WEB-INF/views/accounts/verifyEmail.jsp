@@ -57,14 +57,16 @@
             </div> <!-- #steps -->
         </div> <!-- .row -->
         <div class="row">
-        <c:choose>
-        <c:when test="${code == null}">
-            Code is null
-        </c:when>
-        <c:otherwise>
-            Code isn't null
-        </c:otherwise>
-        </c:choose>
+        	<div id="email-sent" class="column">
+                <div class="ui attached segment fluid">
+                    <a class="ui ribbon label">Email has been sent.</a>
+                    <p>
+                        An activation email has been sent to ${email}.<br />
+                        <button class="ui primary button">Go to MailBox</button>
+                    </p>
+                </div> <!-- .segment -->
+
+            </div> <!-- .column -->
         </div> <!-- .row  -->
     </div> <!-- #content -->
     <!-- Footer -->
