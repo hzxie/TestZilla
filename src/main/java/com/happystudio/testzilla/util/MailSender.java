@@ -49,7 +49,7 @@ public class MailSender {
 	 * @param body - 邮件的内容
 	 */
 	public void sendMail(final String recipient, final String subject, final String body) { 
-		MimeMessagePreparator preparator = new MimeMessagePreparator() {
+		final MimeMessagePreparator preparator = new MimeMessagePreparator() {
 			public void prepare(MimeMessage mimeMessage) throws Exception {
 				MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 				message.setTo(recipient);
@@ -58,9 +58,14 @@ public class MailSender {
 				message.setText(body, true);
 			}
 		};
-		mailSender.send(preparator);
-		logger.info(String.format("An Email{Recipient: %s, Subject: %s} has been sent.", 
-					new Object[] {recipient, subject}));
+		Thread t = new Thread(new Runnable() {
+			public void run() {
+				mailSender.send(preparator);
+				logger.info(String.format("An Email{Recipient: %s, Subject: %s} has been sent.", 
+							new Object[] {recipient, subject}));
+			}
+		});
+		t.start();
 	}
 
 	/**
