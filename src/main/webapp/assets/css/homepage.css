@@ -1,5 +1,5 @@
 div#content div#slider {
-	margin-bottom: 40px;
+	margin: 14px auto 40px;
 }
 
 div#content div#slider div.bg-1 div.sl-slide-inner {
@@ -68,11 +68,4 @@ div#content div#worldwide div.numbers > span.text {
 	line-height: 28px;
 	margin-top: 14px;
 	width: auto;
-}
-
-/* All Mobile Sizes (devices and browser) */
-@media only screen and (max-width: 767px) {
-	div#content div#slider {
-		margin-top: 14px;
-	}
 }
