@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.happystudio.testzilla.model.User;
 import com.happystudio.testzilla.service.UserService;
 import com.happystudio.testzilla.util.DigestUtils;
+import com.happystudio.testzilla.util.HttpRequestParser;
 
 /**
  * 处理用户账户相关的请求.
@@ -59,7 +60,7 @@ public class AccountsController {
         session.removeAttribute("isLoggedIn");
         
         User currentUser = (User)session.getAttribute("user");
-        String ipAddress = request.getRemoteAddr();
+        String ipAddress = HttpRequestParser.getRemoteAddr(request);
         logger.info(String.format("%s logged out at %s", new Object[] {currentUser, ipAddress}));
     }
     
@@ -88,7 +89,7 @@ public class AccountsController {
             @RequestParam(value="username", required=true) String username,
             @RequestParam(value="password", required=true) String password,
             HttpServletRequest request) {
-    	String ipAddress = request.getRemoteAddr();
+    	String ipAddress = HttpRequestParser.getRemoteAddr(request);
         HashMap<String, Boolean> result = userService.isAccountValid(username, password);
         logger.info(String.format("User: [Username=%s] tried to log in at %s", new Object[] {username, ipAddress}));
         if ( result.get("isSuccessful") ) {
@@ -108,7 +109,7 @@ public class AccountsController {
     	session.setAttribute("isLoggedIn", true);
         session.setAttribute("user", user);
         
-        String ipAddress = request.getRemoteAddr();
+        String ipAddress = HttpRequestParser.getRemoteAddr(request);
         logger.info(String.format("%s logged in at %s", new Object[] {user, ipAddress}));
     }
  
@@ -160,7 +161,7 @@ public class AccountsController {
             @RequestParam(value="website", required=false) String website,
             @RequestParam(value="isIndividual", required=true) boolean isIndividual,
             HttpServletRequest request) {
-    	String ipAddress = request.getRemoteAddr();
+    	String ipAddress = HttpRequestParser.getRemoteAddr(request);
         HashMap<String, Boolean> result = userService.createUser(username, password, 
         		confirmPassword, userGroupSlug, realName, email, country, province, 
         		city, phone, website, isIndividual);
