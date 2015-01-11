@@ -13,6 +13,8 @@
     <link rel="stylesheet" type="text/css" href="<c:url value="/assets/css/semantic.min.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/assets/css/font-awesome.min.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/assets/css/style.css" />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value="/assets/css/homepage.css" />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value="/assets/css/slitslider.min.css" />" />
     <!-- JavaScript -->
     <script type="text/javascript" src="<c:url value="/assets/js/jquery-1.11.1.min.js" />"></script>
     <script type="text/javascript" src="<c:url value="/assets/js/semantic.min.js" />"></script>
@@ -21,12 +23,131 @@
     <!-- Header -->
     <%@ include file="/WEB-INF/views/include/header.jsp" %>
     <!-- Content -->
-    <div id="content" class="ui page stackable grid">
+    <div id="content">
+        <div id="slider" class="sl-slider-wrapper">
+            <div class="sl-slider">
+                <div class="sl-slide bg-1" data-orientation="horizontal" data-slice1-rotation="-25" data-slice2-rotation="-25" data-slice1-scale="2" data-slice2-scale="2">
+                    <div class="sl-slide-inner">
+                        <div class="ui page stackable grid">
+                            <div class="row">
+                                <div class="eight wide column">
+                                    <h2>A bene placito</h2>
+                                    <blockquote><p>You have just dined, and however scrupulously the slaughterhouse is concealed in the graceful distance of miles, there is complicity.</p><cite>Ralph Waldo Emerson</cite></blockquote>
+                                </div> <!-- .column -->
+                                <div class="eight wide column">
+                                    <h2>A bene placito</h2>
+                                    <blockquote><p>You have just dined, and however scrupulously the slaughterhouse is concealed in the graceful distance of miles, there is complicity.</p><cite>Ralph Waldo Emerson</cite></blockquote>
+                                </div> <!-- .column -->
+                            </div> <!-- .row -->
+                        </div> <!-- .page -->
+                    </div> <!-- .sl-slide-inner -->
+                </div> <!-- .sl-slide -->
+                <div class="sl-slide bg-2" data-orientation="vertical" data-slice1-rotation="10" data-slice2-rotation="-15" data-slice1-scale="1.5" data-slice2-scale="1.5">
+                    <div class="sl-slide-inner">
+                    </div> <!-- .sl-slide-inner -->
+                </div> <!-- .sl-slide -->
+                <div class="sl-slide bg-3" data-orientation="horizontal" data-slice1-rotation="-5" data-slice2-rotation="25" data-slice1-scale="2" data-slice2-scale="1">
+                    <div class="sl-slide-inner">
+                    </div> <!-- .sl-slide-inner -->
+                </div> <!-- .sl-slide -->
+            </div> <!-- .sl-slider -->
+            <nav class="nav-arrows">
+                <span class="nav-arrow-prev">Previous</span>
+                <span class="nav-arrow-next">Next</span>
+            </nav>
+            <nav class="nav-dots">
+                <span class="nav-dot-current"></span>
+                <span></span>
+                <span></span>
+            </nav>
+        </div> <!-- #slider -->
+        <div id="products" class="ui page stackable grid">
+            
+        </div> <!-- #products -->
+        <div id="worldwide" class="ui page stackable grid">
+            <h1>The TestZilla Testing Community</h1>
+            <img src="<c:url value="/assets/img/homepage/worldwide.png" />" alt="Worldwide" />
+            <div class="row two column">
+                <div class="column">
+                    <div class="ui header">
+                        <i class="icon world"></i>
+                        <div class="content">
+                            <div class="numbers">
+                                <span>1</span>
+                                <span>0</span>
+                                <span class="text">Countries</span>
+                            </div> <!-- .numbers -->
+                        </div> <!-- .content -->
+                    </div> <!-- .header -->
+                </div> <!-- .column -->
+                <div class="column">
+                    <div class="ui header">
+                        <i class="icon users"></i>
+                        <div class="content numbers">
+                            <span>1</span>
+                            <span>0</span>
+                            <span>2</span>
+                            <span>4</span>
+                            <span class="text">Testers</span>
+                        </div> <!-- .content -->
+                    </div> <!-- .header -->
+                </div> <!-- .column -->
+            </div> <!-- .row -->
+        </div> <!-- #worldwide -->
+        <div id="partners" class="ui page stackable grid">
+            
+        </div> <!-- #partners -->
     </div> <!-- #content -->
     <!-- Footer -->
     <%@ include file="/WEB-INF/views/include/footer.jsp" %>
     <!-- Java Script -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script type="text/javascript" src="<c:url value="/assets/js/site.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/assets/js/jquery.slitslider.min.js" />"></script>
+    <script type="text/javascript">
+        $(function() {
+            var slider = (function() {
+                var $navArrows = $('.nav-arrows'),
+                    $nav       = $('.nav-dots > span'),
+                    slitslider = $('#slider').slitslider({
+                        onBeforeChange : function(slide, pos) {
+                            $nav.removeClass('nav-dot-current');
+                            $nav.eq(pos).addClass('nav-dot-current');
+                        }
+                    }),
+                    init = function() {
+                        initEvents();
+                    },
+                    initEvents = function() {
+                        // auto navigation
+                        setInterval(function() {
+                            slitslider.next();
+                        }, 7500);
+                        // add navigation events
+                        $navArrows.children(':last').on('click', function() {
+                            slitslider.next();
+                            return false;
+                        });
+                        $navArrows.children(':first').on('click', function() {
+                            slitslider.previous();
+                            return false;
+                        });
+                        $nav.each(function(i) {
+                            $(this).on('click', function(event) {
+                                var $dot = $(this);
+                                if(!slitslider.isActive()) {
+                                    $nav.removeClass('nav-dot-current');
+                                    $dot.addClass('nav-dot-current');
+                                }
+                                slitslider.jump(i + 1);
+                                return false;
+                            });
+                        });
+                    };
+                    return { init : init };
+            })(jQuery);
+            slider.init();
+        });
+    </script>
 </body>
 </html>
