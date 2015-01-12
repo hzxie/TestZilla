@@ -2,6 +2,30 @@ div#content div#slider {
 	margin: 14px auto 40px;
 }
 
+div#content div#slider h1 {
+	font-size: 48px;
+}
+
+div#content div#slider p {
+	font-size: 24px;
+}
+
+div#content div#slider button.button {
+	background-color: transparent;
+	border: 1px solid #fff;
+	color: #fff;
+}
+
+div#content div#slider img {
+	display: block;
+    margin: 0 auto;
+    padding-top: 20px;
+}
+
+div#content div#slider div.sl-slide-inner {
+	padding-top: 20px;
+}
+
 div#content div#slider div.bg-1 div.sl-slide-inner {
 	background: #202021 url('../img/homepage/slide-img-1.png') center repeat;
 	color: #fff;
@@ -16,6 +40,11 @@ div#content div#slider div.bg-3 div.sl-slide-inner {
 	background: #515d81 url('../img/homepage/slide-img-3.jpg') no-repeat center top;
 	background-size: cover;
 	color: #fff;
+	padding-top: 50px;
+}
+
+div#content div#slider div.bg-3 div.sl-slide-inner div.column {
+	text-align: center;
 }
 
 div#content div#worldwide {

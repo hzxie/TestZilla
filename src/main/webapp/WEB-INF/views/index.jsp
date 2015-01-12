@@ -31,12 +31,12 @@
                         <div class="ui page stackable grid">
                             <div class="row">
                                 <div class="eight wide column">
-                                    <h2>A bene placito</h2>
-                                    <blockquote><p>You have just dined, and however scrupulously the slaughterhouse is concealed in the graceful distance of miles, there is complicity.</p><cite>Ralph Waldo Emerson</cite></blockquote>
+                                    <h1>Test software <br />better, together.</h1>
+                                    <p>The most efficient crowd test platform.</p>
+                                    <button class="ui button" onclick="window.location.href='<c:url value="/accounts/login" />'">Getting Started</button>
                                 </div> <!-- .column -->
                                 <div class="eight wide column">
-                                    <h2>A bene placito</h2>
-                                    <blockquote><p>You have just dined, and however scrupulously the slaughterhouse is concealed in the graceful distance of miles, there is complicity.</p><cite>Ralph Waldo Emerson</cite></blockquote>
+                                    <img src="<c:url value="/assets/img/homepage/crowd-test.png" />" alt="Icon">
                                 </div> <!-- .column -->
                             </div> <!-- .row -->
                         </div> <!-- .page -->
@@ -44,10 +44,27 @@
                 </div> <!-- .sl-slide -->
                 <div class="sl-slide bg-2" data-orientation="vertical" data-slice1-rotation="10" data-slice2-rotation="-15" data-slice1-scale="1.5" data-slice2-scale="1.5">
                     <div class="sl-slide-inner">
+                        <div class="ui page stackable grid">
+                            <div class="row">
+                                <div class="eight wide column">
+                                    <h1>Partner of <br />Netease MOOC.</h1>
+                                    <p>朱少民: 软件测试方法和技术实践</p>
+                                    <button class="ui button" onclick="window.location.href='http://mooc.study.163.com/course/Tongji-1000002019'">Tell me more</button>
+                                </div> <!-- .column -->
+                            </div> <!-- .row -->
+                        </div> <!-- .page -->
                     </div> <!-- .sl-slide-inner -->
                 </div> <!-- .sl-slide -->
                 <div class="sl-slide bg-3" data-orientation="horizontal" data-slice1-rotation="-5" data-slice2-rotation="25" data-slice1-scale="2" data-slice2-scale="1">
                     <div class="sl-slide-inner">
+                        <div class="ui page stackable grid">
+                            <div class="row">
+                                <div class="column">
+                                    <h1>Introducing a flexible, <br />premium service for Enterprise.</h1>
+                                    <button class="ui button">Comming Soon</button>
+                                </div> <!-- .column -->
+                            </div> <!-- .row -->
+                        </div> <!-- .page -->
                     </div> <!-- .sl-slide-inner -->
                 </div> <!-- .sl-slide -->
             </div> <!-- .sl-slider -->
