@@ -33,6 +33,10 @@ div#content {
 	background-color: #fff;
 }
 
+div#content h1 + div.breadcrumb {
+	margin-top: 0;
+}
+
 footer {
 	background: #303030;
 	color: #fff;
@@ -43,8 +47,7 @@ footer h4 {
 	margin: 1rem 0;
 }
 
-footer a, 
-footer div#social-links a.item {
+footer .ui.list > a.item {
 	color: #fff;
 }
 
