@@ -62,67 +62,37 @@
             <div class="twelve wide column">
                 <div id="products" class="row">
                     <div class="column">
+                    <c:choose>
+						<c:when test="${isSuccessful}">
                         <div class="ui relaxed divided items">
+                        	<c:forEach var="product" items="${products}">
                             <div class="item">
                                 <div class="ui small image">
-                                    <img src="/images/wireframe/image.png">
+                                    <img src="${product.productLogo}" />
                                 </div> <!-- .image -->
                                 <div class="content">
-                                    <a class="header">Content Header</a>
+                                    <a class="header" href="<c:url value="/products/${product.productId}" />">${product.productName}</a>
                                     <div class="meta">
-                                        <a>Date</a>
-                                        <a>Category</a>
+                                        <a>${product.productCategory.productCategoryName}</a>
                                     </div> <!-- .meta -->
                                     <div class="description">
-                                        A description which may flow for several lines and give context to the content.
+                                        ${product.description}
                                     </div> <!-- .description -->
                                     <div class="extra">
-                                        <img src="/images/wireframe/square-image.png" class="ui circular avatar"> Username
+                                        <div class="ui label">${product.latestVersion}</div> <!-- .label -->
+                                        <div class="ui label">${product.numberOfTesters} tester(s) attended</div> <!-- .label -->
                                     </div> <!-- .extra -->
                                 </div> <!-- .content -->
                             </div> <!-- .item -->
-                            <div class="item">
-                                <div class="ui small image">
-                                    <img src="/images/wireframe/image.png">
-                                </div> <!-- .image -->
-                                <div class="content">
-                                    <a class="header">Content Header</a>
-                                    <div class="meta">
-                                        <a>Date</a>
-                                        <a>Category</a>
-                                    </div> <!-- .meta -->
-                                    <div class="description">
-                                        A description which may flow for several lines and give context to the content.
-                                    </div> <!-- .description -->
-                                    <div class="extra">
-                                        <div class="ui right floated primary button">
-                                            Primary<i class="right chevron icon"></i>
-                                        </div> <!-- .button -->
-                                        <div class="ui label">Limited</div> <!-- .label -->
-                                    </div> <!-- .extra -->
-                                </div> <!-- .content -->
-                            </div> <!-- .item -->
-                            <div class="item">
-                                <div class="ui small image">
-                                    <img src="/images/wireframe/image.png">
-                                </div> <!-- .image -->
-                                <div class="content">
-                                    <a class="header">Content Header</a>
-                                    <div class="meta">
-                                        <a>Date</a>
-                                        <a>Category</a>
-                                    </div> <!-- .meta -->
-                                    <div class="description">
-                                        A description which may flow for several lines and give context to the content.
-                                    </div> <!-- .description -->
-                                    <div class="extra">
-                                        <div class="ui right floated primary button">
-                                            Primary<i class="right chevron icon"></i>
-                                        </div> <!-- .button -->
-                                    </div> <!-- .extra -->
-                                </div> <!-- .content -->
-                            </div> <!-- .item -->
+                            </c:forEach>
                         </div> <!-- .items -->
+                        </c:when>
+						<c:otherwise>
+						<div class="ui warning message">
+                            <p>No products found.</p>
+                        </div> <!-- .message -->
+						</c:otherwise>
+					</c:choose>
                     </div> <!-- .column -->
                 </div> <!-- .row -->
                 <div id="pagination" class="row">

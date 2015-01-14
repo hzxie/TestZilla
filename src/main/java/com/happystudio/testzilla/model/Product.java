@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Formula;
+
 /**
  * 产品的Model.
  * @author Xie Haozhe
@@ -256,6 +258,20 @@ public class Product implements Serializable {
 		this.testers.add(tester);
 	}
 
+	/**
+	 * @return the numberOfTesters
+	 */
+	public int getNumberOfTesters() {
+		return numberOfTesters;
+	}
+
+	/**
+	 * @param numberOfTesters the numberOfTesters to set
+	 */
+	public void setNumberOfTesters(int numberOfTesters) {
+		this.numberOfTesters = numberOfTesters;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -337,6 +353,12 @@ public class Product implements Serializable {
 				joinColumns = @JoinColumn(name = "product_id"),
 				inverseJoinColumns = @JoinColumn(name = "tester_uid"))
 	private List<User> testers = new ArrayList<User>();
+	
+	/**
+	 * 参与测试的用户人数.
+	 */
+	@Formula(value = "(SELECT COUNT(*) FROM tz_product_testers pt WHERE pt.product_id = product_id)")
+	private int numberOfTesters;
 	
 	/**
 	 * 唯一的序列化标识符.

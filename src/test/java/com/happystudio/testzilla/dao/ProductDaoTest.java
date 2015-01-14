@@ -25,13 +25,36 @@ import com.happystudio.testzilla.model.User;
 @ContextConfiguration({"classpath:test-spring-context.xml"})
 public class ProductDaoTest {
 	/**
-	 * 测试用例: 测试getLatestProducts()方法
-	 * 测试数据: 使用合法的offset和limit值
-	 * 预期结果: 预期的产品列表
+	 * 测试用例: 测试getTotalProductsUsingFilters()方法
+	 * 测试数据: 不使用产品分类筛选筛选
+	 * 预期结果: 返回全部产品的数量(2)
 	 */
 	@Test
-	public void testGetLatestProducts() {
-		List<Product> products = productDao.getLatestProducts(0, 10);
+	public void testGetTotalProductsUsingNoneFilters() {
+		long numberOfProducts = productDao.getTotalProductsUsingFilters(null);
+		Assert.assertEquals(2, numberOfProducts);
+	}
+	
+	/**
+	 * 测试用例: 测试getTotalProductsUsingFilters()方法
+	 * 测试数据: 使用Web产品分类筛选筛选
+	 * 预期结果: 返回Web产品的数量(2)
+	 */
+	@Test
+	public void testGetTotalProductsUsingWebFilters() {
+		ProductCategory category = new ProductCategory(3, "web", "Web Application");
+		long numberOfProducts = productDao.getTotalProductsUsingFilters(category);
+		Assert.assertEquals(2, numberOfProducts);
+	}
+
+	/**
+	 * 测试用例: 测试getLatestProductsUsingCategory()方法
+	 * 测试数据: 不使用产品分类
+	 * 预期结果: 返回全部产品的列表
+	 */
+	@Test
+	public void testGetProductsUsingNoneCategory() {
+		List<Product> products = productDao.getLatestProductsUsingCategory(null, 0, 2);
 		Assert.assertEquals(2, products.size());
 		
 		Product product = products.get(0);
@@ -39,14 +62,14 @@ public class ProductDaoTest {
 	}
 	
 	/**
-	 * 测试用例: 测试getProductsUsingCategory()方法
-	 * 测试数据: 使用存在的产品分类
-	 * 预期结果: 预期的产品列表
+	 * 测试用例: 测试getLatestProductsUsingCategory()方法
+	 * 测试数据: 使用Web产品分类
+	 * 预期结果: Web产品的列表
 	 */
 	@Test
-	public void testGetProductsUsingCategory() {
+	public void testGetProductsUsingWebCategory() {
 		ProductCategory category = new ProductCategory(3, "web", "Web Application");
-		List<Product> products = productDao.getProductsUsingCategory(category, 1, 1);
+		List<Product> products = productDao.getLatestProductsUsingCategory(category, 0, 1);
 		Assert.assertEquals(1, products.size());
 		
 		Product product = products.get(0);

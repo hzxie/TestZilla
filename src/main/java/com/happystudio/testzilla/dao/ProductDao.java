@@ -2,6 +2,7 @@ package com.happystudio.testzilla.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,51 +20,61 @@ import com.happystudio.testzilla.model.User;
 @Repository
 public class ProductDao {
 	/**
-	 * 获取最新的产品列表.
-	 * @param offset - 筛选起始项的索引(Index)
-	 * @param limit - 筛选结果最大数量
-	 * @return 符合条件的产品列表
+	 * 获取某个分类下产品的数量.
+	 * @param category - 产品分类的对象
+	 * @return 某个分类下产品的数量
 	 */
 	@Transactional
-	public List<Product> getLatestProducts(int offset, int limit) {
+	public long getTotalProductsUsingFilters(ProductCategory category) {
 		Session session = sessionFactory.getCurrentSession();
-		@SuppressWarnings("unchecked")
-		List<Product> products = (List<Product>)session.createQuery("FROM Product ORDER BY productId DESC")
-														.setFirstResult(offset)
-														.setMaxResults(limit).list();
-		return products;
+		Query query = null;
+		if ( category == null ) {
+			query = session.createQuery("SELECT COUNT(*) FROM Product");
+		} else {
+			query = session.createQuery("SELECT COUNT(*) FROM Product WHERE productCategory = ?0")
+							.setParameter("0", category);
+		}
+		return (Long)query.uniqueResult();
 	}
 	
 	/**
-	 * @todo Complete this method
-	 * 获取最热门的产品列表.
-	 * @param offset - 筛选起始项的索引(Index)
-	 * @param limit - 筛选结果最大数量
-	 * @return 符合条件的产品列表
-	 */
-	@Transactional
-	public List<Product> getHotestProducts(int offset, int limit) {
-		Session session = sessionFactory.getCurrentSession();
-		@SuppressWarnings("unchecked")
-		List<Product> products = (List<Product>)session.createQuery("FROM Product ORDER BY <NUMBER_OF_TESTERS> DESC")
-														.setFirstResult(offset)
-														.setMaxResults(limit).list();
-		return products;
-	}
-	
-	/**
-	 * 通过产品分类筛选产品列表.
+	 * 获取某个分类中最新的产品列表.
 	 * @param category - 产品分类对象
 	 * @param offset - 筛选起始项的索引(Index)
 	 * @param limit - 筛选结果最大数量
 	 * @return 符合条件的产品列表
 	 */
 	@Transactional
-	public List<Product> getProductsUsingCategory(ProductCategory category, int offset, int limit) {
+	public List<Product> getLatestProductsUsingCategory(ProductCategory category, int offset, int limit) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = null;
+		
+		if ( category == null ) {
+			query = session.createQuery("FROM Product ORDER BY productId DESC")
+							.setFirstResult(offset).setMaxResults(limit);
+		} else {
+			query = session.createQuery("FROM Product WHERE productCategory = ?0 ORDER BY productId DESC")
+							.setEntity("0", category).setFirstResult(offset).setMaxResults(limit);
+		}
+		
+		@SuppressWarnings("unchecked")
+		List<Product> products = (List<Product>)query.list();
+		
+		return products;
+	}
+	
+	/**
+	 * 获取某个分类中最热门的产品列表.
+	 * @param category - 产品分类对象
+	 * @param offset - 筛选起始项的索引(Index)
+	 * @param limit - 筛选结果最大数量
+	 * @return 符合条件的产品列表
+	 */
+	@Transactional
+	public List<Product> getHotestProductsUsingCategory(ProductCategory category, int offset, int limit) {
 		Session session = sessionFactory.getCurrentSession();
 		@SuppressWarnings("unchecked")
-		List<Product> products = (List<Product>)session.createQuery("FROM Product WHERE productCategory = ?0")
-														.setEntity("0", category)
+		List<Product> products = (List<Product>)session.createQuery("FROM Product ORDER BY numberOfTesters DESC")
 														.setFirstResult(offset)
 														.setMaxResults(limit).list();
 		return products;
