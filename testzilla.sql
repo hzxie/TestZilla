@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 10, 2015 at 08:29 上午
+-- Generation Time: Jan 14, 2015 at 04:12 上午
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -19,7 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `testzilla`
 --
--- --------------------------------------------------------
 
 --
 -- Table structure for table `tz_bugs`
@@ -117,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `tz_mail_verification` (
 --
 
 INSERT INTO `tz_mail_verification` (`email`, `code`) VALUES
-('zjhzxhz@qq.com', '85d46a49-f9ab-422a-9f99-d269c5c13e0c');
+('zjhzxhz@qq.com', '3d6f91cd-2868-44ee-b907-df87146a512a');
 
 -- --------------------------------------------------------
 
@@ -165,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `tz_points_rules` (
 --
 
 CREATE TABLE IF NOT EXISTS `tz_products` (
-  `product_id` bigint(20) NOT NULL DEFAULT '0',
+`product_id` bigint(20) NOT NULL,
   `product_name` varchar(32) NOT NULL,
   `product_logo` varchar(128) NOT NULL,
   `product_category_id` int(4) NOT NULL,
@@ -174,7 +173,15 @@ CREATE TABLE IF NOT EXISTS `tz_products` (
   `product_prerequisites` varchar(128) NOT NULL,
   `product_url` varchar(256) NOT NULL,
   `product_description` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1002 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tz_products`
+--
+
+INSERT INTO `tz_products` (`product_id`, `product_name`, `product_logo`, `product_category_id`, `product_latest_version`, `product_developer_id`, `product_prerequisites`, `product_url`, `product_description`) VALUES
+(1000, 'TestZilla', '', 3, '1.0 Beta', 1000, '', 'http://www.testzilla.org/', ''),
+(1001, 'IT Training Platform', '', 3, '1.0 Alpha', 1001, '', 'http://www.itraining.com/', '');
 
 -- --------------------------------------------------------
 
@@ -204,6 +211,24 @@ INSERT INTO `tz_product_categories` (`product_category_id`, `product_category_sl
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tz_product_testers`
+--
+
+CREATE TABLE IF NOT EXISTS `tz_product_testers` (
+  `product_id` bigint(20) NOT NULL,
+  `tester_uid` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tz_product_testers`
+--
+
+INSERT INTO `tz_product_testers` (`product_id`, `tester_uid`) VALUES
+(1001, 1001);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tz_users`
 --
 
@@ -229,7 +254,7 @@ CREATE TABLE IF NOT EXISTS `tz_users` (
 
 INSERT INTO `tz_users` (`uid`, `username`, `password`, `user_group_id`, `real_name`, `email`, `country`, `province`, `city`, `phone`, `website`, `is_individual`, `is_email_verified`) VALUES
 (1000, 'Administrator', '785ee107c11dfe36de668b1ae7baacbb', 3, 'Administrator', 'support@testzilla.org', 'China', 'Zhejiang', 'Hangzhou', '+86-571-12345678', 'http://testzilla.org', 0, 1),
-(1001, 'zjhzxhz', '785ee107c11dfe36de668b1ae7baacbb', 1, '谢浩哲', 'zjhzxhz@gmail.com', 'China', 'Zhejiang', 'Hangzhou', '+86-15695719136', 'http://zjhzxhz.com', 1, 1);
+(1001, 'zjhzxhz', '785ee107c11dfe36de668b1ae7baacbb', 2, '谢浩哲', 'zjhzxhz@gmail.com', 'China', 'Zhejiang', 'Hangzhou', '+86-15695719136', 'http://zjhzxhz.com', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -311,6 +336,12 @@ ALTER TABLE `tz_product_categories`
  ADD PRIMARY KEY (`product_category_id`);
 
 --
+-- Indexes for table `tz_product_testers`
+--
+ALTER TABLE `tz_product_testers`
+ ADD PRIMARY KEY (`product_id`,`tester_uid`), ADD KEY `tester_uid` (`tester_uid`);
+
+--
 -- Indexes for table `tz_users`
 --
 ALTER TABLE `tz_users`
@@ -357,6 +388,11 @@ MODIFY `points_log_id` bigint(20) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `tz_points_rules`
 MODIFY `points_rule_id` int(4) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `tz_products`
+--
+ALTER TABLE `tz_products`
+MODIFY `product_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1002;
+--
 -- AUTO_INCREMENT for table `tz_product_categories`
 --
 ALTER TABLE `tz_product_categories`
@@ -398,6 +434,13 @@ ADD CONSTRAINT `tz_points_logs_ibfk_2` FOREIGN KEY (`points_rule_id`) REFERENCES
 ALTER TABLE `tz_products`
 ADD CONSTRAINT `tz_products_ibfk_1` FOREIGN KEY (`product_category_id`) REFERENCES `tz_product_categories` (`product_category_id`),
 ADD CONSTRAINT `tz_products_ibfk_2` FOREIGN KEY (`product_developer_id`) REFERENCES `tz_users` (`uid`);
+
+--
+-- Constraints for table `tz_product_testers`
+--
+ALTER TABLE `tz_product_testers`
+ADD CONSTRAINT `tz_product_testers_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `tz_products` (`product_id`),
+ADD CONSTRAINT `tz_product_testers_ibfk_2` FOREIGN KEY (`tester_uid`) REFERENCES `tz_users` (`uid`);
 
 --
 -- Constraints for table `tz_users`

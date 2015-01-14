@@ -4,12 +4,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -229,6 +232,30 @@ public class Product implements Serializable {
 		this.bugs = bugs;
 	}
 
+	/**
+	 * 获取参与测试用户列表.
+	 * @return 参与测试用户列表
+	 */
+	public List<User> getTesters() {
+		return testers;
+	}
+
+	/**
+	 * 设置参与测试用户列表.
+	 * @param testers - 参与测试用户列表
+	 */
+	public void setTesters(List<User> testers) {
+		this.testers = testers;
+	}
+	
+	/**
+	 * 添加参与测试的用户.
+	 * @param tester - 参与测试的用户(User对象)
+	 */
+	public void addTester(User tester) {
+		this.testers.add(tester);
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -299,8 +326,17 @@ public class Product implements Serializable {
 	 * Bug列表(以便1-N关联).
 	 */
 	@OneToMany(targetEntity = Bug.class, 
-			fetch = FetchType.LAZY, mappedBy = "product")
+				fetch = FetchType.LAZY, mappedBy = "product")
 	private List<Bug> bugs = new ArrayList<Bug>();
+	
+	/**
+	 * 参与测试用户列表(以便N-N关联).
+	 */
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "tz_product_testers",
+				joinColumns = @JoinColumn(name = "product_id"),
+				inverseJoinColumns = @JoinColumn(name = "tester_uid"))
+	private List<User> testers = new ArrayList<User>();
 	
 	/**
 	 * 唯一的序列化标识符.

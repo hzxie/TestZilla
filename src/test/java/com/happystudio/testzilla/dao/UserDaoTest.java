@@ -151,7 +151,7 @@ public class UserDaoTest {
      * 预期结果: 返回false, 表示操作未成功完成
      */
     @Test
-    public void testCreateUserEmptyUsername() {
+    public void testCreateUserUsingEmptyUsername() {
     	UserGroup userGroup = new UserGroup(1, "tester", "Tester");
     	User user = new User("", DigestUtils.md5Hex("Password"), userGroup, 
 				 "Tester", "zjhzxhz@gmail.com", "China", "Zhejiang", "Hangzhou",
@@ -165,7 +165,7 @@ public class UserDaoTest {
      * 预期结果: 抛出DataException异常
      */
     @Test(expected = org.hibernate.exception.DataException.class)
-    public void testCreateUserIllegalUsername() {
+    public void testCreateUserUsingIllegalUsername() {
     	UserGroup userGroup = new UserGroup(1, "tester", "Tester");
     	User user = new User("VeryVeryLongUsername", DigestUtils.md5Hex("Password"), userGroup, 
 				 "Tester", "zjhzxhz@gmail.com", "China", "Zhejiang", "Hangzhou",
@@ -179,7 +179,7 @@ public class UserDaoTest {
      * 预期结果: 抛出ConstraintViolationException异常
      */
     @Test(expected = org.hibernate.exception.ConstraintViolationException.class)
-    public void testCreateUserIllegalUserGroup() {
+    public void testCreateUserUsingIllegalUserGroup() {
         UserGroup userGroup = new UserGroup(65535, "not-exists", "Not Exists");
         User user = new User("NewUser", DigestUtils.md5Hex("Password"), userGroup, 
 				 "Tester", "zjhzxhz@gmail.com", "China", "Zhejiang", "Hangzhou",
@@ -241,7 +241,7 @@ public class UserDaoTest {
      * 预期结果: 抛出DataException异常
      */
     @Test(expected = org.hibernate.exception.DataException.class)
-    public void testUpdateUserIllegalPassword() {
+    public void testUpdateUserUsingIllegalPassword() {
     	User user = userDao.getUserUsingUid(1001);
         Assert.assertNotNull(user);
     	
@@ -255,7 +255,7 @@ public class UserDaoTest {
      * 预期结果: 抛出ConstraintViolationException异常
      */
     @Test(expected = org.hibernate.exception.ConstraintViolationException.class)
-    public void testUpdateUserIllegalUserGroup() {
+    public void testUpdateUserUsingIllegalUserGroup() {
     	User user = userDao.getUserUsingUid(1001);
         Assert.assertNotNull(user);
         
