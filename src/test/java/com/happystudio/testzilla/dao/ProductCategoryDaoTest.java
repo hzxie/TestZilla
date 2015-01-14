@@ -1,0 +1,74 @@
+package com.happystudio.testzilla.dao;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.happystudio.testzilla.model.ProductCategory;
+
+/**
+ * ProductCategoryDao测试类.
+ * @author Xie Haozhe
+ */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration({"classpath:test-spring-context.xml"})
+public class ProductCategoryDaoTest {
+	/**
+	 * 测试用例: 测试getProductCategoryUsingId()方法
+	 * 测试数据: 使用Web应用的productCategoryId
+	 * 预期结果: 返回Web应用的productCategory对象
+	 */
+	@Test
+	public void testGetProductCategoryUsingIdExists() {
+		ProductCategory productCategory = productCategoryDao.getProductCategoryUsingId(3);
+		Assert.assertNotNull(productCategory);
+		
+		String productCategorySlug = productCategory.getProductCategorySlug();
+		Assert.assertEquals("web", productCategorySlug);
+	}
+	
+	/**
+	 * 测试用例: 测试getProductCategoryUsingId()方法
+	 * 测试数据: 使用不存在的productCategoryId
+	 * 预期结果: 返回空引用
+	 */
+	@Test
+	public void testGetProductCategoryUsingIdNotExists() {
+		ProductCategory productCategory = productCategoryDao.getProductCategoryUsingId(0);
+		Assert.assertNull(productCategory);
+	}
+	
+	/**
+	 * 测试用例: 测试getProductCategoryUsingSlug()方法
+	 * 测试数据: 使用Web应用的productCategorySlug
+	 * 预期结果: 返回Web应用的productCategory对象
+	 */
+	@Test
+	public void testGetProductCategoryUsingSlugExists() {
+		ProductCategory productCategory = productCategoryDao.getProductCategoryUsingSlug("web");
+		Assert.assertNotNull(productCategory);
+		
+		int productCategoryId = productCategory.getProductCategoryId();
+		Assert.assertEquals(3, productCategoryId);
+	}
+	
+	/**
+	 * 测试用例: 测试getProductCategoryUsingSlug()方法
+	 * 测试数据: 使用不存在的productCategorySlug
+	 * 预期结果: 返回空引用
+	 */
+	@Test
+	public void testGetProductCategoryUsingSlugNotExists() {
+		ProductCategory productCategory = productCategoryDao.getProductCategoryUsingSlug("Not Exists");
+		Assert.assertNull(productCategory);
+	}
+	
+	/**
+	 * 待测试的ProductCategoryDao对象.
+	 */
+	@Autowired
+	private ProductCategoryDao productCategoryDao;
+}

@@ -280,7 +280,7 @@ public class ProductDaoTest {
 	}
 	
 	/**
-	 * 待测试的UserDao对象.
+	 * 待测试的ProductDao对象.
 	 */
 	@Autowired
 	private ProductDao productDao;
