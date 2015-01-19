@@ -56,7 +56,6 @@ public class ProductDao {
 			query = session.createQuery("FROM Product WHERE productCategory = ?0 ORDER BY productId DESC")
 							.setEntity("0", category).setFirstResult(offset).setMaxResults(limit);
 		}
-		
 		@SuppressWarnings("unchecked")
 		List<Product> products = (List<Product>)query.list();
 		
@@ -73,10 +72,18 @@ public class ProductDao {
 	@Transactional
 	public List<Product> getHotestProductsUsingCategory(ProductCategory category, int offset, int limit) {
 		Session session = sessionFactory.getCurrentSession();
+		Query query = null;
+
+		if ( category == null ) {
+			query = session.createQuery("FROM Product ORDER BY numberOfTesters DESC")
+							.setFirstResult(offset).setMaxResults(limit);
+		} else {
+			query = session.createQuery("FROM Product WHERE productCategory = ?0 ORDER BY numberOfTesters DESC")
+							.setEntity("0", category).setFirstResult(offset).setMaxResults(limit);
+		}
 		@SuppressWarnings("unchecked")
-		List<Product> products = (List<Product>)session.createQuery("FROM Product ORDER BY numberOfTesters DESC")
-														.setFirstResult(offset)
-														.setMaxResults(limit).list();
+		List<Product> products = (List<Product>)query.list();
+		
 		return products;
 	}
 	

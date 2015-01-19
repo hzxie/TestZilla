@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Bug状态的Model.
  * @author Xie Haozhe
@@ -82,6 +84,23 @@ public class BugStatus implements Serializable {
 	 */
 	public void setBugStatusName(String bugStatusName) {
 		this.bugStatusName = bugStatusName;
+	}
+	
+	/**
+	 * 获取Bug列表(用于1-N关联).
+	 * @return Bug列表
+	 */
+	@JsonIgnore
+	public List<Bug> getBugs() {
+		return bugs;
+	}
+
+	/**
+	 * 设置Bug列表.
+	 * @param bugs - Bug列表
+	 */
+	public void setBugs(List<Bug> bugs) {
+		this.bugs = bugs;
 	}
 	
 	/* (non-Javadoc)

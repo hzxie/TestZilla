@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Bug分类的Model.
  * @author Xie Haozhe
@@ -88,6 +90,7 @@ public class BugCategory implements Serializable {
 	 * 获取Bug列表(用于1-N关联).
 	 * @return Bug列表
 	 */
+	@JsonIgnore
 	public List<Bug> getBugs() {
 		return bugs;
 	}

@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 用户的Model.
  * @author Xie Haozhe
@@ -299,6 +301,7 @@ public class User implements Serializable {
 	 * 获取产品列表(用于1-N关联).
 	 * @return 产品列表
 	 */
+	@JsonIgnore
 	public List<Product> getProducts() {
 		return developedProducts;
 	}
@@ -315,6 +318,7 @@ public class User implements Serializable {
 	 * 获取Bug列表(用于1-N关联).
 	 * @return 产品列表
 	 */
+	@JsonIgnore
 	public List<Bug> getBugs() {
 		return bugs;
 	}
@@ -331,6 +335,7 @@ public class User implements Serializable {
 	 * 获取积分记录列表(用于1-N关联).
 	 * @return 积分记录列表
 	 */
+	@JsonIgnore
 	public List<PointsLog> getPointsLogs() {
 		return pointsLogs;
 	}
@@ -347,6 +352,7 @@ public class User implements Serializable {
 	 * 获取用户所参与测试产品列表.
 	 * @return 用户所参与测试产品列表
 	 */
+	@JsonIgnore
 	public List<Product> getTestedProducts() {
 		return testedProducts;
 	}

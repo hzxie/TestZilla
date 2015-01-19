@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 产品分类的Model.
  * @author Xie Haozhe
@@ -84,6 +86,23 @@ public class ProductCategory implements Serializable {
 		this.productCategoryName = productCategoryName;
 	}
 	
+	/**
+	 * 获取某个分类下的产品列表.
+	 * @return 某个分类下的产品列表
+	 */
+	@JsonIgnore
+	public List<Product> getProducts() {
+		return products;
+	}
+
+	/**
+	 * 设置某个分类下的产品列表.
+	 * @param products - 某个分类下的产品列表
+	 */
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

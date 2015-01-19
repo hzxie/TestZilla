@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Bug严重性Model.
  * @author Xie Haozhe
@@ -104,6 +106,7 @@ public class BugSeverity implements Serializable {
 	 * 获取Bug列表(用于1-N关联).
 	 * @return Bug列表
 	 */
+	@JsonIgnore
 	public List<Bug> getBugs() {
 		return bugs;
 	}

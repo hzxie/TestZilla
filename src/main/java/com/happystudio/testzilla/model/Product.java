@@ -19,6 +19,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Formula;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 产品的Model.
  * @author Xie Haozhe
@@ -158,6 +160,7 @@ public class Product implements Serializable {
 	 * 获取产品开发者.
 	 * @return 产品开发者
 	 */
+	@JsonIgnore
 	public User getDeveloper() {
 		return developer;
 	}
@@ -210,7 +213,7 @@ public class Product implements Serializable {
 		return description;
 	}
 
-	/**
+	/**@JsonInclude(JsonInclude.Include.NON_NULL)
 	 * 设置产品的相关描述.
 	 * @param description - 产品的相关描述
 	 */
@@ -222,6 +225,7 @@ public class Product implements Serializable {
 	 * 获取Bug列表(以便1-N关联).
 	 * @return Bug列表
 	 */
+	@JsonIgnore
 	public List<Bug> getBugs() {
 		return bugs;
 	}
@@ -238,6 +242,7 @@ public class Product implements Serializable {
 	 * 获取参与测试用户列表.
 	 * @return 参与测试用户列表
 	 */
+	@JsonIgnore
 	public List<User> getTesters() {
 		return testers;
 	}

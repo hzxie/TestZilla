@@ -37,74 +37,41 @@
             <div class="four wide column">
                 <div id="sidebar" class="ui vertical menu fluid">
                     <div class="item">
-                        <div class="ui input">
-                            <input type="text" placeholder="Search...">
-                        </div> <!-- .input -->
+                        <form class="ui input" action="<c:url value="/search" />">
+                            <input name="keyword" type="text" placeholder="Search..." />
+                        </form> <!-- .input -->
                     </div> <!-- .item -->
-                    <div class="header item">
-                        <i class="sort icon"></i>Sort by
-                    </div> <!-- .header -->
-                    <a class="active item">Latest</a>
-                    <a class="item">Most Popular</a>
-                    <div class="header item">
-                        <i class="list icon"></i>Project Categories
-                    </div> <!-- .header -->
-                    <a class="active item">All</a>
-                    <a class="item">Windows Application</a>
-                    <a class="item">Mac Application</a>
-                    <a class="item">Web Application</a>
-                    <a class="item">iOS Application</a>
-                    <a class="item">Android Application</a>
-                    <a class="item">WindowsPhone Application</a>
-                    <a class="item">Others</a>
+                    <div id="sort-by">
+                        <div class="header item">
+                            <i class="sort icon"></i>Sort by
+                        </div> <!-- .header -->
+                        <a class="item active" href="javascript:void(0);" data-value="latest">Latest</a>
+                        <a class="item" href="javascript:void(0);" data-value="most-popular">Most Popular</a>
+                    </div> <!-- #sort-by -->
+                    <div id="product-categories">
+                        <div class="header item">
+                            <i class="list icon"></i>Project Categories
+                        </div> <!-- .header -->
+                        <a class="item active" href="javascript:void(0);" data-value="all">All</a>
+                        <c:forEach var="productCategory" items="${productCategories}">
+                        <a class="item" href="javascript:void(0);" data-value="${productCategory.productCategorySlug}">${productCategory.productCategoryName}</a>
+                        </c:forEach>
+                    </div> <!-- #product-categories -->
                 </div> <!-- .menu -->
             </div> <!-- .column -->
             <div class="twelve wide column">
                 <div id="products" class="row">
                     <div class="column">
-                    <c:choose>
-						<c:when test="${isSuccessful}">
                         <div class="ui relaxed divided items">
-                        	<c:forEach var="product" items="${products}">
-                            <div class="item">
-                                <div class="ui small image">
-                                    <img src="${product.productLogo}" />
-                                </div> <!-- .image -->
-                                <div class="content">
-                                    <a class="header" href="<c:url value="/products/${product.productId}" />">${product.productName}</a>
-                                    <div class="meta">
-                                        <a>${product.productCategory.productCategoryName}</a>
-                                    </div> <!-- .meta -->
-                                    <div class="description">
-                                        ${product.description}
-                                    </div> <!-- .description -->
-                                    <div class="extra">
-                                        <div class="ui label">${product.latestVersion}</div> <!-- .label -->
-                                        <div class="ui label">${product.numberOfTesters} tester(s) attended</div> <!-- .label -->
-                                    </div> <!-- .extra -->
-                                </div> <!-- .content -->
-                            </div> <!-- .item -->
-                            </c:forEach>
                         </div> <!-- .items -->
-                        </c:when>
-						<c:otherwise>
-						<div class="ui warning message">
+                        <div class="ui warning message hide">
                             <p>No products found.</p>
                         </div> <!-- .message -->
-						</c:otherwise>
-					</c:choose>
                     </div> <!-- .column -->
                 </div> <!-- .row -->
                 <div id="pagination" class="row">
                     <div class="column">
                         <div class="ui pagination menu">
-                            <a class="icon item"><i class="left arrow icon"></i></a>
-                            <a class="active item">1</a>
-                            <div class="disabled item">...</div>
-                            <a class="item">10</a>
-                            <a class="item">11</a>
-                            <a class="item">12</a>
-                            <a class="icon item"><i class="right arrow icon"></i></a>
                         </div> <!-- .pagination -->
                     </div> <!-- .column -->
                 </div> <!-- .row -->
@@ -116,5 +83,123 @@
     <!-- Java Script -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script type="text/javascript" src="<c:url value="/assets/js/site.js" />"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var pageNumber = 1;
+            return getPageRequests(pageNumber);
+        });
+
+        $('#sort-by > a').click(function() {
+            $('#sort-by > a.item').removeClass('active');
+            $(this).addClass('active');
+
+            var pageNumber = 1;
+            return getPageRequests(pageNumber);
+        });
+
+        $('#product-categories > a').click(function() {
+            $('#product-categories > a.item').removeClass('active');
+            $(this).addClass('active');
+
+            var pageNumber = 1;
+            return getPageRequests(pageNumber);
+        });
+
+        $('#pagination').delegate('a.item', 'click', function(e) {
+            e.preventDefault();
+            if ( $(this).hasClass('disabled') ) {
+                return;
+            }
+            var currentPage = parseInt($('a.active', '.pagination').html(), 10);
+                pageNumber  = $(this).html();
+            
+            $('.pagination > a.active').removeClass('active');
+            $(this).addClass('active');
+
+            if ( pageNumber.indexOf('left arrow') != -1 ) {
+                pageNumber  = currentPage - 1;
+            } else if ( pageNumber.indexOf('right arrow') != -1 ) {
+                pageNumber  = currentPage + 1;
+            }
+            return getPageRequests(pageNumber);
+        });
+    </script>
+    <script type="text/javascript">
+        function getPageRequests(pageNumber) {
+            var sortBy     = $('#sort-by > a.active').attr('data-value'),
+                category   = $('#product-categories > a.active').attr('data-value');
+
+            return getProducts(sortBy, category, pageNumber);
+        }
+    </script>
+    <script type="text/javascript">
+        function getProducts(sortBy, category, pageNumber) {
+            var pageRequests = {
+                'sortBy': sortBy,
+                'category': category,
+                'page': pageNumber
+            };
+
+            $.ajax({
+                type: 'GET',
+                url: '<c:url value="/products/getProducts.action" />',
+                data: pageRequests,
+                dataType: 'JSON',
+                success: function(result) {
+                    if ( result['isSuccessful'] ) {
+                        $('#products .items').removeClass('hide');
+                        $('#pagination').removeClass('hide');
+                        $('.warning').addClass('hide');
+
+                        displayProducts(result['products']);
+                        displayPagination(pageNumber, result['totalPages']);
+                    } else {
+                        $('#products .items').addClass('hide');
+                        $('#pagination').addClass('hide');
+                        $('.warning').removeClass('hide');
+                    }
+                }
+            });
+        }
+    </script>
+    <script type="text/javascript">
+        function displayProducts(products) {
+            $('#products .items').empty();
+
+            for ( var i = 0; i < products.length; ++ i ) {
+                $('#products .items').append('<div class="item">' + 
+                                             '    <div class="ui small image">' + 
+                                             '        <img src="' + products[i]['productLogo'] + '" />' + 
+                                             '    </div> <!-- .image -->' + 
+                                             '    <div class="content">' + 
+                                             '        <a class="header" href="<c:url value="/products/" />' + products[i]['productId'] + '">' + products[i]['productName'] + '</a>' + 
+                                             '        <div class="meta">' + 
+                                             '            <a>' + products[i]['productCategory']['productCategoryName'] + '</a>' + 
+                                             '        </div> <!-- .meta -->' + 
+                                             '        <div class="description">' + 
+                                                          products[i]['description'] + 
+                                             '        </div> <!-- .description -->' + 
+                                             '        <div class="extra">' + 
+                                             '            <div class="ui label">' + products[i]['latestVersion'] + '</div> <!-- .label -->' + 
+                                             '            <div class="ui label">' + products[i]['numberOfTesters'] + ' tester(s) attended</div> <!-- .label -->' + 
+                                             '        </div> <!-- .extra -->' + 
+                                             '    </div> <!-- .content -->' + 
+                                             '</div> <!-- .item -->');
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        function displayPagination(currentPage, totalPages) {
+            var lowerBound = ( currentPage - 5 > 0 ? currentPage - 5 : 1 ),
+                upperBound = ( currentPage + 5 < totalPages ? currentPage + 5 : totalPages );
+            var paginationString  = '<a class="icon item' + ( currentPage > 1 ? '' : ' disabled' ) + '"><i class="left arrow icon"></i></a>';
+
+            for ( var i = lowerBound; i <= upperBound; ++ i ) {
+                paginationString += '<a class="item' + ( currentPage == i ? ' active' : '' ) + '">' + i + '</a>';
+            }
+            paginationString     += '<a class="icon item' + ( currentPage < totalPages ? '' : ' disabled' )+ '"><i class="right arrow icon"></i></a>';
+            $('.pagination').html(paginationString);
+        }
+    </script>
 </body>
 </html>

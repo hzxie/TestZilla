@@ -26,7 +26,7 @@
     <!-- Content -->
     <div id="content">
         <h2>Sign In</h2>
-        <div class="ui error message">
+        <div class="ui error message hide">
             <div class="header">Action Forbidden</div>
             <p>Invalid username or password.</p>
         </div> <!-- .error -->
@@ -116,8 +116,8 @@
                 window.location.href = '<c:url value="/" />';
             } else {
                 $('#login-form').removeClass('loading');
-                $('.positive').css('display', 'none');
-                $('.error').css('display', 'block');
+                $('.positive').addClass('hide');
+                $('.error').removeClass('hide');
                 $('#password').val('');
             }
         }

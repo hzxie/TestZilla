@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 积分规则的Model.
  * 说明: 积分 = 威望(Reputation) + 金钱(Money)
@@ -126,6 +128,7 @@ public class PointsRule implements Serializable {
 	 * 获取积分记录列表(用于1-N关联).
 	 * @return 积分记录列表
 	 */
+	@JsonIgnore
 	public List<PointsLog> getPointsLogs() {
 		return pointsLogs;
 	}

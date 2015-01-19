@@ -37,6 +37,10 @@ div#content h1 + div.breadcrumb {
 	margin-top: 0;
 }
 
+div#content div.hide {
+	display: none;
+}
+
 footer {
 	background: #303030;
 	color: #fff;

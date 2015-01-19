@@ -12,10 +12,6 @@ div#content h2 {
 	color: #0073da;
 }
 
-div#content div.error.message {
-	display: none;
-}
-
 div#content form#login-form a {
 	color: #0073da;
 	font-weight: normal;

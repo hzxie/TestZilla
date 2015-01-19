@@ -59,7 +59,7 @@
         <div class="row">
             <div class="twelve wide column">
                 <h3>Create your account</h3>
-                <div class="ui error message">
+                <div class="ui error message hide">
                     <div class="header">Error Message</div>
                     <p></p>
                 </div> <!-- .error -->

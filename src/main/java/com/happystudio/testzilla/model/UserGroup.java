@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 用户组的Model.
  * @author Xie Haozhe
@@ -88,6 +90,7 @@ public class UserGroup implements Serializable {
 	 * 获取用户列表(用于1-N关联).
 	 * @return 用户列表
 	 */
+	@JsonIgnore
 	public List<User> getUsers() {
 		return users;
 	}

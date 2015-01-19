@@ -53,6 +53,14 @@ public class ProductService {
 	}
 	
 	/**
+	 * 获取全部产品类别的列表.
+	 * @return 全部产品类别的列表
+	 */
+	public List<ProductCategory> getProductCategories() {
+		return productCategoryDao.getAllProductCategory();
+	}
+	
+	/**
 	 * 通过产品分类的唯一英文简写获取产品分类对象.
 	 * @param productCategorySlug - 产品分类的唯一英文简写
 	 * @return 对应的产品分类对象或空引用
