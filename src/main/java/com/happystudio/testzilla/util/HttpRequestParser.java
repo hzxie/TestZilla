@@ -13,8 +13,8 @@ public class HttpRequestParser {
 	 * @return 用户的真实IP
 	 */
 	public static String getRemoteAddr(HttpServletRequest request) {
-		if ( request.getHeader("X-Forwarded-For") != null ) {
-			request.getHeader("X-Forwarded-For");
+		if ( request.getHeader("X-Real-IP") != null ) {
+			return request.getHeader("X-Real-IP");
 		}
 		return request.getRemoteAddr();
 	}
