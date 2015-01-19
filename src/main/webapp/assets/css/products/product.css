@@ -1,0 +1,8 @@
+div#content div#product table.table td:first-child {
+	font-weight: bold;
+	width: 200px;
+}
+
+div#content div#related-products h3 {
+	margin-top: 0;
+}

@@ -61,7 +61,7 @@
                             <div class="row">
                                 <div class="column">
                                     <h1>Introducing a flexible, <br />premium service for Enterprise.</h1>
-                                    <button class="ui button">Comming Soon</button>
+                                    <button class="ui button">Coming Soon</button>
                                 </div> <!-- .column -->
                             </div> <!-- .row -->
                         </div> <!-- .page -->
@@ -78,9 +78,6 @@
                 <span></span>
             </nav>
         </div> <!-- #slider -->
-        <div id="products" class="ui page stackable grid">
-            
-        </div> <!-- #products -->
         <div id="worldwide" class="ui page stackable grid">
             <h1>The TestZilla Testing Community</h1>
             <img src="<c:url value="/assets/img/homepage/worldwide.png" />" alt="Worldwide" />

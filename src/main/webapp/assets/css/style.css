@@ -31,9 +31,10 @@ header div#navigation nav.menu > a.item.active {
 
 div#content {
 	background-color: #fff;
+	margin-bottom: 2rem;
 }
 
-div#content h1 + div.breadcrumb {
+div#content div.breadcrumb {
 	margin-top: 0;
 }
 

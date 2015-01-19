@@ -113,7 +113,7 @@
     <script type="text/javascript">
         function processResult(result) {
             if ( result['isSuccessful'] ) {
-                window.location.href = '<c:url value="/" />';
+                window.location.href = '<c:url value="/" />${param.forward}';
             } else {
                 $('#login-form').removeClass('loading');
                 $('.positive').addClass('hide');

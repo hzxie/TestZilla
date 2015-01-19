@@ -7,12 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.happystudio.testzilla.exception.ResourceNotFoundException;
 import com.happystudio.testzilla.model.Product;
 import com.happystudio.testzilla.model.ProductCategory;
 import com.happystudio.testzilla.service.ProductService;
@@ -106,6 +108,38 @@ public class ProductsController {
 	 */
 	private List<ProductCategory> getProductCategories() {
 		return productService.getProductCategories();
+	}
+	
+	/**
+	 * 显示产品详细信息页面.
+	 * @param productId - 产品的唯一标识符
+	 * @param request - HttpRequest请求
+	 * @return 一个包含产品详细信息的ModelAndView对象
+	 */
+	@RequestMapping(value = "/{productId}")
+	public ModelAndView productView(
+			@PathVariable("productId") int productId,
+    		HttpServletRequest request) {
+		Product product = productService.getProductsUsingProductId(productId);
+		if ( product == null ) {
+			throw new ResourceNotFoundException();
+		}
+		
+		List<Product> relatedProducts = getRelatedProducts(product.getProductCategory());
+		ModelAndView view = new ModelAndView("products/product");
+        view.addObject("product", product);
+        view.addObject("relatedProducts", relatedProducts);
+        return view;
+	}
+	
+	/**
+	 * 为用户推荐相似的待测试产品.
+	 * @param category - 产品所属的产品类别
+	 * @return 待测试的产品列表
+	 */
+	private List<Product> getRelatedProducts(ProductCategory category) {
+		int offset = 0;
+		return productService.getLatestProductsUsingCategory(category, offset, NUMBER_OF_PRODUCTS_PER_PAGE);
 	}
 	
 	/**

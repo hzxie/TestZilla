@@ -70,6 +70,15 @@ public class ProductService {
 	}
 	
 	/**
+	 * 根据产品唯一标识符获取产品信息.
+	 * @param productId - 产品唯一标识符
+	 * @return 一个产品对象或空引用
+	 */
+	public Product getProductsUsingProductId(long productId) {
+		return productDao.getProductsUsingProductId(productId);
+	}
+	
+	/**
 	 * 自动注入的ProductDao对象.
 	 */
 	@Autowired
