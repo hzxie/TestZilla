@@ -85,7 +85,7 @@
             } else {
                 redirectUrl = 'mail.' + domain;
             }
-            window.href.location = redirectUrl;
+            window.location.href = redirectUrl;
         });
     </script>
 </body>
