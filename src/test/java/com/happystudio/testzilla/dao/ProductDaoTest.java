@@ -179,7 +179,7 @@ public class ProductDaoTest {
 	 */
 	@Test
 	public void testAddProductTesterNormal() {
-		Product product = productDao.getProductsUsingProductId(1000);
+		Product product = productDao.getProductsUsingProductId(1001);
 		Assert.assertNotNull(product);
 		User user = userDao.getUserUsingUid(1000);
 		Assert.assertNotNull(user);

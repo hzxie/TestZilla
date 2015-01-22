@@ -27,7 +27,7 @@ public class BugSeverityDaoTest {
 	public void testGetAllBugSeverity() {
 		List<BugSeverity> bugSeverityList = bugSeverityDao.getAllBugSeverity();
 		Assert.assertNotNull(bugSeverityList);
-		Assert.assertEquals(9, bugSeverityList.size());
+		Assert.assertEquals(4, bugSeverityList.size());
 		
 		BugSeverity bugSeverity = bugSeverityList.get(0);
 		String bugSeveritySlug = bugSeverity.getBugSeveritySlug();
