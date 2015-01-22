@@ -142,6 +142,17 @@ public class PointsRule implements Serializable {
 	}
 	
 	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if ( !(o instanceof PointsRule) ) {
+			return false;
+		}
+		return this.pointsRuleId == ((PointsRule)o).pointsRuleId; 
+	}
+	
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

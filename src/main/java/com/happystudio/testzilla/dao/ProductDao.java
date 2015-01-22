@@ -54,7 +54,7 @@ public class ProductDao {
 							.setFirstResult(offset).setMaxResults(limit);
 		} else {
 			query = session.createQuery("FROM Product WHERE productCategory = ?0 ORDER BY productId DESC")
-							.setEntity("0", category).setFirstResult(offset).setMaxResults(limit);
+							.setParameter("0", category).setFirstResult(offset).setMaxResults(limit);
 		}
 		@SuppressWarnings("unchecked")
 		List<Product> products = (List<Product>)query.list();
@@ -79,7 +79,7 @@ public class ProductDao {
 							.setFirstResult(offset).setMaxResults(limit);
 		} else {
 			query = session.createQuery("FROM Product WHERE productCategory = ?0 ORDER BY numberOfTesters DESC")
-							.setEntity("0", category).setFirstResult(offset).setMaxResults(limit);
+							.setParameter("0", category).setFirstResult(offset).setMaxResults(limit);
 		}
 		@SuppressWarnings("unchecked")
 		List<Product> products = (List<Product>)query.list();
@@ -99,7 +99,7 @@ public class ProductDao {
 		Session session = sessionFactory.getCurrentSession();
 		@SuppressWarnings("unchecked")
 		List<Product> products = (List<Product>)session.createQuery("FROM Product WHERE developer = ?0")
-														.setEntity("0", developer)
+														.setParameter("0", developer)
 														.setFirstResult(offset)
 														.setMaxResults(limit).list();
 		return products;
@@ -168,7 +168,7 @@ public class ProductDao {
 	
 	/**
 	 * 更新产品信息.
-	 * @param product - 产品(Product对象)
+	 * @param product - 待更新的产品(Product)对象
 	 * @return 操作是否成功完成
 	 */
 	@Transactional

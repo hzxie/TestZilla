@@ -102,6 +102,17 @@ public class BugCategory implements Serializable {
 	public void setBugs(List<Bug> bugs) {
 		this.bugs = bugs;
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if ( !(o instanceof BugCategory) ) {
+			return false;
+		}
+		return this.bugCategoryId == ((BugCategory)o).bugCategoryId;
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()

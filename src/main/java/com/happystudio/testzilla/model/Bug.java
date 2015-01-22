@@ -250,6 +250,17 @@ public class Bug implements Serializable {
 	}
 	
 	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if ( !(o instanceof Bug) ) {
+			return false;
+		}
+		return this.bugId == ((Bug)o).bugId; 
+	}
+	
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

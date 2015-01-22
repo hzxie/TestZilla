@@ -104,6 +104,17 @@ public class UserGroup implements Serializable {
 	}
 	
 	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if ( !(o instanceof UserGroup) ) {
+			return false;
+		}
+		return this.userGroupId == ((UserGroup)o).userGroupId; 
+	}
+	
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

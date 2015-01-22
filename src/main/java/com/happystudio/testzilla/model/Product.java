@@ -276,6 +276,17 @@ public class Product implements Serializable {
 	public void setNumberOfTesters(int numberOfTesters) {
 		this.numberOfTesters = numberOfTesters;
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if ( !(o instanceof Product) ) {
+			return false;
+		}
+		return this.productId == ((Product)o).productId;
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()

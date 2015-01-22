@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 20, 2015 at 03:12 下午
+-- Generation Time: Jan 22, 2015 at 09:11 A.M.
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -38,7 +38,16 @@ CREATE TABLE IF NOT EXISTS `tz_bugs` (
   `bug_title` varchar(64) NOT NULL,
   `bug_description` text NOT NULL,
   `bug_screenshots` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1002 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tz_bugs`
+--
+
+INSERT INTO `tz_bugs` (`bug_id`, `product_id`, `product_version`, `bug_category_id`, `bug_status_id`, `bug_severity_id`, `bug_create_time`, `bug_hunter_id`, `bug_title`, `bug_description`, `bug_screenshots`) VALUES
+(1000, 1000, '1.0 Beta', 5, 4, 3, '2015-01-22 08:05:00', 1001, 'Bug #1000', 'Bug #1000 Description', NULL),
+(1001, 1000, '1.0 Beta', 12, 1, 2, '2015-01-22 08:10:00', 1000, 'Bug #1001', 'Bug #1001 Description', NULL),
+(1002, 1001, '1.0 Alpha', 4, 3, 1, '2015-01-22 08:10:00', 1001, 'Bug #1002', 'Bug #1002 Description', NULL);
 
 -- --------------------------------------------------------
 
@@ -193,7 +202,7 @@ CREATE TABLE IF NOT EXISTS `tz_products` (
   `product_prerequisites` varchar(128) NOT NULL,
   `product_url` varchar(256) NOT NULL,
   `product_description` text NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1002 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1006 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tz_products`
@@ -268,7 +277,7 @@ CREATE TABLE IF NOT EXISTS `tz_users` (
   `website` varchar(64) DEFAULT NULL,
   `is_individual` tinyint(1) NOT NULL DEFAULT '1',
   `is_email_verified` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=1002 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1018 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tz_users`
@@ -383,7 +392,7 @@ ALTER TABLE `tz_user_groups`
 -- AUTO_INCREMENT for table `tz_bugs`
 --
 ALTER TABLE `tz_bugs`
-MODIFY `bug_id` bigint(20) NOT NULL AUTO_INCREMENT;
+MODIFY `bug_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1002;
 --
 -- AUTO_INCREMENT for table `tz_bug_categories`
 --
@@ -413,7 +422,7 @@ MODIFY `points_rule_id` int(4) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `tz_products`
 --
 ALTER TABLE `tz_products`
-MODIFY `product_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1002;
+MODIFY `product_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1006;
 --
 -- AUTO_INCREMENT for table `tz_product_categories`
 --
@@ -423,7 +432,7 @@ MODIFY `product_category_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 -- AUTO_INCREMENT for table `tz_users`
 --
 ALTER TABLE `tz_users`
-MODIFY `uid` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1002;
+MODIFY `uid` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1018;
 --
 -- AUTO_INCREMENT for table `tz_user_groups`
 --

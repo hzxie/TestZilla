@@ -112,6 +112,17 @@ public class PointsLog implements Serializable {
 	}
 	
 	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if ( !(o instanceof PointsLog) ) {
+			return false;
+		}
+		return this.pointsLogId == ((PointsLog)o).pointsLogId; 
+	}
+	
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

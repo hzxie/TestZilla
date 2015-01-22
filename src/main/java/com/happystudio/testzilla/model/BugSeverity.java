@@ -120,6 +120,17 @@ public class BugSeverity implements Serializable {
 	}
 	
 	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if ( !(o instanceof BugSeverity) ) {
+			return false;
+		}
+		return this.bugSeverityId == ((BugSeverity)o).bugSeverityId;
+	}
+	
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

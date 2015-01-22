@@ -102,6 +102,17 @@ public class ProductCategory implements Serializable {
 	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if ( !(o instanceof ProductCategory) ) {
+			return false;
+		}
+		return this.productCategoryId == ((ProductCategory)o).productCategoryId; 
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()

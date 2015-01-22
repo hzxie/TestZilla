@@ -364,6 +364,17 @@ public class User implements Serializable {
 	public void setTestedProducts(List<Product> testedProducts) {
 		this.testedProducts = testedProducts;
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if ( !(o instanceof User) ) {
+			return false;
+		}
+		return this.uid == ((User)o).uid; 
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()

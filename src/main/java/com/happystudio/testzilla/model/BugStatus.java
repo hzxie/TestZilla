@@ -104,6 +104,17 @@ public class BugStatus implements Serializable {
 	}
 	
 	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if ( !(o instanceof BugStatus) ) {
+			return false;
+		}
+		return this.bugStatusId == ((BugStatus)o).bugStatusId;
+	}
+	
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

@@ -180,7 +180,6 @@ public class ProductsController {
 			@RequestParam(value="productId", required=true) long productId,
 			@RequestParam(value="version", required=true) String version,
 			@RequestParam(value="bugCategory", required=true) String bugCategorySlug,
-			@RequestParam(value="bugStatus", required=true) String bugStatusSlug,
 			@RequestParam(value="bugSeverity", required=true) String bugSeveritySlug,
 			@RequestParam(value="title", required=true) String title,
 			@RequestParam(value="description", required=true) String description,
@@ -190,7 +189,7 @@ public class ProductsController {
 		String ipAddress = HttpRequestParser.getRemoteAddr(request);
 		
 		HashMap<String, Boolean> result = bugService.createBug(product, version, bugCategorySlug, 
-											bugStatusSlug, bugSeveritySlug, user, title, description);
+											bugSeveritySlug, user, title, description);
 		if ( result.get("isSuccessful") ) {
 			logger.info(String.format("User {%s} created a bug for Product {%s} at %s.", new Object[] {user, product, ipAddress}));
 		}
