@@ -3,6 +3,19 @@ div#content div#product table.table td:first-child {
 	width: 200px;
 }
 
+div#content div#product div#bugs {
+	margin-top: 20px;
+}
+
+div#content div#product button.button {
+	float: right;
+	margin-right: 0;
+}
+
+div#content div#product div#bugs div.bug:first-child div.title {
+	border-top: none;
+}
+
 div#content div#related-products h3 {
 	margin-top: 0;
 }

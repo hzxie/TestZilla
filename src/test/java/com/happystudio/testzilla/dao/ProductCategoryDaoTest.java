@@ -1,5 +1,7 @@
 package com.happystudio.testzilla.dao;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,9 +19,24 @@ import com.happystudio.testzilla.model.ProductCategory;
 @ContextConfiguration({"classpath:test-spring-context.xml"})
 public class ProductCategoryDaoTest {
 	/**
+	 * 测试用例: 测试getAllProductCategory()方法
+	 * 测试数据: N/a
+	 * 预期结果: 返回所有ProductCategory对象的列表
+	 */
+	@Test
+	public void testGetAllProductCategory() {
+		List<ProductCategory> productCategories = productCategoryDao.getAllProductCategory();
+		Assert.assertNotNull(productCategories);
+		Assert.assertEquals(7, productCategories.size());
+		
+		ProductCategory productCategory = productCategories.get(2);
+		Assert.assertEquals("web", productCategory.getProductCategorySlug());
+	}
+	
+	/**
 	 * 测试用例: 测试getProductCategoryUsingId()方法
 	 * 测试数据: 使用Web应用的productCategoryId
-	 * 预期结果: 返回Web应用的productCategory对象
+	 * 预期结果: 返回Web应用的ProductCategory对象
 	 */
 	@Test
 	public void testGetProductCategoryUsingIdExists() {
@@ -44,7 +61,7 @@ public class ProductCategoryDaoTest {
 	/**
 	 * 测试用例: 测试getProductCategoryUsingSlug()方法
 	 * 测试数据: 使用Web应用的productCategorySlug
-	 * 预期结果: 返回Web应用的productCategory对象
+	 * 预期结果: 返回Web应用的ProductCategory对象
 	 */
 	@Test
 	public void testGetProductCategoryUsingSlugExists() {

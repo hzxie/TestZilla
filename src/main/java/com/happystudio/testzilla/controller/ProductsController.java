@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +19,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.happystudio.testzilla.exception.ResourceNotFoundException;
 import com.happystudio.testzilla.model.Product;
 import com.happystudio.testzilla.model.ProductCategory;
+import com.happystudio.testzilla.model.User;
+import com.happystudio.testzilla.service.BugService;
 import com.happystudio.testzilla.service.ProductService;
+import com.happystudio.testzilla.util.HttpRequestParser;
 
 /**
  * 待测试产品的Controller.
@@ -39,24 +44,6 @@ public class ProductsController {
 		view.addObject("productCategories", categories);
         return view;
     }
-	
-	/**
-	 * 通过产品分类的唯一英文简写获取产品分类对象.
-	 * @param productCategorySlug - 产品分类的唯一英文简写
-	 * @return 对应的产品分类对象或空引用
-	 */
-	private ProductCategory getProductCategoryUsingSlug(String productCategorySlug) {
-		return productService.getProductCategoryUsingSlug(productCategorySlug);
-	}
-	
-	/**
-	 * 获取某个产品分类中产品的总分页页数.
-	 * @param category - 产品分类的对象
-	 * @return 某个产品分类中产品的总分页页数
-	 */
-	private long getProductTotalPages(ProductCategory category) {
-		return (long)Math.ceil((double)productService.getTotalProducts(category) / NUMBER_OF_PRODUCTS_PER_PAGE);
-	}
 	
 	/**
 	 * 获取待测试的产品列表.
@@ -81,6 +68,24 @@ public class ProductsController {
 		result.put("products", products);
 		result.put("totalPages", totalPages);
 		return result;
+	}
+
+	/**
+	 * 通过产品分类的唯一英文简写获取产品分类对象.
+	 * @param productCategorySlug - 产品分类的唯一英文简写
+	 * @return 对应的产品分类对象或空引用
+	 */
+	private ProductCategory getProductCategoryUsingSlug(String productCategorySlug) {
+		return productService.getProductCategoryUsingSlug(productCategorySlug);
+	}
+	
+	/**
+	 * 获取某个产品分类中产品的总分页页数.
+	 * @param category - 产品分类的对象
+	 * @return 某个产品分类中产品的总分页页数
+	 */
+	private long getProductTotalPages(ProductCategory category) {
+		return (long)Math.ceil((double)productService.getTotalProducts(category) / NUMBER_OF_PRODUCTS_PER_PAGE);
 	}
 	
 	/**
@@ -143,6 +148,56 @@ public class ProductsController {
 	}
 	
 	/**
+	 * 获取某个产品的Bug列表.
+	 * @param productId - 产品的唯一标识符
+	 * @param pageNumber - 分页的页码
+	 * @param request - HttpRequest对象
+	 * @return 某个产品的Bug列表
+	 */
+	@RequestMapping(value = "/getBugs.action", method = RequestMethod.GET)
+	public @ResponseBody HashMap<String, Object> getBugsAction(
+			@RequestParam(value="productId", required=true) long productId,
+			@RequestParam(value="page", required=false, defaultValue="1") int pageNumber,
+			HttpServletRequest request) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		return result;
+	}
+	
+	/**
+	 * 处理用户提交新Bug的请求.
+	 * @param productId - 产品的唯一标识符
+	 * @param version - Bug所在的软件版本
+	 * @param bugCategorySlug - Bug分类的唯一英文缩写
+	 * @param bugStatusSlug - Bug状态的唯一英文缩写
+	 * @param bugSeveritySlug - Bug严重程度的唯一英文缩写
+	 * @param title - Bug的标题
+	 * @param description - Bug的详细描述
+	 * @param request - HttpRequest对象
+	 * @return 一个包含若干标志位的JSON数据
+	 */
+	@RequestMapping(value = "/createBug.action", method = RequestMethod.POST)
+	public @ResponseBody HashMap<String, Boolean> createBugAction(
+			@RequestParam(value="productId", required=true) long productId,
+			@RequestParam(value="version", required=true) String version,
+			@RequestParam(value="bugCategory", required=true) String bugCategorySlug,
+			@RequestParam(value="bugStatus", required=true) String bugStatusSlug,
+			@RequestParam(value="bugSeverity", required=true) String bugSeveritySlug,
+			@RequestParam(value="title", required=true) String title,
+			@RequestParam(value="description", required=true) String description,
+			HttpServletRequest request) {
+		User user = (User)request.getSession().getAttribute("user");
+		Product product = productService.getProductsUsingProductId(productId);
+		String ipAddress = HttpRequestParser.getRemoteAddr(request);
+		
+		HashMap<String, Boolean> result = bugService.createBug(product, version, bugCategorySlug, 
+											bugStatusSlug, bugSeveritySlug, user, title, description);
+		if ( result.get("isSuccessful") ) {
+			logger.info(String.format("User {%s} created a bug for Product {%s} at %s.", new Object[] {user, product, ipAddress}));
+		}
+		return result;
+	}
+	
+	/**
 	 * 产品列表页面每页所显示的产品数量.
 	 */
 	private final int NUMBER_OF_PRODUCTS_PER_PAGE = 10;
@@ -152,4 +207,15 @@ public class ProductsController {
      */
 	@Autowired
 	private ProductService productService;
+	
+	/**
+     * 自动注入的BugService对象.
+     */
+	@Autowired
+	private BugService bugService;
+	
+	/**
+     * 日志记录器.
+     */
+    private Logger logger = LogManager.getLogger(ProductsController.class);
 }

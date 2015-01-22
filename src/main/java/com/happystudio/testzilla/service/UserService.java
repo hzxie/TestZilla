@@ -18,7 +18,7 @@ import com.happystudio.testzilla.util.DigestUtils;
 import com.happystudio.testzilla.util.MailSender;
 
 /**
- * 用户Service对象. 为Controller提供服务.
+ * 用户Service. 为Controller提供服务.
  * @author Xie Haozhe
  */
 @Service

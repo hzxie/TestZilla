@@ -20,11 +20,12 @@ public class ProductCategoryDao {
 	 * 获取全部的产品分类对象.
 	 * @return 全部产品分类对象的列表
 	 */
+	@Transactional
 	public List<ProductCategory> getAllProductCategory() {
 		Session session = sessionFactory.getCurrentSession();
 		@SuppressWarnings("unchecked")
-        List<ProductCategory> productCategories = (List<ProductCategory>)session
-        	.createQuery("FROM ProductCategory").list();
+		List<ProductCategory> productCategories = (List<ProductCategory>)session
+			.createQuery("FROM ProductCategory").list();
 		return productCategories;
 	}
 	
@@ -49,21 +50,21 @@ public class ProductCategoryDao {
 	public ProductCategory getProductCategoryUsingSlug(String productCategorySlug) {
 		Session session = sessionFactory.getCurrentSession();
 		@SuppressWarnings("unchecked")
-        List<ProductCategory> productCategories = (List<ProductCategory>)session
-        	.createQuery("FROM ProductCategory WHERE productCategorySlug = ?0")
-        	.setString("0", productCategorySlug).list();
-        
-        for (ProductCategory productCategory : productCategories ) {
-            if ( productCategory.getProductCategorySlug().equals(productCategorySlug) ) {
-            	return productCategory;
-            }
-        }
-        return null;
+		List<ProductCategory> productCategories = (List<ProductCategory>)session
+			.createQuery("FROM ProductCategory WHERE productCategorySlug = ?0")
+			.setString("0", productCategorySlug).list();
+		
+		for (ProductCategory productCategory : productCategories ) {
+			if ( productCategory.getProductCategorySlug().equals(productCategorySlug) ) {
+				return productCategory;
+			}
+		}
+		return null;
 	}
 	
 	/**
-     * 自动注入的SessionFactory.
-     */
-    @Autowired
-    private SessionFactory sessionFactory;
+	 * 自动注入的SessionFactory.
+	 */
+	@Autowired
+	private SessionFactory sessionFactory;
 }

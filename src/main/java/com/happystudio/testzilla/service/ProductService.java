@@ -12,7 +12,7 @@ import com.happystudio.testzilla.model.Product;
 import com.happystudio.testzilla.model.ProductCategory;
 
 /**
- * 产品Service对象. 为Controller提供服务.
+ * 产品Service. 为Controller提供服务.
  * @author Xie Haozhe
  */
 @Service

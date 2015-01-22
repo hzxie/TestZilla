@@ -68,7 +68,25 @@
                 <c:when test="${isLogin}">
                 <div class="ui segment">
                     <a class="ui ribbon label">Bug Report</a>
-                    
+                    <button class="ui button positive">Report a Bug</button>
+                    <div id="bugs" class="ui styled accordion fluid">
+                        <div class="bug">
+                            <div class="title">
+                                <i class="dropdown icon"></i>[Confirmed] Bug #1
+                            </div> <!-- .title -->
+                            <div class="content">
+                                <img class="ui wireframe image transition hidden" src="http://semantic-ui.com//images/wireframe/paragraph.png" style="display: none;">
+                            </div> <!-- .content -->
+                        </div> <!-- .bug -->
+                        <div class="bug">
+                            <div class="title">
+                                <i class="dropdown icon"></i>[Not Valid] Bug #2
+                            </div> <!-- .title -->
+                            <div class="content">
+                                <img class="ui wireframe image transition hidden" src="http://semantic-ui.com//images/wireframe/paragraph.png" style="display: none;">
+                            </div> <!-- .content -->
+                        </div> <!-- .bug -->
+                    </div> <!-- #bugs -->
                 </div> <!-- .segment -->
                 <div class="ui segment">
                     <a class="ui ribbon label">Questionnaire</a>
@@ -81,7 +99,7 @@
                         <div class="header">
                         Want to help improve this product?
                         </div> <!-- header -->
-                        <p>After <a href="<c:url value="/accounts/login?forward=products/${product.productId}" />">sign in</a>, you can report the bug of this product.</p>
+                        <p>After <a href="<c:url value="/accounts/login?forward=products/${product.productId}" />">sign in</a>, you can report bugs of this product.</p>
                     </div> <!-- .content -->
                 </div> <!-- .message -->
                 </c:otherwise>
@@ -114,5 +132,10 @@
     <!-- Java Script -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script type="text/javascript" src="<c:url value="/assets/js/site.js" />"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('.accordion').accordion();
+        });
+    </script>
 </body>
 </html>

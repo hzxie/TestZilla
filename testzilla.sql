@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 14, 2015 at 04:12 上午
+-- Generation Time: Jan 20, 2015 at 03:12 下午
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 -- Database: `testzilla`
 --
 
+-- --------------------------------------------------------
+
 --
 -- Table structure for table `tz_bugs`
 --
@@ -35,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `tz_bugs` (
   `bug_hunter_id` bigint(20) NOT NULL,
   `bug_title` varchar(64) NOT NULL,
   `bug_description` text NOT NULL,
-  `bug_screenshots` text NOT NULL
+  `bug_screenshots` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -48,7 +50,25 @@ CREATE TABLE IF NOT EXISTS `tz_bug_categories` (
 `bug_category_id` int(4) NOT NULL,
   `bug_category_slug` varchar(24) NOT NULL,
   `bug_category_name` varchar(24) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tz_bug_categories`
+--
+
+INSERT INTO `tz_bug_categories` (`bug_category_id`, `bug_category_slug`, `bug_category_name`) VALUES
+(1, 'crashes', 'Application Crashes'),
+(2, 'exceptions', 'Exceptions'),
+(3, 'functional', 'Functional Errors'),
+(4, 'file-io', 'File I/O'),
+(5, 'gui', 'Graphical User Interface'),
+(6, 'database', 'Database'),
+(7, 'network', 'Network'),
+(8, 'optimization', 'Optimization'),
+(9, 'portability', 'Portability'),
+(10, 'security', 'Security'),
+(11, 'threads', 'Threads Synchronization'),
+(12, 'others', 'Others');
 
 -- --------------------------------------------------------
 
@@ -180,8 +200,8 @@ CREATE TABLE IF NOT EXISTS `tz_products` (
 --
 
 INSERT INTO `tz_products` (`product_id`, `product_name`, `product_logo`, `product_category_id`, `product_latest_version`, `product_developer_id`, `product_prerequisites`, `product_url`, `product_description`) VALUES
-(1000, 'TestZilla', '', 3, '1.0 Beta', 1000, '', 'http://www.testzilla.org/', ''),
-(1001, 'IT Training Platform', '', 3, '1.0 Alpha', 1001, '', 'http://www.itraining.com/', '');
+(1000, 'TestZilla', 'http://www.testzilla.org/assets/img/logo.png', 3, '1.0 Beta', 1000, 'IE 10+, Firefox, Chrome or Safari', 'http://www.testzilla.org/', 'TestZilla Description'),
+(1001, 'IT Training Platform', 'http://itp.zjhzxhz.com/img/logo.png', 3, '1.0 Alpha', 1001, 'IE 7+, Firefox, Chrome or Safari', 'http://www.itraining.com/', 'IT Training Platform Description');
 
 -- --------------------------------------------------------
 
@@ -205,8 +225,8 @@ INSERT INTO `tz_product_categories` (`product_category_id`, `product_category_sl
 (3, 'web', 'Web Application'),
 (4, 'ios', 'iOS Application'),
 (5, 'android', 'Android Application'),
-(7, 'windows-phone', 'WindowsPhone Application'),
-(8, 'others', 'Others');
+(6, 'windows-phone', 'WindowsPhone Application'),
+(7, 'others', 'Others');
 
 -- --------------------------------------------------------
 
@@ -224,6 +244,8 @@ CREATE TABLE IF NOT EXISTS `tz_product_testers` (
 --
 
 INSERT INTO `tz_product_testers` (`product_id`, `tester_uid`) VALUES
+(1000, 1000),
+(1000, 1001),
 (1001, 1001);
 
 -- --------------------------------------------------------
@@ -366,7 +388,7 @@ MODIFY `bug_id` bigint(20) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `tz_bug_categories`
 --
 ALTER TABLE `tz_bug_categories`
-MODIFY `bug_category_id` int(4) NOT NULL AUTO_INCREMENT;
+MODIFY `bug_category_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `tz_bug_severities`
 --
