@@ -79,7 +79,7 @@ public class UserService {
      * @param website - 用户的个人主页
 	 * @param isIndividual - 是否为个人用户
      * @param request - HttpRequest对象
-     * @return 一个包含若干标志位的JSON数据
+     * @return 一个包含若干标志位的HashMap<String, Boolean>对象
      */
     public HashMap<String, Boolean> createUser(String username, String password, 
     		String confirmPassword, String userGroupSlug, String realName, String email, 
