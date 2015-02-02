@@ -73,16 +73,17 @@ public class BugService {
 	 * @param hunter - Bug提交者的用户对象
 	 * @param title - Bug的标题
 	 * @param description - Bug的详细描述
+	 * @param screenshots - 应用程序截图的相对路径列表
 	 * @return 一个包含若干标志位的HashMap<String, Boolean>对象
 	 */
 	public HashMap<String, Boolean> createBug(Product product, String version, String bugCategorySlug, 
-			String bugSeveritySlug, User hunter, String title, String description) {
+			String bugSeveritySlug, User hunter, String title, String description, String screenshots) {
 		BugCategory category = getBugCategory(bugCategorySlug);
 		BugStatus status = bugStatusDao.getBugStatusUsingSlug("unconfirmed");
 		BugSeverity severity = getBugSeverity(bugSeveritySlug);
 		Date createTime = new Date();
 		Bug bug = new Bug(product, version, category, status, severity, 
-							createTime, hunter, title, description, null);
+							createTime, hunter, title, description, screenshots);
 		HashMap<String, Boolean> result = getCreateBugResult(bug);
 		
 		if ( result.get("isSuccessful") ) {

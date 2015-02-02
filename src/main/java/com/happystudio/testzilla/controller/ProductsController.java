@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.happystudio.testzilla.exception.ResourceNotFoundException;
+import com.happystudio.testzilla.model.Bug;
 import com.happystudio.testzilla.model.BugCategory;
 import com.happystudio.testzilla.model.BugSeverity;
 import com.happystudio.testzilla.model.Product;
@@ -182,7 +183,40 @@ public class ProductsController {
 			@RequestParam(value="page", required=false, defaultValue="1") int pageNumber,
 			HttpServletRequest request) {
 		HashMap<String, Object> result = new HashMap<String, Object>();
+		
+		Product product = productService.getProductsUsingProductId(productId);
+		if ( product == null ) {
+			throw new ResourceNotFoundException();
+		}
+		List<Bug> bugs = getBugsUsingProduct(product, pageNumber);
+		long totalPages = getBugTotalPagesUsingProduct(product);
+		
+		result.put("isSuccessful", bugs.size() != 0);
+		result.put("bugs", bugs);
+		result.put("totalPages", totalPages);
 		return result;
+	}
+	
+	
+	/**
+	 * 获取某个产品的Bug列表.
+	 * @param product - 产品(Product)的对象
+	 * @param page - 分页的页码
+	 * @return 某个产品的Bug列表
+	 */
+	private List<Bug> getBugsUsingProduct(Product product, int page) {
+		int offset = (page - 1) * NUMBER_OF_BUGS_PER_PAGE;
+		List<Bug> bugs = bugService.getBugsUsingProduct(product, offset, NUMBER_OF_BUGS_PER_PAGE);
+		return bugs;
+	}
+	
+	/**
+	 * 获取某个产品中Bug的总分页页数
+	 * @param product - 产品(Product)的对象
+	 * @return Bug的总分页页数
+	 */
+	private long getBugTotalPagesUsingProduct(Product product) {
+		return (long)Math.ceil((double)bugService.getTotalBugsUsingProduct(product) / NUMBER_OF_BUGS_PER_PAGE);
 	}
 	
 	/**
@@ -194,6 +228,7 @@ public class ProductsController {
 	 * @param bugSeveritySlug - Bug严重程度的唯一英文缩写
 	 * @param title - Bug的标题
 	 * @param description - Bug的详细描述
+	 * @param screenshots - 应用程序截图的相对路径列表
 	 * @param request - HttpRequest对象
 	 * @return 一个包含若干标志位的JSON数据
 	 */
@@ -205,13 +240,14 @@ public class ProductsController {
 			@RequestParam(value="bugSeverity", required=true) String bugSeveritySlug,
 			@RequestParam(value="title", required=true) String title,
 			@RequestParam(value="description", required=true) String description,
+			@RequestParam(value="screenshots", required=false) String screenshots,
 			HttpServletRequest request) {
 		User user = (User)request.getSession().getAttribute("user");
 		Product product = productService.getProductsUsingProductId(productId);
 		String ipAddress = HttpRequestParser.getRemoteAddr(request);
 		
 		HashMap<String, Boolean> result = bugService.createBug(product, version, bugCategorySlug, 
-											bugSeveritySlug, user, title, description);
+											bugSeveritySlug, user, title, description, screenshots);
 		if ( result.get("isSuccessful") ) {
 			logger.info(String.format("User {%s} created a bug for Product {%s} at %s.", new Object[] {user, product, ipAddress}));
 		}
@@ -222,6 +258,11 @@ public class ProductsController {
 	 * 产品列表页面每页所显示的产品数量.
 	 */
 	private final int NUMBER_OF_PRODUCTS_PER_PAGE = 10;
+	
+	/**
+	 * 产品详情页面每页所显示的Bug数量.
+	 */
+	private final int NUMBER_OF_BUGS_PER_PAGE = 10;
 	
 	/**
      * 自动注入的ProductService对象.

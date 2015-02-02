@@ -125,6 +125,7 @@ public class User implements Serializable {
 	 * 获取密码(已采用MD5加密).
 	 * @return 密码
 	 */
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
@@ -173,6 +174,7 @@ public class User implements Serializable {
 	 * 获取电子邮件地址.
 	 * @return 电子邮件地址
 	 */
+	@JsonIgnore
 	public String getEmail() {
 		return email;
 	}
@@ -237,6 +239,7 @@ public class User implements Serializable {
 	 * 获取用户的联系电话.
 	 * @return 用户的联系电话
 	 */
+	@JsonIgnore
 	public String getPhone() {
 		return phone;
 	}

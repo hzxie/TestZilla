@@ -38,7 +38,7 @@
         <div class="row">
             <div id="product" class="twelve wide column">
                 <div class="ui segment">
-                    <a class="ui ribbon label">Product Detail</a>
+                    <a class="ui ribbon label"><i class="icon content"></i> Product Detail</a>
                     <table class="ui table">
                         <tbody>
                             <tr>
@@ -67,21 +67,15 @@
                 <c:choose>
                 <c:when test="${isLogin}">
                 <div class="ui segment">
-                    <a class="ui ribbon label">Issues</a>
+                    <a class="ui ribbon label"><i class="icon bug"></i> Issues</a>
                     <button class="ui button positive">New Issue</button>
-                    <div id="bugs" class="ui styled accordion fluid">
-                        <div class="bug">
-                            <div class="title">
-                                <i class="dropdown icon"></i>[Confirmed] Bug #1
-                            </div> <!-- .title -->
-                            <div class="content">
-                                <img class="ui wireframe image transition hidden" src="http://semantic-ui.com/images/wireframe/paragraph.png">
-                            </div> <!-- .content -->
-                        </div> <!-- .bug -->
-                    </div> <!-- #bugs -->
+                    <div id="issue-message" class="ui info message">There aren't any issues.</div> <!-- #issue-message -->
+                    <div id="bugs" class="ui styled accordion fluid"></div> <!-- #bugs -->
+                    <div class="ui pagination menu"></div> <!-- .pagination -->
                 </div> <!-- .segment -->
                 <div class="ui segment">
-                    <a class="ui ribbon label">Questionnaire</a>
+                    <a class="ui ribbon label"><i class="icon book"></i> Questionnaire</a>
+                    <div id="questionnaire-message" class="ui info message">There aren't any questionnaires.</div> <!-- #questionnaire-message -->
                 </div> <!-- .segment -->
                 </c:when>
                 <c:otherwise>
@@ -129,6 +123,7 @@
                 <h3>New Issue</h3>
             </div> <!-- .header -->
             <div class="ui form content">
+                <div class="ui error message"></div> <!-- .message -->
                 <div class="two required fields">
                     <div class="field">
                         <label for="title">Title</label>
@@ -184,7 +179,7 @@
                 </div> <!-- #markdown-editor -->
             </div> <!-- .content -->
             <div class="actions">
-                <button class="ui green button">Submit new issue</button>
+                <button class="ui green button" type="submit">Submit new issue</button>
                 <button class="ui button">Cancel</button>
             </div> <!-- .actions -->
         </div> <!-- #bug-modal -->
@@ -192,6 +187,8 @@
     <!-- Java Script -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script type="text/javascript" src="<c:url value="/assets/js/site.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/assets/js/moment.min.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/assets/js/markdown.editor.min.js" />"></script>
     <script type="text/javascript">
         $(function() {
             $('.accordion').accordion();
@@ -205,19 +202,117 @@
             }).modal('show');
         });
     </script>
-    <!-- MarkDown Editor -->
-    <script type="text/javascript" src="<c:url value="/assets/js/markdown.editor.min.js" />"></script>
     <script type="text/javascript">
         $(function() {
-            var converter = Markdown.getSanitizingConverter();
+            converter = Markdown.getSanitizingConverter();
             converter.hooks.chain("preBlockGamut", function (text, rbg) {
                 return text.replace(/^ {0,3}""" *\n((?:.*?\n)+?) {0,3}""" *$/gm, function (whole, inner) {
                     return "<blockquote>" + rbg(inner) + "</blockquote>\n";
                 });
             });
 
-            var editor = new Markdown.Editor(converter);
+            editor    = new Markdown.Editor(converter);
             editor.run();
+        });
+    </script>
+    <script type="text/javascript">
+        function getPageRequests(pageNumber) {
+            var productId  = ${product.productId};
+            return getBugs(productId, pageNumber);
+        }
+    </script>
+    <script type="text/javascript">
+        $(function() {
+            var pageNumber = 1;
+            getPageRequests(pageNumber);
+        });
+    </script>
+    <script type="text/javascript">
+        function getBugs(productId, pageNumber) {
+            var pageRequests = {
+                'productId': productId,
+                'page': pageNumber
+            };
+
+            $.ajax({
+                type: 'GET',
+                url: '<c:url value="/products/getBugs.action" />',
+                data: pageRequests,
+                dataType: 'JSON',
+                success: function(result) {
+                    if ( result['isSuccessful'] ) {
+                        $('#bugs').removeClass('hide');
+                        $('#issue-message').addClass('hide');
+
+                        displayBugs(result['bugs']);
+                        displayPagination(pageNumber, result['totalPages']);
+                    } else {
+                        $('#bugs').addClass('hide');
+                        $('#issue-message').removeClass('hide');
+                    }
+                }
+            });
+        }
+    </script>
+    <script type="text/javascript">
+        function displayBugs(bugs) {
+            $('#bugs').empty();
+
+            for ( var i = 0; i < bugs.length; ++ i ) {
+                $('#bugs').append('<div class="bug">' + 
+                                  '    <div class="title">' + 
+                                  '        <i class="dropdown icon"></i> ' + bugs[i]['title'] +
+                                  '        <a class="ui tag label ' + bugs[i]['bugCategory']['bugCategorySlug'] + '">' + bugs[i]['bugCategory']['bugCategoryName'] + '</a>' +  
+                                  '        <a class="ui tag label">' + bugs[i]['productVersion'] + '</a>' +  
+                                  '        <p class="overview">Created on ' + getTimeElapsed(bugs[i]['createTime']) + ' @' + bugs[i]['hunter']['username'] + '</p>' + 
+                                  '        <div class="ui top right attached label ' + bugs[i]['bugStatus']['bugStatusSlug'] + '">' + bugs[i]['bugStatus']['bugStatusName'] + '</div>' + 
+                                  '    </div> <!-- .title -->' + 
+                                  '    <div class="content">' + converter.makeHtml(bugs[i]['description'].replace(/\\n/g, '\n')) + '</div> <!-- .content -->' + 
+                                  '</div> <!-- .bug -->');
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        function getTimeElapsed(timeStamp) {
+            var dateTime = moment.unix(timeStamp / 1000);
+            return dateTime.fromNow();
+        }
+    </script>
+    <script type="text/javascript">
+        function displayPagination(currentPage, totalPages) {
+            var lowerBound = ( currentPage - 5 > 0 ? currentPage - 5 : 1 ),
+                upperBound = ( currentPage + 5 < totalPages ? currentPage + 5 : totalPages );
+            var paginationString  = '<a class="icon item' + ( currentPage > 1 ? '' : ' disabled' ) + '"><i class="left arrow icon"></i></a>';
+
+            for ( var i = lowerBound; i <= upperBound; ++ i ) {
+                paginationString += '<a class="item' + ( currentPage == i ? ' active' : '' ) + '">' + i + '</a>';
+            }
+            paginationString     += '<a class="icon item' + ( currentPage < totalPages ? '' : ' disabled' )+ '"><i class="right arrow icon"></i></a>';
+            $('.pagination').html(paginationString);
+        }
+    </script>
+    <script type="text/javascript">
+        $('.pagination').delegate('a.item', 'click', function(e) {
+            e.preventDefault();
+            if ( $(this).hasClass('disabled') ) {
+                return;
+            }
+            var currentPage = parseInt($('a.active', '.pagination').html(), 10);
+                pageNumber  = $(this).html();
+            
+            $('.pagination > a.active').removeClass('active');
+            $(this).addClass('active');
+
+            if ( pageNumber.indexOf('left arrow') != -1 ) {
+                pageNumber  = currentPage - 1;
+            } else if ( pageNumber.indexOf('right arrow') != -1 ) {
+                pageNumber  = currentPage + 1;
+            }
+            return getPageRequests(pageNumber);
+        });
+    </script>
+    <script type="text/javascript">
+        $('button[type=submit]', '#bug-modal').click(function(e) {
         });
     </script>
 </body>

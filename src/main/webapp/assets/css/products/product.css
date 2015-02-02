@@ -6,13 +6,88 @@
  * Released under the GPL v3 license
  * http://opensource.org/licenses/GPL-3.0
  */
+div#content div#product i.icon {
+	margin-right: .45em;
+}
+
 div#content div#product table.table td:first-child {
 	font-weight: bold;
 	width: 200px;
 }
 
+div#content div#product div.message {
+	margin: 20px 0 0;
+}
+
 div#content div#product div#bugs {
 	margin-top: 20px;
+}
+
+div#content div#product div#bugs div.bug {
+	position: relative;
+}
+
+div#content div#product div#bugs div.bug a.tag.label {
+	font-size: 12px;
+	font-weight: normal;
+	margin-left: 2em;
+}
+
+div#content div#product div#bugs div.bug div.label {
+	opacity: .85;
+	color: #fff;
+}
+
+div#content div#product div#bugs div.bug div.label.unconfirmed {
+	background-color: #999;
+}
+
+div#content div#product div#bugs div.bug div.label.confirmed {
+	background-color: #6c9;
+}
+
+div#content div#product div#bugs div.bug div.label.fixed {
+	background-color: #9c3;
+}
+
+div#content div#product div#bugs div.bug div.label.nvalid {
+	background-color: #933;
+}
+
+div#content div#product div#bugs div.bug div.label.wontfix {
+	background-color: #c63;
+}
+
+div#content div#product div#bugs div.bug div.label.later {
+	background-color: #96c;
+}
+
+div#content div#product div#bugs div.bug div.label.duplicate {
+	background-color: #c69;
+}
+
+div#content div#product div#bugs div.bug div.label.worksforme {
+	background-color: #c66;
+}
+
+div#content div#product div#bugs div.bug div.label.enhancement {
+	background-color: #9c6;
+}
+
+div#content div#product div#bugs div.bug p.overview {
+	color: #999;
+	font-size: 12px;
+	font-weight: normal;
+	margin: 0 0 0 2.25em;
+}
+
+div#content div#product div#bugs div.bug div.content {
+	margin: 0 0 0 1.90em;
+}
+
+div#content div#product div.pagination {
+	float: right;
+	margin-top: 10px;
 }
 
 div#content div#product button.button {

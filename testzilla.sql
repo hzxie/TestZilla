@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 22, 2015 at 09:11 A.M.
+-- Generation Time: Feb 02, 2015 at 05:05 下午
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -38,15 +38,15 @@ CREATE TABLE IF NOT EXISTS `tz_bugs` (
   `bug_title` varchar(64) NOT NULL,
   `bug_description` text NOT NULL,
   `bug_screenshots` text
-) ENGINE=InnoDB AUTO_INCREMENT=1002 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1003 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tz_bugs`
 --
 
 INSERT INTO `tz_bugs` (`bug_id`, `product_id`, `product_version`, `bug_category_id`, `bug_status_id`, `bug_severity_id`, `bug_create_time`, `bug_hunter_id`, `bug_title`, `bug_description`, `bug_screenshots`) VALUES
-(1000, 1000, '1.0 Beta', 5, 4, 3, '2015-01-22 08:05:00', 1001, 'Bug #1000', 'Bug #1000 Description', NULL),
-(1001, 1000, '1.0 Beta', 12, 1, 2, '2015-01-22 08:10:00', 1000, 'Bug #1001', 'Bug #1001 Description', NULL),
+(1000, 1000, '1.0 Beta', 5, 4, 3, '2015-01-22 08:05:00', 1001, 'Bug #1000', '# Marked in browser\\n\\nRendered by **marked**.', NULL),
+(1001, 1000, '1.0 Beta', 12, 1, 2, '2015-01-22 08:10:00', 1000, 'Bug #1001', 'This is the *first* editor.\r\n------------------------------\r\n\r\nJust plain **Markdown**, except that the input is sanitized:\r\n\r\nand that it implements "fenced blockquotes" via a plugin:\r\n\r\n"""\r\nDo it like this:\r\n\r\n1. Have idea.\r\n2. ???\r\n3. Profit!\r\n"""', NULL),
 (1002, 1001, '1.0 Alpha', 4, 3, 1, '2015-01-22 08:10:00', 1001, 'Bug #1002', 'Bug #1002 Description', NULL);
 
 -- --------------------------------------------------------
@@ -392,7 +392,7 @@ ALTER TABLE `tz_user_groups`
 -- AUTO_INCREMENT for table `tz_bugs`
 --
 ALTER TABLE `tz_bugs`
-MODIFY `bug_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1002;
+MODIFY `bug_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1003;
 --
 -- AUTO_INCREMENT for table `tz_bug_categories`
 --
