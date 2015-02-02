@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.happystudio.testzilla.exception.ResourceNotFoundException;
+import com.happystudio.testzilla.model.BugCategory;
+import com.happystudio.testzilla.model.BugSeverity;
 import com.happystudio.testzilla.model.Product;
 import com.happystudio.testzilla.model.ProductCategory;
 import com.happystudio.testzilla.model.User;
@@ -130,11 +132,31 @@ public class ProductsController {
 			throw new ResourceNotFoundException();
 		}
 		
+		List<BugCategory> bugCategories = getBugCategories();
+		List<BugSeverity> bugSeverityList = getBugSeverityList();
 		List<Product> relatedProducts = getRelatedProducts(product.getProductCategory());
 		ModelAndView view = new ModelAndView("products/product");
         view.addObject("product", product);
+        view.addObject("bugCategories", bugCategories);
+        view.addObject("bugSeverityList", bugSeverityList);
         view.addObject("relatedProducts", relatedProducts);
         return view;
+	}
+	
+	/**
+	 * 获取全部的Bug分类对象.
+	 * @return 全部Bug分类对象的列表
+	 */
+	private List<BugCategory> getBugCategories() {
+		return bugService.getBugCategories();
+	}
+	
+	/**
+	 * 获取全部的Bug严重性对象.
+	 * @return 全部Bug严重性对象的列表
+	 */
+	private List<BugSeverity> getBugSeverityList() {
+		return bugService.getBugSeverityList();
 	}
 	
 	/**

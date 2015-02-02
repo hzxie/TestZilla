@@ -67,23 +67,15 @@
                 <c:choose>
                 <c:when test="${isLogin}">
                 <div class="ui segment">
-                    <a class="ui ribbon label">Bug Report</a>
-                    <button class="ui button positive">Report a Bug</button>
+                    <a class="ui ribbon label">Issues</a>
+                    <button class="ui button positive">New Issue</button>
                     <div id="bugs" class="ui styled accordion fluid">
                         <div class="bug">
                             <div class="title">
                                 <i class="dropdown icon"></i>[Confirmed] Bug #1
                             </div> <!-- .title -->
                             <div class="content">
-                                <img class="ui wireframe image transition hidden" src="http://semantic-ui.com//images/wireframe/paragraph.png" style="display: none;">
-                            </div> <!-- .content -->
-                        </div> <!-- .bug -->
-                        <div class="bug">
-                            <div class="title">
-                                <i class="dropdown icon"></i>[Not Valid] Bug #2
-                            </div> <!-- .title -->
-                            <div class="content">
-                                <img class="ui wireframe image transition hidden" src="http://semantic-ui.com//images/wireframe/paragraph.png" style="display: none;">
+                                <img class="ui wireframe image transition hidden" src="http://semantic-ui.com/images/wireframe/paragraph.png">
                             </div> <!-- .content -->
                         </div> <!-- .bug -->
                     </div> <!-- #bugs -->
@@ -129,12 +121,103 @@
     </div> <!-- #content -->
     <!-- Footer -->
     <%@ include file="/WEB-INF/views/include/footer.jsp" %>
+    <!-- Modals -->
+    <div class="ui dimmer modals page transition hidden">
+        <div id="bug-modal" class="ui long test modal transition scrolling hidden">
+            <i class="close icon"></i>
+            <div class="header">
+                <h3>New Issue</h3>
+            </div> <!-- .header -->
+            <div class="ui form content">
+                <div class="two required fields">
+                    <div class="field">
+                        <label for="title">Title</label>
+                        <input id="title" placeholder="" type="text" />
+                    </div> <!-- .field -->
+                    <div class="field">
+                        <label for="version">Software Version</label>
+                        <input id="version" type="text" value="${product.latestVersion}" />
+                    </div> <!-- .field -->
+                </div> <!-- .fields -->
+                <div class="two required fields">
+                    <div class="field">
+                        <label>Category</label>
+                        <div class="ui selection dropdown" tabindex="0">
+                            <div class="default text">Please choose...</div>
+                            <i class="dropdown icon"></i>
+                            <input id="bug-category" type="hidden">
+                            <div class="menu transition hidden" tabindex="-1">
+                            <c:forEach var="bugCategory" items="${bugCategories}">
+                                <div class="item" data-value="${bugCategory.bugCategorySlug}">${bugCategory.bugCategoryName}</div>
+                            </c:forEach>
+                            </div> <!-- .menu -->
+                        </div> <!-- .selection -->
+                    </div> <!-- .field -->
+                    <div class="field">
+                        <label>Severity</label>
+                        <div class="ui selection dropdown" tabindex="0">
+                            <div class="default text">Please choose...</div>
+                            <i class="dropdown icon"></i>
+                            <input id="bug-severity" type="hidden">
+                            <div class="menu transition hidden" tabindex="-1">
+                            <c:forEach var="bugSeverity" items="${bugSeverityList}">
+                                <div class="item" data-value="${bugSeverity.bugSeveritySlug}">${bugSeverity.bugSeverityName}</div>
+                            </c:forEach>
+                            </div> <!-- .menu -->
+                        </div> <!-- .selection -->
+                    </div> <!-- .field -->
+                </div> <!-- .fields -->
+                <div id="markdown-editor" class="tab">
+                    <div class="ui top attached tabular menu">
+                        <a class="item active" data-tab="editor">Editor</a>
+                        <a class="item" data-tab="preview">Preview</a>
+                    </div> <!-- .tabular -->
+                    <div class="ui bottom attached tab segment active" data-tab="editor">
+                        <div class="wmd-panel">
+                            <div id="wmd-button-bar"></div> <!-- #wmd-button-bar -->
+                            <textarea id="wmd-input" class="wmd-input" placeholder="Leave a comment (Markdown is supported)"></textarea>
+                        </div> <!-- .wmd-panel -->
+                    </div> <!-- .segment -->
+                    <div class="ui bottom attached tab segment" data-tab="preview">
+                        <div id="wmd-preview" class="wmd-panel wmd-preview"></div> <!-- .wmd-preview -->
+                    </div> <!-- .segment -->
+                </div> <!-- #markdown-editor -->
+            </div> <!-- .content -->
+            <div class="actions">
+                <button class="ui green button">Submit new issue</button>
+                <button class="ui button">Cancel</button>
+            </div> <!-- .actions -->
+        </div> <!-- #bug-modal -->
+    </div> <!-- .dimmer -->
     <!-- Java Script -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script type="text/javascript" src="<c:url value="/assets/js/site.js" />"></script>
     <script type="text/javascript">
         $(function() {
             $('.accordion').accordion();
+            $('.tabular.menu .item').tab();
+        });
+    </script>
+    <script type="text/javascript">
+        $('.positive').click(function() {
+            $('.modal').modal({
+                closable  : false
+            }).modal('show');
+        });
+    </script>
+    <!-- MarkDown Editor -->
+    <script type="text/javascript" src="<c:url value="/assets/js/markdown.editor.min.js" />"></script>
+    <script type="text/javascript">
+        $(function() {
+            var converter = Markdown.getSanitizingConverter();
+            converter.hooks.chain("preBlockGamut", function (text, rbg) {
+                return text.replace(/^ {0,3}""" *\n((?:.*?\n)+?) {0,3}""" *$/gm, function (whole, inner) {
+                    return "<blockquote>" + rbg(inner) + "</blockquote>\n";
+                });
+            });
+
+            var editor = new Markdown.Editor(converter);
+            editor.run();
         });
     </script>
 </body>

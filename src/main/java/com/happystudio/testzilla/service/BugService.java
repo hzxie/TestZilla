@@ -49,6 +49,22 @@ public class BugService {
 	}
 	
 	/**
+	 * 获取全部的Bug分类对象.
+	 * @return 全部Bug分类对象的列表
+	 */
+	public List<BugCategory> getBugCategories() {
+		return bugCategoryDao.getAllBugCategory();
+	}
+	
+	/**
+	 * 获取全部的Bug严重性对象.
+	 * @return 全部Bug严重性对象的列表
+	 */
+	public List<BugSeverity> getBugSeverityList() {
+		return bugSeverityDao.getAllBugSeverity();
+	}
+	
+	/**
 	 * 验证数据并创建Bug.
 	 * @param product - 产品对象
 	 * @param version - Bug所在的软件版本

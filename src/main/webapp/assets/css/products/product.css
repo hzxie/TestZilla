@@ -1,3 +1,11 @@
+/*!
+ * StyleSheets for Product Detail Page by @zjhzxhz
+ * http://www.testzilla.org/
+ *
+ * Copyright 2015 Contributors
+ * Released under the GPL v3 license
+ * http://opensource.org/licenses/GPL-3.0
+ */
 div#content div#product table.table td:first-child {
 	font-weight: bold;
 	width: 200px;
@@ -18,4 +26,66 @@ div#content div#product div#bugs div.bug:first-child div.title {
 
 div#content div#related-products h3 {
 	margin-top: 0;
+}
+
+div#bug-modal div.header h3 {
+	margin: 0.64rem 0;
+}
+
+/* StyleSheet for MarkDown Editor */
+div#wmd-button-bar {
+	background-color: transparent;
+	border: 1px solid #ccc;
+	border-bottom: 0;
+	clear: both;
+	margin: 10px 0 0 0;
+	padding: 0 12px;
+}
+
+div#wmd-button-bar ul {
+	margin: 0;
+	padding: 0.75rem 0;
+}
+
+div#wmd-button-bar li {
+	display: inline-block;
+	list-style: none;
+}
+
+div#wmd-button-bar li.wmd-spacer {
+	width: 1.5rem;
+}
+
+div#wmd-button-bar li.wmd-button > span {
+    background-image: url('../../img/wmd-buttons.svg');
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+
+div.wmd-panel textarea.wmd-input {
+	border-radius: 0;
+	height: 240px;
+	line-height: 1.2;
+	padding: 10px;
+	resize: none;
+	width: 100% !important;
+}
+
+div.wmd-preview {
+	border: 1px dotted #ccc;
+	clear: both;
+	margin-top: 10px;
+	padding: 10px;
+}
+
+div.wmd-prompt-background {
+	background-color: #000;
+	opacity: .5;
+}
+
+div.wmd-prompt-dialog {
+	background-color: #fff;
 }
