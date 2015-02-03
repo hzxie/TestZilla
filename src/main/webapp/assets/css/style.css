@@ -46,7 +46,7 @@ div#content div.breadcrumb {
 	margin-top: 0;
 }
 
-div#content div.hide {
+div.hide {
 	display: none;
 }
 

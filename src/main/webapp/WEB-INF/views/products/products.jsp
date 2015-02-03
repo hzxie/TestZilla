@@ -167,25 +167,31 @@
             $('#products .items').empty();
 
             for ( var i = 0; i < products.length; ++ i ) {
-                $('#products .items').append('<div class="item">' + 
-                                             '    <div class="ui small image">' + 
-                                             '        <img src="' + products[i]['productLogo'] + '" />' + 
-                                             '    </div> <!-- .image -->' + 
-                                             '    <div class="content">' + 
-                                             '        <a class="header" href="<c:url value="/products/" />' + products[i]['productId'] + '">' + products[i]['productName'] + '</a>' + 
-                                             '        <div class="meta">' + 
-                                             '            <a>' + products[i]['productCategory']['productCategoryName'] + '</a>' + 
-                                             '        </div> <!-- .meta -->' + 
-                                             '        <div class="description">' + 
-                                                          products[i]['description'] + 
-                                             '        </div> <!-- .description -->' + 
-                                             '        <div class="extra">' + 
-                                             '            <div class="ui label">' + products[i]['latestVersion'] + '</div> <!-- .label -->' + 
-                                             '            <div class="ui label">' + products[i]['numberOfTesters'] + ' tester(s) attended</div> <!-- .label -->' + 
-                                             '        </div> <!-- .extra -->' + 
-                                             '    </div> <!-- .content -->' + 
-                                             '</div> <!-- .item -->');
+                $('#products .items').append(getProductContent(products[i]['productId'], products[i]['productName'], 
+                                                               products[i]['productLogo'], products[i]['productCategory'], 
+                                                               products[i]['latestVersion'], products[i]['description'], products[i]['numberOfTesters']));
             }
+        }
+    </script>
+    <script type="text/javascript">
+        function getProductContent(productId, productName, productLogo, productCategory, latestVersion, description, numberOfTesters) {
+            var productContentTemplate = '<div class="item">' + 
+                                         '    <div class="ui small image">' + 
+                                         '        <img src="%s" />' + 
+                                         '    </div> <!-- .image -->' + 
+                                         '    <div class="content">' + 
+                                         '        <a class="header" href="<c:url value="/products/" />%s">%s</a>' + 
+                                         '        <div class="meta"><a>%s</a></div> <!-- .meta -->' + 
+                                         '        <div class="description">%s</div> <!-- .description -->' + 
+                                         '        <div class="extra">' + 
+                                         '            <div class="ui label">%s</div> <!-- .label -->' + 
+                                         '            <div class="ui label">%s tester(s) attended</div> <!-- .label -->' + 
+                                         '        </div> <!-- .extra -->' + 
+                                         '    </div> <!-- .content -->' + 
+                                         '</div> <!-- .item -->';
+            return productContentTemplate.format(productLogo, productId, productName, 
+                                                 productCategory['productCategoryName'], 
+                                                 description, latestVersion, numberOfTesters);
         }
     </script>
     <script type="text/javascript">

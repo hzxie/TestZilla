@@ -68,7 +68,7 @@
                 <c:when test="${isLogin}">
                 <div class="ui segment">
                     <a class="ui ribbon label"><i class="icon bug"></i> Issues</a>
-                    <button class="ui button positive">New Issue</button>
+                    <button id="new-issue-button" class="ui button positive">New Issue</button>
                     <div id="issue-message" class="ui info message">There aren't any issues.</div> <!-- #issue-message -->
                     <div id="bugs" class="ui styled accordion fluid"></div> <!-- #bugs -->
                     <div class="ui pagination menu"></div> <!-- .pagination -->
@@ -122,65 +122,67 @@
             <div class="header">
                 <h3>New Issue</h3>
             </div> <!-- .header -->
-            <div class="ui form content">
-                <div class="ui error message"></div> <!-- .message -->
-                <div class="two required fields">
-                    <div class="field">
-                        <label for="title">Title</label>
-                        <input id="title" placeholder="" type="text" />
-                    </div> <!-- .field -->
-                    <div class="field">
-                        <label for="version">Software Version</label>
-                        <input id="version" type="text" value="${product.latestVersion}" />
-                    </div> <!-- .field -->
-                </div> <!-- .fields -->
-                <div class="two required fields">
-                    <div class="field">
-                        <label>Category</label>
-                        <div class="ui selection dropdown" tabindex="0">
-                            <div class="default text">Please choose...</div>
-                            <i class="dropdown icon"></i>
-                            <input id="bug-category" type="hidden">
-                            <div class="menu transition hidden" tabindex="-1">
-                            <c:forEach var="bugCategory" items="${bugCategories}">
-                                <div class="item" data-value="${bugCategory.bugCategorySlug}">${bugCategory.bugCategoryName}</div>
-                            </c:forEach>
-                            </div> <!-- .menu -->
-                        </div> <!-- .selection -->
-                    </div> <!-- .field -->
-                    <div class="field">
-                        <label>Severity</label>
-                        <div class="ui selection dropdown" tabindex="0">
-                            <div class="default text">Please choose...</div>
-                            <i class="dropdown icon"></i>
-                            <input id="bug-severity" type="hidden">
-                            <div class="menu transition hidden" tabindex="-1">
-                            <c:forEach var="bugSeverity" items="${bugSeverityList}">
-                                <div class="item" data-value="${bugSeverity.bugSeveritySlug}">${bugSeverity.bugSeverityName}</div>
-                            </c:forEach>
-                            </div> <!-- .menu -->
-                        </div> <!-- .selection -->
-                    </div> <!-- .field -->
-                </div> <!-- .fields -->
-                <div id="markdown-editor" class="tab">
-                    <div class="ui top attached tabular menu">
-                        <a class="item active" data-tab="editor">Editor</a>
-                        <a class="item" data-tab="preview">Preview</a>
-                    </div> <!-- .tabular -->
-                    <div class="ui bottom attached tab segment active" data-tab="editor">
-                        <div class="wmd-panel">
-                            <div id="wmd-button-bar"></div> <!-- #wmd-button-bar -->
-                            <textarea id="wmd-input" class="wmd-input" placeholder="Leave a comment (Markdown is supported)"></textarea>
-                        </div> <!-- .wmd-panel -->
-                    </div> <!-- .segment -->
-                    <div class="ui bottom attached tab segment" data-tab="preview">
-                        <div id="wmd-preview" class="wmd-panel wmd-preview"></div> <!-- .wmd-preview -->
-                    </div> <!-- .segment -->
-                </div> <!-- #markdown-editor -->
+            <div class="content">
+                <div id="create-bug-error" class="ui error message hide"></div> <!-- #create-bug-error -->
+                <div class="ui form">
+                    <div class="two required fields">
+                        <div class="field">
+                            <label for="title">Title</label>
+                            <input id="title" type="text" />
+                        </div> <!-- .field -->
+                        <div class="field">
+                            <label for="version">Product Version</label>
+                            <input id="version" type="text" value="${product.latestVersion}" />
+                        </div> <!-- .field -->
+                    </div> <!-- .fields -->
+                    <div class="two required fields">
+                        <div class="field">
+                            <label>Category</label>
+                            <div class="ui selection dropdown" tabindex="0">
+                                <div class="default text">Please choose...</div>
+                                <i class="dropdown icon"></i>
+                                <input id="bug-category" type="hidden">
+                                <div class="menu transition hidden" tabindex="-1">
+                                <c:forEach var="bugCategory" items="${bugCategories}">
+                                    <div class="item" data-value="${bugCategory.bugCategorySlug}">${bugCategory.bugCategoryName}</div>
+                                </c:forEach>
+                                </div> <!-- .menu -->
+                            </div> <!-- .selection -->
+                        </div> <!-- .field -->
+                        <div class="field">
+                            <label>Severity</label>
+                            <div class="ui selection dropdown" tabindex="0">
+                                <div class="default text">Please choose...</div>
+                                <i class="dropdown icon"></i>
+                                <input id="bug-severity" type="hidden">
+                                <div class="menu transition hidden" tabindex="-1">
+                                <c:forEach var="bugSeverity" items="${bugSeverityList}">
+                                    <div class="item" data-value="${bugSeverity.bugSeveritySlug}">${bugSeverity.bugSeverityName}</div>
+                                </c:forEach>
+                                </div> <!-- .menu -->
+                            </div> <!-- .selection -->
+                        </div> <!-- .field -->
+                    </div> <!-- .fields -->
+                    <div id="markdown-editor" class="tab">
+                        <div class="ui top attached tabular menu">
+                            <a class="item active" data-tab="editor">Editor</a>
+                            <a class="item" data-tab="preview">Preview</a>
+                        </div> <!-- .tabular -->
+                        <div class="ui bottom attached tab segment active" data-tab="editor">
+                            <div class="wmd-panel">
+                                <div id="wmd-button-bar"></div> <!-- #wmd-button-bar -->
+                                <textarea id="wmd-input" class="wmd-input" placeholder="Leave a comment (Markdown is supported)"></textarea>
+                            </div> <!-- .wmd-panel -->
+                        </div> <!-- .segment -->
+                        <div class="ui bottom attached tab segment" data-tab="preview">
+                            <div id="wmd-preview" class="wmd-panel wmd-preview"></div> <!-- .wmd-preview -->
+                        </div> <!-- .segment -->
+                    </div> <!-- #markdown-editor -->
+                </div> <!-- .form -->
             </div> <!-- .content -->
             <div class="actions">
-                <button class="ui green button" type="submit">Submit new issue</button>
-                <button class="ui button">Cancel</button>
+                <button class="ui positive button" type="submit">Submit new issue</button>
+                <button class="ui negative button">Cancel</button>
             </div> <!-- .actions -->
         </div> <!-- #bug-modal -->
     </div> <!-- .dimmer -->
@@ -195,10 +197,22 @@
             $('.tabular.menu .item').tab();
         });
     </script>
+    <c:if test="${isLogin}">
     <script type="text/javascript">
-        $('.positive').click(function() {
-            $('.modal').modal({
-                closable  : false
+        $('#new-issue-button').click(function() {
+            $('#create-bug-error').addClass('hide');
+
+            $('#bug-modal').modal({
+                closable  : false,
+                onDeny    : function(){
+                    // Clear all fields
+                    $('input#title, textarea', '#bug-modal').val('');
+                    $('div.wmd-preview', '#bug-modal').html('');
+                },
+                onApprove : function() {
+                    createBug();
+                    return false;
+                }
             }).modal('show');
         });
     </script>
@@ -259,17 +273,27 @@
             $('#bugs').empty();
 
             for ( var i = 0; i < bugs.length; ++ i ) {
-                $('#bugs').append('<div class="bug">' + 
-                                  '    <div class="title">' + 
-                                  '        <i class="dropdown icon"></i> ' + bugs[i]['title'] +
-                                  '        <a class="ui tag label ' + bugs[i]['bugCategory']['bugCategorySlug'] + '">' + bugs[i]['bugCategory']['bugCategoryName'] + '</a>' +  
-                                  '        <a class="ui tag label">' + bugs[i]['productVersion'] + '</a>' +  
-                                  '        <p class="overview">Created on ' + getTimeElapsed(bugs[i]['createTime']) + ' @' + bugs[i]['hunter']['username'] + '</p>' + 
-                                  '        <div class="ui top right attached label ' + bugs[i]['bugStatus']['bugStatusSlug'] + '">' + bugs[i]['bugStatus']['bugStatusName'] + '</div>' + 
-                                  '    </div> <!-- .title -->' + 
-                                  '    <div class="content">' + converter.makeHtml(bugs[i]['description'].replace(/\\n/g, '\n')) + '</div> <!-- .content -->' + 
-                                  '</div> <!-- .bug -->');
+                $('#bugs').append(getBugContent(bugs[i]['productVersion'], bugs[i]['createTime'], 
+                                                bugs[i]['bugCategory'], bugs[i]['bugStatus'], bugs[i]['hunter'], 
+                                                bugs[i]['title'], bugs[i]['description'], bugs[i]['screenshots']));
             }
+        }
+    </script>
+    <script type="text/javascript">
+        function getBugContent(productVersion, createTime, bugCategory, bugStatus, hunter, bugTitle, description, screenshots) {
+            var bugContentTemplate = '<div class="bug">' + 
+                                     '    <div class="title">' + 
+                                     '        <i class="dropdown icon"></i> %s' +
+                                     '        <a class="ui tag label %s">%s</a>' +  
+                                     '        <a class="ui tag label">%s</a>' +  
+                                     '        <p class="overview">Created on %s @%s</p>' + 
+                                     '        <div class="ui top right attached label %s">%s</div>' + 
+                                     '    </div> <!-- .title -->' + 
+                                     '    <div class="content">%s</div> <!-- .content -->' + 
+                                     '</div> <!-- .bug -->';
+            return bugContentTemplate.format(bugTitle, bugCategory['bugCategorySlug'], bugCategory['bugCategoryName'], 
+                                             productVersion, getTimeElapsed(createTime), hunter['username'], bugStatus['bugStatusSlug'], 
+                                             bugStatus['bugStatusName'], converter.makeHtml(description.replace(/\\n/g, '\n')));
         }
     </script>
     <script type="text/javascript">
@@ -312,8 +336,86 @@
         });
     </script>
     <script type="text/javascript">
-        $('button[type=submit]', '#bug-modal').click(function(e) {
-        });
+        function createBug() {
+            var productId      = ${product.productId},
+                productVersion = $('#version', '#bug-modal').val(),
+                bugCategory    = $('#bug-category', '#bug-modal').val(),
+                bugSeverity    = $('#bug-severity', '#bug-modal').val(),
+                title          = $('#title', '#bug-modal').val(),
+                description    = $('#wmd-input', '#bug-modal').val(),
+                screenshots    = null;
+
+            return doCreateBugAction(productId, productVersion, bugCategory, bugSeverity, title, description, screenshots);
+        }
     </script>
+    <script type="text/javascript">
+        function doCreateBugAction(productId, productVersion, bugCategory, bugSeverity, title, description, screenshots) {
+            $('div.form', '#bug-modal').addClass('loading');
+            
+            var postData = {
+                'productId': productId, 
+                'version': productVersion, 
+                'bugCategory': bugCategory, 
+                'bugSeverity': bugSeverity, 
+                'title': title, 
+                'description': description, 
+                'screenshots': screenshots
+            };
+            $.ajax({
+                type: 'POST',
+                url: '<c:url value="/products/createBug.action" />',
+                data: postData,
+                dataType: 'JSON',
+                success: function(result) {
+                    $('#create-bug-error').addClass('hide');
+                    $('div.form', '#bug-modal').removeClass('loading');
+
+                    processResult(result);
+                }
+            });
+        }
+    </script>
+    <script type="text/javascript">
+        function processResult(result) {
+            if ( result['isSuccessful'] ) {
+                $('#bug-modal').modal('hide');
+
+                var pageNumber = 1;
+                getPageRequests(pageNumber);
+            } else {
+                var errorMessage  = '';
+
+                if ( result['isHunterEmpty'] ) {
+                    errorMessage += 'Please sign in before reporting an issue.<br />';
+                }
+                if ( !result['isProductExists'] ) {
+                    errorMessage += 'The product isn\'t exists.<br />';
+                }
+                if ( result['isProductVersionEmpty'] ) {
+                    errorMessage += 'You can\'t leave <strong>Product Version</strong> empty.<br />';
+                } else if ( !result['isProductVersionLegal'] ) {
+                    errorMessage += 'The length of <strong>Product Version</strong> must not exceed 24 characters.<br />';
+                }
+                if ( result['isCategoryEmpty'] ) {
+                    errorMessage += 'Please choose the <strong>Category</strong> of the issue.<br />';
+                }
+                if ( result['isSeverityEmpty'] ) {
+                    errorMessage += 'Please choose the <strong>Severity</strong> of the issue.<br />';
+                }
+                if ( result['isTitleEmpty'] ) {
+                    errorMessage += 'You can\'t leave <strong>Title</strong> empty.<br />';
+                } else if ( !result['isTitleLegal'] ) {
+                    errorMessage += 'The length of <strong>Title</strong> must not exceed 64 characters.<br />';
+                }
+                if ( result['isDescriptionEmpty'] ) {
+                    errorMessage += 'You can\'t leave <strong>Description</strong> empty.<br />';
+                }
+
+                $('#create-bug-error').html(errorMessage);
+                $('#create-bug-error').removeClass('hide');
+            }
+        }
+    </script>
+    </c:if>
 </body>
 </html>
