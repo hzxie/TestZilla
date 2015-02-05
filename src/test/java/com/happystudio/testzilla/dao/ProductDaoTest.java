@@ -42,7 +42,7 @@ public class ProductDaoTest {
 	 */
 	@Test
 	public void testGetTotalProductsUsingWebFilters() {
-		ProductCategory category = new ProductCategory(3, "web", "Web Application");
+		ProductCategory category = new ProductCategory(1, "web", "Web Application");
 		long numberOfProducts = productDao.getTotalProductsUsingFilters(category);
 		Assert.assertEquals(2, numberOfProducts);
 	}
@@ -68,7 +68,7 @@ public class ProductDaoTest {
 	 */
 	@Test
 	public void testGetProductsUsingWebCategory() {
-		ProductCategory category = new ProductCategory(3, "web", "Web Application");
+		ProductCategory category = new ProductCategory(1, "web", "Web Application");
 		List<Product> products = productDao.getLatestProductsUsingCategory(category, 0, 1);
 		Assert.assertEquals(1, products.size());
 		
@@ -137,7 +137,7 @@ public class ProductDaoTest {
 	 */
 	@Test
 	public void testCreateProductNormal() {
-		ProductCategory category = new ProductCategory(3, "web", "Web Application");
+		ProductCategory category = new ProductCategory(1, "web", "Web Application");
 		User developer = userDao.getUserUsingUid(1001);
 		Product product = new Product("New Product", "Product Logo", category, "Product Version", 
 										developer, "Prerequisites", "URL", "Description");
@@ -151,7 +151,7 @@ public class ProductDaoTest {
 	 */
 	@Test(expected = org.hibernate.exception.DataException.class)
 	public void testCreateProductUsingIllegalProductName() {
-		ProductCategory category = new ProductCategory(3, "web", "Web Application");
+		ProductCategory category = new ProductCategory(1, "web", "Web Application");
 		User developer = userDao.getUserUsingUid(1001);
 		Product product = new Product("Toooooooooooooo Long Product Name", "Product Logo", category, 
 										"Product Version", developer, "Prerequisites", "URL", "Description");

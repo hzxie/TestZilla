@@ -33,7 +33,7 @@ public class ProductCategoryDaoTest {
 		Assert.assertNotNull(productCategories);
 		Assert.assertEquals(7, productCategories.size());
 		
-		ProductCategory productCategory = productCategories.get(2);
+		ProductCategory productCategory = productCategories.get(0);
 		Assert.assertEquals("web", productCategory.getProductCategorySlug());
 	}
 	
@@ -44,7 +44,7 @@ public class ProductCategoryDaoTest {
 	 */
 	@Test
 	public void testGetProductCategoryUsingIdExists() {
-		ProductCategory productCategory = productCategoryDao.getProductCategoryUsingId(3);
+		ProductCategory productCategory = productCategoryDao.getProductCategoryUsingId(1);
 		Assert.assertNotNull(productCategory);
 		
 		String productCategorySlug = productCategory.getProductCategorySlug();
@@ -73,7 +73,7 @@ public class ProductCategoryDaoTest {
 		Assert.assertNotNull(productCategory);
 		
 		int productCategoryId = productCategory.getProductCategoryId();
-		Assert.assertEquals(3, productCategoryId);
+		Assert.assertEquals(1, productCategoryId);
 	}
 	
 	/**
