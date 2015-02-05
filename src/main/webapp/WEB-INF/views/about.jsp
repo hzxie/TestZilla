@@ -4,7 +4,7 @@
 <html lang="en-US">
 <head>
     <meta charset="UTF-8">
-    <title>About | TestZilla</title>
+    <title>About Us | TestZilla</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Icon -->
@@ -21,12 +21,56 @@
     <!-- Header -->
     <%@ include file="/WEB-INF/views/include/header.jsp" %>
     <!-- Content -->
-    <div id="content" class="ui page stackable grid">
+    <div id="content">
+        <div id="sub-header" class="ui page stackable grid segment">
+            <div class="row">
+                <div class="column">
+                    <h1>About Us</h1>
+                    <div class="ui breadcrumb">
+                        <a href="<c:url value="/" />" class="section">Home</a>
+                        <div class="divider"> / </div>
+                        <div class="active section">About Us</div>
+                    </div> <!-- .breadcrumb -->
+                </div> <!-- .column -->
+            </div> <!-- .row -->
+        </div> <!-- #sub-header -->
+        <div id="main-container" class="ui page stackable grid">
+            <div class="row">
+                <div class="twelve wide column">
+                    <div id="main-content">
+                        <h3>What's TestZilla?</h3>
+                        <a class="anchor" id="what-is-testzilla"></a>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                        <h3>How it works?</h3>
+                        <a class="anchor" id="how-it-works"></a>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                    </div> <!-- #main-content -->
+                </div> <!-- .column -->
+                <div class="four wide column">
+                    <div class="ui sticky">
+                        <div class="ui secondary vertical following fluid accordion menu">
+                            <div class="item active">
+                                <a class="active title"><i class="dropdown icon" tabindex="0"></i> <b>About</b></a>
+                                <div class="active content menu">
+                                    <a class="item" href="#what-is-testzilla">What's TestZilla?</a>
+                                    <a class="item" href="#how-it-works">How it works?</a>
+                                </div> <!-- .content -->
+                            </div> <!-- .item -->
+                        </div> <!-- .menu -->
+                    </div> <!-- .sticky --> 
+               </div> <!-- .column -->
+            </div> <!-- .row -->
+        </div> <!-- #main-container -->
     </div> <!-- #content -->
     <!-- Footer -->
     <%@ include file="/WEB-INF/views/include/footer.jsp" %>
     <!-- Java Script -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script type="text/javascript" src="<c:url value="/assets/js/site.js" />"></script>
+    <script type="text/javascript">
+        $('.ui.sticky').sticky({
+            context: '#main-content'
+        });
+    </script>
 </body>
 </html>

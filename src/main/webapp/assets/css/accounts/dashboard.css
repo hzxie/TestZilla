@@ -2,25 +2,20 @@ html, body {
 	background-color: #f7f7f7;
 }
 
-div#content,
-div#content div#sub-header {
-	margin-bottom: 0;
-}
-
 div#content div#sub-header div.ui.tabular {
 	border-bottom: 1px solid transparent;
 }
 
-div#content div#main-content {
-	background-color: #f7f7f7;
-	margin-top: 0;
-}
-
-div#content div#main-content div.tab {
+div#content div#main-container div.tab {
 	background-color: #fff;
 	border-left: 1px solid #ddd;
 	border-right: 1px solid #ddd;
 	margin: 0 auto;
-	padding: 1rem 1rem 2rem;
+	padding: 2rem 1rem;
 	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.05);
+}
+
+div#content div#main-container div#overview-tab div.statistic div.value {
+	font-size: 3rem;
+	text-transform: lowercase;
 }

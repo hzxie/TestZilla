@@ -190,6 +190,8 @@ public class AccountsController {
     
     /**
      * 显示用户验证电子邮件页面.
+     * @param email - 待验证的电子邮件地址
+     * @param code - 随机生成的验证字符串 
      * @param request - HttpRequest对象
      * @return 包含验证电子邮件页面信息的ModelAndView对象
      */
@@ -218,6 +220,22 @@ public class AccountsController {
         	}
         }
         return view;
+    }
+    
+    /**
+     * 显示重置密码的页面。
+     * @param email - 待重置用户的电子邮件地址
+     * @param code - 随机生成的验证字符串
+     * @param request - HttpRequest对象
+     * @return 包含重置密码页面信息的ModelAndView对象
+     */
+    @RequestMapping(value = "/resetPassword", method = RequestMethod.GET)
+    public ModelAndView resetPasswordView(
+    		@RequestParam(value="email", required=false) String email,
+            @RequestParam(value="code", required=false) String code,
+    		HttpServletRequest request) {
+    	ModelAndView view = new ModelAndView("accounts/resetPassword");
+    	return view;
     }
     
     /**

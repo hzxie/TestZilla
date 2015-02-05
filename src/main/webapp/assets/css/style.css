@@ -39,11 +39,37 @@ header div#navigation nav.menu > a.item.active {
 
 div#content {
 	background-color: #fff;
-	margin-bottom: 2rem;
 }
 
 div#content div.breadcrumb {
 	margin-top: 0;
+}
+
+div#content div#sub-header {
+	margin-bottom: 0;
+}
+
+div#content div#main-container {
+	background-color: #f7f7f7;
+	margin-top: 0;
+}
+
+div#content div#main-container > div.row {
+	padding-top: 1px;
+}
+
+div#content div#main-container div#main-content {
+	background-color: #fff;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	margin: 0 auto;
+	min-height: 360px;
+	padding: 2rem 1rem;
+	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.05);
+}
+
+div#content div#main-container div.sticky {
+	margin-top: 2rem;
 }
 
 div.hide {
