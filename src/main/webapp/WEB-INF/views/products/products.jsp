@@ -76,7 +76,7 @@
                     </div> <!-- .column -->
                 </div> <!-- .row -->
             </div> <!-- .column -->
-        </div>
+        </div> <!-- .row -->
     </div> <!-- #content -->
     <!-- Footer -->
     <%@ include file="/WEB-INF/views/include/footer.jsp" %>
