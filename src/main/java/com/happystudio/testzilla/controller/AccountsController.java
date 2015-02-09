@@ -156,9 +156,9 @@ public class AccountsController {
             @RequestParam(value="email", required=true) String email,
             @RequestParam(value="country", required=true) String country,
             @RequestParam(value="province", required=true) String province,
-            @RequestParam(value="city", required=false) String city,
+            @RequestParam(value="city", required=true) String city,
             @RequestParam(value="phone", required=true) String phone,
-            @RequestParam(value="website", required=false) String website,
+            @RequestParam(value="website", required=true) String website,
             @RequestParam(value="isIndividual", required=true) boolean isIndividual,
             HttpServletRequest request) {
     	String ipAddress = HttpRequestParser.getRemoteAddr(request);
@@ -257,6 +257,46 @@ public class AccountsController {
         	view = new ModelAndView("accounts/dashboard");
         }
     	return view;
+    }
+    
+    /**
+     * @param realName
+     * @param email
+     * @param country
+     * @param province
+     * @param city
+     * @param phone
+     * @param website
+     * @param oldPassword
+     * @param newPassword
+     * @param confirmPassword
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/editProfile.action", method = RequestMethod.POST)
+    public @ResponseBody HashMap<String, Boolean> editProfileAction(
+            @RequestParam(value="realName", required=true) String realName,
+            @RequestParam(value="email", required=true) String email,
+            @RequestParam(value="country", required=true) String country,
+            @RequestParam(value="province", required=true) String province,
+            @RequestParam(value="city", required=false) String city,
+            @RequestParam(value="phone", required=true) String phone,
+            @RequestParam(value="website", required=true) String website,
+            @RequestParam(value="oldPassword", required=true) String oldPassword,
+    		@RequestParam(value="newPassword", required=true) String newPassword,
+            @RequestParam(value="confirmPassword", required=true) String confirmPassword,
+            HttpServletRequest request) {
+    	String ipAddress = HttpRequestParser.getRemoteAddr(request);
+    	HttpSession session = request.getSession();
+    	User currentUser = (User)session.getAttribute("user");
+    	
+    	HashMap<String, Boolean> result = userService.editProfile(currentUser, oldPassword, newPassword, 
+    							 confirmPassword, realName, email, country, province, city, phone, website);
+        
+        if ( result.get("isSuccessful") ) {
+            logger.info(String.format("User: {%s} updated profile at %s.", new Object[] {currentUser, ipAddress}));
+        }
+        return result;
     }
 
     /**

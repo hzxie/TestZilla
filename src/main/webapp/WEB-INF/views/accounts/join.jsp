@@ -279,10 +279,15 @@
                 } else if ( !result['isPasswordLegal'] ) {
                     errorMessage += 'The length of <strong>Password</strong> must between 6 and 16 characters.<br />';
                 } else if ( !result['isPasswordMatched'] ) {
-                    errorMessage += 'These passwords don\'t match<br />';
+                    errorMessage += 'These passwords don\'t match.<br />';
                 }
                 if ( !result['isUserGroupLegal'] ) {
                     errorMessage += 'Please choose your <strong>Account Type</strong>.<br />';
+                }
+                if ( result['isRealNameEmpty'] ) {
+                    errorMessage += 'You can\'t leave <strong>Your Name/Company Name</strong> empty.<br />';
+                } else if ( !result['isRealNameLegal'] ) {
+                    errorMessage += 'The length of <strong>Your Name/Company Name</strong> must not exceed 32 characters.<br />';
                 }
                 if ( result['isEmailEmpty'] ) {
                     errorMessage += 'You can\'t leave <strong>Email</strong> empty.<br />';

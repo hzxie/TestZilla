@@ -269,13 +269,6 @@ public class Product implements Serializable {
 	public int getNumberOfTesters() {
 		return numberOfTesters;
 	}
-
-	/**
-	 * @param numberOfTesters the numberOfTesters to set
-	 */
-	public void setNumberOfTesters(int numberOfTesters) {
-		this.numberOfTesters = numberOfTesters;
-	}
 	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)

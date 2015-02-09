@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Formula;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
@@ -301,15 +303,6 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * 获取产品列表(用于1-N关联).
-	 * @return 产品列表
-	 */
-	@JsonIgnore
-	public List<Product> getProducts() {
-		return developedProducts;
-	}
-	
-	/**
 	 * 设置产品列表.
 	 * @param products - 产品列表
 	 */
@@ -351,6 +344,31 @@ public class User implements Serializable {
 		this.pointsLogs = pointsLogs;
 	}
 
+	/**
+	 * 获取用户的威望值.
+	 * @return 用户的威望值
+	 */
+	public long getReputation() {
+		return repuration;
+	}
+
+	/**
+	 * 获取用户的积分值.
+	 * @return 用户的积分值
+	 */
+	/*public long getCredits() {
+		return credits;
+	}*/
+
+	/**
+	 * 获取产品列表(用于1-N关联).
+	 * @return 产品列表
+	 */
+	@JsonIgnore
+	public List<Product> getProducts() {
+		return developedProducts;
+	}
+	
 	/**
 	 * 获取用户所参与测试产品列表.
 	 * @return 用户所参与测试产品列表
@@ -468,7 +486,7 @@ public class User implements Serializable {
 	 */
 	@Column(name = "is_email_verified")
 	private boolean isEmailVerified;
-	
+
 	/**
 	 * 用户所开发的产品列表(以便1-N关联).
 	 */
@@ -489,7 +507,19 @@ public class User implements Serializable {
 	@OneToMany(targetEntity = PointsLog.class, 
 				fetch = FetchType.LAZY, mappedBy = "user")
 	private List<PointsLog> pointsLogs = new ArrayList<PointsLog>();
-	
+
+	/**
+	 * 用户的威望值.
+	 */
+	@Formula(value = "(SELECT COUNT(*) FROM tz_points_logs pl WHERE pl.points_to_uid=uid)")
+	private long repuration;
+
+	/**
+	 * 用户的积分值.
+	 */
+	// @Formula(value = "(SELECT SUM(`points_rule_credits`) FROM tz_points_logs NATURAL JOIN tz_points_rules)")
+	// private long credits;
+		
 	/**
 	 * 用户所参与测试产品列表(以便N-N关联).
 	 */
