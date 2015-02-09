@@ -266,6 +266,11 @@
     <script type="text/javascript" src="<c:url value="/assets/js/moment.min.js" />"></script>
     <script type="text/javascript" src="<c:url value="/assets/js/markdown.editor.min.js" />"></script>
     <script type="text/javascript">
+        $(function() {
+            $('.tabular.menu .item').tab();
+        });
+    </script>
+    <script type="text/javascript">
         $('#edit-profile-trigger').click(function() {
             $('#profile-error').addClass('hide');
 
