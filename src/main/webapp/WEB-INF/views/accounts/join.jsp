@@ -261,61 +261,61 @@
                 var errorMessage  = '';
 
                 if ( result['isUsernameEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>Username</strong> empty.<br />';
+                    errorMessage += 'You can\'t leave <strong>Username</strong> empty.<br>';
                 } else if ( !result['isUsernameLegal'] ) {
                     var username = $('#username').val();
                     if ( username.length < 6 || username.length > 16 ) {
-                        errorMessage += 'The length of <strong>Username</strong> must between 6 and 16 characters.<br />';
+                        errorMessage += 'The length of <strong>Username</strong> must between 6 and 16 characters.<br>';
                     } else if ( !username[0].match(/[a-z]/i) ) {
-                        errorMessage += '<strong>Username</strong> must start with a letter(a-z).<br />';
+                        errorMessage += '<strong>Username</strong> must start with a letter(a-z).<br>';
                     } else {
-                        errorMessage += '<strong>Username</strong> can only contain letters(a-z), numbers, and underlines(_).<br />';
+                        errorMessage += '<strong>Username</strong> can only contain letters(a-z), numbers, and underlines(_).<br>';
                     }
                 } else if ( result['isUsernameExists'] ) {
-                    errorMessage += 'Someone already has that username.<br />';
+                    errorMessage += 'Someone already has that username.<br>';
                 }
                 if ( result['isPasswordEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>Password</strong> empty.<br />';
+                    errorMessage += 'You can\'t leave <strong>Password</strong> empty.<br>';
                 } else if ( !result['isPasswordLegal'] ) {
-                    errorMessage += 'The length of <strong>Password</strong> must between 6 and 16 characters.<br />';
+                    errorMessage += 'The length of <strong>Password</strong> must between 6 and 16 characters.<br>';
                 } else if ( !result['isPasswordMatched'] ) {
-                    errorMessage += 'These passwords don\'t match.<br />';
+                    errorMessage += 'These passwords don\'t match.<br>';
                 }
                 if ( !result['isUserGroupLegal'] ) {
-                    errorMessage += 'Please choose your <strong>Account Type</strong>.<br />';
+                    errorMessage += 'Please choose your <strong>Account Type</strong>.<br>';
                 }
                 if ( result['isRealNameEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>Your Name/Company Name</strong> empty.<br />';
+                    errorMessage += 'You can\'t leave <strong>Your Name/Company Name</strong> empty.<br>';
                 } else if ( !result['isRealNameLegal'] ) {
-                    errorMessage += 'The length of <strong>Your Name/Company Name</strong> must not exceed 32 characters.<br />';
+                    errorMessage += 'The length of <strong>Your Name/Company Name</strong> must not exceed 32 characters.<br>';
                 }
                 if ( result['isEmailEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>Email</strong> empty.<br />';
+                    errorMessage += 'You can\'t leave <strong>Email</strong> empty.<br>';
                 } else if ( !result['isEmailLegal'] ) {
-                    errorMessage += 'The <strong>Email</strong> seems invalid.<br />';
+                    errorMessage += 'The <strong>Email</strong> seems invalid.<br>';
                 } else if ( result['isEmailExists'] ) {
-                    errorMessage += 'Someone already use that email.<br />';
+                    errorMessage += 'Someone already use that email.<br>';
                 }
                 if ( result['isCountryEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>Country</strong> empty.<br />';
+                    errorMessage += 'You can\'t leave <strong>Country</strong> empty.<br>';
                 } else if ( !result['isCountryLegal'] ) {
-                    errorMessage += 'The length of <strong>Country</strong> must not exceed 24 characters.<br />';
+                    errorMessage += 'The length of <strong>Country</strong> must not exceed 24 characters.<br>';
                 }
                 if ( result['isProvinceEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>State(Province)</strong> empty.<br />';
+                    errorMessage += 'You can\'t leave <strong>State(Province)</strong> empty.<br>';
                 } else if ( !result['isProvinceLegal'] ) {
-                    errorMessage += 'The length of <strong>State(Province)</strong> must not exceed 24 characters.<br />';
+                    errorMessage += 'The length of <strong>State(Province)</strong> must not exceed 24 characters.<br>';
                 }
                 if ( !result['isCityLegal'] ) {
-                    errorMessage += 'The length of <strong>City</strong> must not exceed 24 characters.<br />';
+                    errorMessage += 'The length of <strong>City</strong> must not exceed 24 characters.<br>';
                 }
                 if ( result['isPhoneEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>Phone</strong> empty.<br />';
+                    errorMessage += 'You can\'t leave <strong>Phone</strong> empty.<br>';
                 } else if ( !result['isPhoneLegal'] ) {
-                    errorMessage += 'The <strong>Phone</strong> seems invalid.<br />';
+                    errorMessage += 'The <strong>Phone</strong> seems invalid.<br>';
                 }
                 if ( !result['isWebsiteLegal'] ) {
-                    errorMessage += 'The <strong>Website</strong> seems invalid.<br />';
+                    errorMessage += 'The <strong>Website</strong> seems invalid.<br>';
                 }
                 $('#join-form').removeClass('loading');
                 $('.error > p').html(errorMessage);

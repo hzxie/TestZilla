@@ -171,6 +171,9 @@ public class UserService {
 			if ( !oldPassword.isEmpty() && !newPassword.isEmpty() ) {
 				user.setPassword(DigestUtils.md5Hex(newPassword));
 			}
+			if ( !user.getEmail().equals(currentEmail) ) {
+				user.setEmailVerified(false);
+			}
 			boolean isSuccessful = userDao.updateUser(user);
 			result.put("isSuccessful", isSuccessful);
 		}

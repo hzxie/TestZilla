@@ -34,11 +34,21 @@
                     </div> <!-- .breadcrumb -->
                 </div> <!-- .column -->
             </div> <!-- .row -->
-            <div class="four item tabular ui menu">
+        <c:choose>
+        <c:when test="${user.userGroup.userGroupSlug == 'developer'}">
+            <div class="five item tabular ui menu">
+        </c:when>
+        <c:otherwise>
+            <div class="two item tabular ui menu">
+        </c:otherwise>
+        </c:choose>
                 <a class="item active" data-tab="overview">Overview</a>
                 <a class="item" data-tab="issues">Issues</a>
+            <c:if test="${user.userGroup.userGroupSlug == 'developer'}">
                 <a class="item" data-tab="products">Products</a>
+                <a class="item" data-tab="contests">Contests</a>
                 <a class="item" data-tab="questionnaires">Questionnaires</a>
+            </c:if>
             </div> <!-- .tabular -->
         </div> <!-- #sub-header -->
         <div id="main-container" class="ui page stackable grid">
@@ -113,7 +123,9 @@
                         <div class="four wide column">
                             <div class="ui vertical fluid menu">
                                 <a class="item active">Received Issues</a>
+                            <c:if test="${user.userGroup.userGroupSlug == 'developer'}">
                                 <a class="item">Sent Issues</a>
+                            </c:if>
                                 <div class="item">
                                     <div class="ui transparent icon input">
                                         <input type="text" placeholder="Search...">
@@ -128,10 +140,11 @@
                     </div> <!-- .row -->
                 </div> <!-- .grid -->
             </div> <!-- #issues-tab -->
+        <c:if test="${user.userGroup.userGroupSlug == 'developer'}">
             <div id="products-tab" class="ui tab" data-tab="products">
                 <div class="ui stackable grid">
                     <div class="row">
-                        <div class="four wide column">
+                        <div id="products-sidebar" class="four wide column">
                             <div class="ui vertical fluid menu">
                                 <a class="item active">My Products</a>
                                 <a class="item">New Product</a>
@@ -144,11 +157,89 @@
                             </div> <!-- .menu -->
                         </div> <!-- .four -->
                         <div class="twelve wide column">
-                            <div class="ui info message">There aren't any products.</div>
+                            <div id="products">
+                                <div class="ui info message">There aren't any products.</div>
+                            </div> <!-- #my-products -->
+                            <div id="product" class="hide">
+                                <div class="ui info message">
+                                    <div class="header">Note:</div>
+                                    <p>Create a product will cost you 75 credits.</p>
+                                </div> <!-- .info -->
+                                <div class="ui form">
+                                    <div class="two required fields">
+                                        <div class="field">
+                                            <label for="product-name">Product Name</label>
+                                            <input id="product-name" type="text" maxlength="32" />
+                                        </div> <!-- .field -->
+                                        <div class="field">
+                                            <label for="product-logo">Product Logo URL</label>
+                                            <input id="product-logo" type="text" placeholder="Example: http://www.testzilla.org/logo.png" />
+                                        </div> <!-- .field -->
+                                    </div> <!-- .fields -->
+                                    <div class="two required fields">
+                                        <div class="field">
+                                            <label for="product-category">Product Category</label>
+                                            <div class="ui selection dropdown" tabindex="0">
+                                                <div class="default text"></div>
+                                                <i class="dropdown icon"></i>
+                                                <input id="product-category" type="hidden">
+                                                <div class="menu transition hidden" tabindex="-1">
+                                                <c:forEach var="productCategory" items="${productCategories}">
+                                                    <div class="item" data-value="${productCategory.productCategorySlug}">${productCategory.productCategoryName}</div>
+                                                </c:forEach>
+                                                </div> <!-- .menu -->
+                                            </div> <!-- .selection -->
+                                        </div> <!-- .field -->
+                                        <div class="field">
+                                            <label for="latest-version">Latest Version</label>
+                                            <input id="latest-version" type="text" maxlength="24" />
+                                        </div> <!-- .field -->
+                                    </div> <!-- .fields -->
+                                    <div class="two required fields">
+                                        <div class="field">
+                                            <label for="prerequisites">Prerequisites</label>
+                                            <input id="prerequisites" type="text" maxlength="128" placeholder="Example: IE 7.0+, Java 1.7.0+ or iOS 7.0+" />
+                                        </div> <!-- .field -->
+                                        <div class="field">
+                                            <label for="product-url">Product URL</label>
+                                            <input id="product-url" type="text" maxlength="256" placeholder="Example: http://www.testzilla.org/" />
+                                        </div> <!-- .field -->
+                                    </div> <!-- .fields -->
+                                    <div class="required field">
+                                        <label for="description">Description</label>
+                                        <textarea id="description" placeholder="Plain text only. HTML and Markdown is not supported."></textarea>
+                                    </div> <!-- .field -->
+                                    <div class="actions">
+                                        <button class="ui positive button" type="submit">Create Product</button>
+                                        <button class="ui negative button">Cancel</button>
+                                    </div> <!-- .fields -->
+                                </div> <!-- .form -->
+                            </div> <!-- #new-product -->
                         </div> <!-- .twelve -->
                     </div> <!-- .row -->
                 </div> <!-- .grid -->
             </div> <!-- #products-tab -->
+            <div id="contests-tab" class="ui tab" data-tab="contests">
+                <div class="ui stackable grid">
+                    <div class="row">
+                        <div class="four wide column">
+                            <div class="ui vertical fluid menu">
+                                <a class="item active">My Contests</a>
+                                <a class="item">New Contests</a>
+                                <div class="item">
+                                    <div class="ui transparent icon input">
+                                        <input type="text" placeholder="Search...">
+                                        <i class="search icon"></i>
+                                    </div> <!-- .input -->
+                                </div> <!-- .item -->
+                            </div> <!-- .menu -->
+                        </div> <!-- .four -->
+                        <div class="twelve wide column">
+                            <div class="ui info message">There aren't any contests.</div>
+                        </div> <!-- .twelve -->
+                    </div> <!-- .row -->
+                </div> <!-- .grid -->
+            </div> <!-- #contests-tab -->
             <div id="questionnaires-tab" class="ui tab" data-tab="questionnaires">
                 <div class="ui stackable grid">
                     <div class="row">
@@ -170,6 +261,7 @@
                     </div> <!-- .row -->
                 </div> <!-- .grid -->
             </div> <!-- #questionnaires-tab -->
+        </c:if>
         </div> <!-- #main-container -->
     </div> <!-- #content -->
     <!-- Footer -->
@@ -271,6 +363,20 @@
         });
     </script>
     <script type="text/javascript">
+        $(function() {
+            /*converter = Markdown.getSanitizingConverter();
+            converter.hooks.chain("preBlockGamut", function (text, rbg) {
+                return text.replace(/^ {0,3}""" *\n((?:.*?\n)+?) {0,3}""" *$/gm, function (whole, inner) {
+                    return "<blockquote>" + rbg(inner) + "</blockquote>\n";
+                });
+            });
+
+            editor    = new Markdown.Editor(converter);
+            editor.run();*/
+        });
+    </script>
+    <!-- Java Script for Overview Tab -->
+    <script type="text/javascript">
         $('#edit-profile-trigger').click(function() {
             $('#profile-error').addClass('hide');
 
@@ -307,6 +413,9 @@
     <script type="text/javascript">
         function editProfileAction(realName, email, country, province, city, phone, 
                                    website, oldPassword, newPassword, confirmPassword) {
+            $('#profile-error').addClass('hide');
+            $('button.positive', '#profile-modal').html('Saving...');
+            $('button.positive', '#profile-modal').attr('disabled', 'disabled');
             $('div.form', '#profile-modal').addClass('loading');
             
             var postData = {
@@ -327,8 +436,9 @@
                 data: postData,
                 dataType: 'JSON',
                 success: function(result) {
-                    $('#profile-error').addClass('hide');
                     $('div.form', '#profile-modal').removeClass('loading');
+                    $('button.positive', '#profile-modal').html('Save');
+                    $('button.positive', '#profile-modal').removeAttr('disabled');
 
                     processResult(result);
                 }
@@ -343,51 +453,167 @@
                 var errorMessage  = '';
 
                 if ( result['isRealNameEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>Your Name/Company Name</strong> empty.<br />';
+                    errorMessage += 'You can\'t leave <strong>Your Name/Company Name</strong> empty.<br>';
                 } else if ( !result['isRealNameLegal'] ) {
-                    errorMessage += 'The length of <strong>Your Name/Company Name</strong> must not exceed 32 characters.<br />';
+                    errorMessage += 'The length of <strong>Your Name/Company Name</strong> must not exceed 32 characters.<br>';
                 }
                 if ( result['isEmailEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>Email</strong> empty.<br />';
+                    errorMessage += 'You can\'t leave <strong>Email</strong> empty.<br>';
                 } else if ( !result['isEmailLegal'] ) {
-                    errorMessage += 'The <strong>Email</strong> seems invalid.<br />';
+                    errorMessage += 'The <strong>Email</strong> seems invalid.<br>';
                 } else if ( result['isEmailExists'] ) {
-                    errorMessage += 'Someone already use that email.<br />';
+                    errorMessage += 'Someone already use that email.<br>';
                 }
                 if ( result['isCountryEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>Country</strong> empty.<br />';
+                    errorMessage += 'You can\'t leave <strong>Country</strong> empty.<br>';
                 } else if ( !result['isCountryLegal'] ) {
-                    errorMessage += 'The length of <strong>Country</strong> must not exceed 24 characters.<br />';
+                    errorMessage += 'The length of <strong>Country</strong> must not exceed 24 characters.<br>';
                 }
                 if ( result['isProvinceEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>State(Province)</strong> empty.<br />';
+                    errorMessage += 'You can\'t leave <strong>State(Province)</strong> empty.<br>';
                 } else if ( !result['isProvinceLegal'] ) {
-                    errorMessage += 'The length of <strong>State(Province)</strong> must not exceed 24 characters.<br />';
+                    errorMessage += 'The length of <strong>State(Province)</strong> must not exceed 24 characters.<br>';
                 }
                 if ( !result['isCityLegal'] ) {
-                    errorMessage += 'The length of <strong>City</strong> must not exceed 24 characters.<br />';
+                    errorMessage += 'The length of <strong>City</strong> must not exceed 24 characters.<br>';
                 }
                 if ( result['isPhoneEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>Phone</strong> empty.<br />';
+                    errorMessage += 'You can\'t leave <strong>Phone</strong> empty.<br>';
                 } else if ( !result['isPhoneLegal'] ) {
-                    errorMessage += 'The <strong>Phone</strong> seems invalid.<br />';
+                    errorMessage += 'The <strong>Phone</strong> seems invalid.<br>';
                 }
                 if ( !result['isWebsiteLegal'] ) {
-                    errorMessage += 'The <strong>Website</strong> seems invalid.<br />';
+                    errorMessage += 'The <strong>Website</strong> seems invalid.<br>';
                 }
                 if ( !result['isOldPasswordCorrect'] ) {
-                    errorMessage += 'The <strong>Old Password</strong> seems not correct.<br />';
+                    errorMessage += 'The <strong>Old Password</strong> seems not correct.<br>';
                 } 
                 if ( !result['isNewPasswordLegal'] ) {
-                    errorMessage += 'The length of <strong>New Password</strong> must between 6 and 16 characters.<br />';
+                    errorMessage += 'The length of <strong>New Password</strong> must between 6 and 16 characters.<br>';
                 } 
                 if ( !result['isPasswordMatched'] ) {
-                    errorMessage += 'The new passwords don\'t match.<br />';
+                    errorMessage += 'The new passwords don\'t match.<br>';
                 }
 
                 $('#profile-error').html(errorMessage);
                 $('#profile-error').removeClass('hide');
             }
+        }
+    </script>
+    <!-- Java Script for Products Tab -->
+    <script type="text/javascript">
+        $('.menu .item', '#products-sidebar').click(function() {
+            $('.menu .item', '#products-sidebar').removeClass('active');
+            $(this).addClass('active');
+
+            if ( $(this).html() == 'My Products' ) {
+                $('#product').addClass('hide');
+                $('#products').removeClass('hide');
+            } else {
+                $('#products').addClass('hide');
+                $('#product').removeClass('hide');
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        $('button.positive', '#product div.form').click(function() {
+            var productName     = $('#product-name').val(),
+                productLogo     = $('#product-logo').val(),
+                productCategory = $('#product-category').val(),
+                latestVersion   = $('#latest-version').val(),
+                prerequisites   = $('#prerequisites').val(),
+                productUrl      = $('#product-url').val(),
+                description     = $('#description').val();
+
+            return createProductAction(productName, productLogo, productCategory, latestVersion, prerequisites, productUrl, description);
+        });
+    </script>
+    <script type="text/javascript">
+        function createProductAction(productName, productLogo, productCategory, 
+                    latestVersion, prerequisites, productUrl, description) {
+            $('button.positive', '#product').html('Processing...');
+            $('button.positive', '#product').attr('disabled', 'disabled');
+            $('.form', '#product').addClass('loading');
+            $('.message', '#product').addClass('hide');
+
+            var postData = {
+                'productName': productName, 
+                'productLogo': productLogo, 
+                'productCategory': productCategory, 
+                'latestVersion': latestVersion, 
+                'prerequisites': prerequisites, 
+                'productUrl': productUrl, 
+                'description': description
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '<c:url value="/accounts/createProduct.action" />',
+                data: postData,
+                dataType: 'JSON',
+                success: function(result) {
+                    $('button.positive', '#product').html('Create Product');
+                    $('button.positive', '#product').removeAttr('disabled');
+                    $('.form', '#product').removeClass('loading');
+
+                    processResult(result);
+                }
+            });
+        }
+    </script>
+    <script type="text/javascript">
+        function processResult(result) {
+            var message = '';
+
+            if ( result['isSuccessful'] ) {
+                $('input, textarea', '#product').val('');
+                $('.message', '#product').removeClass('error');
+                $('.message', '#product').addClass('success');
+
+                message      = 'Your product is created successfully.';
+            } else {
+                $('.message', '#product').removeClass('success');
+                $('.message', '#product').addClass('error');
+
+                if ( result['isDeveloperEmpty'] ) {
+                    message += 'You\'re not allowed to create a product.<br>';
+                }
+                if ( result['isProductNameEmpty'] ) {
+                    message += 'You can\'t leave <strong>Product Name</strong> empty.<br>';
+                } else if ( !result['isProductNameLegal'] ) {
+                    message += 'The length of <strong>Product Name</strong> must not exceed 32 characters.<br>';
+                }
+                if ( result['isProductLogoEmpty'] ) {
+                    message += 'You can\'t leave <strong>Product Logo URL</strong> empty.<br>';
+                } else if ( !result['isProductLogoLegal'] ) {
+                    message += 'The length of <strong>Product Logo URL</strong> must not exceed 128 characters.<br>';
+                }
+                if ( result['isProductCategoryEmpty'] ) {
+                    message += 'Please choose your <strong>Product Category</strong>.<br>';
+                }
+                if ( result['isLatestVersionEmpty'] ) {
+                    message += 'You can\'t leave <strong>Latest Version</strong> empty.<br>';
+                } else if ( !result['isLatestVersionLegal'] ) {
+                    message += 'The length of <strong>Latest Version</strong> must not exceed 24 characters.<br>';
+                }
+                if ( result['isPrerequisitesEmpty'] ) {
+                    message += 'You can\'t leave <strong>Prerequisites</strong> empty.<br>';
+                } else if ( !result['isPrerequisitesLegal'] ) {
+                    message += 'The length of <strong>Prerequisites</strong> must not exceed 128 characters.<br>';
+                }
+                if ( result['isProductUrlEmpty'] ) {
+                    message += 'You can\'t leave <strong>Product URL</strong> empty.<br>';
+                } else if ( !result['isProductUrlLegal'] ) {
+                    message += 'The length of <strong>Product URL</strong> must not exceed 256 characters.<br>';
+                }
+                if ( result['isDescriptionEmpty'] ) {
+                    message += 'You can\'t leave <strong>Description</strong> empty.<br>';
+                }
+            }
+
+            $('.message', '#product').html(message);
+            $('.message', '#product').removeClass('info');
+            $('.message', '#product').removeClass('hide');
         }
     </script>
 </body>

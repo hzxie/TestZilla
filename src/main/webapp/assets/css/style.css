@@ -103,6 +103,65 @@ footer div#copyright p {
 	font-size: .8em;
 }
 
+/* StyleSheet for MarkDown Editor */
+div#wmd-button-bar {
+	background-color: transparent;
+	border: 1px solid #ccc;
+	border-bottom: 0;
+	clear: both;
+	margin: 10px 0 0 0;
+	padding: 0 12px;
+}
+
+div#wmd-button-bar ul {
+	margin: 0;
+	padding: 0.75rem 0;
+}
+
+div#wmd-button-bar li {
+	display: inline-block;
+	list-style: none;
+}
+
+div#wmd-button-bar li.wmd-spacer {
+	width: 1.5rem;
+}
+
+div#wmd-button-bar li.wmd-button > span {
+    background-image: url('../img/wmd-buttons.svg');
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+
+div.wmd-panel textarea.wmd-input {
+	border-radius: 0;
+	height: 240px;
+	line-height: 1.2;
+	padding: 10px;
+	resize: none;
+	width: 100% !important;
+}
+
+div.wmd-preview {
+	border: 1px dotted #ccc;
+	clear: both;
+	margin-top: 10px;
+	padding: 10px;
+}
+
+div.wmd-prompt-background {
+	background-color: #000;
+	opacity: .5;
+}
+
+div.wmd-prompt-dialog {
+	background-color: #fff;
+}
+
+/* StyleSheets for Responsive Design  */
 /* Smaller than standard 1920 (devices and browsers) */
 @media only screen and (max-width: 1919px) {
 }

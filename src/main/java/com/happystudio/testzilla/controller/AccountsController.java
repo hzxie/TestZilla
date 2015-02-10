@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.happystudio.testzilla.model.User;
+import com.happystudio.testzilla.service.ProductService;
 import com.happystudio.testzilla.service.UserService;
 import com.happystudio.testzilla.util.DigestUtils;
 import com.happystudio.testzilla.util.HttpRequestParser;
@@ -255,23 +256,35 @@ public class AccountsController {
         	view = new ModelAndView("redirect:/administration/dashboard");
         } else {
         	view = new ModelAndView("accounts/dashboard");
+        	view.addAllObjects(getDataForDevelopers());
         }
     	return view;
     }
     
     /**
-     * @param realName
-     * @param email
-     * @param country
-     * @param province
-     * @param city
-     * @param phone
-     * @param website
-     * @param oldPassword
-     * @param newPassword
-     * @param confirmPassword
-     * @param request
-     * @return
+     * 获取开发者所需的额外数据(如产品分类等).
+     * @return 包含开发者所需数据的HashMap对象.
+     */
+    private HashMap<String, Object> getDataForDevelopers() {
+    	HashMap<String, Object> extraData = new HashMap<String, Object>(); 
+    	extraData.put("productCategories", productService.getProductCategories());
+    	return extraData;
+    }
+    
+    /**
+     * 处理用户编辑个人资料的请求.
+     * @param realName - 用户真实姓名或公司名称
+     * @param email - 电子邮件地址
+	 * @param country - 用户所在国家
+	 * @param province - 用户所在省份
+	 * @param city - 用户所在城市
+	 * @param phone - 用户的联系电话
+     * @param website - 用户的个人主页
+     * @param oldPassword - 旧密码
+     * @param newPassword - 新密码
+     * @param confirmPassword - 确认新密码
+     * @param request - HttpRequest对象
+     * @return 一个包含若干标志位的JSON数据
      */
     @RequestMapping(value = "/editProfile.action", method = RequestMethod.POST)
     public @ResponseBody HashMap<String, Boolean> editProfileAction(
@@ -298,12 +311,53 @@ public class AccountsController {
         }
         return result;
     }
+    
+    /**
+     * @param productName
+     * @param productLogo
+     * @param productCategorySlug
+     * @param latestVersion
+     * @param prerequisites
+     * @param productUrl
+     * @param description
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/createProduct.action", method = RequestMethod.POST)
+    public @ResponseBody HashMap<String, Boolean> createProductAction(
+    		@RequestParam(value="productName", required=true) String productName,
+    		@RequestParam(value="productLogo", required=true) String productLogo,
+    		@RequestParam(value="productCategory", required=true) String productCategorySlug,
+    		@RequestParam(value="latestVersion", required=true) String latestVersion,
+    		@RequestParam(value="prerequisites", required=true) String prerequisites,
+    		@RequestParam(value="productUrl", required=true) String productUrl,
+    		@RequestParam(value="description", required=true) String description,
+    		HttpServletRequest request) {
+    	String ipAddress = HttpRequestParser.getRemoteAddr(request);
+    	HttpSession session = request.getSession();
+    	User currentUser = (User)session.getAttribute("user");
+    	
+    	HashMap<String, Boolean> result = productService.createProduct(productName, productLogo, 
+    			productCategorySlug, latestVersion, currentUser, prerequisites, productUrl, description);
+    	
+    	if ( result.get("isSuccessful") ) {
+            logger.info(String.format("User: {%s} created product [productName=%s] at %s.", 
+            			new Object[] {currentUser, productName, ipAddress}));
+        }
+        return result;
+    }
 
     /**
      * 自动注入的UserService对象.
      */
     @Autowired
     UserService userService;
+    
+    /**
+     * 自动注入的ProductService对象.
+     */
+    @Autowired
+    ProductService productService;
     
     /**
      * 日志记录器.
