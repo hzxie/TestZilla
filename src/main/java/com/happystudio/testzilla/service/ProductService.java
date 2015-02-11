@@ -46,12 +46,34 @@ public class ProductService {
 	}
 	
 	/**
+	 * 获取某个开发者发布的产品列表.
+	 * @param developer - 开发者(User对象)
+	 * @param offset - 筛选起始项的索引(Index)
+	 * @param limit - 筛选结果最大数量
+	 * @return 符合条件的产品列表
+	 */
+	public List<Product> getProductsUsingDeveloper(User developer, int offset, int limit) {
+		List<Product> products = productDao.getProductsUsingDeveloper(developer, offset, limit);
+		return products;
+	}
+	
+	/**
 	 * 获取某个分类下产品的数量.
 	 * @param category - 产品分类的对象
 	 * @return 某个分类下产品的数量
 	 */
 	public long getTotalProducts(ProductCategory category) {
 		long totalProducts = productDao.getTotalProductsUsingFilters(category);
+		return totalProducts;
+	}
+	
+	/**
+	 * 获取某个用户所发布的产品数量.
+	 * @param developer - 开发者的用户对象
+	 * @return 某个用户所发布的产品数量
+	 */
+	public long getTotalProducts(User developer) {
+		long totalProducts = productDao.getTotalProductsUsingFilters(developer);
 		return totalProducts;
 	}
 	

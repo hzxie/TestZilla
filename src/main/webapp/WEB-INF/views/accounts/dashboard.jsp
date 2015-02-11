@@ -158,8 +158,14 @@
                         </div> <!-- .four -->
                         <div class="twelve wide column">
                             <div id="products">
-                                <div class="ui info message">There aren't any products.</div>
-                            </div> <!-- #my-products -->
+                                <div class="ui relaxed divided items"></div> <!-- .items -->
+                                <div class="pagination-container">
+                                    <div class="ui pagination menu"></div> <!-- .pagination -->
+                                </div> <!-- .pagination-container -->
+                                <div class="ui warning message hide">
+                                    <p>No products found.</p>
+                                </div> <!-- .message -->
+                            </div> <!-- #products -->
                             <div id="product" class="hide">
                                 <div class="ui info message">
                                     <div class="header">Note:</div>
@@ -514,6 +520,85 @@
                 $('#product').removeClass('hide');
             }
         });
+    </script>
+    <script type="text/javascript">
+        $(function() {
+            var pageNumber = 1;
+            getProducts(pageNumber);
+        });
+    </script>
+    <script type="text/javascript">
+        function getProducts(pageNumber) {
+            var pageRequests = {
+                'page': pageNumber
+            };
+
+            $.ajax({
+                type: 'GET',
+                url: '<c:url value="/accounts/getProducts.action" />',
+                data: pageRequests,
+                dataType: 'JSON',
+                success: function(result) {
+                    if ( result['isSuccessful'] ) {
+                        $('#products .items').removeClass('hide');
+                        $('.pagination').removeClass('hide');
+                        $('.info').addClass('hide');
+
+                        displayProducts(result['products']);
+                        displayPagination(pageNumber, result['totalPages']);
+                    } else {
+                        $('#products .items').addClass('hide');
+                        $('.pagination').addClass('hide');
+                        $('.info').removeClass('hide');
+                    }
+                }
+            });
+        }
+    </script>
+    <script type="text/javascript">
+        function displayProducts(products) {
+            $('#products .items').empty();
+
+            for ( var i = 0; i < products.length; ++ i ) {
+                $('#products .items').append(getProductContent(products[i]['productId'], products[i]['productName'], 
+                                                               products[i]['productLogo'], products[i]['productCategory'], 
+                                                               products[i]['latestVersion'], products[i]['description'], products[i]['numberOfTesters']));
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        function getProductContent(productId, productName, productLogo, productCategory, latestVersion, description, numberOfTesters) {
+            var productContentTemplate = '<div class="item">' + 
+                                         '    <div class="ui small image">' + 
+                                         '        <img src="%s" />' + 
+                                         '    </div> <!-- .image -->' + 
+                                         '    <div class="content">' + 
+                                         '        <a class="header" href="<c:url value="/products/" />%s">%s</a>' + 
+                                         '        <div class="meta"><a>%s</a></div> <!-- .meta -->' + 
+                                         '        <div class="description">%s</div> <!-- .description -->' + 
+                                         '        <div class="extra">' + 
+                                         '            <div class="ui label">%s</div> <!-- .label -->' + 
+                                         '            <div class="ui label">%s tester(s) attended</div> <!-- .label -->' + 
+                                         '        </div> <!-- .extra -->' + 
+                                         '    </div> <!-- .content -->' + 
+                                         '</div> <!-- .item -->';
+            return productContentTemplate.format(productLogo, productId, productName, 
+                                                 productCategory['productCategoryName'], 
+                                                 description, latestVersion, numberOfTesters);
+        }
+    </script>
+    <script type="text/javascript">
+        function displayPagination(currentPage, totalPages) {
+            var lowerBound = ( currentPage - 5 > 0 ? currentPage - 5 : 1 ),
+                upperBound = ( currentPage + 5 < totalPages ? currentPage + 5 : totalPages );
+            var paginationString  = '<a class="icon item' + ( currentPage > 1 ? '' : ' disabled' ) + '"><i class="left arrow icon"></i></a>';
+
+            for ( var i = lowerBound; i <= upperBound; ++ i ) {
+                paginationString += '<a class="item' + ( currentPage == i ? ' active' : '' ) + '">' + i + '</a>';
+            }
+            paginationString     += '<a class="icon item' + ( currentPage < totalPages ? '' : ' disabled' )+ '"><i class="right arrow icon"></i></a>';
+            $('.pagination', '#products').html(paginationString);
+        }
     </script>
     <script type="text/javascript">
         $('button.positive', '#product div.form').click(function() {

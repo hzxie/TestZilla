@@ -38,6 +38,19 @@ public class ProductDao {
 	}
 	
 	/**
+	 * 获取某个用户所发布的产品数量.
+	 * @param developer - 开发者的用户对象
+	 * @return 某个用户所发布的产品数量
+	 */
+	@Transactional
+	public long getTotalProductsUsingFilters(User developer) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("SELECT COUNT(*) FROM Product WHERE developer = ?0")
+								.setParameter("0", developer);
+		return (Long)query.uniqueResult();
+	}
+	
+	/**
 	 * 获取某个分类中最新的产品列表.
 	 * @param category - 产品分类对象
 	 * @param offset - 筛选起始项的索引(Index)

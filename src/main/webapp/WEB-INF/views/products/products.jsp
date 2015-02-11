@@ -30,7 +30,7 @@
                     <a href="<c:url value="/" />" class="section">Home</a>
                     <div class="divider"> / </div>
                     <div class="active section">Product Board</div>
-                </div>
+                </div> <!-- .breadcrumb -->
             </div> <!-- .column -->
         </div> <!-- .row -->
         <div class="row">
@@ -62,11 +62,11 @@
             <div class="twelve wide column">
                 <div id="products" class="row">
                     <div class="column">
-                        <div class="ui relaxed divided items">
-                        </div> <!-- .items -->
                         <div class="ui warning message hide">
                             <p>No products found.</p>
                         </div> <!-- .message -->
+                        <div class="ui relaxed divided items">
+                        </div> <!-- .items -->
                     </div> <!-- .column -->
                 </div> <!-- .row -->
                 <div id="pagination" class="row">

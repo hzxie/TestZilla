@@ -14,6 +14,10 @@ div#content div#sub-header div.ui.tabular {
 	border-bottom: 1px solid transparent;
 }
 
+div#content div#sub-header div.ui.tabular a.item {
+	overflow: hidden;
+}
+
 div#content div#main-container div.tab {
 	background-color: #fff;
 	border-left: 1px solid #ddd;
@@ -21,6 +25,10 @@ div#content div#main-container div.tab {
 	margin: 0 auto;
 	padding: 2rem 1rem;
 	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.05);
+}
+
+div#content div#main-container div.pagination-container {
+	text-align: right;
 }
 
 div#content div#main-container div.actions {

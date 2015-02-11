@@ -1,6 +1,7 @@
 package com.happystudio.testzilla.controller;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.happystudio.testzilla.model.Product;
 import com.happystudio.testzilla.model.User;
 import com.happystudio.testzilla.service.ProductService;
 import com.happystudio.testzilla.service.UserService;
@@ -313,14 +315,61 @@ public class AccountsController {
     }
     
     /**
-     * @param productName
-     * @param productLogo
-     * @param productCategorySlug
-     * @param latestVersion
-     * @param prerequisites
-     * @param productUrl
-     * @param description
-     * @param request
+	 * 获取用户发布的产品列表.
+	 * @param page - 分页的页码
+	 * @param request - HttpRequest对象
+	 * @return 一个包含用户产品列表的JSON数组
+	 */
+	@RequestMapping(value = "/getProducts.action", method = RequestMethod.GET)
+	public @ResponseBody HashMap<String, Object> getProductsAction(
+			@RequestParam(value="page", required=false, defaultValue="1") int pageNumber,
+			HttpServletRequest request) {
+		HttpSession session = request.getSession();
+    	User currentUser = (User)session.getAttribute("user");
+    	
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		List<Product> products = getProducts(currentUser, pageNumber);
+		long totalPages = getProductTotalPages(currentUser);
+		
+		result.put("isSuccessful", products.size() != 0);
+		result.put("products", products);
+		result.put("totalPages", totalPages);
+		return result;
+	}
+	
+	/**
+	 * 根据筛选条件获取待测试的产品列表.
+	 * @param category - 产品所属分类
+	 * @param pageNumber - 分页的页码
+	 * @param isSortedByTime - 是否按照发布时间排序
+	 * @return 待测试的产品列表
+	 */
+	private List<Product> getProducts(User developer, int pageNumber) {
+		int offset = (pageNumber - 1) * NUMBER_OF_PRODUCTS_PER_PAGE;
+		List<Product> products = productService.getProductsUsingDeveloper(developer, offset, NUMBER_OF_PRODUCTS_PER_PAGE);;
+		
+		return products;
+	}
+	
+	/**
+	 * 获取某个产品分类中产品的总分页页数.
+	 * @param category - 产品分类的对象
+	 * @return 某个产品分类中产品的总分页页数
+	 */
+	private long getProductTotalPages(User developer) {
+		return (long)Math.ceil((double)productService.getTotalProducts(developer) / NUMBER_OF_PRODUCTS_PER_PAGE);
+	}
+    
+    /**
+     * 处理用户创建产品的请求
+     * @param productName - 产品名称
+	 * @param productLogo - 产品Logo的URL
+	 * @param productCategorySlug - 产品分类目录的唯一英文缩写
+	 * @param latestVersion - 最新版本
+	 * @param prerequisites - 测试的先决条件
+	 * @param productUrl - 产品主页
+	 * @param description - 产品的描述信息
+     * @param request - HttpRequest对象
      * @return
      */
     @RequestMapping(value = "/createProduct.action", method = RequestMethod.POST)
@@ -358,6 +407,11 @@ public class AccountsController {
      */
     @Autowired
     ProductService productService;
+    
+    /**
+	 * 产品列表页面每页所显示的产品数量.
+	 */
+	private final int NUMBER_OF_PRODUCTS_PER_PAGE = 10;
     
     /**
      * 日志记录器.

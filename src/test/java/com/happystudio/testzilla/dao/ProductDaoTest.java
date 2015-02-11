@@ -25,19 +25,8 @@ import com.happystudio.testzilla.model.User;
 @ContextConfiguration({"classpath:test-spring-context.xml"})
 public class ProductDaoTest {
 	/**
-	 * 测试用例: 测试getTotalProductsUsingFilters()方法
-	 * 测试数据: 不使用产品分类筛选筛选
-	 * 预期结果: 返回全部产品的数量(2)
-	 */
-	@Test
-	public void testGetTotalProductsUsingNoneFilters() {
-		long numberOfProducts = productDao.getTotalProductsUsingFilters(null);
-		Assert.assertEquals(2, numberOfProducts);
-	}
-	
-	/**
-	 * 测试用例: 测试getTotalProductsUsingFilters()方法
-	 * 测试数据: 使用Web产品分类筛选筛选
+	 * 测试用例: 测试getTotalProductsUsingFilters(ProductCategory)方法
+	 * 测试数据: 使用Web产品分类筛选
 	 * 预期结果: 返回Web产品的数量(2)
 	 */
 	@Test
@@ -46,7 +35,19 @@ public class ProductDaoTest {
 		long numberOfProducts = productDao.getTotalProductsUsingFilters(category);
 		Assert.assertEquals(2, numberOfProducts);
 	}
-
+	
+	/**
+	 * 测试用例: 测试getTotalProductsUsingFilters(User)方法
+	 * 测试数据: 使用开发者用户对象筛选
+	 * 预期结果: 返回开发者所发布产品的数量(1)
+	 */
+	@Test
+	public void testGetTotalProductsUsingDeveloperFilters() {
+		User developer = userDao.getUserUsingUid(1001);
+		long numberOfProducts = productDao.getTotalProductsUsingFilters(developer);
+		Assert.assertEquals(1, numberOfProducts);
+	}
+	
 	/**
 	 * 测试用例: 测试getLatestProductsUsingCategory()方法
 	 * 测试数据: 不使用产品分类
