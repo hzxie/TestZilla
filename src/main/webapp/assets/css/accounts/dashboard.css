@@ -32,6 +32,7 @@ div#content div#main-container div.pagination-container {
 }
 
 div#content div#main-container div.actions {
+	overflow: hidden;
 	text-align: right;
 }
 
@@ -42,4 +43,20 @@ div#content div#main-container div.actions button.button {
 div#content div#main-container div#overview-tab div.statistic div.value {
 	font-size: 3rem;
 	text-transform: lowercase;
+}
+
+div#content div#main-container div#products-tab div.items div.item {
+	position: relative;
+}
+
+div#content div#main-container div#products-tab div.item a.edit {
+	color: #666;
+	font-weight: normal;
+	position: absolute;
+	top: 1.2em;
+	right: 0;
+}
+
+div#content div#main-container div#products-tab div.item:first-child a.edit {
+	top: 0;
 }

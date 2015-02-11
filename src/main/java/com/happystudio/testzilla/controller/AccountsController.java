@@ -318,7 +318,7 @@ public class AccountsController {
 	 * 获取用户发布的产品列表.
 	 * @param page - 分页的页码
 	 * @param request - HttpRequest对象
-	 * @return 一个包含用户产品列表的JSON数组
+	 * @return 一个包含用户产品列表的JSON对象
 	 */
 	@RequestMapping(value = "/getProducts.action", method = RequestMethod.GET)
 	public @ResponseBody HashMap<String, Object> getProductsAction(
@@ -361,7 +361,7 @@ public class AccountsController {
 	}
     
     /**
-     * 处理用户创建产品的请求
+     * 处理用户创建产品的请求.
      * @param productName - 产品名称
 	 * @param productLogo - 产品Logo的URL
 	 * @param productCategorySlug - 产品分类目录的唯一英文缩写
@@ -370,7 +370,7 @@ public class AccountsController {
 	 * @param productUrl - 产品主页
 	 * @param description - 产品的描述信息
      * @param request - HttpRequest对象
-     * @return
+     * @return 一个包含若干标志位的JSON对象
      */
     @RequestMapping(value = "/createProduct.action", method = RequestMethod.POST)
     public @ResponseBody HashMap<String, Boolean> createProductAction(
@@ -391,6 +391,44 @@ public class AccountsController {
     	
     	if ( result.get("isSuccessful") ) {
             logger.info(String.format("User: {%s} created product [productName=%s] at %s.", 
+            			new Object[] {currentUser, productName, ipAddress}));
+        }
+        return result;
+    }
+    
+    /**
+     * 处理用户编辑产品的请求.
+     * @param productId - 产品的唯一标识符
+     * @param productName - 产品名称
+	 * @param productLogo - 产品Logo的URL
+	 * @param productCategorySlug - 产品分类目录的唯一英文缩写
+	 * @param latestVersion - 最新版本
+	 * @param prerequisites - 测试的先决条件
+	 * @param productUrl - 产品主页
+	 * @param description - 产品的描述信息
+     * @param request - HttpRequest对象
+     * @return 一个包含若干标志位的JSON对象
+     */
+    @RequestMapping(value = "/editProduct.action", method = RequestMethod.POST)
+    public @ResponseBody HashMap<String, Boolean> editProductAction(
+    		@RequestParam(value="productId", required=true) long productId,
+    		@RequestParam(value="productName", required=true) String productName,
+    		@RequestParam(value="productLogo", required=true) String productLogo,
+    		@RequestParam(value="productCategory", required=true) String productCategorySlug,
+    		@RequestParam(value="latestVersion", required=true) String latestVersion,
+    		@RequestParam(value="prerequisites", required=true) String prerequisites,
+    		@RequestParam(value="productUrl", required=true) String productUrl,
+    		@RequestParam(value="description", required=true) String description,
+    		HttpServletRequest request) {
+    	String ipAddress = HttpRequestParser.getRemoteAddr(request);
+    	HttpSession session = request.getSession();
+    	User currentUser = (User)session.getAttribute("user");
+    	
+    	HashMap<String, Boolean> result = productService.editProduct(productId, productName, productLogo, 
+    			productCategorySlug, latestVersion, currentUser, prerequisites, productUrl, description);
+    	
+    	if ( result.get("isSuccessful") ) {
+            logger.info(String.format("User: {%s} edited product [productName=%s] at %s.", 
             			new Object[] {currentUser, productName, ipAddress}));
         }
         return result;

@@ -167,6 +167,71 @@ public class ProductService {
 	}
 	
 	/**
+	 * 验证数据并编辑产品.
+	 * @param productId - 产品的唯一标识符
+	 * @param productName - 产品名称
+	 * @param productLogo - 产品Logo的URL
+	 * @param productCategory - 产品分类目录
+	 * @param latestVersion - 最新版本
+	 * @param developer - 产品开发者
+	 * @param prerequisites - 测试的先决条件
+	 * @param productUrl - 产品主页
+	 * @param description - 产品的描述信息
+	 * @return 一个包含若干标志位的HashMap<String, Boolean>对象
+	 */
+	public HashMap<String, Boolean> editProduct(long productId, String productName, 
+			String productLogo, String productCategorySlug, String latestVersion, 
+			User developer, String prerequisites, String productUrl, String description) {
+		ProductCategory productCategory = getProductCategoryUsingSlug(productCategorySlug);
+		Product product = new Product(productId, TextFilter.filterHtml(productName),
+							TextFilter.filterHtml(productLogo), productCategory, 
+							TextFilter.filterHtml(latestVersion), developer, 
+							TextFilter.filterHtml(prerequisites), 
+							TextFilter.filterHtml(productUrl), 
+							TextFilter.filterHtml(description));
+		HashMap<String, Boolean> result = getEditProductResult(product);
+		
+		if ( result.get("isSuccessful") ) {
+			boolean isSuccessful = productDao.updateProduct(product);
+			result.put("isSuccessful", isSuccessful);
+		}
+		return result;
+	}
+	
+	/**
+	 * 验证数据并编辑产品.
+	 * @param product - 待编辑的产品对象
+	 * @return 一个包含若干标志位的HashMap<String, Boolean>对象
+	 */
+	private HashMap<String, Boolean> getEditProductResult(Product product) {
+		HashMap<String, Boolean> result = new HashMap<String, Boolean>();
+		result.put("isProductNameEmpty", product.getProductName().isEmpty());
+		result.put("isProductNameLegal", isProductNameLegal(product.getProductName()));
+		result.put("isProductLogoEmpty", product.getProductLogo().isEmpty());
+		result.put("isProductLogoLegal", isProductLogoLegal(product.getProductLogo()));
+		result.put("isProductCategoryEmpty", product.getProductCategory() == null);
+		result.put("isLatestVersionEmpty", product.getLatestVersion().isEmpty());
+		result.put("isLatestVersionLegal", isLatestVersionLegal(product.getLatestVersion()));
+		result.put("isDeveloperEmpty", isDeveloperEmpty(product.getDeveloper()));
+		result.put("isDeveloperLegal", isDeveloperLegal(product.getProductId(), product.getDeveloper()));
+		result.put("isPrerequisitesEmpty", product.getPrerequisites().isEmpty());
+		result.put("isPrerequisitesLegal", isPrerequisitesLegal(product.getPrerequisites()));
+		result.put("isProductUrlEmpty", product.getUrl().isEmpty());
+		result.put("isProductUrlLegal", isProductUrlLegal(product.getUrl()));
+		result.put("isDescriptionEmpty", product.getDescription().isEmpty());
+		
+		boolean isSuccessful = !result.get("isProductNameEmpty")     &&  result.get("isProductNameLegal")   &&
+							   !result.get("isProductLogoEmpty")     &&  result.get("isProductLogoLegal")   &&
+							   !result.get("isProductCategoryEmpty") && !result.get("isLatestVersionEmpty") &&
+							    result.get("isLatestVersionLegal")   && !result.get("isDeveloperEmpty")     &&
+							    result.get("isDeveloperLegal")       && !result.get("isPrerequisitesEmpty") &&  
+							    result.get("isPrerequisitesLegal")   && !result.get("isProductUrlEmpty")    &&  
+							    result.get("isProductUrlLegal")      && !result.get("isDescriptionEmpty");
+		result.put("isSuccessful", isSuccessful);
+		return result;
+	}
+	
+	/**
 	 * 检查产品名称是否合法.
 	 * 规则: 产品名称的长度不得超过32个字符.
 	 * @param productName - 产品名称
@@ -200,7 +265,7 @@ public class ProductService {
 	}
 	
 	/**
-	 * 检查用户是否具有创建课程的权限.
+	 * 检查用户是否具有创建产品的权限.
 	 * @param user - 用户(User)对象
 	 * @return 用户是否具有创建课程的权限
 	 */
@@ -210,6 +275,22 @@ public class ProductService {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * 检查用户是否具有编辑产品的权限.
+	 * @param productId - 产品的唯一标识符
+	 * @param user - 用户(User)对象
+	 * @return 用户是否具有编辑产品的权限
+	 */
+	private boolean isDeveloperLegal(long productId, User user) {
+		Product product = productDao.getProductsUsingProductId(productId);
+		
+		if ( product == null ||
+			!product.getDeveloper().equals(user) ) {
+			return false;
+		}
+		return true;
 	}
 	
 	/**

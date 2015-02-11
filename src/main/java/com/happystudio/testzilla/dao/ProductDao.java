@@ -111,7 +111,7 @@ public class ProductDao {
 	public List<Product> getProductsUsingDeveloper(User developer, int offset, int limit) {
 		Session session = sessionFactory.getCurrentSession();
 		@SuppressWarnings("unchecked")
-		List<Product> products = (List<Product>)session.createQuery("FROM Product WHERE developer = ?0")
+		List<Product> products = (List<Product>)session.createQuery("FROM Product WHERE developer = ?0 ORDER BY productId DESC")
 														.setParameter("0", developer)
 														.setFirstResult(offset)
 														.setMaxResults(limit).list();

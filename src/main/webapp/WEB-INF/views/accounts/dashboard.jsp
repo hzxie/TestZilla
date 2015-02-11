@@ -175,6 +175,7 @@
                                     <div class="two required fields">
                                         <div class="field">
                                             <label for="product-name">Product Name</label>
+                                            <input id="product-id" type="hidden" maxlength="20" />
                                             <input id="product-name" type="text" maxlength="32" />
                                         </div> <!-- .field -->
                                         <div class="field">
@@ -446,13 +447,13 @@
                     $('button.positive', '#profile-modal').html('Save');
                     $('button.positive', '#profile-modal').removeAttr('disabled');
 
-                    processResult(result);
+                    processEditProfileResult(result);
                 }
             });
         }
     </script>
     <script type="text/javascript">
-        function processResult(result) {
+        function processEditProfileResult(result) {
             if ( result['isSuccessful'] ) {
                 $('#profile-modal').modal('hide');
             } else {
@@ -516,6 +517,10 @@
                 $('#product').addClass('hide');
                 $('#products').removeClass('hide');
             } else {
+                $('input, textarea', '#product').val('');
+                $('button.positive', '#product').html('Create Product');
+
+                // Switch to another tab
                 $('#products').addClass('hide');
                 $('#product').removeClass('hide');
             }
@@ -524,7 +529,7 @@
     <script type="text/javascript">
         $(function() {
             var pageNumber = 1;
-            getProducts(pageNumber);
+            return getProducts(pageNumber);
         });
     </script>
     <script type="text/javascript">
@@ -547,7 +552,7 @@
                         displayProducts(result['products']);
                         displayPagination(pageNumber, result['totalPages']);
                     } else {
-                        $('#products .items').addClass('hide');
+                        $('#products .items').addClass('hide');                        
                         $('.pagination').addClass('hide');
                         $('.info').removeClass('hide');
                     }
@@ -574,6 +579,7 @@
                                          '    </div> <!-- .image -->' + 
                                          '    <div class="content">' + 
                                          '        <a class="header" href="<c:url value="/products/" />%s">%s</a>' + 
+                                         '        <a class="edit" href="javascript:editProduct(%s);">Edit</a>' + 
                                          '        <div class="meta"><a>%s</a></div> <!-- .meta -->' + 
                                          '        <div class="description">%s</div> <!-- .description -->' + 
                                          '        <div class="extra">' + 
@@ -583,7 +589,7 @@
                                          '    </div> <!-- .content -->' + 
                                          '</div> <!-- .item -->';
             return productContentTemplate.format(productLogo, productId, productName, 
-                                                 productCategory['productCategoryName'], 
+                                                 productId, productCategory['productCategoryName'], 
                                                  description, latestVersion, numberOfTesters);
         }
     </script>
@@ -601,8 +607,80 @@
         }
     </script>
     <script type="text/javascript">
+        $('.pagination', '#products').delegate('a.item', 'click', function(e) {
+            e.preventDefault();
+            if ( $(this).hasClass('disabled') ) {
+                return;
+            }
+            var currentPage = parseInt($('a.active', '.pagination').html(), 10);
+                pageNumber  = $(this).html();
+            
+            $('.pagination > a.active').removeClass('active');
+            $(this).addClass('active');
+
+            if ( pageNumber.indexOf('left arrow') != -1 ) {
+                pageNumber  = currentPage - 1;
+            } else if ( pageNumber.indexOf('right arrow') != -1 ) {
+                pageNumber  = currentPage + 1;
+            }
+            return getProducts(pageNumber);
+        });
+    </script>
+    <script type="text/javascript">
+        function editProduct(productId) {
+            $('button.positive', '#product').html('Save');
+            
+            // Switch to another tab
+            $('#products').addClass('hide');
+            $('#product').removeClass('hide');
+
+            // Loading data for the product
+            $('.form', '#product').addClass('loading');
+            return getProduct(productId);
+        }
+    </script>
+    <script type="text/javascript">
+        function getProduct(productId) {
+            var postData = {
+                'productId': productId
+            };
+
+            $.ajax({
+                type: 'GET',
+                url: '<c:url value="/products/getProduct.action" />',
+                data: postData,
+                dataType: 'JSON',
+                success: function(result) {
+                    if ( result['isSuccessful'] ) {
+                        displayProduct(result['product']);
+                    } else {
+                        alert('Product not exists.\nPlease contact webmaster for help.');
+                    }
+
+                    $('.form', '#product').removeClass('loading');
+                }
+            });
+        }
+    </script>
+    <script type="text/javascript">
+        function displayProduct(product) {
+            $('#product-id').val(product['productId']);
+            $('#product-name').val(product['productName']);
+            $('#product-logo').val(product['productLogo']);
+            $('#latest-version').val(product['latestVersion']);
+            $('#prerequisites').val(product['prerequisites']);
+            $('#product-url').val(product['url']);
+            $('#description').val(product['description']);
+
+            $('#product-category').parent().find('.text').removeClass('default');
+            $('#product-category').parent().find('.text').html(product['productCategory']['productCategoryName']);
+            $('#product-category').val(product['productCategory']['productCategorySlug']);
+        }
+    </script>
+    <script type="text/javascript">
         $('button.positive', '#product div.form').click(function() {
-            var productName     = $('#product-name').val(),
+            var productId       = $('#product-id').val(),
+                productName     = $('#product-name').val(),
                 productLogo     = $('#product-logo').val(),
                 productCategory = $('#product-category').val(),
                 latestVersion   = $('#latest-version').val(),
@@ -610,7 +688,11 @@
                 productUrl      = $('#product-url').val(),
                 description     = $('#description').val();
 
-            return createProductAction(productName, productLogo, productCategory, latestVersion, prerequisites, productUrl, description);
+            if ( productId == '' ) {
+                return createProductAction(productName, productLogo, productCategory, latestVersion, prerequisites, productUrl, description);
+            } else {
+                return editProductAction(productId, productName, productLogo, productCategory, latestVersion, prerequisites, productUrl, description);
+            }
         });
     </script>
     <script type="text/javascript">
@@ -641,27 +723,67 @@
                     $('button.positive', '#product').removeAttr('disabled');
                     $('.form', '#product').removeClass('loading');
 
-                    processResult(result);
+                    processProductResult(result);
                 }
             });
         }
     </script>
     <script type="text/javascript">
-        function processResult(result) {
+        function editProductAction(productId, productName, productLogo, 
+                    productCategory, latestVersion, prerequisites, productUrl, description) {
+            $('button.positive', '#product').html('Saving...');
+            $('button.positive', '#product').attr('disabled', 'disabled');
+            $('.form', '#product').addClass('loading');
+            $('.message', '#product').addClass('hide');
+
+            var postData = {
+                'productId': productId, 
+                'productName': productName, 
+                'productLogo': productLogo, 
+                'productCategory': productCategory, 
+                'latestVersion': latestVersion, 
+                'prerequisites': prerequisites, 
+                'productUrl': productUrl, 
+                'description': description
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '<c:url value="/accounts/editProduct.action" />',
+                data: postData,
+                dataType: 'JSON',
+                success: function(result) {
+                    $('button.positive', '#product').html('Save');
+                    $('button.positive', '#product').removeAttr('disabled');
+                    $('.form', '#product').removeClass('loading');
+
+                    processProductResult(result);
+                }
+            });
+        }
+    </script>
+    <script type="text/javascript">
+        function processProductResult(result) {
             var message = '';
 
             if ( result['isSuccessful'] ) {
-                $('input, textarea', '#product').val('');
                 $('.message', '#product').removeClass('error');
                 $('.message', '#product').addClass('success');
 
-                message      = 'Your product is created successfully.';
+                if ( $('button.positive', '#product').html() == 'Save' ) {
+                    message      = 'Your product is edited successfully.';
+                } else {
+                    $('input, textarea', '#product').val('');
+                    message      = 'Your product is created successfully.';
+                }
             } else {
                 $('.message', '#product').removeClass('success');
                 $('.message', '#product').addClass('error');
 
                 if ( result['isDeveloperEmpty'] ) {
                     message += 'You\'re not allowed to create a product.<br>';
+                } else if ( !result['isDeveloperLegal'] ) {
+                    message += 'You\'re not allowed to edit the product.<br>';
                 }
                 if ( result['isProductNameEmpty'] ) {
                     message += 'You can\'t leave <strong>Product Name</strong> empty.<br>';

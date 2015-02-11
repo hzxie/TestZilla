@@ -72,7 +72,7 @@ public class ProductsController {
 		result.put("totalPages", totalPages);
 		return result;
 	}
-
+	
 	/**
 	 * 通过产品分类的唯一英文简写获取产品分类对象.
 	 * @param productCategorySlug - 产品分类的唯一英文简写
@@ -143,7 +143,25 @@ public class ProductsController {
         view.addObject("relatedProducts", relatedProducts);
         return view;
 	}
-	
+
+	/**
+	 * 获取产品的详细信息.
+	 * @param productId - 产品的唯一标识符
+	 * @param request - HttpRequest请求
+	 * @return 一个包含产品详细信息的JSON数组
+	 */
+	@RequestMapping(value = "/getProduct.action", method = RequestMethod.GET)
+	public @ResponseBody HashMap<String, Object> getProductAction(
+			@RequestParam(value="productId", required=true) long productId,
+			HttpServletRequest request) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		Product product = productService.getProductsUsingProductId(productId);
+		
+		result.put("isSuccessful", product != null);
+		result.put("product", product);
+		return result;
+	}
+
 	/**
 	 * 获取全部的Bug分类对象.
 	 * @return 全部Bug分类对象的列表
