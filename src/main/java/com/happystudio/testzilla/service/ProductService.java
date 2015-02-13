@@ -12,7 +12,7 @@ import com.happystudio.testzilla.dao.ProductDao;
 import com.happystudio.testzilla.model.Product;
 import com.happystudio.testzilla.model.ProductCategory;
 import com.happystudio.testzilla.model.User;
-import com.happystudio.testzilla.util.TextFilter;
+import com.happystudio.testzilla.util.HtmlTextFilter;
 
 /**
  * 产品Service. 为Controller提供服务.
@@ -119,12 +119,12 @@ public class ProductService {
 			String productLogo, String productCategorySlug, String latestVersion, 
 			User developer, String prerequisites, String productUrl, String description) {
 		ProductCategory productCategory = getProductCategoryUsingSlug(productCategorySlug);
-		Product product = new Product(TextFilter.filterHtml(productName),
-							TextFilter.filterHtml(productLogo), productCategory, 
-							TextFilter.filterHtml(latestVersion), developer, 
-							TextFilter.filterHtml(prerequisites), 
-							TextFilter.filterHtml(productUrl), 
-							TextFilter.filterHtml(description));
+		Product product = new Product(HtmlTextFilter.filter(productName),
+							HtmlTextFilter.filter(productLogo), productCategory, 
+							HtmlTextFilter.filter(latestVersion), developer, 
+							HtmlTextFilter.filter(prerequisites), 
+							HtmlTextFilter.filter(productUrl), 
+							HtmlTextFilter.filter(description));
 		HashMap<String, Boolean> result = getCreateProductResult(product);
 		
 		if ( result.get("isSuccessful") ) {
@@ -183,12 +183,12 @@ public class ProductService {
 			String productLogo, String productCategorySlug, String latestVersion, 
 			User developer, String prerequisites, String productUrl, String description) {
 		ProductCategory productCategory = getProductCategoryUsingSlug(productCategorySlug);
-		Product product = new Product(productId, TextFilter.filterHtml(productName),
-							TextFilter.filterHtml(productLogo), productCategory, 
-							TextFilter.filterHtml(latestVersion), developer, 
-							TextFilter.filterHtml(prerequisites), 
-							TextFilter.filterHtml(productUrl), 
-							TextFilter.filterHtml(description));
+		Product product = new Product(productId, HtmlTextFilter.filter(productName),
+							HtmlTextFilter.filter(productLogo), productCategory, 
+							HtmlTextFilter.filter(latestVersion), developer, 
+							HtmlTextFilter.filter(prerequisites), 
+							HtmlTextFilter.filter(productUrl), 
+							HtmlTextFilter.filter(description));
 		HashMap<String, Boolean> result = getEditProductResult(product);
 		
 		if ( result.get("isSuccessful") ) {

@@ -7,27 +7,22 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * SensitiveWordUtil 的测试类
- * @author xsx
+ * SensitiveWordFilter的测试类
+ * @author Zhou YiHao
  */
-public class SensitiveWordUtilTest {
-
+public class SensitiveWordFilterTest {
 	/**
-	 * 测试用例：测试敏感词过滤
+	 * 测试用例：测试filter()方法
+	 * 测试数据: 包含敏感词的数据(法轮大法)
+	 * 预期结果: 过滤敏感词后的数据
 	 */
 	@Test
-	public void testSensitiveWordFilter() {
-		//初始化
+	public void testFilterUsingSensitiveWord() {
 		Set<String> sensitiveWordSet = new HashSet<String>();
 		sensitiveWordSet.add("法轮大法");
 		sensitiveWordSet.add("法轮功");
 		SensitiveWordFilter filter = SensitiveWordFilter.getInstance(sensitiveWordSet);
 		
-		String txt = "法轮大法好";
-		String expected = "****好";
-		
-		String result = filter.Filter(txt);
-		Assert.assertEquals(expected, result);
+		Assert.assertEquals("****好 你好", filter.filter("法轮大法好 你好"));
 	}
-
 }
