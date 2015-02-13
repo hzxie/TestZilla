@@ -27,6 +27,16 @@ import com.happystudio.testzilla.model.User;
 @Transactional
 public class BugService {
 	/**
+	 * 获取某个产品下Bug的数量.
+	 * @param product - 产品(Product)对象
+	 * @return 某个产品下Bug的数量
+	 */
+	public long getTotalBugsUsingProduct(Product product) {
+		long totalBugs = bugDao.getTotalBugsUsingProduct(product);
+		return totalBugs;
+	}
+	
+	/**
 	 * 获取某个产品的Bug列表.
 	 * @param product - 产品(Product)对象
 	 * @param offset - 筛选起始项的索引(Index)
@@ -39,13 +49,25 @@ public class BugService {
 	}
 	
 	/**
-	 * 获取某个产品下Bug的数量.
-	 * @param product - 产品(Product)对象
-	 * @return 某个产品下Bug的数量
+	 * 获取Bug发现者所发现的Bug的数量.
+	 * @param hunter - Bug发现者(hunter)对象
+	 * @return 某个Bug发现者所发现的Bug的数量
 	 */
-	public long getTotalBugsUsingProduct(Product product) {
-		long totalBugs = bugDao.getTotalBugsUsingProduct(product);
+	public long getTotalBugsUsingHunter(User hunter) {
+		long totalBugs = bugDao.getTotalBugsUsingHunter(hunter);
 		return totalBugs;
+	}
+
+	/**
+	 * 获取某个用户所提交的Bug列表.
+	 * @param hunter - Bug提交者(User对象)
+	 * @param offset - 筛选起始项的索引(Index)
+	 * @param limit - 筛选结果最大数量
+	 * @return 符合条件的Bug列表
+	 */
+	public List<Bug> getBugsUsingHunter(User hunter, int offset, int limit) {
+		List<Bug> bugs = bugDao.getBugsUsingHunter(hunter, offset, limit);
+		return bugs;
 	}
 	
 	/**

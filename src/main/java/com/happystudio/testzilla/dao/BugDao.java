@@ -52,9 +52,9 @@ public class BugDao {
 	}
 	
 	/**
-	 * 获取某个产品下Bug的数量.
-	 * @param product - 产品(Product)对象
-	 * @return 某个产品下Bug的数量
+	 * 获取Bug发现者所发现的Bug的数量.
+	 * @param hunter - Bug发现者(hunter)对象
+	 * @return 某个Bug发现者所发现的Bug的数量
 	 */
 	@Transactional
 	public long getTotalBugsUsingHunter(User hunter) {

@@ -120,7 +120,7 @@
             <div id="issues-tab" class="ui tab" data-tab="issues">
                 <div class="ui stackable grid">
                     <div class="row">
-                        <div class="four wide column">
+                        <div id="issues-sidebar" class="four wide column">
                             <div class="ui vertical fluid menu">
                                 <a class="item active">Received Issues</a>
                             <c:if test="${user.userGroup.userGroupSlug == 'developer'}">
@@ -135,7 +135,15 @@
                             </div> <!-- .menu -->
                         </div> <!-- .four -->
                         <div class="twelve wide column">
-                        	<div class="ui info message">There aren't any issues.</div>
+                            <div id="issues">
+                                <div class="ui relaxed divided items"></div> <!-- .items -->
+                                <div class="pagination-container">
+                                    <div class="ui pagination menu"></div> <!-- .pagination -->
+                                </div> <!-- .pagination-container -->
+                                <div class="ui info message">
+                                    <p>There aren't any issues.</p>
+                                </div> <!-- .message -->
+                            </div> <!-- #issues -->
                         </div> <!-- .twelve -->
                     </div> <!-- .row -->
                 </div> <!-- .grid -->
@@ -162,7 +170,7 @@
                                 <div class="pagination-container">
                                     <div class="ui pagination menu"></div> <!-- .pagination -->
                                 </div> <!-- .pagination-container -->
-                                <div class="ui warning message hide">
+                                <div class="ui info message hide">
                                     <p>No products found.</p>
                                 </div> <!-- .message -->
                             </div> <!-- #products -->
@@ -371,16 +379,29 @@
     </script>
     <script type="text/javascript">
         $(function() {
-            /*converter = Markdown.getSanitizingConverter();
+            converter = Markdown.getSanitizingConverter();
             converter.hooks.chain("preBlockGamut", function (text, rbg) {
                 return text.replace(/^ {0,3}""" *\n((?:.*?\n)+?) {0,3}""" *$/gm, function (whole, inner) {
                     return "<blockquote>" + rbg(inner) + "</blockquote>\n";
                 });
             });
 
-            editor    = new Markdown.Editor(converter);
+            /*editor    = new Markdown.Editor(converter);
             editor.run();*/
         });
+    </script>
+    <script type="text/javascript">
+        function displayPagination(currentPage, totalPages, paginationContainer) {
+            var lowerBound = ( currentPage - 5 > 0 ? currentPage - 5 : 1 ),
+                upperBound = ( currentPage + 5 < totalPages ? currentPage + 5 : totalPages );
+            var paginationString  = '<a class="icon item' + ( currentPage > 1 ? '' : ' disabled' ) + '"><i class="left arrow icon"></i></a>';
+
+            for ( var i = lowerBound; i <= upperBound; ++ i ) {
+                paginationString += '<a class="item' + ( currentPage == i ? ' active' : '' ) + '">' + i + '</a>';
+            }
+            paginationString     += '<a class="icon item' + ( currentPage < totalPages ? '' : ' disabled' )+ '"><i class="right arrow icon"></i></a>';
+            $('.pagination', paginationContainer).html(paginationString);
+        }
     </script>
     <!-- Java Script for Overview Tab -->
     <script type="text/javascript">
@@ -507,6 +528,127 @@
             }
         }
     </script>
+    <!-- Java Script for Issues Tab -->
+    <script type="text/javascript">
+        $('.menu .item', '#issues-sidebar').click(function() {
+            $('.menu .item', '#issues-sidebar').removeClass('active');
+            $(this).addClass('active');
+
+            var pageNumber = 1;
+            return getIssues(pageNumber);
+        });
+    </script>
+    <script type="text/javascript">
+        $('.pagination', '#issues').delegate('a.item', 'click', function(e) {
+            e.preventDefault();
+            if ( $(this).hasClass('disabled') ) {
+                return;
+            }
+            var currentPage = parseInt($('a.active', '.pagination').html(), 10);
+                pageNumber  = $(this).html();
+            
+            $('.pagination > a.active').removeClass('active');
+            $(this).addClass('active');
+
+            if ( pageNumber.indexOf('left arrow') != -1 ) {
+                pageNumber  = currentPage - 1;
+            } else if ( pageNumber.indexOf('right arrow') != -1 ) {
+                pageNumber  = currentPage + 1;
+            }
+            return getIssues(pageNumber);
+        });
+    </script>
+    <script type="text/javascript">
+        $(function() {
+            var pageNumber = 1;
+            return getIssues(pageNumber);
+        });
+    </script>
+    <script type="text/javascript">
+        function getIssues(pageNumber) {
+            var selectedItem = $('.menu .item.active', '#issues-sidebar');
+
+            if ( $(selectedItem).html() == 'Sent Issues' ) {
+                return getSentIssues(pageNumber);
+            } else {
+                return getReceivedIssues(pageNumber);
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        function getSentIssues(pageNumber) {
+            var pageRequests = {
+                'page': pageNumber
+            };
+
+            $.ajax({
+                type: 'GET',
+                url: '<c:url value="/accounts/getSentIssues.action" />',
+                data: pageRequests,
+                dataType: 'JSON',
+                success: function(result) {
+                    if ( result['isSuccessful'] ) {
+                        $('.items', '#issues').removeClass('hide');
+                        $('.pagination', '#issues').removeClass('hide');
+                        $('.info', '#issues').addClass('hide');
+
+                        displayBugs(result['bugs']);
+                        displayPagination(pageNumber, result['totalPages'], $('#issues'));
+                    } else {
+                        $('.items', '#issues').addClass('hide');
+                        $('.pagination', '#issues').addClass('hide');
+                        $('.info', '#issues').removeClass('hide');
+                    }
+                }
+            });
+        }
+    </script>
+    <script type="text/javascript">
+        function getReceivedIssues(pageNumber) {
+
+        }
+    </script>
+    <script type="text/javascript">
+        function displayBugs(bugs) {
+            $('.items', '#issues').empty();
+
+            for ( var i = 0; i < bugs.length; ++ i ) {
+                $('.items', '#issues').append(getSentBugContent(bugs[i]['title'], bugs[i]['product'], 
+                                                                bugs[i]['productVersion'], bugs[i]['description'], 
+                                                                bugs[i]['bugCategory'], bugs[i]['bugStatus'], bugs[i]['createTime']));
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        function getSentBugContent(bugTitle, product, productVersion, description, bugCategory, bugStatus, createTime) {
+            var bugContentTemplate = '<div class="item">' + 
+                                     '    <div class="content">' + 
+                                     '        <a class="header">%s</a>' + 
+                                     '        <div class="meta"><ahref="<c:url value="/products/" />%s">%s (%s)</a></div> <!-- .meta -->' + 
+                                     '        <div class="description">%s</div> <!-- .description -->' + 
+                                     '        <div class="extra">' + 
+                                     '            <div class="ui label">%s</div> <!-- .label -->' + 
+                                     '            <div class="ui label">%s</div> <!-- .label -->' + 
+                                     '            <div class="ui label">Created on %s</div> <!-- .label -->' + 
+                                     '        </div> <!-- .extra -->' + 
+                                     '    </div> <!-- .content -->' + 
+                                     '</div> <!-- .item -->';
+            return bugContentTemplate.format(bugTitle, product['productId'], product['productName'], productVersion,
+                                             stripHtml(converter.makeHtml(description.replace(/\\n/g, '\n'))), 
+                                             bugCategory['bugCategoryName'], bugStatus['bugStatusName'], getTimeElapsed(createTime));
+        }
+    </script>
+    <script type="text/javascript">
+        function stripHtml(str) {
+            return str.replace(/<(?:.|\s)*?>/g, " ");
+        }
+    </script>
+    <script type="text/javascript">
+        function getTimeElapsed(timeStamp) {
+            var dateTime = moment.unix(timeStamp / 1000);
+            return dateTime.fromNow();
+        }
+    </script>
     <!-- Java Script for Products Tab -->
     <script type="text/javascript">
         $('.menu .item', '#products-sidebar').click(function() {
@@ -524,6 +666,26 @@
                 $('#products').addClass('hide');
                 $('#product').removeClass('hide');
             }
+        });
+    </script>
+    <script type="text/javascript">
+        $('.pagination', '#products').delegate('a.item', 'click', function(e) {
+            e.preventDefault();
+            if ( $(this).hasClass('disabled') ) {
+                return;
+            }
+            var currentPage = parseInt($('a.active', '.pagination').html(), 10);
+                pageNumber  = $(this).html();
+            
+            $('.pagination > a.active').removeClass('active');
+            $(this).addClass('active');
+
+            if ( pageNumber.indexOf('left arrow') != -1 ) {
+                pageNumber  = currentPage - 1;
+            } else if ( pageNumber.indexOf('right arrow') != -1 ) {
+                pageNumber  = currentPage + 1;
+            }
+            return getProducts(pageNumber);
         });
     </script>
     <script type="text/javascript">
@@ -545,16 +707,16 @@
                 dataType: 'JSON',
                 success: function(result) {
                     if ( result['isSuccessful'] ) {
-                        $('#products .items').removeClass('hide');
-                        $('.pagination').removeClass('hide');
-                        $('.info').addClass('hide');
+                        $('.items', '#products').removeClass('hide');
+                        $('.pagination', '#products').removeClass('hide');
+                        $('.info', '#products').addClass('hide');
 
                         displayProducts(result['products']);
-                        displayPagination(pageNumber, result['totalPages']);
+                        displayPagination(pageNumber, result['totalPages'], $('#products'));
                     } else {
-                        $('#products .items').addClass('hide');                        
-                        $('.pagination').addClass('hide');
-                        $('.info').removeClass('hide');
+                        $('.items', '#products').addClass('hide');
+                        $('.pagination', '#products').addClass('hide');
+                        $('.info', '#products').removeClass('hide');
                     }
                 }
             });
@@ -592,39 +754,6 @@
                                                  productId, productCategory['productCategoryName'], 
                                                  description, latestVersion, numberOfTesters);
         }
-    </script>
-    <script type="text/javascript">
-        function displayPagination(currentPage, totalPages) {
-            var lowerBound = ( currentPage - 5 > 0 ? currentPage - 5 : 1 ),
-                upperBound = ( currentPage + 5 < totalPages ? currentPage + 5 : totalPages );
-            var paginationString  = '<a class="icon item' + ( currentPage > 1 ? '' : ' disabled' ) + '"><i class="left arrow icon"></i></a>';
-
-            for ( var i = lowerBound; i <= upperBound; ++ i ) {
-                paginationString += '<a class="item' + ( currentPage == i ? ' active' : '' ) + '">' + i + '</a>';
-            }
-            paginationString     += '<a class="icon item' + ( currentPage < totalPages ? '' : ' disabled' )+ '"><i class="right arrow icon"></i></a>';
-            $('.pagination', '#products').html(paginationString);
-        }
-    </script>
-    <script type="text/javascript">
-        $('.pagination', '#products').delegate('a.item', 'click', function(e) {
-            e.preventDefault();
-            if ( $(this).hasClass('disabled') ) {
-                return;
-            }
-            var currentPage = parseInt($('a.active', '.pagination').html(), 10);
-                pageNumber  = $(this).html();
-            
-            $('.pagination > a.active').removeClass('active');
-            $(this).addClass('active');
-
-            if ( pageNumber.indexOf('left arrow') != -1 ) {
-                pageNumber  = currentPage - 1;
-            } else if ( pageNumber.indexOf('right arrow') != -1 ) {
-                pageNumber  = currentPage + 1;
-            }
-            return getProducts(pageNumber);
-        });
     </script>
     <script type="text/javascript">
         function editProduct(productId) {
@@ -773,7 +902,10 @@
                 if ( $('button.positive', '#product').html() == 'Save' ) {
                     message      = 'Your product is edited successfully.';
                 } else {
-                    $('input, textarea', '#product').val('');
+                	var pageNumber = 1;
+                    getProducts(pageNumber);
+                    
+                	$('input, textarea', '#product').val('');
                     message      = 'Your product is created successfully.';
                 }
             } else {

@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.happystudio.testzilla.model.Bug;
 import com.happystudio.testzilla.model.Product;
 import com.happystudio.testzilla.model.User;
+import com.happystudio.testzilla.service.BugService;
 import com.happystudio.testzilla.service.ProductService;
 import com.happystudio.testzilla.service.UserService;
 import com.happystudio.testzilla.util.DigestUtils;
@@ -85,7 +87,7 @@ public class AccountsController {
      * @param username - 用户名
      * @param password - 密码(已使用MD5加密)
      * @param request - Http Servlet Request对象
-     * @return 一个包含若干标志位的JSON数据
+     * @return 一个包含若干标志位的JSON对象
      */
     @RequestMapping(value = "/login.action", method = RequestMethod.POST)
     public @ResponseBody HashMap<String, Boolean> loginAction(
@@ -147,7 +149,7 @@ public class AccountsController {
      * @param website - 用户的个人主页
 	 * @param isIndividual - 是否为个人用户
      * @param request - HttpRequest对象
-     * @return 一个包含若干标志位的JSON数据
+     * @return 一个包含若干标志位的JSON对象
      */
     @RequestMapping(value = "/join.action", method = RequestMethod.POST)
     public @ResponseBody HashMap<String, Boolean> joinAction(
@@ -286,7 +288,7 @@ public class AccountsController {
      * @param newPassword - 新密码
      * @param confirmPassword - 确认新密码
      * @param request - HttpRequest对象
-     * @return 一个包含若干标志位的JSON数据
+     * @return 一个包含若干标志位的JSON对象
      */
     @RequestMapping(value = "/editProfile.action", method = RequestMethod.POST)
     public @ResponseBody HashMap<String, Boolean> editProfileAction(
@@ -312,6 +314,51 @@ public class AccountsController {
             logger.info(String.format("User: {%s} updated profile at %s.", new Object[] {currentUser, ipAddress}));
         }
         return result;
+    }
+    
+    /**
+     * 处理用户获取自己所提交Bug列表的请求.
+     * @param pageNumber - 分页的页码
+     * @param request - HttpRequest对象
+     * @return 一个包含用户自己所提交Bug列表信息的JSON对象
+     */
+    @RequestMapping(value = "/getSentIssues.action", method = RequestMethod.GET)
+    public @ResponseBody HashMap<String, Object> getSentIssuesAction(
+    		@RequestParam(value="page", required=false, defaultValue="1") int pageNumber,
+    		HttpServletRequest request) {
+    	HttpSession session = request.getSession();
+    	User currentUser = (User)session.getAttribute("user");
+    	
+    	HashMap<String, Object> result = new HashMap<String, Object>();
+    	List<Bug> bugs = getBugsUsingHunter(currentUser, pageNumber);
+    	long totalPages = getBugTotalPages(currentUser);
+    	
+    	result.put("isSuccessful", bugs.size() != 0);
+		result.put("bugs", bugs);
+		result.put("totalPages", totalPages);
+		return result;
+    }
+    
+    /**
+     * 获取某个用户所提交的Bug列表.
+	 * @param hunter - Bug提交者(User对象)
+     * @param pageNumber - 分页的页码
+     * @return 某个用户所提交的Bug列表
+     */
+    private List<Bug> getBugsUsingHunter(User hunter, int pageNumber) {
+    	int offset = (pageNumber - 1) * NUMBER_OF_BUGS_PER_PAGE;
+    	List<Bug> bugs = bugService.getBugsUsingHunter(hunter, offset, NUMBER_OF_BUGS_PER_PAGE);
+    	
+    	return bugs;
+    }
+    
+    /**
+     * 获取某个用户所提交的Bug总分页页数.
+     * @param hunter - Bug提交者(User对象)
+     * @return 某个用户所提交的Bug总分页页数
+     */
+    private long getBugTotalPages(User hunter) {
+    	return (long)Math.ceil((double)bugService.getTotalBugsUsingHunter(hunter) / NUMBER_OF_BUGS_PER_PAGE);
     }
     
     /**
@@ -352,9 +399,9 @@ public class AccountsController {
 	}
 	
 	/**
-	 * 获取某个产品分类中产品的总分页页数.
+	 * 获取某个用户所提交的产品的总分页页数.
 	 * @param category - 产品分类的对象
-	 * @return 某个产品分类中产品的总分页页数
+	 * @return 某个用户所提交的产品的总分页页数
 	 */
 	private long getProductTotalPages(User developer) {
 		return (long)Math.ceil((double)productService.getTotalProducts(developer) / NUMBER_OF_PRODUCTS_PER_PAGE);
@@ -447,9 +494,20 @@ public class AccountsController {
     ProductService productService;
     
     /**
+     * 自动注入的BugService对象.
+     */
+    @Autowired
+    BugService bugService;
+    
+    /**
 	 * 产品列表页面每页所显示的产品数量.
 	 */
 	private final int NUMBER_OF_PRODUCTS_PER_PAGE = 10;
+	
+	/**
+	 * 产品详情页面每页所显示的Bug数量.
+	 */
+	private final int NUMBER_OF_BUGS_PER_PAGE = 10;
     
     /**
      * 日志记录器.
