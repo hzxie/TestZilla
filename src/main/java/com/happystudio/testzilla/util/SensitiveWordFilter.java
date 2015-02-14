@@ -1,13 +1,21 @@
 package com.happystudio.testzilla.util;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import com.happystudio.testzilla.exception.NotInitializeException;
-import com.happystudio.testzilla.exception.ResourceNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.happystudio.testzilla.dao.OptionDao;
+import com.happystudio.testzilla.exception.InitializeException;
+import com.happystudio.testzilla.model.Option;
 
 /**
  * 关键词过滤类
@@ -15,29 +23,27 @@ import com.happystudio.testzilla.exception.ResourceNotFoundException;
  */
 public class SensitiveWordFilter {
 	/**
-	 * 初始化敏感词树，并获得单例
-	 * @param sensitiveWordSet 敏感词集合
+	 * 获取本类的单例
 	 * @return 本类的单例
+	 * @throws InitializeException 敏感词树初始化失败时
 	 */
-	public static synchronized SensitiveWordFilter getInstance(Set<String> sensitiveWordSet) {
-		if ( instance == null ) {
+	public static SensitiveWordFilter getInstance() throws InitializeException{
+		
+		if (instance == null) {
 			instance = new SensitiveWordFilter();
+			//从数据库中读取敏感词，再将其初始化为敏感词树
+			Option SensitiveWordOption = optionDao.getOption(SensitiveWordOptionKey);
+			ObjectMapper mapper = new ObjectMapper();
+			HashSet<String> sensitiveWordSet = null;
+			try {
+				sensitiveWordSet = mapper.readValue(SensitiveWordOption.getOptionValue(), HashSet.class);
+			} catch (IOException e) {
+				throw new InitializeException();
+			}
 			instance.addSensitiveWordsToHashMap(sensitiveWordSet);
 		}
+		 
 		return instance;
-	}
-	
-	/**
-	 * 已经初始化后，获取本类的单例
-	 * @return 本类的单例
-	 * @throws ResourceNotFoundException 敏感词树未初始化时
-	 */
-	public static SensitiveWordFilter getInstance() throws NotInitializeException{
-		if (instance.sensitiveWordMap == null) {
-			throw new NotInitializeException();
-		} else {
-			return instance;
-		}
 	}
 	
 	/**
@@ -245,6 +251,15 @@ public class SensitiveWordFilter {
 	
 	//敏感词文件的编码格式
 	public static final String ENCODING = "UTF-8";
+	
+	//敏感词系统设置项
+	public static final String SensitiveWordOptionKey = "SensitiveWord";
+	
+	/**
+	 *  自动注入OptionDao对象
+	 */
+	@Autowired
+	private static OptionDao optionDao;
 }
 
 /**
@@ -262,9 +277,6 @@ class Position {
 			this.length = length;
 		}
 		
-		/**
-		 * 
-		 */
 		int start;
 		
 		int length;

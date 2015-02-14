@@ -1,8 +1,5 @@
 package com.happystudio.testzilla.util;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -18,10 +15,7 @@ public class SensitiveWordFilterTest {
 	 */
 	@Test
 	public void testFilterUsingSensitiveWord() {
-		Set<String> sensitiveWordSet = new HashSet<String>();
-		sensitiveWordSet.add("法轮大法");
-		sensitiveWordSet.add("法轮功");
-		SensitiveWordFilter filter = SensitiveWordFilter.getInstance(sensitiveWordSet);
+		SensitiveWordFilter filter = SensitiveWordFilter.getInstance();
 		
 		Assert.assertEquals("****好 你好", filter.filter("法轮大法好 你好"));
 	}
