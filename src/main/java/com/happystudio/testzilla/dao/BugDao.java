@@ -52,6 +52,38 @@ public class BugDao {
 	}
 	
 	/**
+	 * 获取产品开发者所开发产品的Bug数量.
+	 * @param developer - 产品开发者(User对象)
+	 * @return 产品开发者所开发产品的Bug数量
+	 */
+	@Transactional
+	public long getTotalBugsUsingDeveloper(User developer) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("SELECT COUNT(*) FROM Bug WHERE product.developer = ?0")
+								.setParameter("0", developer);
+				
+		return (Long)query.uniqueResult();
+	}
+	
+	/**
+	 * 获取某个用户所开发产品的Bug列表.
+	 * @param developer - 产品开发者(User对象)
+	 * @param offset - 筛选起始项的索引(Index)
+	 * @param limit - 筛选结果最大数量
+	 * @return 符合条件的Bug列表
+	 */
+	@Transactional
+	public List<Bug> getBugsUsingDeveloper(User developer, int offset, int limit) {
+		Session session = sessionFactory.getCurrentSession();
+		@SuppressWarnings("unchecked")
+		List<Bug> bugs = (List<Bug>)session.createQuery("FROM Bug WHERE product.developer = ?0 ORDER BY bugId DESC")
+											.setParameter("0", developer)
+											.setFirstResult(offset)
+											.setMaxResults(limit).list();
+		return bugs;
+	}
+	
+	/**
 	 * 获取Bug发现者所发现的Bug的数量.
 	 * @param hunter - Bug发现者(hunter)对象
 	 * @return 某个Bug发现者所发现的Bug的数量

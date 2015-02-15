@@ -88,12 +88,99 @@ public class BugDaoTest {
 	}
 	
 	/**
+	 * 测试用例: 测试getTotalBugsUsingDeveloper()方法
+	 * 测试数据: 使用某个用户的用户对象
+	 * 预期结果: 返回该用户所开发产品的Bug数量(2)
+	 */
+	@Test
+	public void testGetTotalBugsUsingDeveloperExists() {
+		User developer = userDao.getUserUsingUid(1000);
+		Assert.assertNotNull(developer);
+		
+		long totalBugs = bugDao.getTotalBugsUsingDeveloper(developer);
+		Assert.assertEquals(2, totalBugs);
+	}
+	
+	/**
+	 * 测试用例: 测试getTotalBugsUsingDeveloper()方法
+	 * 测试数据: 使用不存在用户的用户对象
+	 * 预期结果: 返回0
+	 */
+	@Test
+	public void testGetTotalBugsUsingDeveloperNotExists() {
+		User developer = userDao.getUserUsingUid(0);
+		Assert.assertNull(developer);
+		
+		long totalBugs = bugDao.getTotalBugsUsingDeveloper(developer);
+		Assert.assertEquals(0, totalBugs);
+	}
+	
+	/**
+	 * 测试用例: 测试getBugsUsingDeveloper()方法
+	 * 测试数据: 使用某个用户的用户对象
+	 * 预期结果: 返回该用户所开发产品的Bug列表
+	 */
+	@Test
+	public void testGetBugsUsingDeveloperExists() {
+		User developer = userDao.getUserUsingUid(1000);
+		Assert.assertNotNull(developer);
+		
+		List<Bug> bugs = bugDao.getBugsUsingDeveloper(developer, 0, 10);
+		Assert.assertEquals(2, bugs.size());
+	
+		Bug bug = bugs.get(0);
+		Assert.assertEquals("Administrator", bug.getHunter().getUsername());
+	}
+	
+	/**
+	 * 测试用例: 测试getBugsUsingDeveloper()方法
+	 * 测试数据: 使用不存在用户的用户对象
+	 * 预期结果: 返回该用户所开发产品的Bug列表(长度为0)
+	 */
+	@Test
+	public void testGetBugsUsingDeveloperNotExists() {
+		User developer = userDao.getUserUsingUid(0);
+		Assert.assertNull(developer);
+		
+		List<Bug> bugs = bugDao.getBugsUsingDeveloper(developer, 0, 10);
+		Assert.assertEquals(0, bugs.size());
+	}
+	
+	/**
 	 * 测试用例: 测试getTotalBugsUsingHunter()方法
 	 * 测试数据: 使用某个用户的用户对象
 	 * 预期结果: 返回该用户所发现的Bug数量(2)
 	 */
 	@Test
 	public void testGetTotalBugsUsingHunterExists() {
+		User hunter = userDao.getUserUsingUid(1001);
+		Assert.assertNotNull(hunter);
+		
+		long totalBugs = bugDao.getTotalBugsUsingHunter(hunter);
+		Assert.assertEquals(2, totalBugs);
+	}
+	
+	/**
+	 * 测试用例: 测试getTotalBugsUsingHunter()方法
+	 * 测试数据: 使用某个用户的用户对象
+	 * 预期结果: 返回0
+	 */
+	@Test
+	public void testGetTotalBugsUsingHunterNotExists() {
+		User hunter = userDao.getUserUsingUid(0);
+		Assert.assertNull(hunter);
+		
+		long totalBugs = bugDao.getTotalBugsUsingHunter(hunter);
+		Assert.assertEquals(0, totalBugs);
+	}
+	
+	/**
+	 * 测试用例: 测试getBugsUsingHunter()方法
+	 * 测试数据: 使用某个用户的用户对象
+	 * 预期结果: 返回该用户所发现的Bug列表
+	 */
+	@Test
+	public void testGetBugsUsingHunterExists() {
 		User hunter = userDao.getUserUsingUid(1001);
 		Assert.assertNotNull(hunter);
 		
@@ -105,12 +192,12 @@ public class BugDaoTest {
 	}
 	
 	/**
-	 * 测试用例: 测试getTotalBugsUsingHunter()方法
+	 * 测试用例: 测试getBugsUsingHunter()方法
 	 * 测试数据: 使用不存在的用户对象 
-	 * 预期结果: 返回0
+	 * 预期结果: 返回该用户所发现的Bug列表(长度为0)
 	 */
 	@Test
-	public void testGetTotalBugsUsingHunterNotExists() {
+	public void testGetBugsUsingHunterNotExists() {
 		User hunter = userDao.getUserUsingUid(0);
 		Assert.assertNull(hunter);
 		
