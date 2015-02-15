@@ -22,75 +22,64 @@ import com.happystudio.testzilla.model.Option;
 public class OptionDaoTest {
 	
 	/**
-	 * 测试用例：测试getOption(String Key)方法
+	 * 测试用例：测试getOption()方法
 	 * 测试数据：使用存在的系统设置Key来查找
 	 * 预期结果：返回对应的Option对象
 	 */
 	@Test
 	public void testGetOptionExists() {
-		Option option = optionDao.getOption("test");
-		Assert.assertEquals("test", option.getOptionKey());
+		Option option = optionDao.getOption("SensitiveWords");
+		Assert.assertNotNull(option);
+		Assert.assertEquals(8, option.getOptionId());
 	}
 	
 	/**
-	 * 测试用例：测试getOption(String Key)方法
+	 * 测试用例：测试getOption()方法
 	 * 测试数据：使用不存在的系统设置Key来查找
 	 * 预期结果：返回空引用
 	 */
 	@Test
 	public void testGetOptionNotExists() {
-		Option option = optionDao.getOption("test");
+		Option option = optionDao.getOption("NotExists");
 		Assert.assertNull(option);
 	}
 	
 	/**
 	 * 测试用例：测试updateOption(Option option)方法
-	 * 测试数据：使用已存在的系统设置Option来更新
-	 * 预期结果：返回TRUE
+	 * 测试数据：使用使用合法数据集, 且系统中存在该Option
+	 * 预期结果：返回true, 表示操作成功完成
 	 */
 	@Test 
-	public void testUpdateOptionExists() {
-		Option option = new Option(1000, "test", "test");
-		boolean result = optionDao.updateOption(option);
-		Assert.assertTrue(result);
+	public void testUpdateOptionNormal() {
+		Option option = new Option(8, "SensitiveWords", "OptionValue");
+		Assert.assertTrue(optionDao.updateOption(option));
+		
+		option = optionDao.getOption("SensitiveWords");
+		Assert.assertEquals("OptionValue", option.getOptionValue());
 	}
 	
 	/**
 	 * 测试用例：测试updateOption(Option option)方法
-	 * 测试数据：使用不存在的系统设置Option来更新
-	 * 预期结果：返回FALSE
+	 * 测试数据：使用不存在的Option更新
+	 * 预期结果：返回false, 表示操作未成功完成
 	 */
 	@Test 
 	public void testUpdateOptionNotExists() {
-		Option option = new Option(0, "test", "[]");
-		boolean result = optionDao.updateOption(option);
-		Assert.assertFalse(result);
+		Option option = new Option(0, "OptionKey", "OptionValue");
+		Assert.assertFalse(optionDao.updateOption(option));
 	}
 	
 	/**
-	 * 测试用例：测试createOption(Option option)方法
-	 * 测试数据：使用已存在的系统设置Option来创建
-	 * 预期结果：返回FLASE
-	 */
-	@Test
-	public void testCreateOptionExists() {
-		Option option = new Option(1000, "test", "test");
-		boolean result = optionDao.createOption(option);
-		Assert.assertFalse(result);
+	 * 测试用例：测试updateOption()方法
+	 * 测试数据：使用不合法的数据集(过长的OptionKey)
+	 * 预期结果: 抛出DataException异常
+     */
+    @Test(expected = org.hibernate.exception.DataException.class)
+	public void testUpdateOptionUsingTooLongOptionKey() {
+		Option option = new Option(8, "VeryVeryVeryVeryVeryLongOptionKey", "OptionValue");
+		optionDao.updateOption(option);
 	}
 	
-	/**
-	 * 测试用例：测试createOption(Option option)方法
-	 * 测试数据：使用不存在的系统设置Option来创建
-	 * 预期结果：返回TRUE
-	 */
-	@Test
-	public void testCreateOptionNotExists() {
-		Option option = new Option(0, "test", "[]");
-		boolean result = optionDao.createOption(option);
-		Assert.assertTrue(result);
-	}
-
 	/**
 	 * 待测试的OptionDAO对象
 	 */
