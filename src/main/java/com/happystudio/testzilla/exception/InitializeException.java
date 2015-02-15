@@ -1,10 +1,10 @@
 package com.happystudio.testzilla.exception;
 
 /**
- * 未初始化异常.
+ * 初始化异常.
  * @author Xie Haozhe
  */
-public class NotInitializeException extends RuntimeException {
+public class InitializeException extends RuntimeException {
 	/**
 	 * 唯一的序列化标识符.
 	 */
