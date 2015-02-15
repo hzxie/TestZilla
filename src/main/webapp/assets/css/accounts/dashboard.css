@@ -45,10 +45,12 @@ div#content div#main-container div#overview-tab div.statistic div.value {
 	text-transform: lowercase;
 }
 
+div#content div#main-container div#issues-tab div.items div.item,
 div#content div#main-container div#products-tab div.items div.item {
 	position: relative;
 }
 
+div#content div#main-container div#issues-tab div.item a.edit,
 div#content div#main-container div#products-tab div.item a.edit {
 	color: #666;
 	font-weight: normal;
@@ -57,6 +59,14 @@ div#content div#main-container div#products-tab div.item a.edit {
 	right: 0;
 }
 
+div#content div#main-container div#issues-tab div.item:first-child a.edit,
 div#content div#main-container div#products-tab div.item:first-child a.edit {
 	top: 0;
+}
+
+div#issue-modal div#description {
+	border: 1px dotted #ccc;
+	clear: both;
+	margin-top: 10px;
+	padding: 10px;
 }

@@ -18,6 +18,7 @@ import com.happystudio.testzilla.model.BugSeverity;
 import com.happystudio.testzilla.model.BugStatus;
 import com.happystudio.testzilla.model.Product;
 import com.happystudio.testzilla.model.User;
+import com.happystudio.testzilla.util.HtmlTextFilter;
 
 /**
  * Bug Service. 为Controller提供服务.
@@ -49,6 +50,28 @@ public class BugService {
 	}
 	
 	/**
+	 * 获取产品开发者所开发产品的Bug数量.
+	 * @param developer - 产品开发者(User对象)
+	 * @return 产品开发者所开发产品的Bug数量
+	 */
+	public long getTotalBugsUsingDeveloper(User developer) {
+		long totalBugs = bugDao.getTotalBugsUsingDeveloper(developer);
+		return totalBugs;
+	}
+	
+	/**
+	 * 获取某个用户所开发产品的Bug列表.
+	 * @param developer - 产品开发者(User对象)
+	 * @param offset - 筛选起始项的索引(Index)
+	 * @param limit - 筛选结果最大数量
+	 * @return 符合条件的Bug列表
+	 */
+	public List<Bug> getBugsUsingDeveloper(User developer, int offset, int limit) {
+		List<Bug> bugs = bugDao.getBugsUsingDeveloper(developer, offset, limit);
+		return bugs;
+	}
+	
+	/**
 	 * 获取Bug发现者所发现的Bug的数量.
 	 * @param hunter - Bug发现者(hunter)对象
 	 * @return 某个Bug发现者所发现的Bug的数量
@@ -71,6 +94,16 @@ public class BugService {
 	}
 	
 	/**
+	 * 根据Bug的唯一标识符获取Bug对象.
+	 * @param bugId - Bug的唯一标识符
+	 * @return 一个Bug对象或空引用
+	 */
+	public Bug getBugUsingBugId(long bugId) {
+		Bug bug = bugDao.getBugUsingBugId(bugId);
+		return bug;
+	}
+	
+	/**
 	 * 获取全部的Bug分类对象.
 	 * @return 全部Bug分类对象的列表
 	 */
@@ -84,6 +117,14 @@ public class BugService {
 	 */
 	public List<BugSeverity> getBugSeverityList() {
 		return bugSeverityDao.getAllBugSeverity();
+	}
+	
+	/**
+	 * 获取全部的Bug状态对象
+	 * @return 全部的Bug状态对象的列表
+	 */
+	public List<BugStatus> getBugStatusList() {
+		return bugStatusDao.getAllBugStatus();
 	}
 	
 	/**
@@ -104,8 +145,9 @@ public class BugService {
 		BugStatus status = bugStatusDao.getBugStatusUsingSlug("unconfirmed");
 		BugSeverity severity = getBugSeverity(bugSeveritySlug);
 		Date createTime = new Date();
-		Bug bug = new Bug(product, version, category, status, severity, 
-							createTime, hunter, title, description, screenshots);
+		Bug bug = new Bug(product, HtmlTextFilter.filter(version), category, status, severity, 
+							createTime, hunter, HtmlTextFilter.filter(title), 
+							HtmlTextFilter.filter(description), screenshots);
 		HashMap<String, Boolean> result = getCreateBugResult(bug);
 		
 		if ( result.get("isSuccessful") ) {
@@ -159,6 +201,15 @@ public class BugService {
 	private BugSeverity getBugSeverity(String bugSeveritySlug) {
 		BugSeverity bugSeverity = bugSeverityDao.getBugSeverityUsingSlug(bugSeveritySlug);
 		return bugSeverity;
+	}
+	
+	/**
+	 * @param bugStatusSlug
+	 * @return
+	 */
+	private BugStatus getBugStatus(String bugStatusSlug) {
+		BugStatus bugStatus = bugStatusDao.getBugStatusUsingSlug(bugStatusSlug);
+		return bugStatus;
 	}
 	
 	/**

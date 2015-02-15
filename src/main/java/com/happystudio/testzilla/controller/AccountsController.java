@@ -270,9 +270,12 @@ public class AccountsController {
      * @return 包含开发者所需数据的HashMap对象.
      */
     private HashMap<String, Object> getDataForDevelopers() {
-    	HashMap<String, Object> extraData = new HashMap<String, Object>(); 
-    	extraData.put("productCategories", productService.getProductCategories());
-    	return extraData;
+    	HashMap<String, Object> developerData = new HashMap<String, Object>(); 
+    	developerData.put("productCategories", productService.getProductCategories());
+    	developerData.put("bugCategories", bugService.getBugCategories());
+    	developerData.put("bugSeverityList", bugService.getBugSeverityList());
+    	developerData.put("bugStatusList", bugService.getBugStatusList());
+    	return developerData;
     }
     
     /**
@@ -317,6 +320,68 @@ public class AccountsController {
     }
     
     /**
+     * @param pageNumber
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/getReceivedIssues.action", method = RequestMethod.GET)
+    public @ResponseBody HashMap<String, Object> getReceivedIssuesAction(
+    		@RequestParam(value="page", required=false, defaultValue="1") int pageNumber,
+    		HttpServletRequest request) {
+    	HttpSession session = request.getSession();
+    	User currentUser = (User)session.getAttribute("user");
+    	
+    	HashMap<String, Object> result = new HashMap<String, Object>();
+    	List<Bug> bugs = getBugsUsingDeveloper(currentUser, pageNumber);
+    	long totalPages = getBugTotalPagesUsingDeveloper(currentUser);
+    	
+    	result.put("isSuccessful", bugs.size() != 0);
+		result.put("bugs", bugs);
+		result.put("totalPages", totalPages);
+		return result;
+    }
+    
+    /**
+     * 获取某个用户所开发产品的Bug列表.
+	 * @param developer - 产品开发者(User对象)
+     * @param pageNumber - 分页的页码
+     * @return 某个用户所开发产品的Bug列表
+     */
+    private List<Bug> getBugsUsingDeveloper(User developer, int pageNumber) {
+    	int offset = (pageNumber - 1) * NUMBER_OF_BUGS_PER_PAGE;
+    	List<Bug> bugs = bugService.getBugsUsingDeveloper(developer, offset, NUMBER_OF_BUGS_PER_PAGE);
+    	
+    	return bugs;
+    }
+    
+    /**
+     * 获取某个用户所开发产品的Bug总分页页数.
+     * @param developer - 产品开发者(User对象)
+     * @return 某个用户所开发产品的Bug总分页页数
+     */
+    private long getBugTotalPagesUsingDeveloper(User developer) {
+    	return (long)Math.ceil((double)bugService.getTotalBugsUsingDeveloper(developer) / NUMBER_OF_BUGS_PER_PAGE);
+    }
+    
+    /**
+	 * 处理用户获取Bug相信信息的请求.
+	 * @param bugId - Bug的唯一标识符
+	 * @param request - HttpRequest对象
+	 * @return 一个包含Bug对象的JSON对象
+	 */
+    @RequestMapping(value = "/getBug.action", method = RequestMethod.GET)
+    public @ResponseBody HashMap<String, Object> getBug(
+    		@RequestParam(value="bugId", required=true) long bugId,
+    		HttpServletRequest request) {
+    	HashMap<String, Object> result = new HashMap<String, Object>();
+    	Bug bug = bugService.getBugUsingBugId(bugId);
+    	
+    	result.put("isSuccessful", bug != null);
+		result.put("bug", bug);
+		return result;
+    }
+    
+    /**
      * 处理用户获取自己所提交Bug列表的请求.
      * @param pageNumber - 分页的页码
      * @param request - HttpRequest对象
@@ -331,7 +396,7 @@ public class AccountsController {
     	
     	HashMap<String, Object> result = new HashMap<String, Object>();
     	List<Bug> bugs = getBugsUsingHunter(currentUser, pageNumber);
-    	long totalPages = getBugTotalPages(currentUser);
+    	long totalPages = getBugTotalPagesUsingHunter(currentUser);
     	
     	result.put("isSuccessful", bugs.size() != 0);
 		result.put("bugs", bugs);
@@ -357,7 +422,7 @@ public class AccountsController {
      * @param hunter - Bug提交者(User对象)
      * @return 某个用户所提交的Bug总分页页数
      */
-    private long getBugTotalPages(User hunter) {
+    private long getBugTotalPagesUsingHunter(User hunter) {
     	return (long)Math.ceil((double)bugService.getTotalBugsUsingHunter(hunter) / NUMBER_OF_BUGS_PER_PAGE);
     }
     
@@ -386,7 +451,7 @@ public class AccountsController {
 	
 	/**
 	 * 根据筛选条件获取待测试的产品列表.
-	 * @param category - 产品所属分类
+	 * @param developer - 开发者的用户对象(User对象)
 	 * @param pageNumber - 分页的页码
 	 * @param isSortedByTime - 是否按照发布时间排序
 	 * @return 待测试的产品列表
@@ -400,7 +465,7 @@ public class AccountsController {
 	
 	/**
 	 * 获取某个用户所提交的产品的总分页页数.
-	 * @param category - 产品分类的对象
+	 * @param developer - 开发者的用户对象(User对象)
 	 * @return 某个用户所提交的产品的总分页页数
 	 */
 	private long getProductTotalPages(User developer) {

@@ -365,6 +365,83 @@
                 <button class="ui negative button">Cancel</button>
             </div> <!-- .actions -->
         </div> <!-- #profile-modal -->
+        <div id="issue-modal" class="ui long test modal transition scrolling hidden">
+            <i class="close icon"></i>
+            <div class="header">
+                <h3>View Issue</h3>
+            </div> <!-- .header -->
+            <div class="content">
+                <div id="issue-error" class="ui error message hide"></div> <!-- #issue-error -->
+                <div class="ui form">
+                    <div class="two fields">
+                        <div class="field">
+                            <label for="title">Title</label>
+                            <input id="title" type="text" disabled="disabled"/>
+                            <input id="bug-id" type="hidden"/>
+                        </div> <!-- .field -->
+                        <div class="field">
+                            <label for="product-name">Product Name</label>
+                            <input id="product-name" type="text" disabled="disabled"/>
+                        </div> <!-- .field -->
+                    </div> <!-- .fields -->
+                    <div class="two fields">
+                        <div class="field">
+                            <label for="product-version">Product Version</label>
+                            <input id="product-version" type="text" disabled="disabled"/>
+                        </div> <!-- .field -->
+                        <div class="required field">
+                            <label>Status</label>
+                            <div class="ui selection dropdown" tabindex="0">
+                                <div class="default text">Please choose...</div>
+                                <i class="dropdown icon"></i>
+                                <input id="bug-status" type="hidden">
+                                <div class="menu transition hidden" tabindex="-1">
+                                <c:forEach var="bugStatus" items="${bugStatusList}">
+                                    <div class="item" data-value="${bugStatus.bugStatusSlug}">${bugStatus.bugStatusName}</div>
+                                </c:forEach>
+                                </div> <!-- .menu -->
+                            </div> <!-- .selection -->
+                        </div> <!-- .field -->
+                    </div> <!-- .fields -->
+                    <div class="two required fields">
+                        <div class="field">
+                            <label>Category</label>
+                            <div class="ui selection dropdown" tabindex="0">
+                                <div class="default text">Please choose...</div>
+                                <i class="dropdown icon"></i>
+                                <input id="bug-category" type="hidden">
+                                <div class="menu transition hidden" tabindex="-1">
+                                <c:forEach var="bugCategory" items="${bugCategories}">
+                                    <div class="item" data-value="${bugCategory.bugCategorySlug}">${bugCategory.bugCategoryName}</div>
+                                </c:forEach>
+                                </div> <!-- .menu -->
+                            </div> <!-- .selection -->
+                        </div> <!-- .field -->
+                        <div class="field">
+                            <label>Severity</label>
+                            <div class="ui selection dropdown" tabindex="0">
+                                <div class="default text">Please choose...</div>
+                                <i class="dropdown icon"></i>
+                                <input id="bug-severity" type="hidden">
+                                <div class="menu transition hidden" tabindex="-1">
+                                <c:forEach var="bugSeverity" items="${bugSeverityList}">
+                                    <div class="item" data-value="${bugSeverity.bugSeveritySlug}">${bugSeverity.bugSeverityName}</div>
+                                </c:forEach>
+                                </div> <!-- .menu -->
+                            </div> <!-- .selection -->
+                        </div> <!-- .field -->
+                    </div> <!-- .fields -->
+                    <div class="field">
+                        <label for="description">Description</label>
+                        <div id="description"></div> <!-- #description -->
+                    </div> <!-- .field -->
+                </div> <!-- .form -->
+            </div> <!-- .content -->
+            <div class="actions">
+                <button class="ui positive button" type="submit">Save</button>
+                <button class="ui negative button">Cancel</button>
+            </div> <!-- .actions -->
+        </div> <!-- #issue-modal -->
     </div> <!-- .dimmer -->
     <!-- Java Script -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -592,7 +669,7 @@
                         $('.pagination', '#issues').removeClass('hide');
                         $('.info', '#issues').addClass('hide');
 
-                        displayBugs(result['bugs']);
+                        displaySentBugs(result['bugs']);
                         displayPagination(pageNumber, result['totalPages'], $('#issues'));
                     } else {
                         $('.items', '#issues').addClass('hide');
@@ -604,12 +681,7 @@
         }
     </script>
     <script type="text/javascript">
-        function getReceivedIssues(pageNumber) {
-
-        }
-    </script>
-    <script type="text/javascript">
-        function displayBugs(bugs) {
+        function displaySentBugs(bugs) {
             $('.items', '#issues').empty();
 
             for ( var i = 0; i < bugs.length; ++ i ) {
@@ -639,6 +711,68 @@
         }
     </script>
     <script type="text/javascript">
+        function getReceivedIssues(pageNumber) {
+            var pageRequests = {
+                'page': pageNumber
+            };
+
+            $.ajax({
+                type: 'GET',
+                url: '<c:url value="/accounts/getReceivedIssues.action" />',
+                data: pageRequests,
+                dataType: 'JSON',
+                success: function(result) {
+                    if ( result['isSuccessful'] ) {
+                        $('.items', '#issues').removeClass('hide');
+                        $('.pagination', '#issues').removeClass('hide');
+                        $('.info', '#issues').addClass('hide');
+
+                        displayReceivedBugs(result['bugs']);
+                        displayPagination(pageNumber, result['totalPages'], $('#issues'));
+                    } else {
+                        $('.items', '#issues').addClass('hide');
+                        $('.pagination', '#issues').addClass('hide');
+                        $('.info', '#issues').removeClass('hide');
+                    }
+                }
+            });
+        }
+    </script>
+    <script type="text/javascript">
+        function displayReceivedBugs(bugs) {
+            $('.items', '#issues').empty();
+
+            for ( var i = 0; i < bugs.length; ++ i ) {
+                $('.items', '#issues').append(getReceivedBugContent(bugs[i]['bugId'], bugs[i]['title'], bugs[i]['product'], 
+                                                                bugs[i]['productVersion'], bugs[i]['description'], 
+                                                                bugs[i]['bugCategory'], bugs[i]['bugSeverity'], 
+                                                                bugs[i]['bugStatus'], bugs[i]['createTime']));
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        function getReceivedBugContent(bugId, bugTitle, product, productVersion, description, bugCategory, bugSeverity, bugStatus, createTime) {
+            var bugContentTemplate = '<div class="item">' + 
+                                     '    <div class="content">' + 
+                                     '        <a class="header">%s</a>' + 
+                                     '        <div class="meta"><ahref="<c:url value="/products/" />%s">%s (%s)</a></div> <!-- .meta -->' + 
+                                     '        <a class="edit" href="javascript:viewBug(%s);">View/Edit</a>' + 
+                                     '        <div class="description">%s</div> <!-- .description -->' + 
+                                     '        <div class="extra">' + 
+                                     '            <div class="ui label">%s</div> <!-- .label -->' + 
+                                     '            <div class="ui label">%s</div> <!-- .label -->' + 
+                                     '            <div class="ui label">%s</div> <!-- .label -->' + 
+                                     '            <div class="ui label">Created on %s</div> <!-- .label -->' + 
+                                     '        </div> <!-- .extra -->' + 
+                                     '    </div> <!-- .content -->' + 
+                                     '</div> <!-- .item -->';
+            return bugContentTemplate.format(bugTitle, product['productId'], product['productName'], productVersion,
+                                             bugId, stripHtml(converter.makeHtml(description.replace(/\\n/g, '\n'))), 
+                                             bugCategory['bugCategoryName'], bugSeverity['bugSeverityName'], 
+                                             bugStatus['bugStatusName'], getTimeElapsed(createTime));
+        }
+    </script>
+    <script type="text/javascript">
         function stripHtml(str) {
             return str.replace(/<(?:.|\s)*?>/g, " ");
         }
@@ -647,6 +781,60 @@
         function getTimeElapsed(timeStamp) {
             var dateTime = moment.unix(timeStamp / 1000);
             return dateTime.fromNow();
+        }
+    </script>
+    <script type="text/javascript">
+        function viewBug(bugId) {
+            $('#issue-error').addClass('hide');
+
+            $('#issue-modal').modal({
+                closable  : false,
+                onApprove : function() {
+                    return false;
+                }
+            }).modal('show');
+
+            $('.form', '#issue-modal').addClass('loading');
+            return getBug(bugId);
+        }
+    </script>
+    <script type="text/javascript">
+        function getBug(bugId) {
+            var pageRequests = {
+                'bugId': bugId
+            };
+
+            $.ajax({
+                type: 'GET',
+                url: '<c:url value="/accounts/getBug.action" />',
+                data: pageRequests,
+                dataType: 'JSON',
+                success: function(result) {
+                    if ( result['isSuccessful'] ) {
+                        $('#bug-id', '#issue-modal').val(result['bug']['bugId']);
+                        $('#title', '#issue-modal').val(result['bug']['title']);
+                        $('#product-name', '#issue-modal').val(result['bug']['product']['productName']);
+                        $('#product-version', '#issue-modal').val(result['bug']['productVersion']);
+                        $('#description', '#issue-modal').html(converter.makeHtml(result['bug']['description'].replace(/\\n/g, '\n')));
+
+                        console.log(result['bug']['bugSeverity']);
+                        $('#bug-category', '#issue-modal').parent().find('.text').removeClass('default');
+                        $('#bug-category', '#issue-modal').parent().find('.text').html(result['bug']['bugCategory']['bugCategoryName']);
+                        $('#bug-category', '#issue-modal').val(result['bug']['bugCategory']['bugCategorySlug']);
+                        $('#bug-severity', '#issue-modal').parent().find('.text').removeClass('default');
+                        $('#bug-severity', '#issue-modal').parent().find('.text').html(result['bug']['bugSeverity']['bugSeverityName']);
+                        $('#bug-severity', '#issue-modal').val(result['bug']['bugSeverity']['bugSeveritySlug']);
+                        $('#bug-status', '#issue-modal').parent().find('.text').removeClass('default');
+                        $('#bug-status', '#issue-modal').parent().find('.text').html(result['bug']['bugStatus']['bugStatusName']);
+                        $('#bug-status', '#issue-modal').val(result['bug']['bugStatus']['bugStatusSlug']);
+
+                        $('.form', '#issue-modal').removeClass('loading');
+                    } else {
+                        alert('Issue not exists.\nPlease contact webmaster for help.');
+                    }
+                }
+            });
+            
         }
     </script>
     <!-- Java Script for Products Tab -->
