@@ -9,40 +9,38 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.alibaba.fastjson.JSON;
 import com.happystudio.testzilla.dao.OptionDao;
-import com.happystudio.testzilla.exception.InitializeException;
 import com.happystudio.testzilla.model.Option;
 
 /**
  * 关键词过滤类
  * @author Zhou Yihao
  */
+@Component
+@Scope(value = "singleton")
 public class SensitiveWordFilter {
 	/**
-	 * 获取本类的单例
+	 * 获取本类的单例.
 	 * @return 本类的单例
-	 * @throws InitializeException 敏感词树初始化失败时
+	 * @throws IOException 
+	 * @throws JsonMappingException 
+	 * @throws JsonParseException 
 	 */
-	public static SensitiveWordFilter getInstance() throws InitializeException{
-		
+	public synchronized static SensitiveWordFilter getInstance() {
 		if (instance == null) {
 			instance = new SensitiveWordFilter();
-			//从数据库中读取敏感词，再将其初始化为敏感词树
-			Option SensitiveWordOption = optionDao.getOption(SensitiveWordOptionKey);
-			ObjectMapper mapper = new ObjectMapper();
-			HashSet<String> sensitiveWordSet = null;
-			try {
-				sensitiveWordSet = mapper.readValue(SensitiveWordOption.getOptionValue(), HashSet.class);
-			} catch (IOException e) {
-				throw new InitializeException();
-			}
+			Option sensitiveWordOption = optionDao.getOption(SENSITIVE_WORD_OPTION_KEY);
+			String optionValue = sensitiveWordOption.getOptionValue();
+			
+			@SuppressWarnings("unchecked")
+			ArrayList<String> sensitiveWordList = JSON.parseObject(optionValue, ArrayList.class);
+			HashSet<String> sensitiveWordSet = new HashSet<String>(sensitiveWordList);
 			instance.addSensitiveWordsToHashMap(sensitiveWordSet);
 		}
-		 
 		return instance;
 	}
 	
@@ -78,13 +76,11 @@ public class SensitiveWordFilter {
 		return resultStringBuilder.toString();
 	}
 	
-	
-	
 	/**
-	 * 获取敏感词的位置
+	 * 获取敏感词的位置.
 	 * @param text - 待过滤字符串
 	 * @param matchType - 匹配规则 1 为极小匹配， 2 为极大匹配
-	 * @return 返回
+	 * @return 敏感词的位置
 	 */
 	private ArrayList<Position> getSensitiveWordsPosition(String txt, int matchType) {
 		ArrayList<Position> sensitiveWordsPosition = new ArrayList<Position>();
@@ -190,8 +186,8 @@ public class SensitiveWordFilter {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void addSensitiveWordsToHashMap(Set<String> sensitiveWordSet) {
-		// 初始化敏感词HashMap，大小与Set相等。
-		sensitiveWordMap = new HashMap(sensitiveWordSet.size());
+		// 初始化敏感词HashMap, 大小与Set相等.
+		sensitiveWordMap = new HashMap((int)(sensitiveWordSet.size() * 1.5));
 		
 		// 在 nowMap状态读过key，到达新状态，故创建newWordMap
 		String key = null;
@@ -230,16 +226,25 @@ public class SensitiveWordFilter {
 		}
 	}
 	
-	//使用单例模式，私有化默认的构造方法
+	/**
+	 * 单例模式中私有化的构造方法. 
+	 */
 	private SensitiveWordFilter() {}
 	
-	//本类的单例
+	/**
+	 * 本类的单例.
+	 */
+	@Autowired
 	private static SensitiveWordFilter instance;
 	
-	//存储敏感词的HashMap
+	/**
+	 * 存储敏感词的HashMap. 
+	 */
 	private HashMap<?, ?> sensitiveWordMap;
 	
-	//HashMap中，敏感词是否终结的标识。
+	/**
+	 * HashMap中敏感词是否终结的标识. 
+	 */
 	private static final String IS_END = "isEnd";
 	
 	/**
@@ -249,11 +254,15 @@ public class SensitiveWordFilter {
 	public static final int MIN_MATCH_TYPE = 1;
 	public static final int MAX_MATCH_TYPE = 2;
 	
-	//敏感词文件的编码格式
+	/**
+	 * 敏感词文件的编码格式 
+	 */
 	public static final String ENCODING = "UTF-8";
 	
-	//敏感词系统设置项
-	public static final String SensitiveWordOptionKey = "SensitiveWord";
+	/**
+	 * 敏感词系统设置项. 
+	 */
+	public static final String SENSITIVE_WORD_OPTION_KEY = "SensitiveWord";
 	
 	/**
 	 *  自动注入OptionDao对象
