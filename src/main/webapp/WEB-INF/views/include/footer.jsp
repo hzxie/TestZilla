@@ -33,9 +33,11 @@
                 </div> <!-- .list -->
             </div> <!-- .column -->
         </div> <!-- .row -->
-        <div id="copyright" class="column row">
-            <div class="column">
+        <div id="copyright" class="row">
+            <div class="twelve wide column">
                 <p>Copyright&copy; <%= new java.text.SimpleDateFormat("yyyy").format(new java.util.Date()) %> <a href="<c:url value="/" />">TestZilla</a>. All rights reserved.</p>
+            </div> <!-- .column -->
+            <div class="four wide column">
             </div> <!-- .column -->
         </div> <!-- #copyright -->
     </footer>

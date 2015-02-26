@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<spring:eval expression="@propertyConfigurer.getProperty('cdn.url')" var="cdnUrl" />
     <header class="ui page stackable grid">
         <div id="assistive-menu" class="row">
             <div class="column">
@@ -30,7 +32,7 @@
         <div class="row">
             <div id="logo" class="four wide column">
                 <a href="<c:url value="/" />">
-                    <img src="<c:url value="/assets/img/logo.png" />" alt="Logo">
+                    <img src="${cdnUrl}/img/logo.png" alt="Logo">
                 </a>
             </div> <!-- #logo -->
             <div id="navigation" class="twelve wide column">

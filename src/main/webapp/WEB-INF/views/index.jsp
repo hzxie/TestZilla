@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<spring:eval expression="@propertyConfigurer.getProperty('cdn.url')" var="cdnUrl" />
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
@@ -7,17 +9,18 @@
     <title>Home | TestZilla</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="author" content="谢浩哲">
     <!-- Icon -->
     <link href="<c:url value="/assets/img/favicon.ico" />" rel="shortcut icon">
     <!-- StyleSheets -->
-    <link rel="stylesheet" type="text/css" href="<c:url value="/assets/css/semantic.min.css" />" />
-    <link rel="stylesheet" type="text/css" href="<c:url value="/assets/css/font-awesome.min.css" />" />
-    <link rel="stylesheet" type="text/css" href="<c:url value="/assets/css/style.css" />" />
-    <link rel="stylesheet" type="text/css" href="<c:url value="/assets/css/homepage.css" />" />
-    <link rel="stylesheet" type="text/css" href="<c:url value="/assets/css/slitslider.min.css" />" />
+    <link rel="stylesheet" type="text/css" href="${cdnUrl}/css/semantic.min.css" />
+    <link rel="stylesheet" type="text/css" href="${cdnUrl}/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="${cdnUrl}/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="${cdnUrl}/css/homepage.css" />
+    <link rel="stylesheet" type="text/css" href="${cdnUrl}/css/slitslider.min.css" />
     <!-- JavaScript -->
-    <script type="text/javascript" src="<c:url value="/assets/js/jquery-1.11.1.min.js" />"></script>
-    <script type="text/javascript" src="<c:url value="/assets/js/semantic.min.js" />"></script>
+    <script type="text/javascript" src="${cdnUrl}/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="${cdnUrl}/js/semantic.min.js"></script>
 </head>
 <body>
     <!-- Header -->
@@ -36,7 +39,7 @@
                                     <button class="ui button" onclick="window.location.href='<c:url value="/accounts/login" />'">Getting Started</button>
                                 </div> <!-- .column -->
                                 <div class="eight wide column">
-                                    <img src="<c:url value="/assets/img/homepage/crowd-test.png" />" alt="Icon">
+                                    <img src="${cdnUrl}/img/homepage/crowd-test.png" alt="Icon">
                                 </div> <!-- .column -->
                             </div> <!-- .row -->
                         </div> <!-- .page -->
@@ -80,7 +83,7 @@
         </div> <!-- #slider -->
         <div id="worldwide" class="ui page stackable grid">
             <h1>The TestZilla Testing Community</h1>
-            <img src="<c:url value="/assets/img/homepage/worldwide.png" />" alt="Worldwide" />
+            <img src="${cdnUrl}/img/homepage/worldwide.png" alt="Worldwide" />
             <div class="row two column">
                 <div class="column">
                     <div class="ui header">
@@ -109,15 +112,14 @@
             </div> <!-- .row -->
         </div> <!-- #worldwide -->
         <div id="partners" class="ui page stackable grid">
-            
         </div> <!-- #partners -->
     </div> <!-- #content -->
     <!-- Footer -->
     <%@ include file="/WEB-INF/views/include/footer.jsp" %>
     <!-- Java Script -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/javascript" src="<c:url value="/assets/js/site.js" />"></script>
-    <script type="text/javascript" src="<c:url value="/assets/js/jquery.slitslider.min.js" />"></script>
+    <script type="text/javascript" src="${cdnUrl}/js/site.js"></script>
+    <script type="text/javascript" src="${cdnUrl}/js/jquery.slitslider.min.js"></script>
     <script type="text/javascript">
         $(function() {
             var slider = (function() {
