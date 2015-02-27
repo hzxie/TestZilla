@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<spring:eval expression="@propertyConfigurer.getProperty('cdn.url')" var="cdnUrl" />
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <jsp:useBean id="date" class="java.util.Date" />
     <footer class="ui page stackable grid">
@@ -33,11 +35,15 @@
                 </div> <!-- .list -->
             </div> <!-- .column -->
         </div> <!-- .row -->
-        <div id="copyright" class="row">
-            <div class="twelve wide column">
-                <p>Copyright&copy; <%= new java.text.SimpleDateFormat("yyyy").format(new java.util.Date()) %> <a href="<c:url value="/" />">TestZilla</a>. All rights reserved.</p>
-            </div> <!-- .column -->
+        <div id="copyright" class="equal height row">
             <div class="four wide column">
+            	<a href="https://www.upyun.com/" target="_blank">
+            		<img src="${cdnUrl}/img/upyun.png" alt="UPYUN">
+            	</a>
+            </div> <!-- .column -->
+            <div class="twelve wide right aligned column">
+                <p>Copyright&copy; <%= new java.text.SimpleDateFormat("yyyy").format(new java.util.Date()) %> <a href="<c:url value="/" />">TestZilla</a>. All rights reserved.</p>
+                <p>Developed and designed by <a href="http://zjhzxhz.com" target="_blank">谢浩哲</a>. </p>
             </div> <!-- .column -->
         </div> <!-- #copyright -->
     </footer>
