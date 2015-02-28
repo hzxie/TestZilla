@@ -219,7 +219,7 @@ public class AccountsController {
         	view = new ModelAndView("accounts/verifyEmail");
             view.addObject("email", currentUser.getEmail());
         }
-        if ( email != null && code != null ) {
+        if ( currentUser!= null && email != null && code != null ) {
         	if ( currentUser.getEmail().equals(email) &&
         		userService.isEmailCondidentialValid(email, code) ) {
         		currentUser.setEmailVerified(true);
