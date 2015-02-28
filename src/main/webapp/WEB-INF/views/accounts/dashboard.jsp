@@ -91,7 +91,7 @@
                                     </div> <!-- .column -->
                                     <div class="column">
                                         <div class="ui statistic">
-                                            <div class="value"><i class="ticket icon"></i> N/a</div>
+                                            <div class="value"><i class="ticket icon"></i> 100</div>
                                             <div class="label">Credits</div>
                                         </div> <!-- .statistic -->
                                     </div> <!-- .column -->
@@ -107,7 +107,7 @@
                                                 </div> <!-- .label -->
                                                 <div class="content">
                                                     <div class="summary">
-                                                    	Some text here...
+                                                    	<span class="plus">+100</span> Created the account and verified your email.
                                                         <div class="date">1 Hour Ago</div>
                                                     </div> <!-- .summary -->
                                                 </div> <!-- .content -->
@@ -139,13 +139,13 @@
                         </div> <!-- .four -->
                         <div class="twelve wide column">
                             <div id="issues">
+                                <div class="ui info message">
+                                    <p>There aren't any issues.</p>
+                                </div> <!-- .message -->
                                 <div class="ui relaxed divided items"></div> <!-- .items -->
                                 <div class="pagination-container">
                                     <div class="ui pagination menu"></div> <!-- .pagination -->
                                 </div> <!-- .pagination-container -->
-                                <div class="ui info message">
-                                    <p>There aren't any issues.</p>
-                                </div> <!-- .message -->
                             </div> <!-- #issues -->
                         </div> <!-- .twelve -->
                     </div> <!-- .row -->
@@ -669,14 +669,14 @@
                 success: function(result) {
                     if ( result['isSuccessful'] ) {
                         $('.items', '#issues').removeClass('hide');
-                        $('.pagination', '#issues').removeClass('hide');
+                        $('.pagination-container', '#issues').removeClass('hide');
                         $('.info', '#issues').addClass('hide');
 
                         displaySentBugs(result['bugs']);
                         displayPagination(pageNumber, result['totalPages'], $('#issues'));
                     } else {
                         $('.items', '#issues').addClass('hide');
-                        $('.pagination', '#issues').addClass('hide');
+                        $('.pagination-container', '#issues').addClass('hide');
                         $('.info', '#issues').removeClass('hide');
                     }
                 }
@@ -727,14 +727,14 @@
                 success: function(result) {
                     if ( result['isSuccessful'] ) {
                         $('.items', '#issues').removeClass('hide');
-                        $('.pagination', '#issues').removeClass('hide');
+                        $('.pagination-container', '#issues').removeClass('hide');
                         $('.info', '#issues').addClass('hide');
 
                         displayReceivedBugs(result['bugs']);
                         displayPagination(pageNumber, result['totalPages'], $('#issues'));
                     } else {
                         $('.items', '#issues').addClass('hide');
-                        $('.pagination', '#issues').addClass('hide');
+                        $('.pagination-container', '#issues').addClass('hide');
                         $('.info', '#issues').removeClass('hide');
                     }
                 }
@@ -820,7 +820,6 @@
                         $('#product-version', '#issue-modal').val(result['bug']['productVersion']);
                         $('#description', '#issue-modal').html(converter.makeHtml(result['bug']['description'].replace(/\\n/g, '\n')));
 
-                        console.log(result['bug']['bugSeverity']);
                         $('#bug-category', '#issue-modal').parent().find('.text').removeClass('default');
                         $('#bug-category', '#issue-modal').parent().find('.text').html(result['bug']['bugCategory']['bugCategoryName']);
                         $('#bug-category', '#issue-modal').val(result['bug']['bugCategory']['bugCategorySlug']);
