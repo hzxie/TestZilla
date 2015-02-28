@@ -85,13 +85,13 @@
                                 <div class="two column row">
                                     <div class="column">
                                         <div class="ui statistic">
-                                            <div class="value"><i class="trophy icon"></i> 0</div>
+                                            <div class="value"><i class="trophy icon"></i> ${reputation}</div>
                                             <div class="label">Reputation</div>
                                         </div> <!-- .statistic -->
                                     </div> <!-- .column -->
                                     <div class="column">
                                         <div class="ui statistic">
-                                            <div class="value"><i class="ticket icon"></i> 0</div>
+                                            <div class="value"><i class="ticket icon"></i> ${credits}</div>
                                             <div class="label">Credits</div>
                                         </div> <!-- .statistic -->
                                     </div> <!-- .column -->
@@ -100,19 +100,8 @@
                                 <div class="row">
                                     <div class="column">
                                         <h4 class="ui header"><i class="icon feed"></i> Feed</h4>
-                                        <div class="ui feed">
-                                            <div class="event">
-                                                <div class="credit">
-                                                    <span class="credit-up">+100</span>
-                                                </div> <!-- .credit -->
-                                                <div class="content">
-                                                    <div class="summary">
-                                                    	Created the account and verified your email.
-                                                        <div class="date">1 Hour Ago</div>
-                                                    </div> <!-- .summary -->
-                                                </div> <!-- .content -->
-                                            </div> <!-- .event -->
-                                        </div> <!-- .feed -->
+                                        <p>No feed.</p>
+                                        <div class="ui feed"></div> <!-- .feed -->
                                     </div> <!-- .column -->
                                 </div> <!-- .row -->
                             </div> <!-- .grid -->
@@ -178,7 +167,7 @@
                                 </div> <!-- .message -->
                             </div> <!-- #products -->
                             <div id="product" class="hide">
-                                <div class="ui info message">
+                                <div class="ui info message hide">
                                     <div class="header">Note:</div>
                                     <p>Create a product will cost you 75 credits.</p>
                                 </div> <!-- .info -->
@@ -484,6 +473,11 @@
         }
     </script>
     <!-- Java Script for Overview Tab -->
+    <script type="text/javascript">
+        $(function() {
+
+        });
+    </script>
     <script type="text/javascript">
         $('#edit-profile-trigger').click(function() {
             $('#profile-error').addClass('hide');

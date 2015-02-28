@@ -373,7 +373,7 @@ public class UserService {
 	 * @return 联系电话是否合法
 	 */
 	private boolean isPhoneLegal(String phone) {
-		return phone.matches("^(\\+[0-9]+\\-)*[0-9]+$");
+		return phone.matches("^(\\+[0-9]+\\-)*[0-9\\-]+$");
 	}
 	
 	/**

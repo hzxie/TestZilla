@@ -88,10 +88,10 @@ public class ProductDao {
 		Query query = null;
 
 		if ( category == null ) {
-			query = session.createQuery("FROM Product ORDER BY numberOfTesters DESC")
+			query = session.createQuery("FROM Product ORDER BY numberOfIssues DESC")
 							.setFirstResult(offset).setMaxResults(limit);
 		} else {
-			query = session.createQuery("FROM Product WHERE productCategory = ?0 ORDER BY numberOfTesters DESC")
+			query = session.createQuery("FROM Product WHERE productCategory = ?0 ORDER BY numberOfIssues DESC")
 							.setParameter("0", category).setFirstResult(offset).setMaxResults(limit);
 		}
 		@SuppressWarnings("unchecked")

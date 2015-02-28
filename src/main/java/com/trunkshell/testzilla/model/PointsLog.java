@@ -28,11 +28,13 @@ public class PointsLog implements Serializable {
 	 * @param user - 积分所授予的用户
 	 * @param getTime - 积分所授予的时间
 	 * @param pointsRule - 积分日志所对应的规则
+	 * @param meta - 附加的元信息
 	 */
-	public PointsLog(User user, Date getTime, PointsRule pointsRule) {
+	public PointsLog(User user, Date getTime, PointsRule pointsRule, String meta) {
 		this.user = user;
 		this.getTime = getTime;
 		this.pointsRule = pointsRule;
+		this.setMeta(meta);
 	}
 	
 	/**
@@ -41,9 +43,10 @@ public class PointsLog implements Serializable {
 	 * @param user - 积分所授予的用户
 	 * @param getTime - 积分所授予的时间
 	 * @param pointsRule - 积分日志所对应的规则
+	 * @param meta - 附加的元信息
 	 */
-	public PointsLog(long pointsLogId, User user, Date getTime, PointsRule pointsRule) {
-		this(user, getTime, pointsRule);
+	public PointsLog(long pointsLogId, User user, Date getTime, PointsRule pointsRule, String meta) {
+		this(user, getTime, pointsRule, meta);
 		this.pointsLogId = pointsLogId;
 	}
 	
@@ -111,6 +114,22 @@ public class PointsLog implements Serializable {
 		this.pointsRule = pointsRule;
 	}
 	
+	/**
+	 * 获取积分日志元信息.
+	 * @return 积分日志元信息
+	 */
+	public String getMeta() {
+		return meta;
+	}
+
+	/**
+	 * 设置积分日志元信息.
+	 * @param meta - 积分日志元信息
+	 */
+	public void setMeta(String meta) {
+		this.meta = meta;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -158,6 +177,12 @@ public class PointsLog implements Serializable {
 	@ManyToOne(targetEntity = PointsRule.class)
 	@JoinColumn(name = "points_rule_id")
 	private PointsRule pointsRule;
+	
+	/**
+	 * 积分日志的元信息.
+	 */
+	@Column(name = "points_meta")
+	private String meta;
 	
 	/**
 	 * 唯一的序列化标识符.

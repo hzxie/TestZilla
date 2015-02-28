@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.trunkshell.testzilla.model.Bug;
+import com.trunkshell.testzilla.model.PointsRule;
 import com.trunkshell.testzilla.model.Product;
 import com.trunkshell.testzilla.model.User;
 import com.trunkshell.testzilla.service.BugService;
+import com.trunkshell.testzilla.service.PointsService;
 import com.trunkshell.testzilla.service.ProductService;
 import com.trunkshell.testzilla.service.UserService;
 import com.trunkshell.testzilla.util.DigestUtils;
@@ -219,12 +221,35 @@ public class AccountsController {
         }
         if ( email != null && code != null ) {
         	if ( currentUser.getEmail().equals(email) &&
-        		 userService.isEmailCondidentialValid(email, code) ) {
+        		userService.isEmailCondidentialValid(email, code) ) {
         		currentUser.setEmailVerified(true);
+        		PointsRule rule = pointsService.getPointsRuleUsingSlug("create-account");
+        		String meta = String.format("Email[%s] of User{%s} verified.", new Object[] {email, currentUser});
+        		appendPointsLogs(currentUser, rule, meta);
+        		
         		view = new ModelAndView("redirect:/accounts/dashboard");
         	}
         }
         return view;
+    }
+    
+    /**
+     * 追加积分日志.
+     * @param user - 被追加的用户
+     * @param rule - 匹配的积分规则对象
+     */
+    private void appendPointsLogs(User user, PointsRule rule, String meta) {
+    	boolean isSuccessful = true;
+    	if ( user == null || rule == null ) {
+    		isSuccessful = false;
+    	}
+    	logger.debug(user);
+    	logger.debug(rule);
+    	isSuccessful = pointsService.appendPointsLogs(user, rule, meta);
+    	
+    	if ( !isSuccessful ) {
+    		logger.error(String.format("Failed to log PointsRule{%s} for User{%s}.", new Object[] {rule, user}));
+    	}
     }
     
     /**
@@ -260,9 +285,25 @@ public class AccountsController {
         	view = new ModelAndView("redirect:/administration/dashboard");
         } else {
         	view = new ModelAndView("accounts/dashboard");
-        	view.addAllObjects(getDataForDevelopers());
+        	view.addAllObjects(getUserCredits(currentUser));
+        	
+        	if ( currentUser.getUserGroup().equals("developer") ) {
+        		view.addAllObjects(getDataForDevelopers());
+        	}
         }
     	return view;
+    }
+    
+    /**
+     * 获取用户所需的积分信息.
+     * @param user - 待查询积分信息的用户
+     * @return 包含用户积分信息的HashMap对象.
+     */
+    private HashMap<String, Object> getUserCredits(User user) {
+    	HashMap<String, Object> credits = new HashMap<String, Object>();
+    	credits.put("reputation", pointsService.getReputationUsingUser(user));
+    	credits.put("credits", pointsService.getCreditsUsingUser(user));
+    	return credits;
     }
     
     /**
@@ -310,13 +351,33 @@ public class AccountsController {
     	HttpSession session = request.getSession();
     	User currentUser = (User)session.getAttribute("user");
     	
+    	String originEmail = currentUser.getEmail();    			
     	HashMap<String, Boolean> result = userService.editProfile(currentUser, oldPassword, newPassword, 
     							 confirmPassword, realName, email, country, province, city, phone, website);
         
         if ( result.get("isSuccessful") ) {
             logger.info(String.format("User: {%s} updated profile at %s.", new Object[] {currentUser, ipAddress}));
+            refreshProfile(currentUser, session);
+            if ( !originEmail.equals(email) ) {
+            	PointsRule rule = pointsService.getPointsRuleUsingSlug("email-changed");
+            	String meta = String.format("User{%s} changed email to %s.", new Object[] {currentUser, email});
+            	appendPointsLogs(currentUser, rule, meta);
+            	sendActivationMail(currentUser);
+            }
         }
         return result;
+    }
+    
+    /**
+     * 更新在Session中用户的信息.
+     * @param currentUser - 当前Session中的用户对象
+     * @param session - Session对象
+     */
+    public void refreshProfile(User currentUser, HttpSession session) {
+    	String username = currentUser.getUsername();
+    	User user = userService.getUserUsingUsernameOrEmail(username);
+    	
+    	session.setAttribute("user", user);
     }
     
     /**
@@ -582,6 +643,12 @@ public class AccountsController {
     UserService userService;
     
     /**
+     * 自动注入的PointsService对象.
+     */
+    @Autowired
+    PointsService pointsService;
+    
+    /**
      * 自动注入的ProductService对象.
      */
     @Autowired
@@ -602,7 +669,12 @@ public class AccountsController {
 	 * 产品详情页面每页所显示的Bug数量.
 	 */
 	private final int NUMBER_OF_BUGS_PER_PAGE = 10;
-    
+	
+	/**
+	 * 概况页面每次加载积分日志记录的数量.
+	 */
+	private final int NUMBER_OF_FEED_PER_PAGE = 10;
+	
     /**
      * 日志记录器.
      */

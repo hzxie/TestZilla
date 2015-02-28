@@ -97,7 +97,7 @@ public class BugDaoTest {
 	 */
 	@Test
 	public void testGetTotalBugsUsingDeveloperExists() {
-		User developer = userDao.getUserUsingUid(1000);
+		User developer = userDao.getUserUsingUid(1002);
 		Assert.assertNotNull(developer);
 		
 		long totalBugs = bugDao.getTotalBugsUsingDeveloper(developer);
@@ -125,7 +125,7 @@ public class BugDaoTest {
 	 */
 	@Test
 	public void testGetBugsUsingDeveloperExists() {
-		User developer = userDao.getUserUsingUid(1000);
+		User developer = userDao.getUserUsingUid(1002);
 		Assert.assertNotNull(developer);
 		
 		List<Bug> bugs = bugDao.getBugsUsingDeveloper(developer, 0, 10);

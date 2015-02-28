@@ -61,7 +61,7 @@ public class ProductDaoTest {
 		Assert.assertEquals(2, products.size());
 		
 		Product product = products.get(0);
-		Assert.assertEquals("IT Training Platform", product.getProductName());
+		Assert.assertEquals("CourseOcean", product.getProductName());
 	}
 	
 	/**
@@ -76,7 +76,7 @@ public class ProductDaoTest {
 		Assert.assertEquals(1, products.size());
 		
 		Product product = products.get(0);
-		Assert.assertEquals("IT Training Platform", product.getProductName());
+		Assert.assertEquals("CourseOcean", product.getProductName());
 	}
 	
 	/**
@@ -91,7 +91,7 @@ public class ProductDaoTest {
 		Assert.assertEquals(1, products.size());
 		
 		Product product = products.get(0);
-		Assert.assertEquals("IT Training Platform", product.getProductName());
+		Assert.assertEquals("CourseOcean", product.getProductName());
 	}
 	
 	/**
@@ -101,11 +101,11 @@ public class ProductDaoTest {
 	 */
 	@Test
 	public void testGetProductsUsingKeyword() {
-		List<Product> products = productDao.getProductsUsingKeyword("Platform", 0, 10);
+		List<Product> products = productDao.getProductsUsingKeyword("Course", 0, 10);
 		Assert.assertEquals(1, products.size());
 		
 		Product product = products.get(0);
-		Assert.assertEquals("IT Training Platform", product.getProductName());
+		Assert.assertEquals("CourseOcean", product.getProductName());
 	}
 	
 	/**

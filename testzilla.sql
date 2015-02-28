@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `tz_bugs` (
   `bug_title` varchar(64) NOT NULL,
   `bug_description` text NOT NULL,
   `bug_screenshots` text
-) ENGINE=InnoDB AUTO_INCREMENT=1017 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1003 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tz_bugs`
@@ -172,7 +172,17 @@ CREATE TABLE IF NOT EXISTS `tz_points_logs` (
   `points_get_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `points_rule_id` int(4) NOT NULL,
   `points_meta` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1004 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tz_points_logs`
+--
+
+INSERT INTO `tz_points_logs` (`points_log_id`, `points_to_uid`, `points_get_time`, `points_rule_id`, `points_meta`) VALUES
+(1000, 1002, '2014-12-31 0:00:00', 1, ''),
+(1001, 1001, '2014-12-31 0:32:25', 1, ''),
+(1002, 1002, '2015-01-27 23:00:08', 3, ''),
+(1003, 1001, '2015-02-05 15:30:06', 3, '');
 
 -- --------------------------------------------------------
 
@@ -194,7 +204,9 @@ CREATE TABLE IF NOT EXISTS `tz_points_rules` (
 --
 
 INSERT INTO `tz_points_rules` (`points_rule_id`, `points_rule_slug`, `points_rule_reputation`, `points_rule_credits`, `points_rule_title`, `points_rule_description`) VALUES
-(1, 'create-account', 0, 100, 'Create Account', 'Once your account was created and your email address was verified, you''ll get 100 credits.');
+(1, 'create-account', 0, 100, 'Create Account', 'Once your account was created and your email address was verified, you''ll get 100 credits.'),
+(2, 'email-changed', 0, -100, 'Email Address Changed', 'You must re-verify email after you changed your  email address.'),
+(3, 'create-product', 5, -75, 'Create Product', 'Creating a product will cost you 75 credits.');
 
 -- --------------------------------------------------------
 
@@ -212,14 +224,14 @@ CREATE TABLE IF NOT EXISTS `tz_products` (
   `product_prerequisites` varchar(128) NOT NULL,
   `product_url` varchar(256) NOT NULL,
   `product_description` text NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1016 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1002 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tz_products`
 --
 
 INSERT INTO `tz_products` (`product_id`, `product_name`, `product_logo`, `product_category_id`, `product_latest_version`, `product_developer_id`, `product_prerequisites`, `product_url`, `product_description`) VALUES
-(1000, 'TestZilla', 'http://www.testzilla.org/assets/img/logo.png', 1, '1.0 Beta', 1000, 'IE 10+, Firefox, Chrome or Safari', 'http://www.testzilla.org/', 'Global crowd testing platform designed for web, mobile and desktop applications.'),
+(1000, 'TestZilla', 'http://www.testzilla.org/assets/img/logo.png', 1, '1.0 Beta', 1002, 'IE 10+, Firefox, Chrome or Safari', 'http://www.testzilla.org/', 'Global crowd testing platform designed for web, mobile and desktop applications.'),
 (1001, 'CourseOcean', 'http://www.courseocean.com/img/logo.png', 1, '1.0 Alpha', 1001, 'IE 7+, Firefox, Chrome or Safari', 'http://www.courseocean.com/', 'IT training platform that can provide courses and training for IT practitioners or companies. ');
 
 -- --------------------------------------------------------
@@ -267,15 +279,16 @@ CREATE TABLE IF NOT EXISTS `tz_users` (
   `website` varchar(64) DEFAULT NULL,
   `is_individual` tinyint(1) NOT NULL DEFAULT '1',
   `is_email_verified` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=1058 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1003 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tz_users`
 --
 
 INSERT INTO `tz_users` (`uid`, `username`, `password`, `user_group_id`, `real_name`, `email`, `country`, `province`, `city`, `phone`, `website`, `is_individual`, `is_email_verified`) VALUES
-(1000, 'Administrator', '785ee107c11dfe36de668b1ae7baacbb', 3, 'Administrator', 'support@testzilla.org', 'China', 'Zhejiang', 'Hangzhou', '+86-571-12345678', 'http://testzilla.org', 0, 1),
-(1001, 'zjhzxhz', '785ee107c11dfe36de668b1ae7baacbb', 2, '谢浩哲', 'zjhzxhz@gmail.com', 'China', 'Zhejiang', 'Hangzhou', '+86-15695719136', 'http://zjhzxhz.com', 1, 0);
+(1000, 'Administrator', '785ee107c11dfe36de668b1ae7baacbb', 3, 'Administrator', 'webmaster@testzilla.org', 'China', 'Zhejiang', 'Hangzhou', '+86-571-12345678', 'http://testzilla.org', 0, 1),
+(1001, 'zjhzxhz', '785ee107c11dfe36de668b1ae7baacbb', 2, '谢浩哲', 'zjhzxhz@gmail.com', 'China', 'Zhejiang', 'Hangzhou', '+86-15695719136', 'http://zjhzxhz.com', 1, 1),
+(1002, 'TestZilla', '785ee107c11dfe36de668b1ae7baacbb', 2, 'TestZilla', 'support@testzilla.org', 'China', 'Zhejiang', 'Hangzhou', '', 'http://testzilla.org', 0, 1);
 
 -- --------------------------------------------------------
 
