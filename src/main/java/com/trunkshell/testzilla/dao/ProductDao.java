@@ -162,24 +162,6 @@ public class ProductDao {
 	}
 	
 	/**
-	 * 添加产品测试者.
-	 * @param tester - 测试者(User对象)
-	 * @return 操作是否成功完成
-	 */
-	@Transactional
-	public boolean addProductTester(Product product, User tester) {
-		Session session = sessionFactory.getCurrentSession();
-		if ( product == null || tester == null ) {
-			return false;
-		}
-		
-		product.addTester(tester);
-		session.save(product);
-		session.flush();
-		return true;
-	}
-	
-	/**
 	 * 更新产品信息.
 	 * @param product - 待更新的产品(Product)对象
 	 * @return 操作是否成功完成

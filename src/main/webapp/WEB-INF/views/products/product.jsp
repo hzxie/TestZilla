@@ -106,7 +106,7 @@
                         <div class="middle aligned content">
                             <a class="header" href="<c:url value="/products/${relatedProduct.productId}" />">${relatedProduct.productName}</a>
                             <div class="meta">
-                                <span>${relatedProduct.numberOfTesters} tester(s) attended</span>
+                                <span>${relatedProduct.numberOfIssues} issue(s) reported</span>
                             </div>
                         </div> <!-- .content -->
                     </div> <!-- .item -->

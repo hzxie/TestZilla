@@ -4,15 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -239,35 +236,11 @@ public class Product implements Serializable {
 	}
 
 	/**
-	 * 获取参与测试用户列表.
-	 * @return 参与测试用户列表
+	 * 获取已发现的Bug数量.
+	 * @return 已发现的Bug数量
 	 */
-	@JsonIgnore
-	public List<User> getTesters() {
-		return testers;
-	}
-
-	/**
-	 * 设置参与测试用户列表.
-	 * @param testers - 参与测试用户列表
-	 */
-	public void setTesters(List<User> testers) {
-		this.testers = testers;
-	}
-	
-	/**
-	 * 添加参与测试的用户.
-	 * @param tester - 参与测试的用户(User对象)
-	 */
-	public void addTester(User tester) {
-		this.testers.add(tester);
-	}
-
-	/**
-	 * @return the numberOfTesters
-	 */
-	public int getNumberOfTesters() {
-		return numberOfTesters;
+	public int getNumberOfIssues() {
+		return numberOfIssues;
 	}
 	
 	/* (non-Javadoc)
@@ -355,19 +328,10 @@ public class Product implements Serializable {
 	private List<Bug> bugs = new ArrayList<Bug>();
 	
 	/**
-	 * 参与测试用户列表(以便N-N关联).
+	 * 已发现的Bug数量.
 	 */
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "tz_product_testers",
-				joinColumns = @JoinColumn(name = "product_id"),
-				inverseJoinColumns = @JoinColumn(name = "tester_uid"))
-	private List<User> testers = new ArrayList<User>();
-	
-	/**
-	 * 参与测试的用户人数.
-	 */
-	@Formula(value = "(SELECT COUNT(*) FROM tz_product_testers pt WHERE pt.product_id = product_id)")
-	private int numberOfTesters;
+	@Formula(value = "(SELECT COUNT(*) FROM tz_bugs b WHERE b.product_id = product_id)")
+	private int numberOfIssues;
 	
 	/**
 	 * 唯一的序列化标识符.

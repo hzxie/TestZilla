@@ -172,12 +172,12 @@
             for ( var i = 0; i < products.length; ++ i ) {
                 $('#products .items').append(getProductContent(products[i]['productId'], products[i]['productName'], 
                                                                products[i]['productLogo'], products[i]['productCategory'], 
-                                                               products[i]['latestVersion'], products[i]['description'], products[i]['numberOfTesters']));
+                                                               products[i]['latestVersion'], products[i]['description'], products[i]['numberOfIssues']));
             }
         }
     </script>
     <script type="text/javascript">
-        function getProductContent(productId, productName, productLogo, productCategory, latestVersion, description, numberOfTesters) {
+        function getProductContent(productId, productName, productLogo, productCategory, latestVersion, description, numberOfIssues) {
             var productContentTemplate = '<div class="item">' + 
                                          '    <div class="ui small image">' + 
                                          '        <img src="%s" alt="Product Logo" />' + 
@@ -188,13 +188,13 @@
                                          '        <div class="description">%s</div> <!-- .description -->' + 
                                          '        <div class="extra">' + 
                                          '            <div class="ui label">%s</div> <!-- .label -->' + 
-                                         '            <div class="ui label">%s tester(s) attended</div> <!-- .label -->' + 
+                                         '            <div class="ui label">%s issue(s) reported</div> <!-- .label -->' + 
                                          '        </div> <!-- .extra -->' + 
                                          '    </div> <!-- .content -->' + 
                                          '</div> <!-- .item -->';
             return productContentTemplate.format(productLogo, productId, productName, 
                                                  productCategory['productCategoryName'], 
-                                                 description, latestVersion, numberOfTesters);
+                                                 description, latestVersion, numberOfIssues);
         }
     </script>
     <script type="text/javascript">

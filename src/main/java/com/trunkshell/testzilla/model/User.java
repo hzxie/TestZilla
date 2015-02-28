@@ -10,7 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -351,23 +350,6 @@ public class User implements Serializable {
 		return developedProducts;
 	}
 	
-	/**
-	 * 获取用户所参与测试产品列表.
-	 * @return 用户所参与测试产品列表
-	 */
-	@JsonIgnore
-	public List<Product> getTestedProducts() {
-		return testedProducts;
-	}
-
-	/**
-	 * 设置用户所参与测试产品列表.
-	 * @param testedProducts - 用户所参与测试产品列表
-	 */
-	public void setTestedProducts(List<Product> testedProducts) {
-		this.testedProducts = testedProducts;
-	}
-	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -490,12 +472,6 @@ public class User implements Serializable {
 				fetch = FetchType.LAZY, mappedBy = "user")
 	private List<PointsLog> pointsLogs = new ArrayList<PointsLog>();
 
-	/**
-	 * 用户所参与测试产品列表(以便N-N关联).
-	 */
-	@ManyToMany(mappedBy = "testers")
-	private List<Product> testedProducts = new ArrayList<Product>();
-	
 	/**
 	 * 唯一的序列化标识符.
 	 */

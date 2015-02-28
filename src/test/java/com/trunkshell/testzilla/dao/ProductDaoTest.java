@@ -176,66 +176,6 @@ public class ProductDaoTest {
 	}
 	
 	/**
-	 * 测试用例: 测试addProductTester()方法
-	 * 测试数据: 使用存在的产品唯一标识符和用户唯一标识符
-	 * 预期结果: 返回true, 表示操作成功完成
-	 */
-	@Test
-	public void testAddProductTesterNormal() {
-		Product product = productDao.getProductsUsingProductId(1001);
-		Assert.assertNotNull(product);
-		User user = userDao.getUserUsingUid(1000);
-		Assert.assertNotNull(user);
-		
-		Assert.assertTrue(productDao.addProductTester(product, user));
-	}
-	
-	/**
-	 * 测试用例: 测试addProductTester()方法
-	 * 测试数据: 使用不存在的产品唯一标识符和存在的用户唯一标识符
-	 * 预期结果: 返回false, 表示操作未成功完成
-	 */
-	@Test
-	public void testAddProductTesterUsingNotExistingProduct() {
-		Product product = productDao.getProductsUsingProductId(0);
-		Assert.assertNull(product);
-		User user = userDao.getUserUsingUid(1000);
-		Assert.assertNotNull(user);
-		
-		Assert.assertFalse(productDao.addProductTester(product, user));
-	}
-	
-	/**
-	 * 测试用例: 测试addProductTester()方法
-	 * 测试数据: 使用存在的产品唯一标识符和不存在的用户唯一标识符
-	 * 预期结果: 返回false, 表示操作未成功完成
-	 */
-	@Test
-	public void testAddProductTesterUsingNotExistingUser() {
-		Product product = productDao.getProductsUsingProductId(1000);
-		Assert.assertNotNull(product);
-		User user = userDao.getUserUsingUid(0);
-		Assert.assertNull(user);
-		
-		Assert.assertFalse(productDao.addProductTester(product, user));
-	}
-
-	/**
-	 * 测试用例: 测试addProductTester()方法
-	 * 测试数据: 使用存在的产品唯一标识符和用户唯一标识符
-	 * 预期结果: 抛出ConstraintViolationException异常
-	 */
-	@Test(expected = org.hibernate.exception.ConstraintViolationException.class)
-	public void testAddProductTesterAlreadyAttended() {
-		Product product = productDao.getProductsUsingProductId(1001);
-		Assert.assertNotNull(product);
-		User user = userDao.getUserUsingUid(1001);
-		Assert.assertNotNull(user);
-		
-		Assert.assertTrue(productDao.addProductTester(product, user));
-	}
-	
-	/**
 	 * 测试用例: 测试updateProduct()方法
 	 * 测试数据: 使用合法的数据集且数据库中存在该产品
 	 * 预期结果: 返回true, 表示操作成功完成

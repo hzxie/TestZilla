@@ -11,7 +11,7 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 --
--- Database: `test`
+-- Database: `testzilla`
 --
 
 -- --------------------------------------------------------
@@ -21,7 +21,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `tz_bugs` (
-  `bug_id` bigint(20) NOT NULL,
+`bug_id` bigint(20) NOT NULL,
   `product_id` bigint(20) NOT NULL,
   `product_version` varchar(24) NOT NULL,
   `bug_category_id` int(4) NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `tz_bugs` (
   `bug_title` varchar(64) NOT NULL,
   `bug_description` text NOT NULL,
   `bug_screenshots` text
-) ENGINE=InnoDB AUTO_INCREMENT=1016 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1017 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tz_bugs`
@@ -50,7 +50,7 @@ INSERT INTO `tz_bugs` (`bug_id`, `product_id`, `product_version`, `bug_category_
 --
 
 CREATE TABLE IF NOT EXISTS `tz_bug_categories` (
-  `bug_category_id` int(4) NOT NULL,
+`bug_category_id` int(4) NOT NULL,
   `bug_category_slug` varchar(24) NOT NULL,
   `bug_category_name` varchar(24) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
@@ -80,7 +80,7 @@ INSERT INTO `tz_bug_categories` (`bug_category_id`, `bug_category_slug`, `bug_ca
 --
 
 CREATE TABLE IF NOT EXISTS `tz_bug_severities` (
-  `bug_severity_id` int(4) NOT NULL,
+`bug_severity_id` int(4) NOT NULL,
   `bug_severity_slug` varchar(24) NOT NULL,
   `bug_severity_name` varchar(24) NOT NULL,
   `bug_severity_description` text NOT NULL
@@ -103,7 +103,7 @@ INSERT INTO `tz_bug_severities` (`bug_severity_id`, `bug_severity_slug`, `bug_se
 --
 
 CREATE TABLE IF NOT EXISTS `tz_bug_status` (
-  `bug_status_id` int(4) NOT NULL,
+`bug_status_id` int(4) NOT NULL,
   `bug_status_slug` varchar(24) NOT NULL,
   `bug_status_name` varchar(24) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
@@ -148,7 +148,7 @@ INSERT INTO `tz_mail_verification` (`email`, `code`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `tz_options` (
-  `option_id` int(8) NOT NULL,
+`option_id` int(8) NOT NULL,
   `option_key` varchar(32) NOT NULL,
   `option_value` text NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
@@ -167,7 +167,7 @@ INSERT INTO `tz_options` (`option_id`, `option_key`, `option_value`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `tz_points_logs` (
-  `points_log_id` bigint(20) NOT NULL,
+`points_log_id` bigint(20) NOT NULL,
   `points_to_uid` bigint(20) NOT NULL,
   `points_get_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `points_rule_id` int(4) NOT NULL,
@@ -175,6 +175,10 @@ CREATE TABLE IF NOT EXISTS `tz_points_logs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
+
+--
+-- Table structure for table `tz_points_rules`
+--
 
 CREATE TABLE IF NOT EXISTS `tz_points_rules` (
 `points_rule_id` int(4) NOT NULL,
@@ -199,7 +203,7 @@ INSERT INTO `tz_points_rules` (`points_rule_id`, `points_rule_slug`, `points_rul
 --
 
 CREATE TABLE IF NOT EXISTS `tz_products` (
-  `product_id` bigint(20) NOT NULL,
+`product_id` bigint(20) NOT NULL,
   `product_name` varchar(32) NOT NULL,
   `product_logo` varchar(128) NOT NULL,
   `product_category_id` int(4) NOT NULL,
@@ -208,15 +212,15 @@ CREATE TABLE IF NOT EXISTS `tz_products` (
   `product_prerequisites` varchar(128) NOT NULL,
   `product_url` varchar(256) NOT NULL,
   `product_description` text NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1015 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1016 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tz_products`
 --
 
 INSERT INTO `tz_products` (`product_id`, `product_name`, `product_logo`, `product_category_id`, `product_latest_version`, `product_developer_id`, `product_prerequisites`, `product_url`, `product_description`) VALUES
-(1000, 'TestZilla', 'http://www.testzilla.org/assets/img/logo.png', 1, '1.0 Beta', 1000, 'IE 10+, Firefox, Chrome or Safari', 'http://www.testzilla.org/', 'TestZilla Description'),
-(1001, 'IT Training Platform', 'http://itp.zjhzxhz.com/img/logo.png', 1, '1.0 Alpha', 1001, 'IE 7+, Firefox, Chrome or Safari', 'http://www.itraining.com/', 'IT Training Platform Description');
+(1000, 'TestZilla', 'http://www.testzilla.org/assets/img/logo.png', 1, '1.0 Beta', 1000, 'IE 10+, Firefox, Chrome or Safari', 'http://www.testzilla.org/', 'Global crowd testing platform designed for web, mobile and desktop applications.'),
+(1001, 'CourseOcean', 'http://www.courseocean.com/img/logo.png', 1, '1.0 Alpha', 1001, 'IE 7+, Firefox, Chrome or Safari', 'http://www.courseocean.com/', 'IT training platform that can provide courses and training for IT practitioners or companies. ');
 
 -- --------------------------------------------------------
 
@@ -225,7 +229,7 @@ INSERT INTO `tz_products` (`product_id`, `product_name`, `product_logo`, `produc
 --
 
 CREATE TABLE IF NOT EXISTS `tz_product_categories` (
-  `product_category_id` int(4) NOT NULL,
+`product_category_id` int(4) NOT NULL,
   `product_category_slug` varchar(24) NOT NULL,
   `product_category_name` varchar(24) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
@@ -246,31 +250,11 @@ INSERT INTO `tz_product_categories` (`product_category_id`, `product_category_sl
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tz_product_testers`
---
-
-CREATE TABLE IF NOT EXISTS `tz_product_testers` (
-  `product_id` bigint(20) NOT NULL,
-  `tester_uid` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tz_product_testers`
---
-
-INSERT INTO `tz_product_testers` (`product_id`, `tester_uid`) VALUES
-(1000, 1000),
-(1000, 1001),
-(1001, 1001);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `tz_users`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_users` (
-  `uid` bigint(20) NOT NULL,
+`uid` bigint(20) NOT NULL,
   `username` varchar(16) NOT NULL,
   `password` varchar(32) NOT NULL,
   `user_group_id` int(4) NOT NULL,
@@ -283,7 +267,7 @@ CREATE TABLE IF NOT EXISTS `tz_users` (
   `website` varchar(64) DEFAULT NULL,
   `is_individual` tinyint(1) NOT NULL DEFAULT '1',
   `is_email_verified` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=1002 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1058 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tz_users`
@@ -300,7 +284,7 @@ INSERT INTO `tz_users` (`uid`, `username`, `password`, `user_group_id`, `real_na
 --
 
 CREATE TABLE IF NOT EXISTS `tz_user_groups` (
-  `user_group_id` int(4) NOT NULL,
+`user_group_id` int(4) NOT NULL,
   `user_group_slug` varchar(24) NOT NULL,
   `user_group_name` varchar(24) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
@@ -322,79 +306,73 @@ INSERT INTO `tz_user_groups` (`user_group_id`, `user_group_slug`, `user_group_na
 -- Indexes for table `tz_bugs`
 --
 ALTER TABLE `tz_bugs`
-  ADD PRIMARY KEY (`bug_id`), ADD KEY `product_id` (`product_id`), ADD KEY `bug_category_id` (`bug_category_id`,`bug_status_id`), ADD KEY `product_id_2` (`product_id`), ADD KEY `bug_status_id` (`bug_status_id`), ADD KEY `bug_hunter_id` (`bug_hunter_id`), ADD KEY `bug_severity_id` (`bug_severity_id`);
+ ADD PRIMARY KEY (`bug_id`), ADD KEY `product_id` (`product_id`), ADD KEY `bug_category_id` (`bug_category_id`,`bug_status_id`), ADD KEY `product_id_2` (`product_id`), ADD KEY `bug_status_id` (`bug_status_id`), ADD KEY `bug_hunter_id` (`bug_hunter_id`), ADD KEY `bug_severity_id` (`bug_severity_id`);
 
 --
 -- Indexes for table `tz_bug_categories`
 --
 ALTER TABLE `tz_bug_categories`
-  ADD PRIMARY KEY (`bug_category_id`);
+ ADD PRIMARY KEY (`bug_category_id`);
 
 --
 -- Indexes for table `tz_bug_severities`
 --
 ALTER TABLE `tz_bug_severities`
-  ADD PRIMARY KEY (`bug_severity_id`);
+ ADD PRIMARY KEY (`bug_severity_id`);
 
 --
 -- Indexes for table `tz_bug_status`
 --
 ALTER TABLE `tz_bug_status`
-  ADD PRIMARY KEY (`bug_status_id`);
+ ADD PRIMARY KEY (`bug_status_id`);
 
 --
 -- Indexes for table `tz_mail_verification`
 --
 ALTER TABLE `tz_mail_verification`
-  ADD PRIMARY KEY (`email`);
+ ADD PRIMARY KEY (`email`);
 
 --
 -- Indexes for table `tz_options`
 --
 ALTER TABLE `tz_options`
-  ADD PRIMARY KEY (`option_id`);
+ ADD PRIMARY KEY (`option_id`);
 
 --
 -- Indexes for table `tz_points_logs`
 --
 ALTER TABLE `tz_points_logs`
-  ADD PRIMARY KEY (`points_log_id`), ADD KEY `points_uid` (`points_to_uid`,`points_rule_id`), ADD KEY `points_rule_id` (`points_rule_id`);
+ ADD PRIMARY KEY (`points_log_id`), ADD KEY `points_uid` (`points_to_uid`,`points_rule_id`), ADD KEY `points_rule_id` (`points_rule_id`);
 
 --
 -- Indexes for table `tz_points_rules`
 --
 ALTER TABLE `tz_points_rules`
-  ADD PRIMARY KEY (`points_rule_id`);
+ ADD PRIMARY KEY (`points_rule_id`);
 
 --
 -- Indexes for table `tz_products`
 --
 ALTER TABLE `tz_products`
-  ADD PRIMARY KEY (`product_id`), ADD KEY `product_developer_id` (`product_developer_id`), ADD KEY `product_category_id` (`product_category_id`);
+ ADD PRIMARY KEY (`product_id`), ADD KEY `product_developer_id` (`product_developer_id`), ADD KEY `product_category_id` (`product_category_id`);
 
 --
 -- Indexes for table `tz_product_categories`
 --
 ALTER TABLE `tz_product_categories`
-  ADD PRIMARY KEY (`product_category_id`);
-
---
--- Indexes for table `tz_product_testers`
---
-ALTER TABLE `tz_product_testers`
-  ADD PRIMARY KEY (`product_id`,`tester_uid`), ADD KEY `tester_uid` (`tester_uid`);
+ ADD PRIMARY KEY (`product_category_id`);
 
 --
 -- Indexes for table `tz_users`
 --
 ALTER TABLE `tz_users`
-  ADD PRIMARY KEY (`uid`), ADD UNIQUE KEY `username` (`username`), ADD UNIQUE KEY `email` (`email`), ADD KEY `tz_users_ibfk_1` (`user_group_id`);
+ ADD PRIMARY KEY (`uid`), ADD UNIQUE KEY `username` (`username`), ADD UNIQUE KEY `email` (`email`), ADD KEY `tz_users_ibfk_1` (`user_group_id`);
 
 --
 -- Indexes for table `tz_user_groups`
 --
 ALTER TABLE `tz_user_groups`
-  ADD PRIMARY KEY (`user_group_id`);
+ ADD PRIMARY KEY (`user_group_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -404,57 +382,57 @@ ALTER TABLE `tz_user_groups`
 -- AUTO_INCREMENT for table `tz_bugs`
 --
 ALTER TABLE `tz_bugs`
-  MODIFY `bug_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1016;
+MODIFY `bug_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1017;
 --
 -- AUTO_INCREMENT for table `tz_bug_categories`
 --
 ALTER TABLE `tz_bug_categories`
-  MODIFY `bug_category_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+MODIFY `bug_category_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `tz_bug_severities`
 --
 ALTER TABLE `tz_bug_severities`
-  MODIFY `bug_severity_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `bug_severity_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `tz_bug_status`
 --
 ALTER TABLE `tz_bug_status`
-  MODIFY `bug_status_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+MODIFY `bug_status_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `tz_options`
 --
 ALTER TABLE `tz_options`
-  MODIFY `option_id` int(8) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+MODIFY `option_id` int(8) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `tz_points_logs`
 --
 ALTER TABLE `tz_points_logs`
-  MODIFY `points_log_id` bigint(20) NOT NULL AUTO_INCREMENT;
+MODIFY `points_log_id` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `tz_points_rules`
 --
 ALTER TABLE `tz_points_rules`
-  MODIFY `points_rule_id` int(4) NOT NULL AUTO_INCREMENT;
+MODIFY `points_rule_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `tz_products`
 --
 ALTER TABLE `tz_products`
-  MODIFY `product_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1015;
+MODIFY `product_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1016;
 --
 -- AUTO_INCREMENT for table `tz_product_categories`
 --
 ALTER TABLE `tz_product_categories`
-  MODIFY `product_category_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+MODIFY `product_category_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `tz_users`
 --
 ALTER TABLE `tz_users`
-  MODIFY `uid` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1054;
+MODIFY `uid` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1058;
 --
 -- AUTO_INCREMENT for table `tz_user_groups`
 --
 ALTER TABLE `tz_user_groups`
-  MODIFY `user_group_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `user_group_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- Constraints for dumped tables
 --
@@ -482,13 +460,6 @@ ADD CONSTRAINT `tz_points_logs_ibfk_2` FOREIGN KEY (`points_rule_id`) REFERENCES
 ALTER TABLE `tz_products`
 ADD CONSTRAINT `tz_products_ibfk_1` FOREIGN KEY (`product_category_id`) REFERENCES `tz_product_categories` (`product_category_id`),
 ADD CONSTRAINT `tz_products_ibfk_2` FOREIGN KEY (`product_developer_id`) REFERENCES `tz_users` (`uid`);
-
---
--- Constraints for table `tz_product_testers`
---
-ALTER TABLE `tz_product_testers`
-ADD CONSTRAINT `tz_product_testers_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `tz_products` (`product_id`),
-ADD CONSTRAINT `tz_product_testers_ibfk_2` FOREIGN KEY (`tester_uid`) REFERENCES `tz_users` (`uid`);
 
 --
 -- Constraints for table `tz_users`

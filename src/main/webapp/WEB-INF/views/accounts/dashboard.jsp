@@ -126,9 +126,9 @@
                         <div id="issues-sidebar" class="four wide column">
                             <div class="ui vertical fluid menu">
                             <c:if test="${user.userGroup.userGroupSlug == 'developer'}">
-                                <a class="item active">Received Issues</a>
+                                <a class="item">Received Issues</a>
                             </c:if>
-                                <a class="item">Sent Issues</a>
+                                <a class="item active">Sent Issues</a>
                                 <div class="item">
                                     <div class="ui transparent icon input">
                                         <input type="text" placeholder="Search...">
