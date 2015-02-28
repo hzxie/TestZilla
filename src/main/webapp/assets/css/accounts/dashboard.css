@@ -49,6 +49,21 @@ div#content div#main-container div#overview-tab div.statistic div.value {
 	text-transform: lowercase;
 }
 
+div#content div#main-container div#overview-tab div.feed span.credit-up {
+	color: #008000;
+}
+
+div#content div#main-container div#overview-tab div.feed span.credit-down {
+	color: #f00;
+}
+
+.user-show-new .user-rep .rep-up {
+	color: #008000
+}
+.user-show-new .user-rep .rep-down {
+	color: #f00
+}
+
 div#content div#main-container div#issues-tab div.items div.item,
 div#content div#main-container div#products-tab div.items div.item {
 	position: relative;

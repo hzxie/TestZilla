@@ -43,7 +43,7 @@
             </div> <!-- .column -->
             <div class="twelve wide right aligned column">
                 <p>Copyright&copy; <%= new java.text.SimpleDateFormat("yyyy").format(new java.util.Date()) %> <a href="<c:url value="/" />">TestZilla</a>. All rights reserved.</p>
-                <p>Developed and designed by <a href="http://zjhzxhz.com" target="_blank">谢浩哲</a>. </p>
+                <p>Developed and designed by <a href="http://zjhzxhz.com" target="_blank">Trunk Shell</a>. </p>
             </div> <!-- .column -->
         </div> <!-- #copyright -->
     </footer>

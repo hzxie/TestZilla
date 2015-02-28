@@ -85,13 +85,13 @@
                                 <div class="two column row">
                                     <div class="column">
                                         <div class="ui statistic">
-                                            <div class="value"><i class="trophy icon"></i> ${user.reputation}</div>
+                                            <div class="value"><i class="trophy icon"></i> 0</div>
                                             <div class="label">Reputation</div>
                                         </div> <!-- .statistic -->
                                     </div> <!-- .column -->
                                     <div class="column">
                                         <div class="ui statistic">
-                                            <div class="value"><i class="ticket icon"></i> 100</div>
+                                            <div class="value"><i class="ticket icon"></i> 0</div>
                                             <div class="label">Credits</div>
                                         </div> <!-- .statistic -->
                                     </div> <!-- .column -->
@@ -102,12 +102,12 @@
                                         <h4 class="ui header"><i class="icon feed"></i> Feed</h4>
                                         <div class="ui feed">
                                             <div class="event">
-                                                <div class="label">
-                                                    <img src="http://semantic-ui.com/images/avatar/small/elliot.jpg">
-                                                </div> <!-- .label -->
+                                                <div class="credit">
+                                                    <span class="credit-up">+100</span>
+                                                </div> <!-- .credit -->
                                                 <div class="content">
                                                     <div class="summary">
-                                                    	<span class="plus">+100</span> Created the account and verified your email.
+                                                    	Created the account and verified your email.
                                                         <div class="date">1 Hour Ago</div>
                                                     </div> <!-- .summary -->
                                                 </div> <!-- .content -->

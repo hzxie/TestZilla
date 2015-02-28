@@ -13,7 +13,7 @@
 	http://www.springframework.org/schema/context/spring-context-4.1.xsd">
 	<!-- Base Components -->
 	<context:annotation-config />
-	<context:component-scan base-package="com.happystudio.testzilla" />
+	<context:component-scan base-package="com.trunkshell.testzilla" />
 
 	<!-- Enable @Controller annotation support -->
 	<mvc:annotation-driven />
@@ -47,7 +47,7 @@
 		<property name="dataSource" ref="testzillaDataSource" />
 		<property name="packagesToScan">
 			<array>
-				<value>com.happystudio.testzilla.model</value>
+				<value>com.trunkshell.testzilla.model</value>
 			</array>
 		</property>
 		<property name="hibernateProperties">
@@ -83,6 +83,6 @@
 		</property>
 	</bean>
 	<bean id="testzillaMailSender" 
-		class="com.happystudio.testzilla.util.MailSender">
+		class="com.trunkshell.testzilla.util.MailSender">
 	</bean>
 </beans>
