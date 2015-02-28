@@ -126,6 +126,103 @@ public class BugService {
 	public List<BugStatus> getBugStatusList() {
 		return bugStatusDao.getAllBugStatus();
 	}
+
+	/**
+	 * 处理开发者用户编辑Bug的请求.
+	 * @param bugId - Bug的唯一标识符
+	 * @param user - 提出编辑请求的用户
+	 * @param bugStatusSlug - Bug状态的唯一标识符
+	 * @param bugCategorySlug - Bug分类的唯一标识符
+	 * @param bugSeveritySlug - Bug严重性的唯一标识符
+	 * @return 一个包含若干标志位的HashMap<String, Boolean>对象
+	 */
+	public HashMap<String, Boolean> editBug(long bugId, User user, 
+			String bugStatusSlug, String bugCategorySlug, String bugSeveritySlug) {
+		BugCategory bugCategory = getBugCategory(bugCategorySlug);
+		BugStatus bugStatus = getBugStatus(bugStatusSlug);
+		BugSeverity bugSeverity = getBugSeverity(bugSeveritySlug);
+		
+		Bug bug = bugDao.getBugUsingBugId(bugId);
+		bug.setBugCategory(bugCategory);
+		bug.setBugStatus(bugStatus);
+		bug.setBugSeverity(bugSeverity);
+		HashMap<String, Boolean> result = getEditBugResult(bug, user);
+		
+		if ( result.get("isSuccessful") ) {
+    		boolean isSuccessful = bugDao.updateBug(bug);
+    		result.put("isSuccessful", isSuccessful);
+    	}
+		return result;
+	}
+	
+	/**
+	 * 检查数据合法性并编辑Bug对象.
+	 * @param bug - 欲编辑的Bug对象
+	 * @param user - 提出编辑请求的用户
+	 * @return 一个包含若干标志位的HashMap<String, Boolean>对象
+	 */
+	private HashMap<String, Boolean> getEditBugResult(Bug bug, User user) {
+		HashMap<String, Boolean> result = new HashMap<String, Boolean>();
+		result.put("isAllowedEdit", isAllowedEdit(bug, user));
+		result.put("isStatusEmpty", isBugStatusEmpty(bug, bug.getBugStatus()));
+		result.put("isCategoryEmpty", isBugCategoryEmpty(bug, bug.getBugCategory()));
+		result.put("isSeverityEmpty", isBugSeverityEmpty(bug, bug.getBugSeverity()));
+		
+		boolean isSuccessful =  result.get("isAllowedEdit")   && !result.get("isStatusEmpty") &&
+				               !result.get("isCategoryEmpty") && !result.get("isSeverityEmpty");
+		result.put("isSuccessful", isSuccessful);
+		return result;
+	}
+	
+	/**
+	 * 检查用户是否有权限编辑Bug信息.
+	 * 规则: Bug所属产品的开发者和Bug的提出者均有权限编辑Bug信息.
+	 * @param bug - 欲编辑的Bug对象
+	 * @param user - 提出编辑请求的用户
+	 * @return 用户是否有权限编辑Bug信息
+	 */
+	private boolean isAllowedEdit(Bug bug, User user) {
+		if ( bug == null ) {
+			return false;
+		}
+		User developer = bug.getProduct().getDeveloper();
+		User hunter = bug.getHunter();
+		
+		if ( user.equals(developer) || user.equals(hunter) ) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 检查Bug状态合法性.
+	 * @param bug - 欲编辑的Bug对象
+	 * @param bugStatus - Bug状态对象
+	 * @return Bug状态的合法性
+	 */
+	private boolean isBugStatusEmpty(Bug bug, BugStatus bugStatus) {
+		return bug == null || bugStatus == null;
+	}
+	
+	/**
+	 * 检查Bug分类合法性.
+	 * @param bug - 欲编辑的Bug对象
+	 * @param bugCategory - Bug分类对象
+	 * @return Bug分类合法性
+	 */
+	private boolean isBugCategoryEmpty(Bug bug, BugCategory bugCategory) {
+		return bug == null || bugCategory == null;
+	}
+	
+	/**
+	 * 检查Bug严重性合法性.
+	 * @param bug - 欲编辑的Bug对象
+	 * @param bugSeverity - Bug严重性对象
+	 * @return Bug严重性合法性
+	 */
+	private boolean isBugSeverityEmpty(Bug bug, BugSeverity bugSeverity) {
+		return bug == null || bugSeverity == null;
+	}
 	
 	/**
 	 * 验证数据并创建Bug.
@@ -189,7 +286,7 @@ public class BugService {
 	 * @return Bug分类对象或空引用
 	 */
 	private BugCategory getBugCategory(String bugCategorySlug) {
-		BugCategory bugCategory = bugCategoryDao.getBugCategoryUsingSlug(bugCategorySlug);
+		BugCategory bugCategory = bugCategoryDao.getBugCategoryUsingSlug(bugCategorySlug);		
 		return bugCategory;
 	}
 	
@@ -204,8 +301,9 @@ public class BugService {
 	}
 	
 	/**
-	 * @param bugStatusSlug
-	 * @return
+	 * 通过Bug状态的唯一标识符获取Bug状态对象.
+	 * @param bugStatusSlug - Bug状态的唯一标识符
+	 * @return Bug状态对象或空引用
 	 */
 	private BugStatus getBugStatus(String bugStatusSlug) {
 		BugStatus bugStatus = bugStatusDao.getBugStatusUsingSlug(bugStatusSlug);

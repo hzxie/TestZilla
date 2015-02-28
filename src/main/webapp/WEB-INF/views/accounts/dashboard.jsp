@@ -793,6 +793,7 @@
             $('#issue-modal').modal({
                 closable  : false,
                 onApprove : function() {
+                    editBug();
                     return false;
                 }
             }).modal('show');
@@ -837,6 +838,72 @@
                 }
             });
             
+        }
+    </script>
+    <script type="text/javascript">
+        function editBug() {
+            var bugId       = $('#bug-id').val(),
+                bugStatus   = $('#bug-status').val(),
+                bugCategory = $('#bug-category').val(),
+                bugSeverity = $('#bug-severity').val();
+
+            return editBugAction(bugId, bugStatus, bugCategory, bugSeverity);
+        }
+    </script>
+    <script type="text/javascript">
+        function editBugAction(bugId, bugStatus, bugCategory, bugSeverity) {
+            $('#issue-error').addClass('hide');
+            $('button.positive', '#issue-modal').html('Saving...');
+            $('button.positive', '#issue-modal').attr('disabled', 'disabled');
+            $('div.form', '#issue-modal').addClass('loading');
+            
+            var postData = {
+                'bugId': bugId,
+                'bugStatus': bugStatus,
+                'bugCategory': bugCategory,
+                'bugSeverity': bugSeverity
+            };
+            $.ajax({
+                type: 'POST',
+                url: '<c:url value="/accounts/editBug.action" />',
+                data: postData,
+                dataType: 'JSON',
+                success: function(result) {
+                    $('div.form', '#issue-modal').removeClass('loading');
+                    $('button.positive', '#issue-modal').html('Save');
+                    $('button.positive', '#issue-modal').removeAttr('disabled');
+
+                    processEditBugResult(result);
+                }
+            });
+        }
+    </script>
+    <script type="text/javascript">
+        function processEditBugResult(result) {
+            if ( result['isSuccessful'] ) {
+                var pageNumber = 1;
+                $('#issue-modal').modal('hide');
+
+                return getIssues(pageNumber);
+            } else {
+                var errorMessage  = '';
+
+                if ( !result['isAllowedEdit'] ) {
+                    errorMessage += 'You\'re not allowed to edit this issue.<br>';
+                }
+                if ( result['isStatusEmpty'] ) {
+                    errorMessage += 'Please choose your <strong>Bug Status</strong>.<br>';
+                }
+                if ( result['isCategoryEmpty'] ) {
+                    errorMessage += 'Please choose your <strong>Bug Category</strong>.<br>';
+                }
+                if ( result['isSeverityEmpty'] ) {
+                    errorMessage += 'Please choose your <strong>Bug Severity</strong>.<br>';
+                }
+
+                $('#issue-error').html(errorMessage);
+                $('#issue-error').removeClass('hide');
+            }
         }
     </script>
     <!-- Java Script for Products Tab -->

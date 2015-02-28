@@ -320,9 +320,10 @@ public class AccountsController {
     }
     
     /**
-     * @param pageNumber
-     * @param request
-     * @return
+     * 处理用户获取自己所开发产品的Bug列表的请求.
+     * @param pageNumber - 分页的页码
+     * @param request - HttpRequest对象
+     * @return 一个包含自己所开发产品的Bug列表
      */
     @RequestMapping(value = "/getReceivedIssues.action", method = RequestMethod.GET)
     public @ResponseBody HashMap<String, Object> getReceivedIssuesAction(
@@ -424,6 +425,34 @@ public class AccountsController {
      */
     private long getBugTotalPagesUsingHunter(User hunter) {
     	return (long)Math.ceil((double)bugService.getTotalBugsUsingHunter(hunter) / NUMBER_OF_BUGS_PER_PAGE);
+    }
+    
+    /**
+     * 处理开发者用户编辑产品的请求.
+     * @param bugId - Bug的唯一标识符
+     * @param bugStatusSlug - Bug状态的唯一英文缩写
+     * @param bugCategorySlug - Bug分类的唯一英文缩写
+     * @param bugSeveritySlug - Bug严重性的唯一英文缩写
+     * @param request - HttpRequest对象
+     * @return 一个包含若干标志位的JSON对象
+     */
+    @RequestMapping(value = "/editBug.action", method = RequestMethod.POST)
+    public @ResponseBody HashMap<String, Boolean> editBugAction(
+    		@RequestParam(value="bugId", required=true) long bugId,
+    		@RequestParam(value="bugStatus", required=true) String bugStatusSlug,
+    		@RequestParam(value="bugCategory", required=true) String bugCategorySlug,
+    		@RequestParam(value="bugSeverity", required=true) String bugSeveritySlug,
+    		HttpServletRequest request) {
+    	String ipAddress = HttpRequestParser.getRemoteAddr(request);
+    	HttpSession session = request.getSession();
+    	User currentUser = (User)session.getAttribute("user");
+    	
+    	HashMap<String, Boolean> result = bugService.editBug(bugId, currentUser, 
+    										bugStatusSlug, bugCategorySlug, bugSeveritySlug);
+    	if ( result.get("isSuccessful") ) {
+            logger.info(String.format("User: {%s} edited Bug(#%s) at %s.", new Object[] {currentUser, bugId, ipAddress}));
+        }
+    	return result;
     }
     
     /**
