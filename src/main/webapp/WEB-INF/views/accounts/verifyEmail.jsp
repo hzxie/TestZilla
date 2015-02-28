@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="${cdnUrl}/css/semantic.min.css" />
     <link rel="stylesheet" type="text/css" href="${cdnUrl}/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="${cdnUrl}/css/style.css" />
-    <link rel="stylesheet" type="text/css" href="${cdnUrl}/css/join.css" />
+    <link rel="stylesheet" type="text/css" href="${cdnUrl}/css/accounts/join.css" />
     <!-- JavaScript -->
     <script type="text/javascript" src="${cdnUrl}/js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="${cdnUrl}/js/semantic.min.js"></script>
@@ -84,9 +84,9 @@
                 redirectUrl = '';
 
             if ( domain == 'gmail.com' ) {
-                redirectUrl = 'mail.google.com';
+                redirectUrl = '//mail.google.com';
             } else {
-                redirectUrl = 'mail.' + domain;
+                redirectUrl = '//mail.' + domain;
             }
             window.location.href = redirectUrl;
         });
