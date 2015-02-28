@@ -35,7 +35,7 @@
                 </div> <!-- .list -->
             </div> <!-- .column -->
         </div> <!-- .row -->
-        <div id="copyright" class="equal height row">
+        <div id="copyright" class="row">
             <div class="four wide column">
             	<a href="https://www.upyun.com/" target="_blank">
             		<img src="${cdnUrl}/img/upyun.png" alt="UPYUN">

@@ -192,6 +192,11 @@ div.wmd-prompt-dialog {
 	header div#navigation {
 		text-align: center;
 	}
+
+	footer div#copyright div.column,
+	footer div#copyright div.column p {
+		text-align: center;
+	}
 }
 
 /* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
