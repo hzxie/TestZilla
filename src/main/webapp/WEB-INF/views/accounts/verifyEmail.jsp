@@ -65,6 +65,7 @@
                     <a class="ui ribbon label">Email has been sent.</a>
                     <p>
                         An activation email has been sent to <span id="email">${email}</span>.<br />
+                        After verified your email, you'll get 100 credits.<br />
                         <button class="ui primary button">Go to MailBox</button>
                     </p>
                 </div> <!-- .segment -->

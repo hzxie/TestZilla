@@ -243,8 +243,6 @@ public class AccountsController {
     	if ( user == null || rule == null ) {
     		isSuccessful = false;
     	}
-    	logger.debug(user);
-    	logger.debug(rule);
     	isSuccessful = pointsService.appendPointsLogs(user, rule, meta);
     	
     	if ( !isSuccessful ) {

@@ -36,7 +36,14 @@
                                 <div class="eight wide column">
                                     <h1>Test software <br />better, together.</h1>
                                     <p>The most efficient crowd test platform.</p>
+                                <c:choose>
+                                <c:when test="${isLogin}">
+                                    <button class="ui button" onclick="window.location.href='<c:url value="/products" />'">Getting Started</button>
+                                </c:when>
+                                <c:otherwise>
                                     <button class="ui button" onclick="window.location.href='<c:url value="/accounts/login" />'">Getting Started</button>
+                                </c:otherwise>
+                                </c:choose>
                                 </div> <!-- .column -->
                                 <div class="eight wide column">
                                     <img src="${cdnUrl}/img/homepage/crowd-test.png" alt="Icon">

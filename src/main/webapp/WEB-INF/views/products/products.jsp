@@ -184,7 +184,7 @@
                                          '    </div> <!-- .image -->' + 
                                          '    <div class="content">' + 
                                          '        <a class="header" href="<c:url value="/products/" />%s">%s</a>' + 
-                                         '        <div class="meta"><a>%s</a></div> <!-- .meta -->' + 
+                                         '        <div class="meta">%s</div> <!-- .meta -->' + 
                                          '        <div class="description">%s</div> <!-- .description -->' + 
                                          '        <div class="extra">' + 
                                          '            <div class="ui label">%s</div> <!-- .label -->' + 
