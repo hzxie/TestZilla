@@ -24,12 +24,51 @@
     <!-- Header -->
     <%@ include file="/WEB-INF/views/include/header.jsp" %>
     <!-- Content -->
-    <div id="content" class="ui page stackable grid">
+    <div id="content">
+        <div id="sub-header" class="ui page stackable grid segment">
+            <div class="row">
+                <div class="column">
+                    <h1>Terms and Privacy</h1>
+                    <div class="ui breadcrumb">
+                        <a href="<c:url value="/" />" class="section">Home</a>
+                        <div class="divider"> / </div>
+                        <div class="active section">Terms and Privacy</div>
+                    </div> <!-- .breadcrumb -->
+                </div> <!-- .column -->
+            </div> <!-- .row -->
+        </div> <!-- #sub-header -->
+        <div id="main-container" class="ui page stackable grid">
+            <div class="row">
+                <div class="twelve wide column">
+                    <div id="main-content">
+                        <h3>Terms of use</h3>
+                        ${termsOfUse}
+                    </div> <!-- #main-content -->
+                </div> <!-- .column -->
+                <div class="four wide column">
+                    <div class="ui sticky">
+                        <div class="ui secondary vertical following fluid accordion menu">
+                            <div class="item active">
+                                <a class="active title"><i class="dropdown icon" tabindex="0"></i> <b>Terms and Privacy</b></a>
+                                <div class="active content menu">
+                                    <a class="item" href="#terms-of-use">Terms of use</a>
+                                </div> <!-- .content -->
+                            </div> <!-- .item -->
+                        </div> <!-- .menu -->
+                    </div> <!-- .sticky --> 
+               </div> <!-- .column -->
+            </div> <!-- .row -->
+        </div> <!-- #main-container -->
     </div> <!-- #content -->
     <!-- Footer -->
     <%@ include file="/WEB-INF/views/include/footer.jsp" %>
     <!-- Java Script -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script type="text/javascript" src="${cdnUrl}/js/site.js"></script>
+    <script type="text/javascript">
+        $('.ui.sticky').sticky({
+            context: '#main-content'
+        });
+    </script>
 </body>
 </html>

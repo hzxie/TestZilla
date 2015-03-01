@@ -4,10 +4,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.trunkshell.testzilla.service.OptionService;
 
 /**
  * 处理应用程序公共的请求.
@@ -67,9 +70,18 @@ public class DefaultController {
      */
     @RequestMapping(value = "/terms", method = RequestMethod.GET)
     public ModelAndView termsView(HttpServletRequest request) {
+        String termsOfUse = optionService.getOption("termsOfUse");
+        
         ModelAndView view = new ModelAndView("terms");
+    	view.addObject("termsOfUse", termsOfUse);
         return view;
     }
+    
+    /**
+     * 自动注入的OptionService对象.
+     */
+    @Autowired
+    private OptionService optionService;
     
     /**
      * 日志记录器.

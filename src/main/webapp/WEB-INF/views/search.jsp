@@ -6,7 +6,7 @@
 <html lang="en-US">
 <head>
     <meta charset="UTF-8">
-    <title>Help Center | TestZilla</title>
+    <title>Search | TestZilla</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="谢浩哲">
@@ -28,11 +28,11 @@
         <div id="sub-header" class="ui page stackable grid segment">
             <div class="row">
                 <div class="column">
-                    <h1>Help Center</h1>
+                    <h1>Search</h1>
                     <div class="ui breadcrumb">
                         <a href="<c:url value="/" />" class="section">Home</a>
                         <div class="divider"> / </div>
-                        <div class="active section">Help Center</div>
+                        <div class="active section">Search</div>
                     </div> <!-- .breadcrumb -->
                 </div> <!-- .column -->
             </div> <!-- .row -->
@@ -48,7 +48,7 @@
                     <div class="ui sticky">
                         <div class="ui secondary vertical following fluid accordion menu">
                             <div class="item active">
-                                <a class="active title"><i class="dropdown icon" tabindex="0"></i> <b>Help Center</b></a>
+                                <a class="active title"><i class="dropdown icon" tabindex="0"></i> <b>Search</b></a>
                                 <div class="active content menu">
                                 </div> <!-- .content -->
                             </div> <!-- .item -->
@@ -58,7 +58,6 @@
             </div> <!-- .row -->
         </div> <!-- #main-container -->
     </div> <!-- #content -->
-    <!-- Footer -->
     <%@ include file="/WEB-INF/views/include/footer.jsp" %>
     <!-- Java Script -->
     <!-- Placed at the end of the document so the pages load faster -->

@@ -285,7 +285,7 @@ public class AccountsController {
         	view = new ModelAndView("accounts/dashboard");
         	view.addAllObjects(getUserCredits(currentUser));
         	
-        	if ( currentUser.getUserGroup().equals("developer") ) {
+        	if ( currentUser.getUserGroup().getUserGroupSlug().equals("developer") ) {
         		view.addAllObjects(getDataForDevelopers());
         	}
         }

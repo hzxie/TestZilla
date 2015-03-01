@@ -43,10 +43,10 @@
                     <div id="main-content">
                         <h3>What's TestZilla?</h3>
                         <a class="anchor" id="what-is-testzilla"></a>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                        <p>TestZilla is a open platform that provides the service of crowd testing or Crowdsourced testing. When there is no/not-enough professional tester in some companies, or the testing of some specific products should be covered by a large number of operation environments or user scenarios, the testing resources from the community (out of company) are required. TestZilla just build the bridge between these companies and the testers in the community.</p>
                         <h3>How it works?</h3>
                         <a class="anchor" id="how-it-works"></a>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                        <p>The enterprises may publish the software products under test (to be tested) on the platform, then the individual users start to do testing against the published products. These testers are generally paid per bug, depending upon the type of bug and its market price.</p>
                     </div> <!-- #main-content -->
                 </div> <!-- .column -->
                 <div class="four wide column">
