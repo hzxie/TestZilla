@@ -25,6 +25,16 @@ import com.trunkshell.testzilla.util.MailSender;
 @Transactional
 public class UserService {
 	/**
+	 * 通过用户唯一标识符获取用户对象.
+	 * @param uid - 用户唯一标识符
+	 * @return 预期的用户对象
+	 */
+	public User getUserUsingUid(long uid) {
+		User user = userDao.getUserUsingUid(uid);
+		return user;
+	}
+	
+	/**
 	 * 通过用户名或电子邮件地址获取用户对象.
 	 * @param username - 用户名或电子邮件地址
 	 * @return 一个User对象或空引用

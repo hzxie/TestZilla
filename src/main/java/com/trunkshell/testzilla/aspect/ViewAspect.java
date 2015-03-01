@@ -6,9 +6,11 @@ import javax.servlet.http.HttpSession;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.trunkshell.testzilla.model.User;
+import com.trunkshell.testzilla.service.UserService;
 
 /**
  * 视图的切面类.
@@ -32,9 +34,11 @@ public class ViewAspect {
 		HttpSession session = request.getSession();
 		boolean isLoggedIn = isLoggedIn(session);
 		if ( isLoggedIn ) {
-        	User user = (User)session.getAttribute("user");
-            view.addObject("isLogin", isLoggedIn)
-            	.addObject("profile", user);
+			long uid = (Long)session.getAttribute("uid");
+	    	User user = userService.getUserUsingUid(uid);
+            
+	    	view.addObject("isLogin", isLoggedIn)
+            	.addObject("user", user);
         }
 		return view;
 	}
@@ -51,4 +55,10 @@ public class ViewAspect {
         }
         return true;
     }
+    
+    /**
+     * 自动注入的UserService对象.
+     */
+    @Autowired
+    UserService userService;
 }

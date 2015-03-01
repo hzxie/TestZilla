@@ -66,7 +66,8 @@ public class AccountsController {
     private void destroySession(HttpServletRequest request, HttpSession session) {
         session.removeAttribute("isLoggedIn");
         
-        User currentUser = (User)session.getAttribute("user");
+        long uid = (Long)session.getAttribute("uid");
+        User currentUser = userService.getUserUsingUid(uid);
         String ipAddress = HttpRequestParser.getRemoteAddr(request);
         logger.info(String.format("%s logged out at %s", new Object[] {currentUser, ipAddress}));
     }
@@ -114,7 +115,7 @@ public class AccountsController {
     private void getSession(HttpServletRequest request, User user) {
     	HttpSession session = request.getSession();
     	session.setAttribute("isLoggedIn", true);
-        session.setAttribute("user", user);
+        session.setAttribute("uid", user.getUid());
         
         String ipAddress = HttpRequestParser.getRemoteAddr(request);
         logger.info(String.format("%s logged in at %s", new Object[] {user, ipAddress}));
@@ -208,7 +209,8 @@ public class AccountsController {
             @RequestParam(value="code", required=false) String code,
     		HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		User currentUser = (User)session.getAttribute("user");
+		long uid = (Long)session.getAttribute("uid");
+        User currentUser = userService.getUserUsingUid(uid);
     	ModelAndView view = null;
     	
         if ( !isLoggedIn(session) ) {
@@ -274,7 +276,8 @@ public class AccountsController {
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public ModelAndView dashboardView(HttpServletRequest request) {
     	HttpSession session = request.getSession();
-    	User currentUser = (User)session.getAttribute("user");
+    	long uid = (Long)session.getAttribute("uid");
+        User currentUser = userService.getUserUsingUid(uid);
     	ModelAndView view = null;
     	
     	if ( !isLoggedIn(session) ) {
@@ -347,7 +350,8 @@ public class AccountsController {
             HttpServletRequest request) {
     	String ipAddress = HttpRequestParser.getRemoteAddr(request);
     	HttpSession session = request.getSession();
-    	User currentUser = (User)session.getAttribute("user");
+    	long uid = (Long)session.getAttribute("uid");
+        User currentUser = userService.getUserUsingUid(uid);
     	
     	String originEmail = currentUser.getEmail();    			
     	HashMap<String, Boolean> result = userService.editProfile(currentUser, oldPassword, newPassword, 
@@ -389,7 +393,8 @@ public class AccountsController {
     		@RequestParam(value="page", required=false, defaultValue="1") int pageNumber,
     		HttpServletRequest request) {
     	HttpSession session = request.getSession();
-    	User currentUser = (User)session.getAttribute("user");
+    	long uid = (Long)session.getAttribute("uid");
+        User currentUser = userService.getUserUsingUid(uid);
     	
     	HashMap<String, Object> result = new HashMap<String, Object>();
     	List<Bug> bugs = getBugsUsingDeveloper(currentUser, pageNumber);
@@ -452,7 +457,8 @@ public class AccountsController {
     		@RequestParam(value="page", required=false, defaultValue="1") int pageNumber,
     		HttpServletRequest request) {
     	HttpSession session = request.getSession();
-    	User currentUser = (User)session.getAttribute("user");
+    	long uid = (Long)session.getAttribute("uid");
+        User currentUser = userService.getUserUsingUid(uid);
     	
     	HashMap<String, Object> result = new HashMap<String, Object>();
     	List<Bug> bugs = getBugsUsingHunter(currentUser, pageNumber);
@@ -504,7 +510,8 @@ public class AccountsController {
     		HttpServletRequest request) {
     	String ipAddress = HttpRequestParser.getRemoteAddr(request);
     	HttpSession session = request.getSession();
-    	User currentUser = (User)session.getAttribute("user");
+    	long uid = (Long)session.getAttribute("uid");
+        User currentUser = userService.getUserUsingUid(uid);
     	
     	HashMap<String, Boolean> result = bugService.editBug(bugId, currentUser, 
     										bugStatusSlug, bugCategorySlug, bugSeveritySlug);
@@ -525,7 +532,8 @@ public class AccountsController {
 			@RequestParam(value="page", required=false, defaultValue="1") int pageNumber,
 			HttpServletRequest request) {
 		HttpSession session = request.getSession();
-    	User currentUser = (User)session.getAttribute("user");
+		long uid = (Long)session.getAttribute("uid");
+        User currentUser = userService.getUserUsingUid(uid);
     	
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		List<Product> products = getProducts(currentUser, pageNumber);
@@ -584,7 +592,8 @@ public class AccountsController {
     		HttpServletRequest request) {
     	String ipAddress = HttpRequestParser.getRemoteAddr(request);
     	HttpSession session = request.getSession();
-    	User currentUser = (User)session.getAttribute("user");
+    	long uid = (Long)session.getAttribute("uid");
+        User currentUser = userService.getUserUsingUid(uid);
     	
     	HashMap<String, Boolean> result = productService.createProduct(productName, productLogo, 
     			productCategorySlug, latestVersion, currentUser, prerequisites, productUrl, description);
@@ -622,7 +631,8 @@ public class AccountsController {
     		HttpServletRequest request) {
     	String ipAddress = HttpRequestParser.getRemoteAddr(request);
     	HttpSession session = request.getSession();
-    	User currentUser = (User)session.getAttribute("user");
+    	long uid = (Long)session.getAttribute("uid");
+        User currentUser = userService.getUserUsingUid(uid);
     	
     	HashMap<String, Boolean> result = productService.editProduct(productId, productName, productLogo, 
     			productCategorySlug, latestVersion, currentUser, prerequisites, productUrl, description);

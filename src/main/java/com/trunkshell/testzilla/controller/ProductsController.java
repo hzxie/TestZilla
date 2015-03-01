@@ -25,6 +25,7 @@ import com.trunkshell.testzilla.model.ProductCategory;
 import com.trunkshell.testzilla.model.User;
 import com.trunkshell.testzilla.service.BugService;
 import com.trunkshell.testzilla.service.ProductService;
+import com.trunkshell.testzilla.service.UserService;
 import com.trunkshell.testzilla.util.HttpRequestParser;
 
 /**
@@ -260,7 +261,8 @@ public class ProductsController {
 			@RequestParam(value="description", required=true) String description,
 			@RequestParam(value="screenshots", required=false) String screenshots,
 			HttpServletRequest request) {
-		User user = (User)request.getSession().getAttribute("user");
+    	long uid = (Long)request.getSession().getAttribute("uid");
+    	User user = userService.getUserUsingUid(uid);
 		Product product = productService.getProductsUsingProductId(productId);
 		String ipAddress = HttpRequestParser.getRemoteAddr(request);
 		
@@ -281,7 +283,13 @@ public class ProductsController {
 	 * 产品详情页面每页所显示的Bug数量.
 	 */
 	private final int NUMBER_OF_BUGS_PER_PAGE = 10;
-	
+
+    /**
+     * 自动注入的UserService对象.
+     */
+    @Autowired
+    UserService userService;
+    
 	/**
      * 自动注入的ProductService对象.
      */
