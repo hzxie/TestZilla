@@ -26,6 +26,7 @@ import com.trunkshell.testzilla.service.ProductService;
 import com.trunkshell.testzilla.service.UserService;
 import com.trunkshell.testzilla.util.DigestUtils;
 import com.trunkshell.testzilla.util.HttpRequestParser;
+import com.trunkshell.testzilla.util.HttpSessionParser;
 
 /**
  * 处理用户账户相关的请求.
@@ -66,8 +67,7 @@ public class AccountsController {
     private void destroySession(HttpServletRequest request, HttpSession session) {
         session.removeAttribute("isLoggedIn");
         
-        long uid = (Long)session.getAttribute("uid");
-        User currentUser = userService.getUserUsingUid(uid);
+        User currentUser = HttpSessionParser.getCurrentUser(request.getSession());
         String ipAddress = HttpRequestParser.getRemoteAddr(request);
         logger.info(String.format("%s logged out at %s", new Object[] {currentUser, ipAddress}));
     }
@@ -209,8 +209,7 @@ public class AccountsController {
             @RequestParam(value="code", required=false) String code,
     		HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		long uid = (Long)session.getAttribute("uid");
-        User currentUser = userService.getUserUsingUid(uid);
+		User currentUser = HttpSessionParser.getCurrentUser(session);
     	ModelAndView view = null;
     	
         if ( !isLoggedIn(session) ) {
@@ -276,8 +275,7 @@ public class AccountsController {
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public ModelAndView dashboardView(HttpServletRequest request) {
     	HttpSession session = request.getSession();
-    	long uid = (Long)session.getAttribute("uid");
-        User currentUser = userService.getUserUsingUid(uid);
+    	User currentUser = HttpSessionParser.getCurrentUser(session);
     	ModelAndView view = null;
     	
     	if ( !isLoggedIn(session) ) {
@@ -350,8 +348,7 @@ public class AccountsController {
             HttpServletRequest request) {
     	String ipAddress = HttpRequestParser.getRemoteAddr(request);
     	HttpSession session = request.getSession();
-    	long uid = (Long)session.getAttribute("uid");
-        User currentUser = userService.getUserUsingUid(uid);
+    	User currentUser = HttpSessionParser.getCurrentUser(session);
     	
     	String originEmail = currentUser.getEmail();    			
     	HashMap<String, Boolean> result = userService.editProfile(currentUser, oldPassword, newPassword, 
@@ -392,9 +389,7 @@ public class AccountsController {
     public @ResponseBody HashMap<String, Object> getReceivedIssuesAction(
     		@RequestParam(value="page", required=false, defaultValue="1") int pageNumber,
     		HttpServletRequest request) {
-    	HttpSession session = request.getSession();
-    	long uid = (Long)session.getAttribute("uid");
-        User currentUser = userService.getUserUsingUid(uid);
+    	User currentUser = HttpSessionParser.getCurrentUser(request.getSession());
     	
     	HashMap<String, Object> result = new HashMap<String, Object>();
     	List<Bug> bugs = getBugsUsingDeveloper(currentUser, pageNumber);
@@ -456,9 +451,7 @@ public class AccountsController {
     public @ResponseBody HashMap<String, Object> getSentIssuesAction(
     		@RequestParam(value="page", required=false, defaultValue="1") int pageNumber,
     		HttpServletRequest request) {
-    	HttpSession session = request.getSession();
-    	long uid = (Long)session.getAttribute("uid");
-        User currentUser = userService.getUserUsingUid(uid);
+    	User currentUser = HttpSessionParser.getCurrentUser(request.getSession());
     	
     	HashMap<String, Object> result = new HashMap<String, Object>();
     	List<Bug> bugs = getBugsUsingHunter(currentUser, pageNumber);
@@ -509,9 +502,7 @@ public class AccountsController {
     		@RequestParam(value="bugSeverity", required=true) String bugSeveritySlug,
     		HttpServletRequest request) {
     	String ipAddress = HttpRequestParser.getRemoteAddr(request);
-    	HttpSession session = request.getSession();
-    	long uid = (Long)session.getAttribute("uid");
-        User currentUser = userService.getUserUsingUid(uid);
+    	User currentUser = HttpSessionParser.getCurrentUser(request.getSession());
     	
     	HashMap<String, Boolean> result = bugService.editBug(bugId, currentUser, 
     										bugStatusSlug, bugCategorySlug, bugSeveritySlug);
@@ -531,9 +522,7 @@ public class AccountsController {
 	public @ResponseBody HashMap<String, Object> getProductsAction(
 			@RequestParam(value="page", required=false, defaultValue="1") int pageNumber,
 			HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		long uid = (Long)session.getAttribute("uid");
-        User currentUser = userService.getUserUsingUid(uid);
+		User currentUser = HttpSessionParser.getCurrentUser(request.getSession());
     	
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		List<Product> products = getProducts(currentUser, pageNumber);
@@ -591,9 +580,7 @@ public class AccountsController {
     		@RequestParam(value="description", required=true) String description,
     		HttpServletRequest request) {
     	String ipAddress = HttpRequestParser.getRemoteAddr(request);
-    	HttpSession session = request.getSession();
-    	long uid = (Long)session.getAttribute("uid");
-        User currentUser = userService.getUserUsingUid(uid);
+    	User currentUser = HttpSessionParser.getCurrentUser(request.getSession());
     	
     	HashMap<String, Boolean> result = productService.createProduct(productName, productLogo, 
     			productCategorySlug, latestVersion, currentUser, prerequisites, productUrl, description);
@@ -630,9 +617,7 @@ public class AccountsController {
     		@RequestParam(value="description", required=true) String description,
     		HttpServletRequest request) {
     	String ipAddress = HttpRequestParser.getRemoteAddr(request);
-    	HttpSession session = request.getSession();
-    	long uid = (Long)session.getAttribute("uid");
-        User currentUser = userService.getUserUsingUid(uid);
+    	User currentUser = HttpSessionParser.getCurrentUser(request.getSession());
     	
     	HashMap<String, Boolean> result = productService.editProduct(productId, productName, productLogo, 
     			productCategorySlug, latestVersion, currentUser, prerequisites, productUrl, description);
@@ -648,25 +633,25 @@ public class AccountsController {
      * 自动注入的UserService对象.
      */
     @Autowired
-    UserService userService;
+    private UserService userService;
     
     /**
      * 自动注入的PointsService对象.
      */
     @Autowired
-    PointsService pointsService;
+    private PointsService pointsService;
     
     /**
      * 自动注入的ProductService对象.
      */
     @Autowired
-    ProductService productService;
+    private ProductService productService;
     
     /**
      * 自动注入的BugService对象.
      */
     @Autowired
-    BugService bugService;
+    private BugService bugService;
     
     /**
 	 * 产品列表页面每页所显示的产品数量.
