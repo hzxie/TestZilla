@@ -89,6 +89,7 @@ div#content div#worldwide div.numbers > span {
 	font-weight: 700;
 	font-size: 72px;
 	line-height: 1.2em;
+	margin-right: 5px;
 	text-align: center;
 	width: 50px;
 	-webkit-border-radius: 4px;

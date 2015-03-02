@@ -2,6 +2,7 @@ package com.trunkshell.testzilla.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,28 @@ public class UserDao {
             }
         }
         return null;
+    }
+
+    /**
+     * 获取系统中用户来自国家的数量. 
+     * @return 系统中用户来自国家的数量
+     */
+    public long getTotalCountries() {
+    	Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("SELECT COUNT(DISTINCT country) FROM User");
+		
+		return (Long)query.uniqueResult();
+    }
+        
+    /**
+     * 获取系统中用户的总数量.
+     * @return 系统中用户总数量
+     */
+    public long getTotalUsers() {
+    	Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("SELECT COUNT(*) FROM User");
+		
+		return (Long)query.uniqueResult();
     }
     
     /**

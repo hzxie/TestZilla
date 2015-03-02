@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.trunkshell.testzilla.service.OptionService;
+import com.trunkshell.testzilla.service.UserService;
 
 /**
  * 处理应用程序公共的请求.
@@ -26,7 +27,12 @@ public class DefaultController {
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView indexView(HttpServletRequest request) {
+    	long totalCountries = userService.getTotalCountries() + 10;
+    	long totalTesters = userService.getTotalUsers() + 1024;
+    	
         ModelAndView view = new ModelAndView("index");
+        view.addObject("totalCountries", totalCountries);
+        view.addObject("totalTesters", totalTesters);
         return view;
     }
     
@@ -76,6 +82,12 @@ public class DefaultController {
     	view.addObject("termsOfUse", termsOfUse);
         return view;
     }
+    
+    /**
+     * 自动注入的UserService对象.
+     */
+    @Autowired
+    private UserService userService;
     
     /**
      * 自动注入的OptionService对象.

@@ -88,6 +88,28 @@ public class UserDaoTest {
 	}
 	
 	/**
+	 * 测试用例: 测试getTotalCountries()方法
+	 * 测试数据: N/a
+	 * 预期结果: 返回系统中当前来自国家的数量
+	 */
+	@Test
+	public void testGetTotalCountries() {
+		long totalCountries = userDao.getTotalCountries();
+		Assert.assertEquals(1, totalCountries);
+	}
+	
+	/**
+	 * 测试用例: 测试getTotalUsers()方法
+	 * 测试数据: N/a
+	 * 预期结果: 返回系统中当前用户的数量
+	 */
+	@Test
+	public void testGetTotalUsers() {
+		long totalUsers = userDao.getTotalUsers();
+		Assert.assertEquals(3, totalUsers);
+	}
+	
+	/**
 	 * 测试用例: 测试getUserUsingEmail()方法
 	 * 测试数据: 使用不存在用户的电子邮件地址
 	 * 预期结果: 返回空引用

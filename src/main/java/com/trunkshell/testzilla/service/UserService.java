@@ -449,6 +449,22 @@ public class UserService {
 	}
 	
 	/**
+     * 获取系统中用户来自国家的数量. 
+     * @return 系统中用户来自国家的数量
+     */
+	public long getTotalCountries() {
+		return userDao.getTotalCountries();
+	}
+	
+	/**
+     * 获取系统中用户的总数量.
+     * @return 系统中用户总数量
+     */
+    public long getTotalUsers() {
+    	return userDao.getTotalUsers();
+    }
+	
+	/**
 	 * 自动注入的UserDAO对象.
 	 */
 	@Autowired

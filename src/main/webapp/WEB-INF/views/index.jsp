@@ -96,24 +96,16 @@
                     <div class="ui header">
                         <i class="icon world"></i>
                         <div class="content">
-                            <div class="numbers">
-                                <span>1</span>
-                                <span>0</span>
-                                <span class="text">Countries</span>
-                            </div> <!-- .numbers -->
+                            <div id="total-countries" class="numbers">
+                            </div> <!-- #total-countries -->
                         </div> <!-- .content -->
                     </div> <!-- .header -->
                 </div> <!-- .column -->
                 <div class="column">
                     <div class="ui header">
                         <i class="icon users"></i>
-                        <div class="content numbers">
-                            <span>1</span>
-                            <span>0</span>
-                            <span>2</span>
-                            <span>4</span>
-                            <span class="text">Testers</span>
-                        </div> <!-- .content -->
+                        <div id="total-testers" class="content numbers">
+                        </div> <!-- #total-testers -->
                     </div> <!-- .header -->
                 </div> <!-- .column -->
             </div> <!-- .row -->
@@ -125,10 +117,29 @@
     <%@ include file="/WEB-INF/views/include/footer.jsp" %>
     <!-- Java Script -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/javascript" src="${cdnUrl}/js/site.js"></script>
-    <script type="text/javascript" src="${cdnUrl}/js/jquery.slitslider.min.js"></script>
     <script type="text/javascript">
-        $(function() {
+        $.getScript('${cdnUrl}/js/site.js', function() {
+            var digitTemplate       = '<span>%s</span>',
+                totalCountries      = ${totalCountries},
+                totalTesters        = ${totalTesters},
+                totalCountriesDigit = totalCountries.toString(),
+                totalTestersDigit   = totalTesters.toString(),
+                totalCountriesHtml  = '<span class="text">Countries</span>',
+                totalTestersHtml    = '<span class="text">Testers</span>';
+
+            for ( var i = totalCountriesDigit.length - 1; i >= 0; -- i ) {
+                totalCountriesHtml  = digitTemplate.format(totalCountriesDigit[i]) + totalCountriesHtml;
+            }
+            for ( var i = totalTestersDigit.length - 1; i >= 0; -- i ) {
+            	totalTestersHtml    = digitTemplate.format(totalTestersDigit[i]) + totalTestersHtml;
+            }
+
+            $('#total-countries').html(totalCountriesHtml);
+            $('#total-testers').html(totalTestersHtml);
+        });
+    </script>
+    <script type="text/javascript">
+        $.getScript('${cdnUrl}/js/jquery.slitslider.min.js', function() {
             var slider = (function() {
                 var $navArrows = $('.nav-arrows'),
                     $nav       = $('.nav-dots > span'),
