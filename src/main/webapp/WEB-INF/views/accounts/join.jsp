@@ -69,18 +69,6 @@
                 <form id="join-form" class="ui form segment" onSubmit="onSubmit(); return false;">
                     <div class="two fields">
                         <div class="field required">
-                            <label>Account Type</label>
-                            <div class="ui selection dropdown" tabindex="0">
-                                <div class="default text"></div>
-                                <i class="dropdown icon"></i>
-                                <input id="account-type" type="hidden">
-                                <div class="menu transition hidden" tabindex="-1">
-                                    <div class="item" data-value="tester">Tester</div>
-                                    <div class="item" data-value="developer">Developer</div>
-                                </div> <!-- .menu -->
-                            </div> <!-- .selection -->
-                        </div> <!-- .field -->
-                        <div class="field required">
                             <label>Individual/Enterprise</label>
                             <div class="ui selection dropdown" tabindex="0">
                                 <div class="default text"></div>
@@ -89,6 +77,18 @@
                                 <div class="menu transition hidden" tabindex="-1">
                                     <div class="item" data-value="individual">Individual</div>
                                     <div class="item" data-value="enterprise">Enterprise</div>
+                                </div> <!-- .menu -->
+                            </div> <!-- .selection -->
+                        </div> <!-- .field -->
+                        <div class="field required">
+                            <label>Account Type</label>
+                            <div class="ui selection dropdown" tabindex="0">
+                                <div class="default text"></div>
+                                <i class="dropdown icon"></i>
+                                <input id="account-type" type="hidden">
+                                <div class="menu transition hidden" tabindex="-1">
+                                    <div class="item" data-value="tester">Tester</div>
+                                    <div class="item" data-value="developer">Developer</div>
                                 </div> <!-- .menu -->
                             </div> <!-- .selection -->
                         </div> <!-- .field -->
@@ -198,7 +198,8 @@
     </script>
     <script type="text/javascript">
         $('#invididual-or-enterprise').change(function() {
-            var realNameLabel  = $('#real-name').parent().find('label');
+            var accountTypeDropdown = $('#account-type').parent(),
+                realNameLabel       = $('#real-name').parent().find('label');
 
             if ( $(this).val() == 'individual' ) {
                 realNameLabel.html('Your Name');

@@ -71,6 +71,7 @@ public class UserDao {
      * 获取系统中用户来自国家的数量. 
      * @return 系统中用户来自国家的数量
      */
+    @Transactional
     public long getTotalCountries() {
     	Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery("SELECT COUNT(DISTINCT country) FROM User");
@@ -82,6 +83,7 @@ public class UserDao {
      * 获取系统中用户的总数量.
      * @return 系统中用户总数量
      */
+    @Transactional
     public long getTotalUsers() {
     	Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery("SELECT COUNT(*) FROM User");
