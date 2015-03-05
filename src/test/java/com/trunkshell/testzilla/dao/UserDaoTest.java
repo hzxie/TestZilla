@@ -55,7 +55,7 @@ public class UserDaoTest {
 	 */
 	@Test
 	public void testGetUserUsingUsernameExists() {
-		User user = userDao.getUserUsingUsername("zjhzxhz");
+		User user = userDao.getUserUsingUsername("Zjhzxhz");
 		Assert.assertNotNull(user);
 		
 		long uid = user.getUid();
@@ -80,7 +80,7 @@ public class UserDaoTest {
 	 */
 	@Test
 	public void testGetUserUsingEmailExists() {
-		User user = userDao.getUserUsingEmail("zjhzxhz@gmail.com");
+		User user = userDao.getUserUsingEmail("zjhzxhz@Gmail.com");
 		Assert.assertNotNull(user);
 		
 		long uid = user.getUid();

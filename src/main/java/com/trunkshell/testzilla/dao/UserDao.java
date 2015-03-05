@@ -41,7 +41,7 @@ public class UserDao {
         List<User> users = (List<User>)session.createQuery("FROM User WHERE username = ?0")
                                                 .setString("0", username).list();
         for (User user : users ) {
-            if ( user.getUsername().equals(username) ) {
+            if ( user.getUsername().equalsIgnoreCase(username) ) {
                 return user;
             }
         }
@@ -60,7 +60,7 @@ public class UserDao {
         List<User> users = (List<User>)session.createQuery("FROM User WHERE email = ?0")
                                                 .setString("0", email).list();
         for (User user : users ) {
-            if ( user.getEmail().equals(email) ) {
+            if ( user.getEmail().equalsIgnoreCase(email) ) {
                 return user;
             }
         }
