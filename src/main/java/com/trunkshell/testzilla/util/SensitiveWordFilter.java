@@ -9,10 +9,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.trunkshell.testzilla.dao.OptionDao;
 import com.trunkshell.testzilla.model.Option;
 
@@ -21,27 +23,36 @@ import com.trunkshell.testzilla.model.Option;
  * @author Zhou Yihao
  */
 @Component
-@Scope(value = "singleton")
 public class SensitiveWordFilter {
 	/**
-	 * 获取本类的单例.
-	 * @return 本类的单例
-	 * @throws IOException 
-	 * @throws JsonMappingException 
-	 * @throws JsonParseException 
+	 * 本类的构造函数
+	 * @throws IOException
+	 * @throws JsonMappingException
+	 * @throws JsonParseException
 	 */
-	public synchronized static SensitiveWordFilter getInstance() {
-		if (instance == null) {
-			instance = new SensitiveWordFilter();
-			Option sensitiveWordOption = optionDao.getOption(SENSITIVE_WORD_OPTION_KEY);
-			String optionValue = sensitiveWordOption.getOptionValue();
-			
-			@SuppressWarnings("unchecked")
-			ArrayList<String> sensitiveWordList = JSON.parseObject(optionValue, ArrayList.class);
-			HashSet<String> sensitiveWordSet = new HashSet<String>(sensitiveWordList);
-			instance.addSensitiveWordsToHashMap(sensitiveWordSet);
+	@Autowired
+	public SensitiveWordFilter(OptionDao optionDao) {
+		this.optionDao = optionDao;
+		
+		Option sensitiveWordOption = optionDao.getOption(SENSITIVE_WORD_OPTION_KEY);
+		String optionValue = sensitiveWordOption.getOptionValue();
+		
+		//System.out.println("string : " + optionValue);
+		
+		JSONArray sensitiveWordJson = JSON.parseArray(optionValue);
+		
+		//System.out.println("jsonarray : " + sensitiveWordJson);
+		
+		ArrayList<String> sensitiveWordList = new ArrayList<String>((int) (sensitiveWordJson.size() * 1.5));
+		for (Object o : sensitiveWordJson) {
+			sensitiveWordList.add((String) o);
 		}
-		return instance;
+		
+		//System.out.println("arraylist : " + sensitiveWordList);
+		
+		HashSet<String> sensitiveWordSet = new HashSet<String>(sensitiveWordList);
+		this.addSensitiveWordsToHashMap(sensitiveWordSet); 
+		
 	}
 	
 	/**
@@ -227,17 +238,6 @@ public class SensitiveWordFilter {
 	}
 	
 	/**
-	 * 单例模式中私有化的构造方法. 
-	 */
-	private SensitiveWordFilter() {}
-	
-	/**
-	 * 本类的单例.
-	 */
-	@Autowired
-	private static SensitiveWordFilter instance;
-	
-	/**
 	 * 存储敏感词的HashMap. 
 	 */
 	private HashMap<?, ?> sensitiveWordMap;
@@ -262,13 +262,12 @@ public class SensitiveWordFilter {
 	/**
 	 * 敏感词系统设置项. 
 	 */
-	public static final String SENSITIVE_WORD_OPTION_KEY = "SensitiveWord";
+	public static final String SENSITIVE_WORD_OPTION_KEY = "SensitiveWords";
 	
 	/**
 	 *  自动注入OptionDao对象
 	 */
-	@Autowired
-	private static OptionDao optionDao;
+	private OptionDao optionDao;
 }
 
 /**
