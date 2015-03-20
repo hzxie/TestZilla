@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * 积分日志的Model.
@@ -48,6 +49,16 @@ public class PointsLog implements Serializable {
 	public PointsLog(long pointsLogId, User user, Date getTime, PointsRule pointsRule, String meta) {
 		this(user, getTime, pointsRule, meta);
 		this.pointsLogId = pointsLogId;
+	}
+	
+	/**
+	 * PointsLog的构造函数(用于LeaderBoardDao).
+	 * @param user - 用户
+	 * @param totalReputation - 一段时间内用户获取的Reputation总和 
+	 */
+	public PointsLog(User user, long totalReputation) {
+		this.user = user;
+		this.totalReputation = totalReputation;
 	}
 	
 	/**
@@ -129,6 +140,23 @@ public class PointsLog implements Serializable {
 	public void setMeta(String meta) {
 		this.meta = meta;
 	}
+	
+	/**
+	 * 获取一段时间内Reputation总和
+	 * @return Reputation总和
+	 */
+	public long getTotalReputation() {
+		return totalReputation;
+	}
+
+	/**
+	 * 设置一段时间内Reputation总和
+	 * @param totalReputation
+	 */
+	public void setTotalReputation(long totalReputation) {
+		this.totalReputation = totalReputation;
+	}
+
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
@@ -183,6 +211,12 @@ public class PointsLog implements Serializable {
 	 */
 	@Column(name = "points_meta")
 	private String meta;
+	
+	/**
+	 * 某段时间的reputation总和，只在LeaderBoard中使用。
+	 */
+	@Transient
+	private long totalReputation;
 	
 	/**
 	 * 唯一的序列化标识符.
