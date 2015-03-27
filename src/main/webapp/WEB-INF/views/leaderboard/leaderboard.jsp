@@ -43,27 +43,24 @@
                         <div class="header item">
                             <i class="icon wait"></i>Time Range
                         </div> <!-- .header -->
-                        <a class="item active" href="javascript:void(0);" data-value="">Last Week</a>
-                        <a class="item" href="javascript:void(0);" data-value="">Last Month</a>
-                        <a class="item" href="javascript:void(0);" data-value="">All Time</a>
+                        <a class="item active" href="javascript:void(0);" data-value="7">Last Week</a>
+                        <a class="item" href="javascript:void(0);" data-value="30">Last Month</a>
+                        <a class="item" href="javascript:void(0);" data-value="0">All Time</a>
                     </div> <!-- #time-range -->
                 </div> <!-- .menu -->
             </div> <!-- .column -->
             <div class="twelve wide column">
+                <div class="ui message warning hide">No records available.</div> <!-- .message -->
                 <table id="leaderboard" class="ui blue celled structured table">
                     <thead>
                         <tr>
                             <th colspan="5">Leaderboard (<span class="time-range">Last Week</span>)</th>
                         </tr>
                         <tr>
-                            <th rowspan="2">Position</th>
-                            <th rowspan="2">Username</th>
-                            <th rowspan="2">Country</th>
-                            <th colspan="2">Reputation</th>
-                        </tr>
-                        <tr>
-                            <th class="time-range">Last Week</th>
-                            <th>All Time</th>
+                            <th>Position</th>
+                            <th>Username</th>
+                            <th>Country</th>
+                            <th>Reputation</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -77,16 +74,66 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script type="text/javascript" src="${cdnUrl}/js/site.js"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
-        });
-
         $('#time-range > a').click(function() {
             var timeRangeName = $(this).html(),
                 timeRangeValue = $(this).attr('data-value');
 
             $('#time-range > a.item').removeClass('active');
             $(this).addClass('active');
+
             $('.time-range').html(timeRangeName);
+            return getReputationRanking(timeRangeValue);
+        });
+    </script>
+    <script type="text/javascript">
+        function getReputationRanking(timeRange) {
+            var pageRequests = {
+                'timeRange': timeRange,
+            };
+
+            $.ajax({
+                type: 'GET',
+                url: '<c:url value="/leaderboard/getReputationRanking.action" />',
+                data: pageRequests,
+                dataType: 'JSON',
+                success: function(result) {
+                    if ( result['isSuccessful'] ) {
+                        $('div.message').addClass('hide');
+                        $('table#leaderboard').removeClass('hide');
+
+                        displayLeaderBoard(result['reputationRanking']);
+                    } else {
+                        $('div.message').removeClass('hide');
+                        $('table#leaderboard').addClass('hide');
+                    }
+                }
+            });
+        }
+    </script>
+    <script type="text/javascript">
+        function displayLeaderBoard(records) {
+            $('#leaderboard tbody').empty();
+
+            for ( var i = 0; i < records.length; ++ i ) {
+                $('#leaderboard tbody').append(getLeaderBoardRecordContent(i + 1, records[i]['user']['username'],
+                                                                           records[i]['user']['country'], records[i]['totalReputation']));
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        function getLeaderBoardRecordContent(position, username, country, reputation) {
+            var leaderBoardRecordTemplate = '<tr>' +
+                                            '    <td>%s</td>' +
+                                            '    <td>%s</td>' +
+                                            '    <td>%s</td>' +
+                                            '    <td>%s</td>' +
+                                            '</tr>';
+            return leaderBoardRecordTemplate.format(position, username, country, reputation);
+        }
+    </script>
+    <script type="text/javascript">
+        $(function() {
+            $('#time-range > a.item.active').click();
         });
     </script>
 </body>
