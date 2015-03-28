@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.trunkshell.testzilla.model.Bug;
-import com.trunkshell.testzilla.model.PointsRule;
 import com.trunkshell.testzilla.model.Product;
 import com.trunkshell.testzilla.model.User;
 import com.trunkshell.testzilla.service.BugService;
@@ -224,31 +223,10 @@ public class AccountsController {
         	if ( currentUser.getEmail().equals(email) &&
         		userService.isEmailCondidentialValid(email, code) ) {
         		currentUser.setEmailVerified(true);
-        		PointsRule rule = pointsService.getPointsRuleUsingSlug("create-account");
-        		String meta = String.format("Email[%s] of User{%s} verified.", new Object[] {email, currentUser});
-        		appendPointsLogs(currentUser, rule, meta);
-        		
         		view = new ModelAndView("redirect:/accounts/dashboard");
         	}
         }
         return view;
-    }
-    
-    /**
-     * 追加积分日志.
-     * @param user - 被追加的用户
-     * @param rule - 匹配的积分规则对象
-     */
-    private void appendPointsLogs(User user, PointsRule rule, String meta) {
-    	boolean isSuccessful = true;
-    	if ( user == null || rule == null ) {
-    		isSuccessful = false;
-    	}
-    	isSuccessful = pointsService.appendPointsLogs(user, rule, meta);
-    	
-    	if ( !isSuccessful ) {
-    		logger.error(String.format("Failed to log PointsRule{%s} for User{%s}.", new Object[] {rule, user}));
-    	}
     }
     
     /**
@@ -358,9 +336,6 @@ public class AccountsController {
             logger.info(String.format("User: {%s} updated profile at %s.", new Object[] {currentUser, ipAddress}));
             refreshProfile(currentUser, session);
             if ( !originEmail.equals(email) ) {
-            	PointsRule rule = pointsService.getPointsRuleUsingSlug("email-changed");
-            	String meta = String.format("User{%s} changed email to %s.", new Object[] {currentUser, email});
-            	appendPointsLogs(currentUser, rule, meta);
             	sendActivationMail(currentUser);
             }
         }
@@ -636,12 +611,6 @@ public class AccountsController {
     private UserService userService;
     
     /**
-     * 自动注入的PointsService对象.
-     */
-    @Autowired
-    private PointsService pointsService;
-    
-    /**
      * 自动注入的ProductService对象.
      */
     @Autowired
@@ -672,4 +641,10 @@ public class AccountsController {
      * 日志记录器.
      */
     private Logger logger = LogManager.getLogger(AccountsController.class);
+    
+    /**
+     * 自动注入的PointsService对象.
+     */
+    @Autowired
+    private PointsService pointsService;
 }

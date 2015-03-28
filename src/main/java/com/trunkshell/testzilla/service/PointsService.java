@@ -31,6 +31,17 @@ public class PointsService {
 	}
 	
 	/**
+	 * 检查积分日志是否已经存在.
+	 * (例如验证电子邮件的积分只允许奖励1次)
+	 * @param user - 待检查的用户
+	 * @param rule - 待检查的规则
+	 * @return 积分日志是否已经存在
+	 */
+	public boolean isPointsLogExists(User user, PointsRule rule) {
+		return pointsLogDao.isPointsLogExists(user, rule);
+	}
+	
+	/**
 	 * 追加积分日志.
 	 * @param user - 待追加积分日志的用户
 	 * @param rule - 匹配的积分日志规则

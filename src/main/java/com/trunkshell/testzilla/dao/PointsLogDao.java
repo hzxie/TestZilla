@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.trunkshell.testzilla.model.PointsLog;
+import com.trunkshell.testzilla.model.PointsRule;
 import com.trunkshell.testzilla.model.User;
 
 /**
@@ -66,6 +67,27 @@ public class PointsLogDao {
 			return 0;
 		}
 		return (Long)query.uniqueResult();
+	}
+	
+	/**
+	 * 检查积分日志是否已经存在.
+	 * (例如验证电子邮件的积分只允许奖励1次)
+	 * @param user - 待检查的用户
+	 * @param rule - 待检查的规则
+	 * @return 积分日志是否已经存在
+	 */
+	public boolean isPointsLogExists(User user, PointsRule rule) {
+		Session session = sessionFactory.getCurrentSession();
+		@SuppressWarnings("unchecked")
+		List<PointsLog> pointsLogs = (List<PointsLog>)session.createQuery("FROM PointsLog p WHERE user = ?0 AND pointsRule = ?1")
+																.setParameter("0", user)
+																.setParameter("1", rule).list();
+		for (PointsLog pointsLog : pointsLogs ) {
+            if ( pointsLog.getUser().equals(user) && pointsLog.getPointsRule().equals(rule) ) {
+                return true;
+            }
+        }
+		return false;
 	}
 	
 	/**
