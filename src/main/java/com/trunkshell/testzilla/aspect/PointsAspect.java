@@ -1,5 +1,7 @@
 package com.trunkshell.testzilla.aspect;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -9,6 +11,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.trunkshell.testzilla.model.PointsRule;
@@ -25,6 +28,8 @@ import com.trunkshell.testzilla.util.HttpSessionParser;
 public class PointsAspect {
 	/**
 	 * 在用户验证电子邮件后根据规则予以积分奖励.
+	 * @param proceedingJoinPoint - ProceedingJoinPoint对象
+	 * @param HttpServletRequest - HttpRequest对象
 	 * @return 包含验证电子邮件页面信息的ModelAndView对象
 	 */
 	@Around(value = "execution(* com.trunkshell.testzilla.controller.AccountsController.verifyEmailView(..)) && args(.., request)")
@@ -45,12 +50,45 @@ public class PointsAspect {
 	}
 	
 	/**
-	 * @param user
-	 * @return
+	 * 检查用户验证Email获得积分记录是否已存在
+	 * (一个用户只能获得1次该项积分)
+	 * @param user - 待检查的用户
+	 * @return 用户验证Email获得积分记录是否已存在
 	 */
 	private boolean isVerifyEmailPointsLogExists(User user) {
 		PointsRule rule = pointsService.getPointsRuleUsingSlug("create-account");
 		return pointsService.isPointsLogExists(user, rule);
+	}
+	
+	/**
+	 * 在创建产品之后扣除响应积分.
+	 * @param proceedingJoinPoint - ProceedingJoinPoint对象
+	 * @param request - HttpRequest对象
+	 * @return 一个包含若干标志位的JSON对象
+	 * @throws Throwable
+	 */
+	@SuppressWarnings("unchecked")
+	@Around(value = "execution(* com.trunkshell.testzilla.controller.AccountsController.createProductAction(..)) && args(.., request)")
+	public @ResponseBody HashMap<String, Boolean> getReputationAfterCreatingProduct(ProceedingJoinPoint proceedingJoinPoint, HttpServletRequest request)
+			throws Throwable {
+		HashMap<String, Boolean> result = new HashMap<String, Boolean>();
+		PointsRule rule = pointsService.getPointsRuleUsingSlug("create-product");
+		
+		HttpSession session = request.getSession();
+		User user = HttpSessionParser.getCurrentUser(session);
+		long credits = pointsService.getCreditsUsingUser(user);
+		
+		if ( credits + rule.getCredit() < 0 ) {
+			// Didn't have enough credits to create products
+			result.put("isSuccessful", false);
+			result.put("hasEnoughCredits", false);
+		} else {
+			result = (HashMap<String, Boolean>)proceedingJoinPoint.proceed();
+			if ( result.get("isSuccessful") ) {
+				appendPointsLogs(user, rule, null);
+			}
+		}
+		return result;
 	}
 	
     /**
