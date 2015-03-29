@@ -1163,40 +1163,43 @@
                 $('.message', '#product').removeClass('success');
                 $('.message', '#product').addClass('error');
 
-                if ( result['isDeveloperEmpty'] ) {
+                if ( 'hasEnoughCredits' in result && !result['hasEnoughCredits'] ) {
+                    message += 'You didn\'t have enough credits to create a product.<br>';
+                } 
+                if ( 'isDeveloperEmpty' in result && result['isDeveloperEmpty'] ) {
                     message += 'You\'re not allowed to create a product.<br>';
-                } else if ( !result['isDeveloperLegal'] ) {
+                } else if ( 'isDeveloperLegal' in result && !result['isDeveloperLegal'] ) {
                     message += 'You\'re not allowed to edit the product.<br>';
                 }
-                if ( result['isProductNameEmpty'] ) {
+                if ( 'isProductNameEmpty' in result && result['isProductNameEmpty'] ) {
                     message += 'You can\'t leave <strong>Product Name</strong> empty.<br>';
-                } else if ( !result['isProductNameLegal'] ) {
+                } else if ( 'isProductNameLegal' in result && !result['isProductNameLegal'] ) {
                     message += 'The length of <strong>Product Name</strong> must not exceed 32 characters.<br>';
                 }
-                if ( result['isProductLogoEmpty'] ) {
+                if ( 'isProductLogoEmpty' in result && result['isProductLogoEmpty'] ) {
                     message += 'You can\'t leave <strong>Product Logo URL</strong> empty.<br>';
-                } else if ( !result['isProductLogoLegal'] ) {
+                } else if ( 'isProductLogoLegal' in result && !result['isProductLogoLegal'] ) {
                     message += 'The length of <strong>Product Logo URL</strong> must not exceed 128 characters.<br>';
                 }
-                if ( result['isProductCategoryEmpty'] ) {
+                if ( 'isProductCategoryEmpty' in result && result['isProductCategoryEmpty'] ) {
                     message += 'Please choose your <strong>Product Category</strong>.<br>';
                 }
-                if ( result['isLatestVersionEmpty'] ) {
+                if ( 'isLatestVersionEmpty' in result && result['isLatestVersionEmpty'] ) {
                     message += 'You can\'t leave <strong>Latest Version</strong> empty.<br>';
-                } else if ( !result['isLatestVersionLegal'] ) {
+                } else if ( 'isLatestVersionLegal' in result && !result['isLatestVersionLegal'] ) {
                     message += 'The length of <strong>Latest Version</strong> must not exceed 24 characters.<br>';
                 }
-                if ( result['isPrerequisitesEmpty'] ) {
+                if ( 'isPrerequisitesEmpty' in result && result['isPrerequisitesEmpty'] ) {
                     message += 'You can\'t leave <strong>Prerequisites</strong> empty.<br>';
-                } else if ( !result['isPrerequisitesLegal'] ) {
+                } else if ( 'isPrerequisitesLegal' in result && !result['isPrerequisitesLegal'] ) {
                     message += 'The length of <strong>Prerequisites</strong> must not exceed 128 characters.<br>';
                 }
-                if ( result['isProductUrlEmpty'] ) {
+                if ( 'isProductUrlEmpty' in result && result['isProductUrlEmpty'] ) {
                     message += 'You can\'t leave <strong>Product URL</strong> empty.<br>';
-                } else if ( !result['isProductUrlLegal'] ) {
+                } else if ( 'isProductUrlLegal' in result && !result['isProductUrlLegal'] ) {
                     message += 'The length of <strong>Product URL</strong> must not exceed 256 characters.<br>';
                 }
-                if ( result['isDescriptionEmpty'] ) {
+                if ( 'isDescriptionEmpty' in result && result['isDescriptionEmpty'] ) {
                     message += 'You can\'t leave <strong>Description</strong> empty.<br>';
                 }
             }

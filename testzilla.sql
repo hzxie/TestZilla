@@ -1,14 +1,20 @@
 -- phpMyAdmin SQL Dump
--- version 4.3.10
+-- version 4.2.11
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 28, 2015 at 05:54 PM
--- Server version: 10.0.14-MariaDB-log
--- PHP Version: 5.6.99-hhvm
+-- Generation Time: 2015-03-29 15:33:39
+-- 服务器版本： 5.6.21
+-- PHP Version: 5.6.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `testzilla`
@@ -17,7 +23,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tz_bugs`
+-- 表的结构 `tz_bugs`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_bugs` (
@@ -35,18 +41,18 @@ CREATE TABLE IF NOT EXISTS `tz_bugs` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1003 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tz_bugs`
+-- 转存表中的数据 `tz_bugs`
 --
 
 INSERT INTO `tz_bugs` (`bug_id`, `product_id`, `product_version`, `bug_category_id`, `bug_status_id`, `bug_severity_id`, `bug_create_time`, `bug_hunter_id`, `bug_title`, `bug_description`, `bug_screenshots`) VALUES
 (1000, 1000, '1.0 Beta', 5, 4, 3, '2015-01-22 08:05:00', 1001, 'Bug #1000', '# Marked in browser\\n\\nRendered by **marked**.', NULL),
 (1001, 1000, '1.0 Beta', 12, 1, 2, '2015-02-03 08:05:00', 1000, 'Bug #1001', 'This is the *first* editor.\r\n------------------------------\r\n\r\nJust plain **Markdown**, except that the input is sanitized:\r\n\r\nand that it implements "fenced blockquotes" via a plugin:\r\n\r\n"""\r\nDo it like this:\r\n\r\n1. Have idea.\r\n2. ???\r\n3. Profit!\r\n"""', NULL),
-(1002, 1001, '1.0 Beta', 2, 1, 1, '2015-02-03 12:11:20', 1001, 'Bug #1002', '# Marked in browser\\n\\nRendered by **marked**.', '');
+(1002, 1001, '1.0 Beta', 2, 2, 1, '2015-02-03 12:11:20', 1001, 'Bug #1002', '# Marked in browser\\n\\nRendered by **marked**.', '');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tz_bug_categories`
+-- 表的结构 `tz_bug_categories`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_bug_categories` (
@@ -56,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `tz_bug_categories` (
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tz_bug_categories`
+-- 转存表中的数据 `tz_bug_categories`
 --
 
 INSERT INTO `tz_bug_categories` (`bug_category_id`, `bug_category_slug`, `bug_category_name`) VALUES
@@ -76,7 +82,7 @@ INSERT INTO `tz_bug_categories` (`bug_category_id`, `bug_category_slug`, `bug_ca
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tz_bug_severities`
+-- 表的结构 `tz_bug_severities`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_bug_severities` (
@@ -87,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `tz_bug_severities` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tz_bug_severities`
+-- 转存表中的数据 `tz_bug_severities`
 --
 
 INSERT INTO `tz_bug_severities` (`bug_severity_id`, `bug_severity_slug`, `bug_severity_name`, `bug_severity_description`) VALUES
@@ -99,7 +105,7 @@ INSERT INTO `tz_bug_severities` (`bug_severity_id`, `bug_severity_slug`, `bug_se
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tz_bug_status`
+-- 表的结构 `tz_bug_status`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_bug_status` (
@@ -109,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `tz_bug_status` (
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tz_bug_status`
+-- 转存表中的数据 `tz_bug_status`
 --
 
 INSERT INTO `tz_bug_status` (`bug_status_id`, `bug_status_slug`, `bug_status_name`) VALUES
@@ -126,7 +132,7 @@ INSERT INTO `tz_bug_status` (`bug_status_id`, `bug_status_slug`, `bug_status_nam
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tz_mail_verification`
+-- 表的结构 `tz_mail_verification`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_mail_verification` (
@@ -135,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `tz_mail_verification` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tz_mail_verification`
+-- 转存表中的数据 `tz_mail_verification`
 --
 
 INSERT INTO `tz_mail_verification` (`email`, `code`) VALUES
@@ -144,7 +150,7 @@ INSERT INTO `tz_mail_verification` (`email`, `code`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tz_options`
+-- 表的结构 `tz_options`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_options` (
@@ -154,7 +160,7 @@ CREATE TABLE IF NOT EXISTS `tz_options` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tz_options`
+-- 转存表中的数据 `tz_options`
 --
 
 INSERT INTO `tz_options` (`option_id`, `option_key`, `option_value`) VALUES
@@ -163,7 +169,7 @@ INSERT INTO `tz_options` (`option_id`, `option_key`, `option_value`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tz_points_logs`
+-- 表的结构 `tz_points_logs`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_points_logs` (
@@ -171,47 +177,52 @@ CREATE TABLE IF NOT EXISTS `tz_points_logs` (
   `points_to_uid` bigint(20) NOT NULL,
   `points_get_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `points_rule_id` int(4) NOT NULL,
-  `points_meta` text NOT NULL
+  `points_meta` text
 ) ENGINE=InnoDB AUTO_INCREMENT=1004 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tz_points_logs`
+-- 转存表中的数据 `tz_points_logs`
 --
 
 INSERT INTO `tz_points_logs` (`points_log_id`, `points_to_uid`, `points_get_time`, `points_rule_id`, `points_meta`) VALUES
-(1000, 1002, '2014-12-31 0:00:00', 1, ''),
-(1001, 1001, '2014-12-31 0:32:25', 1, ''),
-(1002, 1002, '2015-01-27 23:00:08', 3, ''),
-(1003, 1001, '2015-02-05 15:30:06', 3, '');
+(1000, 1002, '2014-12-31 00:00:00', 1, ''),
+(1001, 1001, '2014-12-31 00:32:25', 1, ''),
+(1002, 1002, '2015-01-27 23:00:08', 2, ''),
+(1003, 1001, '2015-03-29 12:37:10', 3, '1002');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tz_points_rules`
+-- 表的结构 `tz_points_rules`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_points_rules` (
 `points_rule_id` int(4) NOT NULL,
-  `points_rule_slug` varchar(32) NOT NULL,
+  `points_rule_slug` varchar(64) NOT NULL,
   `points_rule_reputation` int(4) NOT NULL,
   `points_rule_credits` int(4) NOT NULL,
-  `points_rule_title` varchar(32) NOT NULL,
+  `points_rule_title` varchar(64) NOT NULL,
   `points_rule_description` text NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tz_points_rules`
+-- 转存表中的数据 `tz_points_rules`
 --
 
 INSERT INTO `tz_points_rules` (`points_rule_id`, `points_rule_slug`, `points_rule_reputation`, `points_rule_credits`, `points_rule_title`, `points_rule_description`) VALUES
 (1, 'create-account', 0, 100, 'Create Account', 'Once your account was created and your email address was verified, you''ll get 100 credits.'),
-(2, 'email-changed', 0, -100, 'Email Address Changed', 'You must re-verify email after you changed your  email address.'),
-(3, 'create-product', 5, -75, 'Create Product', 'Creating a product will cost you 75 credits.');
+(2, 'create-product', 5, -75, 'Create Product', 'Creating a product will cost you 75 credits.'),
+(3, 'edit-bug-status-unconfirmed-confirmed', 10, 50, 'Bug reported has been confirmed', 'Bug reported has been confirmed, and you got 10 reputation and 50 credits.'),
+(4, 'edit-bug-status-confirmed-unconfirmed', -10, -50, 'Bug reported has been unconfirmed', 'Bug reported has been uconfirmed, and you lost 10 reputation and 50 credits.'),
+(5, 'edit-bug-status-unconfirmed-fixed', 10, 50, 'Bug reported has been fixed', 'Bug reported has been fixed, and you got 10 reputation and 50 credits.'),
+(6, 'edit-bug-status-fixed-unconfirmed', -10, -50, 'Bug reported has been unconfirmed', 'Bug reported has been uconfirmed, and you lost 10 reputation and 50 credits.'),
+(7, 'edit-bug-status-unconfirmed-wontfix', 5, 25, 'Bug reported won''t be fixed', 'Bug reported is confirmed, but won''t be fixed, and you got 5 reputation and 25 credits.'),
+(8, 'edit-bug-status-wontfix-unconfirmed', -5, -25, 'Bug reported has been unconfirmed', 'Bug reported has been uconfirmed, and you lost 5 reputation and 25 credits.');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tz_products`
+-- 表的结构 `tz_products`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_products` (
@@ -224,20 +235,21 @@ CREATE TABLE IF NOT EXISTS `tz_products` (
   `product_prerequisites` varchar(128) NOT NULL,
   `product_url` varchar(256) NOT NULL,
   `product_description` text NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1002 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1017 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tz_products`
+-- 转存表中的数据 `tz_products`
 --
 
 INSERT INTO `tz_products` (`product_id`, `product_name`, `product_logo`, `product_category_id`, `product_latest_version`, `product_developer_id`, `product_prerequisites`, `product_url`, `product_description`) VALUES
 (1000, 'TestZilla', 'http://www.testzilla.org/assets/img/logo.png', 1, '1.0 Beta', 1002, 'IE 10+, Firefox, Chrome or Safari', 'http://www.testzilla.org/', 'Global crowd testing platform designed for web, mobile and desktop applications.'),
-(1001, 'CourseOcean', 'http://www.courseocean.com/img/logo.png', 1, '1.0 Alpha', 1001, 'IE 7+, Firefox, Chrome or Safari', 'http://www.courseocean.com/', 'IT training platform that can provide courses and training for IT practitioners or companies. ');
+(1001, 'CourseOcean', 'http://www.courseocean.com/img/logo.png', 1, '1.0 Alpha', 1001, 'IE 7+, Firefox, Chrome or Safari', 'http://www.courseocean.com/', 'IT training platform that can provide courses and training for IT practitioners or companies. '),
+(1016, 'Test', 'Test', 2, 'Test', 1001, 'Test', 'Test', 'Test');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tz_product_categories`
+-- 表的结构 `tz_product_categories`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_product_categories` (
@@ -247,7 +259,7 @@ CREATE TABLE IF NOT EXISTS `tz_product_categories` (
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tz_product_categories`
+-- 转存表中的数据 `tz_product_categories`
 --
 
 INSERT INTO `tz_product_categories` (`product_category_id`, `product_category_slug`, `product_category_name`) VALUES
@@ -262,7 +274,7 @@ INSERT INTO `tz_product_categories` (`product_category_id`, `product_category_sl
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tz_users`
+-- 表的结构 `tz_users`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_users` (
@@ -282,7 +294,7 @@ CREATE TABLE IF NOT EXISTS `tz_users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1003 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tz_users`
+-- 转存表中的数据 `tz_users`
 --
 
 INSERT INTO `tz_users` (`uid`, `username`, `password`, `user_group_id`, `real_name`, `email`, `country`, `province`, `city`, `phone`, `website`, `is_individual`, `is_email_verified`) VALUES
@@ -293,7 +305,7 @@ INSERT INTO `tz_users` (`uid`, `username`, `password`, `user_group_id`, `real_na
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tz_user_groups`
+-- 表的结构 `tz_user_groups`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_user_groups` (
@@ -303,7 +315,7 @@ CREATE TABLE IF NOT EXISTS `tz_user_groups` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tz_user_groups`
+-- 转存表中的数据 `tz_user_groups`
 --
 
 INSERT INTO `tz_user_groups` (`user_group_id`, `user_group_slug`, `user_group_name`) VALUES
@@ -395,7 +407,7 @@ ALTER TABLE `tz_user_groups`
 -- AUTO_INCREMENT for table `tz_bugs`
 --
 ALTER TABLE `tz_bugs`
-MODIFY `bug_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1017;
+MODIFY `bug_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1003;
 --
 -- AUTO_INCREMENT for table `tz_bug_categories`
 --
@@ -420,17 +432,17 @@ MODIFY `option_id` int(8) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 -- AUTO_INCREMENT for table `tz_points_logs`
 --
 ALTER TABLE `tz_points_logs`
-MODIFY `points_log_id` bigint(20) NOT NULL AUTO_INCREMENT;
+MODIFY `points_log_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1004;
 --
 -- AUTO_INCREMENT for table `tz_points_rules`
 --
 ALTER TABLE `tz_points_rules`
-MODIFY `points_rule_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `points_rule_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `tz_products`
 --
 ALTER TABLE `tz_products`
-MODIFY `product_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1016;
+MODIFY `product_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1017;
 --
 -- AUTO_INCREMENT for table `tz_product_categories`
 --
@@ -440,18 +452,18 @@ MODIFY `product_category_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 -- AUTO_INCREMENT for table `tz_users`
 --
 ALTER TABLE `tz_users`
-MODIFY `uid` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1058;
+MODIFY `uid` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1003;
 --
 -- AUTO_INCREMENT for table `tz_user_groups`
 --
 ALTER TABLE `tz_user_groups`
 MODIFY `user_group_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
--- Constraints for dumped tables
+-- 限制导出的表
 --
 
 --
--- Constraints for table `tz_bugs`
+-- 限制表 `tz_bugs`
 --
 ALTER TABLE `tz_bugs`
 ADD CONSTRAINT `tz_bugs_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `tz_products` (`product_id`),
@@ -461,21 +473,25 @@ ADD CONSTRAINT `tz_bugs_ibfk_4` FOREIGN KEY (`bug_severity_id`) REFERENCES `tz_b
 ADD CONSTRAINT `tz_bugs_ibfk_5` FOREIGN KEY (`bug_hunter_id`) REFERENCES `tz_users` (`uid`);
 
 --
--- Constraints for table `tz_points_logs`
+-- 限制表 `tz_points_logs`
 --
 ALTER TABLE `tz_points_logs`
 ADD CONSTRAINT `tz_points_logs_ibfk_1` FOREIGN KEY (`points_to_uid`) REFERENCES `tz_users` (`uid`),
 ADD CONSTRAINT `tz_points_logs_ibfk_2` FOREIGN KEY (`points_rule_id`) REFERENCES `tz_points_rules` (`points_rule_id`);
 
 --
--- Constraints for table `tz_products`
+-- 限制表 `tz_products`
 --
 ALTER TABLE `tz_products`
 ADD CONSTRAINT `tz_products_ibfk_1` FOREIGN KEY (`product_category_id`) REFERENCES `tz_product_categories` (`product_category_id`),
 ADD CONSTRAINT `tz_products_ibfk_2` FOREIGN KEY (`product_developer_id`) REFERENCES `tz_users` (`uid`);
 
 --
--- Constraints for table `tz_users`
+-- 限制表 `tz_users`
 --
 ALTER TABLE `tz_users`
 ADD CONSTRAINT `tz_users_ibfk_1` FOREIGN KEY (`user_group_id`) REFERENCES `tz_user_groups` (`user_group_id`);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

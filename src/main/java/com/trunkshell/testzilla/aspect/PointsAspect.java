@@ -14,8 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.trunkshell.testzilla.model.Bug;
+import com.trunkshell.testzilla.model.BugStatus;
 import com.trunkshell.testzilla.model.PointsRule;
 import com.trunkshell.testzilla.model.User;
+import com.trunkshell.testzilla.service.BugService;
 import com.trunkshell.testzilla.service.PointsService;
 import com.trunkshell.testzilla.util.HttpSessionParser;
 
@@ -91,6 +94,35 @@ public class PointsAspect {
 		return result;
 	}
 	
+	/**
+	 * 在Bug状态改变时授予用户相应积分和威望.
+	 * @param proceedingJoinPoint - ProceedingJoinPoint对象
+	 * @param bugId - Bug的唯一标识符
+	 * @return 一个包含若干标志位的JSON对象
+	 * @throws Throwable
+	 */
+	@Around(value = "execution(* com.trunkshell.testzilla.controller.AccountsController.editBugAction(..)) && args(bugId, ..)")
+	public @ResponseBody HashMap<String, Boolean> getCreditForBugReporter(ProceedingJoinPoint proceedingJoinPoint, long bugId) 
+			throws Throwable {
+		Bug bug = bugService.getBugUsingBugId(bugId);
+		@SuppressWarnings("unchecked")
+		HashMap<String, Boolean> result = (HashMap<String, Boolean>)proceedingJoinPoint.proceed();
+		
+		if ( result.get("isSuccessful") ) {
+			BugStatus originalBugStatus = bug.getBugStatus();
+			BugStatus currentBugStatus = bugService.getBugUsingBugId(bugId).getBugStatus();
+			String pointsRuleSlug = String.format("edit-bug-status-%s-%s", 
+					new Object[] { originalBugStatus.getBugStatusSlug(), currentBugStatus.getBugStatusSlug() });
+			PointsRule rule = pointsService.getPointsRuleUsingSlug(pointsRuleSlug);
+			User hunter = bug.getHunter();
+			
+			if ( !originalBugStatus.equals(currentBugStatus) && rule != null ) {
+				appendPointsLogs(hunter, rule, Long.toString(bugId));
+			}
+		}
+		return result;
+	}
+	
     /**
      * 追加积分日志.
      * @param user - 被追加的用户
@@ -113,6 +145,12 @@ public class PointsAspect {
      */
     @Autowired
     private PointsService pointsService;
+    
+    /**
+     * 自动注入的BugService对象.
+     */
+    @Autowired
+    private BugService bugService;
     
     /**
      * 日志记录器.
