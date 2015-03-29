@@ -167,7 +167,7 @@
                                 </div> <!-- .message -->
                             </div> <!-- #products -->
                             <div id="product" class="hide">
-                                <div class="ui info message hide">
+                                <div class="ui info message">
                                     <div class="header">Note:</div>
                                     <p>Create a product will cost you 75 credits.</p>
                                 </div> <!-- .info -->

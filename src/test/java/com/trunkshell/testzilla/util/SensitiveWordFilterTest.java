@@ -1,8 +1,4 @@
 package com.trunkshell.testzilla.util;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,9 +7,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 
 /**
  * SensitiveWordFilter的测试类
@@ -33,22 +26,6 @@ public class SensitiveWordFilterTest {
 	public void testFilterUsingSensitiveWord() {
 		Assert.assertNotNull(filter);
 		Assert.assertEquals("**大法好 你好", filter.filter("法轮大法好 你好"));
-	}
-	
-	@Test
-	public void testJson() {
-		String jsonString = "[\"a\", \"b\", \"c\"]";
-		JSONArray jsonarray = JSON.parseArray(jsonString);
-		System.out.println("jsonarray.size = " + jsonarray.size());
-		ArrayList<String> arraylist = new ArrayList<String> ((int) (jsonarray.size() * 1.5));
-		for (Object o : jsonarray) {
-			arraylist.add( (String) o );
-		}
-		Iterator<String> it = arraylist.iterator();
-		while (it.hasNext()) {
-			System.out.println(it.next());
-		}
-		
 	}
 	
 	/**
