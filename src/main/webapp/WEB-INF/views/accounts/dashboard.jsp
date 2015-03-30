@@ -980,7 +980,7 @@
             for ( var i = 0; i < products.length; ++ i ) {
                 $('#products .items').append(getProductContent(products[i]['productId'], products[i]['productName'], 
                                                                products[i]['productLogo'], products[i]['productCategory'], 
-                                                               products[i]['latestVersion'], products[i]['description'], products[i]['numberOfTesters']));
+                                                               products[i]['latestVersion'], products[i]['description'], products[i]['numberOfIssues']));
             }
         }
     </script>
@@ -997,7 +997,7 @@
                                          '        <div class="description">%s</div> <!-- .description -->' + 
                                          '        <div class="extra">' + 
                                          '            <div class="ui label">%s</div> <!-- .label -->' + 
-                                         '            <div class="ui label">%s tester(s) attended</div> <!-- .label -->' + 
+                                         '            <div class="ui label">%s issue(s) reported</div> <!-- .label -->' + 
                                          '        </div> <!-- .extra -->' + 
                                          '    </div> <!-- .content -->' + 
                                          '</div> <!-- .item -->';
