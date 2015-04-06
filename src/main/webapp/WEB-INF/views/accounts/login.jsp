@@ -8,7 +8,7 @@
 <html lang="${language}">
 <head>
     <meta charset="UTF-8">
-    <title>Sign In | TestZilla</title>
+    <title><spring:message code="testzilla.accounts.login.title" text="Sign In" /> | TestZilla</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="谢浩哲">
@@ -28,42 +28,42 @@
     <%@ include file="/WEB-INF/views/include/header.jsp" %>
     <!-- Content -->
     <div id="content">
-        <h2>Sign In</h2>
+        <h2><spring:message code="testzilla.accounts.login.title" text="Sign In" /></h2>
         <div class="ui error message hide">
-            <div class="header">Action Forbidden</div>
-            <p>Invalid username or password.</p>
+            <div class="header"><spring:message code="testzilla.accounts.login.forbidden" text="Action Forbidden" /></div>
+            <p><spring:message code="testzilla.accounts.login.message" text="Invalid username or password." /></p>
         </div> <!-- .error -->
         <c:if test="${isLogout}">
         <div class="ui positive message">
-            <p>You're now logged out.</p>
+            <p><spring:message code="testzilla.accounts.login.logout" text="You're now logged out." /></p>
         </div> <!-- .positive -->    
         </c:if>
         <form id="login-form" class="ui form attached fluid segment" onSubmit="onSubmit(); return false;">
             <div class="field">
-                <label>Username/Email</label>
+                <label><spring:message code="testzilla.accounts.login.username" text="Username/Email" /></label>
                 <div class="ui icon input">
-                    <input id="username" type="text" placeholder="Username or Email" />
+                    <input id="username" type="text" placeholder="<spring:message code="testzilla.accounts.login.username" text="Username/Email" />" />
                     <i class="icon user"></i>
                 </div> <!-- .input -->
             </div> <!-- .field -->
             <div class="field">
-                <label>Password<a href="<c:url value="/accounts/resetPassword" />">Forgot Password</a></label>
+                <label><spring:message code="testzilla.accounts.login.password" text="Password" /><a href="<c:url value="/accounts/resetPassword" />"><spring:message code="testzilla.accounts.login.forgot-password" text="Forgot Password" /></a></label>
                 <div class="ui icon input">
-                    <input id="password" type="password" placeholder="Password" />
+                    <input id="password" type="password" placeholder="<spring:message code="testzilla.accounts.login.password" text="Password" />" />
                     <i class="icon lock"></i>                
                 </div> <!-- .input -->
             </div> <!-- .field -->
             <div class="inline field">
                 <div class="ui checkbox">
                     <input id="remember-me" type="checkbox" />
-                    <label>Remember Me</label>
+                    <label><spring:message code="testzilla.accounts.login.remember-me" text="Remember Me" /></label>
                 </div> <!-- .checkbox -->
             </div> <!-- .field -->
-            <button class="ui fluid primary button" type="submit">Sign In</button>
+            <button class="ui fluid primary button" type="submit"><spring:message code="testzilla.accounts.login.sign-in" text="Sign In" /></button>
         </form> <!-- #login-form -->
         <div class="ui bottom attached warning message">
             <i class="icon help"></i>
-            Do not have an account? <a href="<c:url value="/accounts/join" />">Sign Up</a>.
+            <spring:message code="testzilla.accounts.login.have-not-account" text="Do not have an account?" /> <a href="<c:url value="/accounts/join" />"><spring:message code="testzilla.accounts.login.sign-up" text="Sign Up" /></a>.
         </div> <!-- .message -->
     </div> <!-- #content -->
     <!-- Footer -->
@@ -76,6 +76,7 @@
     </footer>
     <!-- Java Script -->
     <!-- Placed at the end of the document so the pages load faster -->
+    <%@ include file="/WEB-INF/views/include/footer-scripts.jsp" %>
     <script type="text/javascript" src="${cdnUrl}/js/site.js"></script>
     <script type="text/javascript" src="${cdnUrl}/js/md5.js"></script>
     <script type="text/javascript">
