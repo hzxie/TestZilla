@@ -6,7 +6,7 @@
 <html lang="en-US">
 <head>
     <meta charset="UTF-8">
-    <title>Home | TestZilla</title>
+    <title><spring:message code="testzilla.index.title" text="Home" /> | TestZilla</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="谢浩哲">
@@ -34,14 +34,14 @@
                         <div class="ui page stackable grid">
                             <div class="row">
                                 <div class="eight wide column">
-                                    <h1>Test software <br />better, together.</h1>
-                                    <p>The most efficient crowd test platform.</p>
+                                    <h1><spring:message code="testzilla.index.slide1.title" text="Test software <br>better, together." /></h1>
+                                    <p><spring:message code="testzilla.index.slide1.slogan" text="The most efficient crowd test platform." /></p>
                                 <c:choose>
                                 <c:when test="${isLogin}">
-                                    <button class="ui button" onclick="window.location.href='<c:url value="/products" />'">Getting Started</button>
+                                    <button class="ui button" onclick="window.location.href='<c:url value="/products" />'"><spring:message code="testzilla.index.slide1.action" text="Getting Started" /></button>
                                 </c:when>
                                 <c:otherwise>
-                                    <button class="ui button" onclick="window.location.href='<c:url value="/accounts/login" />'">Getting Started</button>
+                                    <button class="ui button" onclick="window.location.href='<c:url value="/accounts/login" />'"><spring:message code="testzilla.index.slide1.action" text="Getting Started" /></button>
                                 </c:otherwise>
                                 </c:choose>
                                 </div> <!-- .column -->
@@ -57,9 +57,9 @@
                         <div class="ui page stackable grid">
                             <div class="row">
                                 <div class="eight wide column">
-                                    <h1>Partner of <br />Netease MOOC.</h1>
-                                    <p>朱少民: 软件测试方法和技术实践</p>
-                                    <button class="ui button" onclick="window.location.href='http://mooc.study.163.com/course/Tongji-1000002019'">Tell me more</button>
+                                    <h1><spring:message code="testzilla.index.slide2.title" text="Partner of <br>Netease MOOC." /></h1>
+                                    <p><spring:message code="testzilla.index.slide2.slogan" text="朱少民: 软件测试方法和技术实践" /></p>
+                                    <button class="ui button" onclick="window.location.href='http://mooc.study.163.com/course/Tongji-1000002019'"><spring:message code="testzilla.index.slide2.action" text="Tell me more" /></button>
                                 </div> <!-- .column -->
                             </div> <!-- .row -->
                         </div> <!-- .page -->
@@ -70,8 +70,8 @@
                         <div class="ui page stackable grid">
                             <div class="row">
                                 <div class="column">
-                                    <h1>Introducing a flexible, <br />premium service for Enterprise.</h1>
-                                    <button class="ui button">Coming Soon</button>
+                                    <h1><spring:message code="testzilla.index.slide3.slogan" text="Introducing a flexible, <br>premium service for Enterprise." /></h1>
+                                    <button class="ui button"><spring:message code="testzilla.index.slide3.action" text="Coming Soon" /></button>
                                 </div> <!-- .column -->
                             </div> <!-- .row -->
                         </div> <!-- .page -->
@@ -89,7 +89,7 @@
             </nav>
         </div> <!-- #slider -->
         <div id="worldwide" class="ui page stackable grid">
-            <h1>The TestZilla Testing Community</h1>
+            <h1><spring:message code="testzilla.index.testing-community" text="The TestZilla Testing Community" /></h1>
             <img src="${cdnUrl}/img/homepage/worldwide.png" alt="Worldwide" />
             <div class="row two column">
                 <div class="column">
@@ -124,8 +124,8 @@
                 totalTesters        = ${totalTesters},
                 totalCountriesDigit = totalCountries.toString(),
                 totalTestersDigit   = totalTesters.toString(),
-                totalCountriesHtml  = '<span class="text">Countries</span>',
-                totalTestersHtml    = '<span class="text">Testers</span>';
+                totalCountriesHtml  = '<span class="text"><spring:message code="testzilla.index.countries" text="Countries" /></span>',
+                totalTestersHtml    = '<span class="text"><spring:message code="testzilla.index.testers" text="Testers" /></span>';
 
             for ( var i = totalCountriesDigit.length - 1; i >= 0; -- i ) {
                 totalCountriesHtml  = digitTemplate.format(totalCountriesDigit[i]) + totalCountriesHtml;
