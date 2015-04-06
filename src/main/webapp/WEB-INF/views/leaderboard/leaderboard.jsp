@@ -6,7 +6,7 @@
 <html lang="${language}">
 <head>
     <meta charset="UTF-8">
-    <title>Leaderboard | TestZilla</title>
+    <title><spring:message code="testzilla.leaderboard.leaderboard.title" text="Leaderboard" /> | TestZilla</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="谢浩哲">
@@ -28,11 +28,11 @@
     <div id="content" class="ui page stackable grid">
         <div class="row">
             <div class="column">
-                <h1>Leaderboard</h1>
+                <h1><spring:message code="testzilla.leaderboard.leaderboard.title" text="Leaderboard" /></h1>
                 <div class="ui breadcrumb">
-                    <a href="<c:url value="/" />" class="section">Home</a>
+                    <a href="<c:url value="/" />" class="section"><spring:message code="testzilla.index.title" text="Home" /></a>
                     <div class="divider"> / </div>
-                    <div class="active section">Leaderboard</div>
+                    <div class="active section"><spring:message code="testzilla.leaderboard.leaderboard.title" text="Leaderboard" /></div>
                 </div>
             </div> <!-- .column -->
         </div> <!-- .row -->
@@ -41,26 +41,26 @@
                 <div id="sidebar" class="ui vertical menu fluid">
                     <div id="time-range">
                         <div class="header item">
-                            <i class="icon wait"></i>Time Range
+                            <i class="icon wait"></i><spring:message code="testzilla.leaderboard.leaderboard.time-range" text="Time Range" />
                         </div> <!-- .header -->
-                        <a class="item active" href="javascript:void(0);" data-value="7">Last Week</a>
-                        <a class="item" href="javascript:void(0);" data-value="30">Last Month</a>
-                        <a class="item" href="javascript:void(0);" data-value="0">All Time</a>
+                        <a class="item active" href="javascript:void(0);" data-value="7"><spring:message code="testzilla.leaderboard.leaderboard.last-week" text="Last Week" /></a>
+                        <a class="item" href="javascript:void(0);" data-value="30"><spring:message code="testzilla.leaderboard.leaderboard.last-month" text="Last Month" /></a>
+                        <a class="item" href="javascript:void(0);" data-value="0"><spring:message code="testzilla.leaderboard.leaderboard.all-time" text="All Time" /></a>
                     </div> <!-- #time-range -->
                 </div> <!-- .menu -->
             </div> <!-- .column -->
             <div class="twelve wide column">
-                <div class="ui message warning hide">No records available.</div> <!-- .message -->
+                <div class="ui message warning hide"><spring:message code="testzilla.leaderboard.leaderboard.no-records" text="No records available." /></div> <!-- .message -->
                 <table id="leaderboard" class="ui blue celled structured table">
                     <thead>
                         <tr>
-                            <th colspan="5">Leaderboard (<span class="time-range">Last Week</span>)</th>
+                            <th colspan="5"><spring:message code="testzilla.leaderboard.leaderboard.title" text="Leaderboard" /> (<span class="time-range"><spring:message code="testzilla.leaderboard.leaderboard.last-week" text="Last Week" /></span>)</th>
                         </tr>
                         <tr>
-                            <th>Position</th>
-                            <th>Username</th>
-                            <th>Country</th>
-                            <th>Reputation</th>
+                            <th><spring:message code="testzilla.leaderboard.leaderboard.position" text="Position" /></th>
+                            <th><spring:message code="testzilla.leaderboard.leaderboard.username" text="Username" /></th>
+                            <th><spring:message code="testzilla.leaderboard.leaderboard.country" text="Country" /></th>
+                            <th><spring:message code="testzilla.leaderboard.leaderboard.reputation" text="Reputation" /></th>
                         </tr>
                     </thead>
                     <tbody></tbody>

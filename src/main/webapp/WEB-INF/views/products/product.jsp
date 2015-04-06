@@ -30,7 +30,7 @@
             <div class="column">
                 <h1>${product.productName}</h1>
                 <div class="ui breadcrumb">
-                    <a href="<c:url value="/" />" class="section">Home</a>
+                    <a href="<c:url value="/" />" class="section"><spring:message code="testzilla.index.title" text="Home" /></a>
                     <div class="divider"> / </div>
                     <a href="<c:url value="/products" />" class="section">Product Board</a>
                     <div class="divider"> / </div>

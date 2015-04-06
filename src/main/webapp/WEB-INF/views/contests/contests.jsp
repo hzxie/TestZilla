@@ -30,7 +30,7 @@
             <div class="column">
                 <h1>Contests</h1>
                 <div class="ui breadcrumb">
-                    <a href="<c:url value="/" />" class="section">Home</a>
+                    <a href="<c:url value="/" />" class="section"><spring:message code="testzilla.index.title" text="Home" /></a>
                     <div class="divider"> / </div>
                     <div class="active section">Contests</div>
                 </div> <!-- .breadcrumb -->
