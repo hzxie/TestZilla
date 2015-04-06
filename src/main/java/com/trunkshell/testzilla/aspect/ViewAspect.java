@@ -29,37 +29,53 @@ public class ViewAspect {
 	@Around(value = "execution(* com.trunkshell.testzilla.controller.*.*View(..)) && args(.., request)")
 	public ModelAndView getUserProfile(ProceedingJoinPoint proceedingJoinPoint, HttpServletRequest request) throws Throwable {
 		ModelAndView view = null;
-		view = (ModelAndView) proceedingJoinPoint.proceed();
-		
 		HttpSession session = request.getSession();
+		
+		view = (ModelAndView) proceedingJoinPoint.proceed();
+		view.addObject("language", getUserLanguage(session));
+		
 		boolean isLoggedIn = isLoggedIn(session);
 		if ( isLoggedIn ) {
 			long uid = (Long)session.getAttribute("uid");
-	    	User user = userService.getUserUsingUid(uid);
-            
-	    	view.addObject("isLogin", isLoggedIn)
-            	.addObject("user", user);
-        }
-		view.addObject("language", session.getAttribute("language"));
+			User user = userService.getUserUsingUid(uid);
+			
+			view.addObject("isLogin", isLoggedIn)
+				.addObject("user", user);
+		}
 		return view;
 	}
 	
 	/**
-     * 检查用户是否已经登录.
-     * @param session - HttpSession 对象
-     * @return 用户是否已经登录
-     */
-    private boolean isLoggedIn(HttpSession session) {
-        Boolean isLoggedIn = (Boolean)session.getAttribute("isLoggedIn");
-        if ( isLoggedIn == null || !isLoggedIn.booleanValue() ) {
-            return false;
-        }
-        return true;
-    }
-    
-    /**
-     * 自动注入的UserService对象.
-     */
-    @Autowired
-    UserService userService;
+	 * 获取当前用户的显示语言.
+	 * @param session - HttpSession对象
+	 * @return 当前用户显示语言的唯一英文缩写
+	 */
+	private String getUserLanguage(HttpSession session) {
+		final String DEFAULT_LANGUAGE = "en_US";
+		Object languageAttribute = session.getAttribute("language");
+		
+		if ( languageAttribute == null ) {
+			return DEFAULT_LANGUAGE;
+		}
+		return (String) languageAttribute;
+	}
+	
+	/**
+	 * 检查用户是否已经登录.
+	 * @param session - HttpSession 对象
+	 * @return 用户是否已经登录
+	 */
+	private boolean isLoggedIn(HttpSession session) {
+		Boolean isLoggedIn = (Boolean)session.getAttribute("isLoggedIn");
+		if ( isLoggedIn == null || !isLoggedIn.booleanValue() ) {
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * 自动注入的UserService对象.
+	 */
+	@Autowired
+	UserService userService;
 }
