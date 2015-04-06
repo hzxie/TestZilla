@@ -6,7 +6,7 @@
 <html lang="${language}">
 <head>
     <meta charset="UTF-8">
-    <title>Page Not Found | TestZilla</title>
+    <title><spring:message code="testzilla.errors.404.title" text="Page Not Found" /> | TestZilla</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="谢浩哲">
@@ -31,9 +31,9 @@
                 <img src="${cdnUrl}/img/errors/404.png" alt="Error" />
             </div> <!-- .column -->
             <div id="error" class="column">
-                <h2>Page Not Found</h2>
-                <p>We can't find what you're looking for...</p>
-                <button class="ui primary button" onclick="history.go(-1);"><i class="fa fa-arrow-left"></i> Go Back</button>
+                <h2><spring:message code="testzilla.errors.404.page-not-found" text="Page Not Found" /></h2>
+                <p><spring:message code="testzilla.errors.404.message" text="We can't find what you're looking for..." /></p>
+                <button class="ui primary button" onclick="history.go(-1);"><i class="fa fa-arrow-left"></i> <spring:message code="testzilla.errors.404.action" text="Go Back" /></button>
             </div> <!-- .column -->
         </div> <!-- .row -->
     </div> <!-- #content -->
