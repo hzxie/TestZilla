@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <jsp:useBean id="date" class="java.util.Date" />
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="${language}">
 <head>
     <meta charset="UTF-8">
     <title>Sign In | TestZilla</title>

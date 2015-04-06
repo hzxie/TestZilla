@@ -3,7 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <spring:eval expression="@propertyConfigurer.getProperty('cdn.url')" var="cdnUrl" />
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="${language}">
 <head>
     <meta charset="UTF-8">
     <title>Verify Your Email | TestZilla</title>
