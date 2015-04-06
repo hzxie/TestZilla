@@ -1,6 +1,9 @@
 package com.trunkshell.testzilla.controller;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.trunkshell.testzilla.service.OptionService;
@@ -34,6 +39,23 @@ public class DefaultController {
         view.addObject("totalCountries", totalCountries);
         view.addObject("totalTesters", totalTesters);
         return view;
+    }
+    
+    /**
+     * 显示搜索页面.
+     * @param request - HttpRequest对象
+     * @return 一个包含搜索页内容的ModelAndView对象
+     */
+    @RequestMapping(value = "/localization", method = RequestMethod.GET)
+    public @ResponseBody HashMap<String, Boolean> localizationAction(
+    		@RequestParam(value="language", required=true) String language,
+    		HttpServletRequest request) {
+    	HttpSession session = request.getSession();
+    	session.setAttribute("language", language);
+    	
+    	HashMap<String, Boolean> result = new HashMap<String, Boolean>();
+    	result.put("isSuccessful", true);
+    	return result;
     }
     
     /**

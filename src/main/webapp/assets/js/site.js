@@ -13,7 +13,3 @@ String.prototype.format = function() {
     }
     return newStr;
 }
-
-$(function() {
-    $('.ui.dropdown').dropdown();
-});

@@ -40,6 +40,7 @@ public class ViewAspect {
 	    	view.addObject("isLogin", isLoggedIn)
             	.addObject("user", user);
         }
+		view.addObject("language", session.getAttribute("language"));
 		return view;
 	}
 	

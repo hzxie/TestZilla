@@ -7,14 +7,14 @@
     <footer class="ui page stackable grid">
         <div class="three column row">
             <div class="column">
-                <h4>Overview</h4>
+                <h4><spring:message code="testzilla.include.footer.overview" text="Overview" /></h4>
                 <div class="ui list">
-                    <a href="<c:url value="/about" />" class="item">About Us</a>
-                    <a href="<c:url value="/terms" />" class="item">Terms and Privacy</a>
+                    <a href="<c:url value="/about" />" class="item"><spring:message code="testzilla.include.footer.about-us" text="About Us" /></a>
+                    <a href="<c:url value="/terms" />" class="item"><spring:message code="testzilla.include.footer.terms-and-privacy" text="Terms and Privacy" /></a>
                 </div> <!-- .list -->
             </div> <!-- .column -->
             <div class="column">
-                <h4>Contact</h4>
+                <h4><spring:message code="testzilla.include.footer.contact" text="Contact" /></h4>
                 <div class="ui list">
                     <div class="item">
                         <i class="fa fa-phone"></i> +86-21-1234 5678
@@ -25,7 +25,7 @@
                 </div> <!-- .list -->
             </div> <!-- .column -->
             <div class="column">
-                <h4>Stay Connected</h4>
+                <h4><spring:message code="testzilla.include.footer.stay-conntected" text="Stay Connected" /></h4>
                 <div id="social-links" class="ui horizontal list">
                     <a class="item" href="<c:url value="#" />" title="Facebook"><i class="fa fa-facebook"></i></a>
                     <a class="item" href="<c:url value="#" />" title="Twitter"><i class="fa fa-twitter"></i></a>
@@ -47,6 +47,29 @@
             </div> <!-- .column -->
         </div> <!-- #copyright -->
     </footer>
+    
+    <!-- JavaScript for Localization -->
+    <script type="text/javascript">
+        $('#languages').dropdown({
+            onChange: function(value, text, $selectedItem) {
+                var postData = {
+                    language: value
+                };
+
+                $.ajax({
+                    type: 'GET',
+                    url: '<c:url value="/localization" />',
+                    data: postData,
+                    dataType: 'JSON',
+                    success: function(result) {
+                        if ( result['isSuccessful'] ) {
+                        	location.reload();
+                        }
+                    }
+                });
+            }
+        });
+    </script>
     <!-- Google Analytics Code -->
     <script type="text/javascript">
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
