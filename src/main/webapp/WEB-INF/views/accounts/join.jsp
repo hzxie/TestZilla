@@ -6,7 +6,7 @@
 <html lang="${language}">
 <head>
     <meta charset="UTF-8">
-    <title>Sign Up | TestZilla</title>
+    <title><spring:message code="testzilla.account.join.sign-up" text="Sign Up" /> | TestZilla</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="谢浩哲">
@@ -28,8 +28,8 @@
     <div id="content" class="ui page stackable grid">
         <div class="row">
             <div id="slogan" class="column">
-                <h1>Join TestZilla</h1>
-                <h2>The best way to test your software.</h2>
+                <h1><spring:message code="testzilla.account.join.join" text="Join" /> TestZilla</h1>
+                <h2><spring:message code="testzilla.account.join.slogan" text="The best way to test your software." /></h2>
             </div> <!-- .column -->
         </div> <!-- .row -->
         <div class="row">
@@ -38,14 +38,14 @@
                     <a class="active step">
                         <i class="icon user"></i>
                         <div class="content">
-                            <div class="title">Step 1</div> <!-- .title -->
-                            <div class="description">Create your account</div> <!-- .description -->
+                            <div class="title"><spring:message code="testzilla.account.join.step-1" text="Step 1" /></div> <!-- .title -->
+                            <div class="description"><spring:message code="testzilla.account.join.create-your-account" text="Create your account" /></div> <!-- .description -->
                         </div> <!-- .content -->
                     </a>
                     <a class="step">
                         <i class="icon mail"></i>
                         <div class="content">
-                            <div class="title">Step 2</div> <!-- .title -->
+                            <div class="title"><spring:message code="testzilla.account.join.step-2" text="Step 2" /></div> <!-- .title -->
                             <div class="description">Verify your email</div> <!-- .description -->
                         </div> <!-- .content -->
                     </a>
