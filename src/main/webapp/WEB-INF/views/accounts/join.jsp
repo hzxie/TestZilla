@@ -194,6 +194,7 @@
     <script type="text/javascript">
         $(function() {
             $('.ui.checkbox').checkbox();
+            $('.ui.dropdown').dropdown();
         });
     </script>
     <script type="text/javascript">

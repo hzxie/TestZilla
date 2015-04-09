@@ -444,6 +444,7 @@
     <script type="text/javascript">
         $(function() {
             $('.tabular.menu .item').tab();
+            $('.ui.dropdown').dropdown();
         });
     </script>
     <script type="text/javascript">
@@ -473,11 +474,6 @@
         }
     </script>
     <!-- Java Script for Overview Tab -->
-    <script type="text/javascript">
-        $(function() {
-
-        });
-    </script>
     <script type="text/javascript">
         $('#edit-profile-trigger').click(function() {
             $('#profile-error').addClass('hide');

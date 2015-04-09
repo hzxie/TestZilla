@@ -197,6 +197,7 @@
     <script type="text/javascript">
         $(function() {
             $('.accordion').accordion();
+            $('.ui.dropdown').dropdown();
             $('.tabular.menu .item').tab();
         });
     </script>
