@@ -28,8 +28,8 @@
     <div id="content" class="ui page stackable grid">
         <div class="row">
             <div id="slogan" class="column">
-                <h1><spring:message code="testzilla.account.join.join" text="Join" /> TestZilla</h1>
-                <h2><spring:message code="testzilla.account.join.slogan" text="The best way to test your software." /></h2>
+                <h1><spring:message code="testzilla.accounts.join.join" text="Join" /> TestZilla</h1>
+                <h2><spring:message code="testzilla.accounts.join.slogan" text="The best way to test your software." /></h2>
             </div> <!-- .column -->
         </div> <!-- .row -->
         <div class="row">
@@ -38,14 +38,14 @@
                     <a class="active step">
                         <i class="icon user"></i>
                         <div class="content">
-                            <div class="title"><spring:message code="testzilla.account.step-1" text="Step 1" /></div> <!-- .title -->
+                            <div class="title"><spring:message code="testzilla.accounts.step-1" text="Step 1" /></div> <!-- .title -->
                             <div class="description"><spring:message code="testzilla.accounts.create-your-account" text="Create your account" /></div> <!-- .description -->
                         </div> <!-- .content -->
                     </a>
                     <a class="step">
                         <i class="icon mail"></i>
                         <div class="content">
-                            <div class="title"><spring:message code="testzilla.account.step-2" text="Step 2" /></div> <!-- .title -->
+                            <div class="title"><spring:message code="testzilla.accounts.step-2" text="Step 2" /></div> <!-- .title -->
                             <div class="description"><spring:message code="testzilla.accounts.verify-your-email" text="Verify your email" /></div> <!-- .description -->
                         </div> <!-- .content -->
                     </a>
