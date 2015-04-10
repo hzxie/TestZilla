@@ -6,7 +6,7 @@
 <html lang="${language}">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard | TestZilla</title>
+    <title><spring:message code="testzilla.accounts.dashboard.dashboard" text="Dashboard" /> | TestZilla</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="谢浩哲">
@@ -29,11 +29,11 @@
         <div id="sub-header" class="ui page stackable grid segment">
             <div class="row">
                 <div class="column">
-                    <h1><i class="fa fa-dashboard"></i> Dashboard</h1>
+                    <h1><i class="fa fa-dashboard"></i> <spring:message code="testzilla.accounts.dashboard.dashboard" text="Dashboard" /></h1>
                     <div class="ui breadcrumb">
-                        <a href="<c:url value="/" />" class="section">Home</a>
+                        <a href="<c:url value="/" />" class="section"><spring:message code="testzilla.accounts.dashboard.home" text="Home" /></a>
                         <div class="divider"> / </div>
-                        <div class="active section">Dashboard</div>
+                        <div class="active section"><spring:message code="testzilla.accounts.dashboard.dashboard" text="Dashboard" /></div>
                     </div> <!-- .breadcrumb -->
                 </div> <!-- .column -->
             </div> <!-- .row -->
@@ -45,12 +45,12 @@
             <div class="two item tabular ui menu">
         </c:otherwise>
         </c:choose>
-                <a class="item active" data-tab="overview">Overview</a>
-                <a class="item" data-tab="issues">Issues</a>
+                <a class="item active" data-tab="overview"><spring:message code="testzilla.accounts.dashboard.overview" text="Overview" /></a>
+                <a class="item" data-tab="issues"><spring:message code="testzilla.accounts.dashboard.issues" text="Issues" /></a>
             <c:if test="${user.userGroup.userGroupSlug == 'developer'}">
-                <a class="item" data-tab="products">Products</a>
-                <a class="item" data-tab="contests">Contests</a>
-                <a class="item" data-tab="questionnaires">Questionnaires</a>
+                <a class="item" data-tab="products"><spring:message code="testzilla.accounts.dashboard.products" text="Products" /></a>
+                <a class="item" data-tab="contests"><spring:message code="testzilla.accounts.dashboard.contests" text="Contests" /></a>
+                <a class="item" data-tab="questionnaires"><spring:message code="testzilla.accounts.dashboard.questionnaires" text="Questionnaires" /></a>
             </c:if>
             </div> <!-- .tabular -->
         </div> <!-- #sub-header -->
@@ -76,7 +76,7 @@
                                     </div>
                                 </div> <!-- .content -->
                                 <div class="extra content">
-                                    <a id="edit-profile-trigger" class="right floated created" href="javascript:void(0);">Edit Profile</a>
+                                    <a id="edit-profile-trigger" class="right floated created" href="javascript:void(0);"><spring:message code="testzilla.accounts.dashboard.edit-profile" text="Edit Profile" /></a>
                                 </div> <!-- .extra -->
                             </div> <!-- .card -->
                         </div> <!-- .four -->
@@ -86,21 +86,21 @@
                                     <div class="column">
                                         <div class="ui statistic">
                                             <div class="value"><i class="trophy icon"></i> ${reputation}</div>
-                                            <div class="label">Reputation</div>
+                                            <div class="label"><spring:message code="testzilla.accounts.dashboard.reputation" text="Reputation" /></div>
                                         </div> <!-- .statistic -->
                                     </div> <!-- .column -->
                                     <div class="column">
                                         <div class="ui statistic">
                                             <div class="value"><i class="ticket icon"></i> ${credits}</div>
-                                            <div class="label">Credits</div>
+                                            <div class="label"><spring:message code="testzilla.accounts.dashboard.credits" text="Credits" /></div>
                                         </div> <!-- .statistic -->
                                     </div> <!-- .column -->
                                 </div> <!-- .row -->
                                 <div class="ui divider"></div> <!-- .divider -->
                                 <div class="row">
                                     <div class="column">
-                                        <h4 class="ui header"><i class="icon feed"></i> Feed</h4>
-                                        <p>No feed.</p>
+                                        <h4 class="ui header"><i class="icon feed"></i> <spring:message code="testzilla.accounts.dashboard.feed" text="Feed" /></h4>
+                                        <p><spring:message code="testzilla.accounts.dashboard.no-feed" text="No feed." /></p>
                                         <div class="ui feed"></div> <!-- .feed -->
                                     </div> <!-- .column -->
                                 </div> <!-- .row -->
@@ -115,12 +115,12 @@
                         <div id="issues-sidebar" class="four wide column">
                             <div class="ui vertical fluid menu">
                             <c:if test="${user.userGroup.userGroupSlug == 'developer'}">
-                                <a class="item">Received Issues</a>
+                                <a class="item"><spring:message code="testzilla.accounts.dashboard.received-issues" text="Received Issues" /></a>
                             </c:if>
-                                <a class="item active">Sent Issues</a>
+                                <a class="item active"><spring:message code="testzilla.accounts.dashboard.sent-issues" text="Sent Issues" /></a>
                                 <div class="item">
                                     <div class="ui transparent icon input">
-                                        <input type="text" placeholder="Search...">
+                                        <input type="text" placeholder="<spring:message code="testzilla.accounts.dashboard.placeholder.search" text="Search" />...">
                                         <i class="search icon"></i>
                                     </div> <!-- .input -->
                                 </div> <!-- .item -->
@@ -129,7 +129,7 @@
                         <div class="twelve wide column">
                             <div id="issues">
                                 <div class="ui info message">
-                                    <p>There aren't any issues.</p>
+                                    <p><spring:message code="testzilla.accounts.dashboard.no-issues" text="There aren't any issues." /></p>
                                 </div> <!-- .message -->
                                 <div class="ui relaxed divided items"></div> <!-- .items -->
                                 <div class="pagination-container">
@@ -146,11 +146,11 @@
                     <div class="row">
                         <div id="products-sidebar" class="four wide column">
                             <div class="ui vertical fluid menu">
-                                <a class="item active">My Products</a>
-                                <a class="item">New Product</a>
+                                <a class="item active"><spring:message code="testzilla.accounts.dashboard.my-products" text="My Products" /></a>
+                                <a class="item"><spring:message code="testzilla.accounts.dashboard.new-product" text="New Product" /></a>
                                 <div class="item">
                                     <div class="ui transparent icon input">
-                                        <input type="text" placeholder="Search...">
+                                        <input type="text" placeholder="<spring:message code="testzilla.accounts.dashboard.placeholder.search" text="Search" />...">
                                         <i class="search icon"></i>
                                     </div> <!-- .input -->
                                 </div> <!-- .item -->
@@ -163,29 +163,29 @@
                                     <div class="ui pagination menu"></div> <!-- .pagination -->
                                 </div> <!-- .pagination-container -->
                                 <div class="ui info message hide">
-                                    <p>No products found.</p>
+                                    <p><spring:message code="testzilla.accounts.dashboard.no-product-found" text="No products found." /></p>
                                 </div> <!-- .message -->
                             </div> <!-- #products -->
                             <div id="product" class="hide">
                                 <div class="ui info message">
-                                    <div class="header">Note:</div>
-                                    <p>Create a product will cost you 75 credits.</p>
+                                    <div class="header"><spring:message code="testzilla.accounts.dashboard.note" text="Note:" /></div>
+                                    <p><spring:message code="testzilla.accounts.dashboard.create-product-cost" text="Create a product will cost you 75 credits." /></p>
                                 </div> <!-- .info -->
                                 <div class="ui form">
                                     <div class="two required fields">
                                         <div class="field">
-                                            <label for="product-name">Product Name</label>
+                                            <label for="product-name"><spring:message code="testzilla.accounts.dashboard.product-name" text="Product Name" /></label>
                                             <input id="product-id" type="hidden" maxlength="20" />
                                             <input id="product-name" type="text" maxlength="32" />
                                         </div> <!-- .field -->
                                         <div class="field">
-                                            <label for="product-logo">Product Logo URL</label>
-                                            <input id="product-logo" type="text" placeholder="Example: http://www.testzilla.org/logo.png" />
+                                            <label for="product-logo"><spring:message code="testzilla.accounts.dashboard.product-logo-url" text="Product Logo URL" /></label>
+                                            <input id="product-logo" type="text" placeholder="<spring:message code="testzilla.accounts.dashboard.placeholder.example" text="Example: " />http://www.testzilla.org/logo.png" />
                                         </div> <!-- .field -->
                                     </div> <!-- .fields -->
                                     <div class="two required fields">
                                         <div class="field">
-                                            <label for="product-category">Product Category</label>
+                                            <label for="product-category"><spring:message code="testzilla.accounts.dashboard.product-category" text="Product Category" /></label>
                                             <div class="ui selection dropdown" tabindex="0">
                                                 <div class="default text"></div>
                                                 <i class="dropdown icon"></i>
@@ -198,27 +198,27 @@
                                             </div> <!-- .selection -->
                                         </div> <!-- .field -->
                                         <div class="field">
-                                            <label for="latest-version">Latest Version</label>
+                                            <label for="latest-version"><spring:message code="testzilla.accounts.dashboard.latest-version" text="Latest Version" /></label>
                                             <input id="latest-version" type="text" maxlength="24" />
                                         </div> <!-- .field -->
                                     </div> <!-- .fields -->
                                     <div class="two required fields">
                                         <div class="field">
-                                            <label for="prerequisites">Prerequisites</label>
-                                            <input id="prerequisites" type="text" maxlength="128" placeholder="Example: IE 7.0+, Java 1.7.0+ or iOS 7.0+" />
+                                            <label for="prerequisites"><spring:message code="testzilla.accounts.dashboard.prerequisites" text="Prerequisites" /></label>
+                                            <input id="prerequisites" type="text" maxlength="128" placeholder="<spring:message code="testzilla.accounts.dashboard.placeholder.example" text="Example: " />IE 7.0+, Java 1.7.0+ or iOS 7.0+" />
                                         </div> <!-- .field -->
                                         <div class="field">
-                                            <label for="product-url">Product URL</label>
-                                            <input id="product-url" type="text" maxlength="256" placeholder="Example: http://www.testzilla.org/" />
+                                            <label for="product-url"><spring:message code="testzilla.accounts.dashboard.product-url" text="Product URL" /></label>
+                                            <input id="product-url" type="text" maxlength="256" placeholder="<spring:message code="testzilla.accounts.dashboard.placeholder.example" text="Example: " />http://www.testzilla.org/" />
                                         </div> <!-- .field -->
                                     </div> <!-- .fields -->
                                     <div class="required field">
-                                        <label for="description">Description</label>
-                                        <textarea id="description" placeholder="Plain text only. HTML and Markdown is not supported."></textarea>
+                                        <label for="description"><spring:message code="testzilla.accounts.dashboard.description" text="Description" /></label>
+                                        <textarea id="description" placeholder="<spring:message code="testzilla.accounts.dashboard.placeholder.text-format-hint" text="Plain text only. HTML and Markdown is not supported." />"></textarea>
                                     </div> <!-- .field -->
                                     <div class="actions">
-                                        <button class="ui positive button" type="submit">Create Product</button>
-                                        <button class="ui negative button">Cancel</button>
+                                        <button class="ui positive button" type="submit"><spring:message code="testzilla.accounts.dashboard.create-product" text="Create Product" /></button>
+                                        <button class="ui negative button"><spring:message code="testzilla.accounts.dashboard.cancel" text="Cancel" /></button>
                                     </div> <!-- .fields -->
                                 </div> <!-- .form -->
                             </div> <!-- #new-product -->
@@ -231,18 +231,18 @@
                     <div class="row">
                         <div class="four wide column">
                             <div class="ui vertical fluid menu">
-                                <a class="item active">My Contests</a>
-                                <a class="item">New Contests</a>
+                                <a class="item active"><spring:message code="testzilla.accounts.dashboard.my-contests" text="My Contests" /></a>
+                                <a class="item"><spring:message code="testzilla.accounts.dashboard.new-contests" text="New Contests" /></a>
                                 <div class="item">
                                     <div class="ui transparent icon input">
-                                        <input type="text" placeholder="Search...">
+                                        <input type="text" placeholder="<spring:message code="testzilla.accounts.dashboard.placeholder.search" text="Search" />...">
                                         <i class="search icon"></i>
                                     </div> <!-- .input -->
                                 </div> <!-- .item -->
                             </div> <!-- .menu -->
                         </div> <!-- .four -->
                         <div class="twelve wide column">
-                            <div class="ui info message">There aren't any contests.</div>
+                            <div class="ui info message"><spring:message code="testzilla.accounts.dashboard.no-contests" text="There aren't any contests." /></div>
                         </div> <!-- .twelve -->
                     </div> <!-- .row -->
                 </div> <!-- .grid -->
@@ -252,18 +252,18 @@
                     <div class="row">
                         <div class="four wide column">
                         	<div class="ui vertical fluid menu">
-                                <a class="item active">My Questionnaires</a>
-                                <a class="item">New Questionnaire</a>
+                                <a class="item active"><spring:message code="testzilla.accounts.dashboard.my-questionnaires" text="My Questionnaires" /></a>
+                                <a class="item"><spring:message code="testzilla.accounts.dashboard.new-questionnaire" text="New Questionnaire" /></a>
                                 <div class="item">
                                     <div class="ui transparent icon input">
-                                        <input type="text" placeholder="Search...">
+                                        <input type="text" placeholder="<spring:message code="testzilla.accounts.dashboard.placeholder.search" text="Search" />...">
                                         <i class="search icon"></i>
                                     </div> <!-- .input -->
                                 </div> <!-- .item -->
                             </div> <!-- .menu -->
                         </div> <!-- .four -->
                         <div class="twelve wide column">
-                        	<div class="ui info message">There aren't any questionnaires.</div>
+                        	<div class="ui info message"><spring:message code="testzilla.accounts.dashboard.no-questionnaires" text="There aren't any questionnaires." /></div>
                         </div> <!-- .twelve -->
                     </div> <!-- .row -->
                 </div> <!-- .grid -->
@@ -278,7 +278,7 @@
         <div id="profile-modal" class="ui long test modal transition scrolling hidden">
             <i class="close icon"></i>
             <div class="header">
-                <h3>Edit Profile</h3>
+                <h3><spring:message code="testzilla.accounts.dashboard.edit-profile" text="Edit Profile" /></h3>
             </div> <!-- .header -->
             <div class="content">
                 <div id="profile-error" class="ui error message hide"></div> <!-- #profile-error -->
@@ -287,22 +287,22 @@
                         <div class="field">
                         <c:choose>
                         <c:when test="${user.isIndividual()}">
-                            <label for="real-name">Real Name</label>
+                            <label for="real-name"><spring:message code="testzilla.accounts.dashboard.real-name" text="Real Name" /></label>
                         </c:when>
                         <c:otherwise>
-                            <label for="real-name">Company Name</label>
+                            <label for="real-name"><spring:message code="testzilla.accounts.dashboard.company-name" text="Company Name" /></label>
                         </c:otherwise>
                         </c:choose>
                             <input id="real-name" type="text" value="${user.realName}" />
                         </div> <!-- .field -->
                         <div class="field">
-                            <label for="email">Email</label>
+                            <label for="email"><spring:message code="testzilla.accounts.dashboard.email" text="Email" /></label>
                             <input id="email" type="text" value="${user.email}" />
                         </div> <!-- .field -->
                     </div> <!-- .fields -->
                     <div class="two fields">
                         <div class="field required">
-                            <label for="country">Country</label>
+                            <label for="country"><spring:message code="testzilla.accounts.dashboard.country" text="Country" /></label>
                             <div class="ui selection dropdown" tabindex="0">
                                 <div class="text">${user.country}</div>
                                 <i class="dropdown icon"></i>
@@ -312,79 +312,79 @@
                             </div> <!-- .selection -->
                         </div> <!-- .field -->
                         <div class="field required">
-                            <label for="province">State(Province)</label>
+                            <label for="province"><spring:message code="testzilla.accounts.dashboard.state-province" text="State(Province)" /></label>
                             <input id="province" type="text" value="${user.province}" maxlength="24" />
                         </div> <!-- .field -->
                     </div> <!-- .fields -->
                     <div class="two fields">
                         <div class="field">
-                            <label for="city">City</label>
+                            <label for="city"><spring:message code="testzilla.accounts.dashboard.city" text="City" /></label>
                             <input id="city" type="text" value="${user.city}" maxlength="24" />
                         </div> <!-- .field -->
                         <div class="field"></div> <!-- .field -->
                     </div> <!-- .fields -->
                     <div class="two fields">
                         <div class="required field">
-                            <label for="phone">Phone</label>
+                            <label for="phone"><spring:message code="testzilla.accounts.dashboard.phone" text="Phone" /></label>
                             <input id="phone" type="text" value="${user.phone}" maxlength="24" />
                         </div> <!-- .field -->
                         <div class="field">
-                            <label for="website">Website</label>
+                            <label for="website"><spring:message code="testzilla.accounts.dashboard.website" text="Website" /></label>
                             <input id="website" type="text" value="${user.website}" maxlength="64" />
                         </div> <!-- .field -->
                     </div> <!-- .fields -->
                     <div class="two fields">
                         <div class="field">
-                            <label for="old-password">Old Password</label>
+                            <label for="old-password"><spring:message code="testzilla.accounts.dashboard.old-password" text="Old Password" /></label>
                             <input id="old-password" type="password" maxlength="16" />
                         </div> <!-- .field -->
                         <div class="field"></div> <!-- .field -->
                     </div> <!-- .fields -->
                     <div class="two fields">
                         <div class="field">
-                            <label for="new-password">New Password</label>
+                            <label for="new-password"><spring:message code="testzilla.accounts.dashboard.new-password" text="New Password" /></label>
                             <input id="new-password" type="password" maxlength="16" />
                         </div> <!-- .field -->
                         <div class="field">
-                            <label for="confirm-password">Confirm Password</label>
+                            <label for="confirm-password"><spring:message code="testzilla.accounts.dashboard.confirm-password" text="Confirm Password" /></label>
                             <input id="confirm-password" type="password" maxlength="16" />
                         </div> <!-- .field -->
                     </div> <!-- .fields -->
                 </div> <!-- .form -->
             </div> <!-- .content -->
             <div class="actions">
-                <button class="ui positive button" type="submit">Save</button>
-                <button class="ui negative button">Cancel</button>
+                <button class="ui positive button" type="submit"><spring:message code="testzilla.accounts.dashboard.save" text="Save" /></button>
+                <button class="ui negative button"><spring:message code="testzilla.accounts.dashboard.cancel" text="Cancel" /></button>
             </div> <!-- .actions -->
         </div> <!-- #profile-modal -->
         <div id="issue-modal" class="ui long test modal transition scrolling hidden">
             <i class="close icon"></i>
             <div class="header">
-                <h3>View Issue</h3>
+                <h3><spring:message code="testzilla.accounts.dashboard.view-issue" text="View Issue" /></h3>
             </div> <!-- .header -->
             <div class="content">
                 <div id="issue-error" class="ui error message hide"></div> <!-- #issue-error -->
                 <div class="ui form">
                     <div class="two fields">
                         <div class="field">
-                            <label for="title">Title</label>
+                            <label for="title"><spring:message code="testzilla.accounts.dashboard.title" text="Title" /></label>
                             <input id="title" type="text" disabled="disabled"/>
                             <input id="bug-id" type="hidden"/>
                         </div> <!-- .field -->
                         <div class="field">
-                            <label for="product-name">Product Name</label>
+                            <label for="product-name"><spring:message code="testzilla.accounts.dashboard.product-name" text="Product Name" /></label>
                             <input id="product-name" type="text" disabled="disabled"/>
                         </div> <!-- .field -->
                     </div> <!-- .fields -->
                     <div class="two fields">
                         <div class="field">
-                            <label for="product-version">Product Version</label>
+                            <label for="product-version"><spring:message code="testzilla.accounts.dashboard.product-version" text="Product Version" /></label>
                             <input id="product-version" type="text" disabled="disabled"/>
                         </div> <!-- .field -->
                         <div class="required field">
-                            <label>Status</label>
+                            <label><spring:message code="testzilla.accounts.dashboard.status" text="Status" /></label>
                             <div class="ui selection dropdown" tabindex="0">
-                                <div class="default text">Please choose...</div>
+                                <div class="default text"><spring:message code="testzilla.accounts.dashboard.please-choose" text="Please choose..." /></div>
                                 <i class="dropdown icon"></i>
                                 <input id="bug-status" type="hidden">
                                 <div class="menu transition hidden" tabindex="-1">
@@ -397,9 +397,9 @@
                     </div> <!-- .fields -->
                     <div class="two required fields">
                         <div class="field">
-                            <label>Category</label>
+                            <label><spring:message code="testzilla.accounts.dashboard.category" text="Category" /></label>
                             <div class="ui selection dropdown" tabindex="0">
-                                <div class="default text">Please choose...</div>
+                                <div class="default text"><spring:message code="testzilla.accounts.dashboard.please-choose" text="Please choose..." /></div>
                                 <i class="dropdown icon"></i>
                                 <input id="bug-category" type="hidden">
                                 <div class="menu transition hidden" tabindex="-1">
@@ -410,9 +410,9 @@
                             </div> <!-- .selection -->
                         </div> <!-- .field -->
                         <div class="field">
-                            <label>Severity</label>
+                            <label><spring:message code="testzilla.accounts.dashboard.severity" text="Severity" /></label>
                             <div class="ui selection dropdown" tabindex="0">
-                                <div class="default text">Please choose...</div>
+                                <div class="default text"><spring:message code="testzilla.accounts.dashboard.please-choose" text="Please choose..." /></div>
                                 <i class="dropdown icon"></i>
                                 <input id="bug-severity" type="hidden">
                                 <div class="menu transition hidden" tabindex="-1">
@@ -424,14 +424,14 @@
                         </div> <!-- .field -->
                     </div> <!-- .fields -->
                     <div class="field">
-                        <label for="description">Description</label>
+                        <label for="description"><spring:message code="testzilla.accounts.dashboard.description" text="Description" /></label>
                         <div id="description"></div> <!-- #description -->
                     </div> <!-- .field -->
                 </div> <!-- .form -->
             </div> <!-- .content -->
             <div class="actions">
-                <button class="ui positive button" type="submit">Save</button>
-                <button class="ui negative button">Cancel</button>
+                <button class="ui positive button" type="submit"><spring:message code="testzilla.accounts.dashboard.save" text="Save" /></button>
+                <button class="ui negative button"><spring:message code="testzilla.accounts.dashboard.cancel" text="Cancel" /></button>
             </div> <!-- .actions -->
         </div> <!-- #issue-modal -->
     </div> <!-- .dimmer -->
@@ -551,46 +551,46 @@
                 var errorMessage  = '';
 
                 if ( result['isRealNameEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>Your Name/Company Name</strong> empty.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.name-empty" text="You can\'t leave <strong>Your Name/Company Name</strong> empty." /><br>';
                 } else if ( !result['isRealNameLegal'] ) {
-                    errorMessage += 'The length of <strong>Your Name/Company Name</strong> must not exceed 32 characters.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.name-too-long" text="The length of <strong>Your Name/Company Name</strong> must not exceed 32 characters." /><br>';
                 }
                 if ( result['isEmailEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>Email</strong> empty.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.email-empty" text="You can\'t leave <strong>Email</strong> empty." /><br>';
                 } else if ( !result['isEmailLegal'] ) {
-                    errorMessage += 'The <strong>Email</strong> seems invalid.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.email-invalid" text="The <strong>Email</strong> seems invalid." /><br>';
                 } else if ( result['isEmailExists'] ) {
-                    errorMessage += 'Someone already use that email.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.email-already-exists" text="Someone already use that email." /><br>';
                 }
                 if ( result['isCountryEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>Country</strong> empty.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.country-empty" text="You can\'t leave <strong>Country</strong> empty." /><br>';
                 } else if ( !result['isCountryLegal'] ) {
-                    errorMessage += 'The length of <strong>Country</strong> must not exceed 24 characters.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.country-too-long" text="The length of <strong>Country</strong> must not exceed 24 characters." /><br>';
                 }
                 if ( result['isProvinceEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>State(Province)</strong> empty.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.state-empty" text="You can\'t leave <strong>State(Province)</strong> empty." /><br>';
                 } else if ( !result['isProvinceLegal'] ) {
-                    errorMessage += 'The length of <strong>State(Province)</strong> must not exceed 24 characters.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.state-too-long" text="The length of <strong>State(Province)</strong> must not exceed 24 characters." /><br>';
                 }
                 if ( !result['isCityLegal'] ) {
-                    errorMessage += 'The length of <strong>City</strong> must not exceed 24 characters.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.city-too-long" text="The length of <strong>City</strong> must not exceed 24 characters." /><br>';
                 }
                 if ( result['isPhoneEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>Phone</strong> empty.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.phone-empty" text="You can\'t leave <strong>Phone</strong> empty." /><br>';
                 } else if ( !result['isPhoneLegal'] ) {
-                    errorMessage += 'The <strong>Phone</strong> seems invalid.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.phone-invalid" text="The <strong>Phone</strong> seems invalid." /><br>';
                 }
                 if ( !result['isWebsiteLegal'] ) {
-                    errorMessage += 'The <strong>Website</strong> seems invalid.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.website-invalid" text="The <strong>Website</strong> seems invalid." /><br>';
                 }
                 if ( !result['isOldPasswordCorrect'] ) {
-                    errorMessage += 'The <strong>Old Password</strong> seems not correct.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.old-password-wrong" text="The <strong>Old Password</strong> seems not correct." /><br>';
                 } 
                 if ( !result['isNewPasswordLegal'] ) {
-                    errorMessage += 'The length of <strong>New Password</strong> must between 6 and 16 characters.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.new-password-illegal-length" text="The length of <strong>New Password</strong> must between 6 and 16 characters." /><br>';
                 } 
                 if ( !result['isPasswordMatched'] ) {
-                    errorMessage += 'The new passwords don\'t match.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.new-password-unmatch" text="The new passwords don\'t match." /><br>';
                 }
 
                 $('#profile-error').html(errorMessage);
@@ -749,7 +749,7 @@
                                      '    <div class="content">' + 
                                      '        <a class="header">%s</a>' + 
                                      '        <div class="meta"><ahref="<c:url value="/products/" />%s">%s (%s)</a></div> <!-- .meta -->' + 
-                                     '        <a class="edit" href="javascript:viewBug(%s);">View/Edit</a>' + 
+                                     '        <a class="edit" href="javascript:viewBug(%s);"><spring:message code="testzilla.accounts.dashboard.view" text="View" />/<spring:message code="testzilla.accounts.dashboard.edit" text="Edit" /></a>' + 
                                      '        <div class="description">%s</div> <!-- .description -->' + 
                                      '        <div class="extra">' + 
                                      '            <div class="ui label">%s</div> <!-- .label -->' + 
@@ -823,7 +823,7 @@
 
                         $('.form', '#issue-modal').removeClass('loading');
                     } else {
-                        alert('Issue not exists.\nPlease contact webmaster for help.');
+                        alert('<spring:message code="testzilla.accounts.dashboard.alert.issue-not-exists" text="Issue not exists.\nPlease contact webmaster for help." />');
                     }
                 }
             });
@@ -879,16 +879,16 @@
                 var errorMessage  = '';
 
                 if ( !result['isAllowedEdit'] ) {
-                    errorMessage += 'You\'re not allowed to edit this issue.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.issue-uneditable" text="You\'re not allowed to edit this issue." /><br>';
                 }
                 if ( result['isStatusEmpty'] ) {
-                    errorMessage += 'Please choose your <strong>Bug Status</strong>.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.bug-status-empty" text="Please choose your <strong>Bug Status</strong>." /><br>';
                 }
                 if ( result['isCategoryEmpty'] ) {
-                    errorMessage += 'Please choose your <strong>Bug Category</strong>.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.bug-category-empty" text="Please choose your <strong>Bug Category</strong>." /><br>';
                 }
                 if ( result['isSeverityEmpty'] ) {
-                    errorMessage += 'Please choose your <strong>Bug Severity</strong>.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.bug-severity-empty" text="Please choose your <strong>Bug Severity</strong>." /><br>';
                 }
 
                 $('#issue-error').html(errorMessage);
@@ -1030,7 +1030,7 @@
                     if ( result['isSuccessful'] ) {
                         displayProduct(result['product']);
                     } else {
-                        alert('Product not exists.\nPlease contact webmaster for help.');
+                        alert('<spring:message code="testzilla.accounts.dashboard.alert.product-not-exists" text="Product not exists.\nPlease contact webmaster for help." />');
                     }
 
                     $('.form', '#product').removeClass('loading');
@@ -1147,56 +1147,56 @@
                 $('.message', '#product').addClass('success');
 
                 if ( $('button.positive', '#product').html() == 'Save' ) {
-                    message      = 'Your product is edited successfully.';
+                    message      = '<spring:message code="testzilla.accounts.dashboard.error.product-edit-success" text="Your product is edited successfully." />';
                 } else {
                 	var pageNumber = 1;
                     getProducts(pageNumber);
                     
                 	$('input, textarea', '#product').val('');
-                    message      = 'Your product is created successfully.';
+                    message      = '<spring:message code="testzilla.accounts.dashboard.error.product-create-success" text="Your product is created successfully." />';
                 }
             } else {
                 $('.message', '#product').removeClass('success');
                 $('.message', '#product').addClass('error');
 
                 if ( 'hasEnoughCredits' in result && !result['hasEnoughCredits'] ) {
-                    message += 'You didn\'t have enough credits to create a product.<br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.create-product-lack-credits" text="You didn\'t have enough credits to create a product." /><br>';
                 } 
                 if ( 'isDeveloperEmpty' in result && result['isDeveloperEmpty'] ) {
-                    message += 'You\'re not allowed to create a product.<br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.unable-create-product" text="You\'re not allowed to create a product." /><br>';
                 } else if ( 'isDeveloperLegal' in result && !result['isDeveloperLegal'] ) {
-                    message += 'You\'re not allowed to edit the product.<br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.unable-edit-product" text="You\'re not allowed to edit the product." /><br>';
                 }
                 if ( 'isProductNameEmpty' in result && result['isProductNameEmpty'] ) {
-                    message += 'You can\'t leave <strong>Product Name</strong> empty.<br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.product-name-empty" text="You can\'t leave <strong>Product Name</strong> empty." /><br>';
                 } else if ( 'isProductNameLegal' in result && !result['isProductNameLegal'] ) {
-                    message += 'The length of <strong>Product Name</strong> must not exceed 32 characters.<br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.product-name-too-long" text="The length of <strong>Product Name</strong> must not exceed 32 characters." /><br>';
                 }
                 if ( 'isProductLogoEmpty' in result && result['isProductLogoEmpty'] ) {
-                    message += 'You can\'t leave <strong>Product Logo URL</strong> empty.<br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.product-logo-url-empty" text="You can\'t leave <strong>Product Logo URL</strong> empty." /><br>';
                 } else if ( 'isProductLogoLegal' in result && !result['isProductLogoLegal'] ) {
-                    message += 'The length of <strong>Product Logo URL</strong> must not exceed 128 characters.<br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.product-logo-url-too-long" text="The length of <strong>Product Logo URL</strong> must not exceed 128 characters." /><br>';
                 }
                 if ( 'isProductCategoryEmpty' in result && result['isProductCategoryEmpty'] ) {
-                    message += 'Please choose your <strong>Product Category</strong>.<br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.product-category-empty" text="Please choose your <strong>Product Category</strong>." /><br>';
                 }
                 if ( 'isLatestVersionEmpty' in result && result['isLatestVersionEmpty'] ) {
-                    message += 'You can\'t leave <strong>Latest Version</strong> empty.<br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.lastest-version-empty" text="You can\'t leave <strong>Latest Version</strong> empty." /><br>';
                 } else if ( 'isLatestVersionLegal' in result && !result['isLatestVersionLegal'] ) {
-                    message += 'The length of <strong>Latest Version</strong> must not exceed 24 characters.<br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.latest-version-too-long" text="The length of <strong>Latest Version</strong> must not exceed 24 characters." /><br>';
                 }
                 if ( 'isPrerequisitesEmpty' in result && result['isPrerequisitesEmpty'] ) {
-                    message += 'You can\'t leave <strong>Prerequisites</strong> empty.<br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.prerequisites-empty" text="You can\'t leave <strong>Prerequisites</strong> empty." /><br>';
                 } else if ( 'isPrerequisitesLegal' in result && !result['isPrerequisitesLegal'] ) {
-                    message += 'The length of <strong>Prerequisites</strong> must not exceed 128 characters.<br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.prerequisites-too-long" text="The length of <strong>Prerequisites</strong> must not exceed 128 characters." /><br>';
                 }
                 if ( 'isProductUrlEmpty' in result && result['isProductUrlEmpty'] ) {
-                    message += 'You can\'t leave <strong>Product URL</strong> empty.<br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.product-url-empty" text="You can\'t leave <strong>Product URL</strong> empty." /><br>';
                 } else if ( 'isProductUrlLegal' in result && !result['isProductUrlLegal'] ) {
-                    message += 'The length of <strong>Product URL</strong> must not exceed 256 characters.<br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.product-url-too-long" text="The length of <strong>Product URL</strong> must not exceed 256 characters." /><br>';
                 }
                 if ( 'isDescriptionEmpty' in result && result['isDescriptionEmpty'] ) {
-                    message += 'You can\'t leave <strong>Description</strong> empty.<br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.description-empty" text="You can\'t leave <strong>Description</strong> empty." /><br>';
                 }
             }
 
