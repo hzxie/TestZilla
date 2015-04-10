@@ -6,7 +6,7 @@
 <html lang="${language}">
 <head>
     <meta charset="UTF-8">
-    <title>Sign Up | TestZilla</title>
+    <title><spring:message code="testzilla.account.join.sign-up" text="Sign Up" /> | TestZilla</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="谢浩哲">
@@ -28,8 +28,8 @@
     <div id="content" class="ui page stackable grid">
         <div class="row">
             <div id="slogan" class="column">
-                <h1>Join TestZilla</h1>
-                <h2>The best way to test your software.</h2>
+                <h1><spring:message code="testzilla.accounts.join.join" text="Join" /> TestZilla</h1>
+                <h2><spring:message code="testzilla.accounts.join.slogan" text="The best way to test your software." /></h2>
             </div> <!-- .column -->
         </div> <!-- .row -->
         <div class="row">
@@ -38,22 +38,22 @@
                     <a class="active step">
                         <i class="icon user"></i>
                         <div class="content">
-                            <div class="title">Step 1</div> <!-- .title -->
-                            <div class="description">Create your account</div> <!-- .description -->
+                            <div class="title"><spring:message code="testzilla.accounts.step-1" text="Step 1" /></div> <!-- .title -->
+                            <div class="description"><spring:message code="testzilla.accounts.create-your-account" text="Create your account" /></div> <!-- .description -->
                         </div> <!-- .content -->
                     </a>
                     <a class="step">
                         <i class="icon mail"></i>
                         <div class="content">
-                            <div class="title">Step 2</div> <!-- .title -->
-                            <div class="description">Verify your email</div> <!-- .description -->
+                            <div class="title"><spring:message code="testzilla.accounts.step-2" text="Step 2" /></div> <!-- .title -->
+                            <div class="description"><spring:message code="testzilla.accounts.verify-your-email" text="Verify your email" /></div> <!-- .description -->
                         </div> <!-- .content -->
                     </a>
                     <a class="step">
                         <i class="icon dashboard"></i>
                         <div class="content">
-                            <div class="title">Step 3</div> <!-- .title -->
-                            <div class="description">Go to your dashboard</div> <!-- .description -->
+                            <div class="title"><spring:message code="testzilla.accounts.step-3" text="Step 3" /></div> <!-- .title -->
+                            <div class="description"><spring:message code="testzilla.accounts.go-to-your-dashboard" text="Go to your dashboard" /></div> <!-- .description -->
                         </div> <!-- .content -->
                     </a>
                 </div> <!-- .steps -->
@@ -61,71 +61,71 @@
         </div> <!-- .row -->
         <div class="row">
             <div class="twelve wide column">
-                <h3>Create your account</h3>
+                <h3><spring:message code="testzilla.accounts.join.create-your-account" text="Create your account" /></h3>
                 <div class="ui error message hide">
-                    <div class="header">Error Message</div>
+                    <div class="header"><spring:message code="testzilla.accounts.join.error-message" text="Error Message" /></div>
                     <p></p>
                 </div> <!-- .error -->
                 <form id="join-form" class="ui form segment" onSubmit="onSubmit(); return false;">
                     <div class="two fields">
                         <div class="field required">
-                            <label>Individual/Enterprise</label>
+                            <label><spring:message code="testzilla.accounts.join.individual" text="Individual" />/<spring:message code="testzilla.accounts.join.enterprise" text="Enterprise" /></label>
                             <div class="ui selection dropdown" tabindex="0">
                                 <div class="default text"></div>
                                 <i class="dropdown icon"></i>
                                 <input id="invididual-or-enterprise" type="hidden">
                                 <div class="menu transition hidden" tabindex="-1">
-                                    <div class="item" data-value="individual">Individual</div>
-                                    <div class="item" data-value="enterprise">Enterprise</div>
+                                    <div class="item" data-value="individual"><spring:message code="testzilla.accounts.join.individual" text="Individual" /></div>
+                                    <div class="item" data-value="enterprise"><spring:message code="testzilla.accounts.join.enterprise" text="Enterprise" /></div>
                                 </div> <!-- .menu -->
                             </div> <!-- .selection -->
                         </div> <!-- .field -->
                         <div class="field required">
-                            <label>Account Type</label>
+                            <label><spring:message code="testzilla.accounts.join.account-type" text="Account Type" /></label>
                             <div class="ui selection dropdown" tabindex="0">
                                 <div class="default text"></div>
                                 <i class="dropdown icon"></i>
                                 <input id="account-type" type="hidden">
                                 <div class="menu transition hidden" tabindex="-1">
-                                    <div class="item" data-value="tester">Tester</div>
-                                    <div class="item" data-value="developer">Developer</div>
+                                    <div class="item" data-value="tester"><spring:message code="testzilla.accounts.join.tester" text="Tester" /></div>
+                                    <div class="item" data-value="developer"><spring:message code="testzilla.accounts.join.developer" text="Developer" /></div>
                                 </div> <!-- .menu -->
                             </div> <!-- .selection -->
                         </div> <!-- .field -->
                     </div> <!-- .fields -->
                     <div class="two fields">
                         <div class="field required">
-                            <label for="username">Username</label>
+                            <label for="username"><spring:message code="testzilla.accounts.join.username" text="Username" /></label>
                             <input id="username" type="text" maxlength="16" />
                         </div> <!-- .field -->
                         <div class="field required">
-                            <label for="email">Email</label>
+                            <label for="email"><spring:message code="testzilla.accounts.join.email" text="Email" /></label>
                             <input id="email" type="text" maxlength="64" />
                         </div> <!-- .field -->
                     </div> <!-- .fields -->
                     <div class="two fields">
                         <div class="field required">
-                            <label for="password">Password</label>
+                            <label for="password"><spring:message code="testzilla.accounts.join.password" text="Password" /></label>
                             <input id="password" type="password" maxlength="16" />
                         </div> <!-- .field -->
                         <div class="field required">
-                            <label for="confirm-password">Confirm Password</label>
+                            <label for="confirm-password"><spring:message code="testzilla.accounts.join.confirm-password" text="Confirm Password" /></label>
                             <input id="confirm-password" type="password" maxlength="64" />
                         </div> <!-- .field -->
                     </div> <!-- .fields -->
                     <div class="two fields">
                         <div class="field required">
-                            <label for="real-name">Your Name</label>
+                            <label for="real-name"><spring:message code="testzilla.accounts.join.your-name" text="Your Name" /></label>
                             <input id="real-name" type="text" maxlength="32" />
                         </div> <!-- .field -->
                         <div class="field required">
-                            <label for="email">Phone</label>
+                            <label for="email"><spring:message code="testzilla.accounts.join.phone" text="Phone" /></label>
                             <input id="phone" type="text" maxlength="24" />
                         </div> <!-- .field -->
                     </div> <!-- .fields -->
                     <div class="two fields">
                         <div class="field required">
-                            <label for="country">Country</label>
+                            <label for="country"><spring:message code="testzilla.accounts.join.country" text="Country" /></label>
                             <div class="ui selection dropdown" tabindex="0">
                                 <div class="default text"></div>
                                 <i class="dropdown icon"></i>
@@ -135,50 +135,50 @@
                             </div> <!-- .selection -->
                         </div> <!-- .field -->
                         <div class="field required">
-                            <label for="province">State(Province)</label>
+                            <label for="province"><spring:message code="testzilla.accounts.join.state-province" text="State(Province)" /></label>
                             <input id="province" type="text" maxlength="24" />
                         </div> <!-- .field -->
                     </div> <!-- .fields -->
                     <div class="two fields">
                         <div class="field">
-                            <label for="city">City</label>
+                            <label for="city"><spring:message code="testzilla.accounts.join.city" text="City" /></label>
                             <input id="city" type="text" maxlength="24" />
                         </div> <!-- .field -->
                         <div class="field">
-                            <label for="website">Website</label>
+                            <label for="website"><spring:message code="testzilla.accounts.join.website" text="Website" /></label>
                             <input id="website" type="text" maxlength="64" />
                         </div> <!-- .field -->
                     </div> <!-- .fields -->
                     <div class="field">
-                        <label>By clicking on &quot;Create Account&quot; below, you are agreeing to the <a href="<c:url value="/terms" />" target="_blank">Terms of Service</a>.</label>
+                        <label><spring:message code="testzilla.accounts.join.hint" text="By clicking on &quot;Create Account&quot; below, you are agreeing to the " /><a href="<c:url value="/terms" />" target="_blank"><spring:message code="testzilla.accounts.join.terms-of-service" text="Terms of Service" /></a>.</label>
                     </div> <!-- .field -->
-                    <button class="ui positive button fluid" type="submit">Create Account</button>
+                    <button class="ui positive button fluid" type="submit"><spring:message code="testzilla.accounts.join.create-account" text="Create Account" /></button>
                 </form> <!-- #join-form -->
             </div> <!-- .column -->
             <div id="tips" class="four wide column">
                 <div class="ui top attached header">
-                    <h3>You'll love TestZilla</h3>
+                    <h3><spring:message code="testzilla.accounts.join.youll-love" text="You'll love" /> TestZilla</h3>
                 </div> <!-- .top -->
                 <div class="ui attached segment">
                     <div class="ui list">
                         <div class="item">
-                            Unlimited Products
+                            <spring:message code="testzilla.accounts.join.unlimited-products" text="Unlimited Products" />
                         </div> <!-- .item -->
                         <div class="item">
-                            Better Service for Enterprise 
+                            <spring:message code="testzilla.accounts.join.better-service-for-enterprise" text="Better Service for Enterprise" /> 
                         </div> <!-- .item -->
                     </div> <!-- .list -->
                 </div> <!-- .segment -->
                 <div class="ui bottom attached header">
                     <div class="ui list">
                         <div class="item">
-                            <i class="checkmark icon"></i> Great communication
+                            <i class="checkmark icon"></i> <spring:message code="testzilla.accounts.join.greate-communication" text="Great communication" />
                         </div> <!-- .item -->
                         <div class="item">
-                            <i class="checkmark icon"></i> Lower expenditure
+                            <i class="checkmark icon"></i> <spring:message code="testzilla.accounts.join.lower-expenditure" text="Lower expenditure" />
                         </div> <!-- .item -->
                         <div class="item">
-                            <i class="checkmark icon"></i> Direct feedback
+                            <i class="checkmark icon"></i> <spring:message code="testzilla.accounts.join.direct-feedback" text="Direct feedback" />
                         </div> <!-- .item -->
                     </div> <!-- .list -->
                 </div> <!-- .bottom -->
@@ -266,61 +266,61 @@
                 var errorMessage  = '';
 
                 if ( result['isUsernameEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>Username</strong> empty.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.username-empty" text="You can\'t leave <strong>Username</strong> empty." /><br>';
                 } else if ( !result['isUsernameLegal'] ) {
                     var username = $('#username').val();
                     if ( username.length < 6 || username.length > 16 ) {
-                        errorMessage += 'The length of <strong>Username</strong> must between 6 and 16 characters.<br>';
+                        errorMessage += '<spring:message code="testzilla.accounts.join.error.username-illegal-length" text="The length of <strong>Username</strong> must between 6 and 16 characters." /><br>';
                     } else if ( !username[0].match(/[a-z]/i) ) {
-                        errorMessage += '<strong>Username</strong> must start with a letter(a-z).<br>';
+                        errorMessage += '<spring:message code="testzilla.accounts.join.error.username-illegal-beginning" text="<strong>Username</strong> must start with a letter(a-z)." /><br>';
                     } else {
-                        errorMessage += '<strong>Username</strong> can only contain letters(a-z), numbers, and underlines(_).<br>';
+                        errorMessage += '<spring:message code="testzilla.accounts.join.error.username-illegal-character" text="<strong>Username</strong> can only contain letters(a-z), numbers, and underlines(_)." /><br>';
                     }
                 } else if ( result['isUsernameExists'] ) {
-                    errorMessage += 'Someone already has that username.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.username-already-exists" text="Someone already has that username." /><br>';
                 }
                 if ( result['isPasswordEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>Password</strong> empty.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.password-empty" text="You can\'t leave <strong>Password</strong> empty." /><br>';
                 } else if ( !result['isPasswordLegal'] ) {
-                    errorMessage += 'The length of <strong>Password</strong> must between 6 and 16 characters.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.password-illegal-length" text="The length of <strong>Password</strong> must between 6 and 16 characters." /><br>';
                 } else if ( !result['isPasswordMatched'] ) {
-                    errorMessage += 'These passwords don\'t match.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.password-unmatch" text="These passwords don\'t match." /><br>';
                 }
                 if ( !result['isUserGroupLegal'] ) {
-                    errorMessage += 'Please choose your <strong>Account Type</strong>.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.account-type-empty" text="Please choose your <strong>Account Type</strong>." /><br>';
                 }
                 if ( result['isRealNameEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>Your Name/Company Name</strong> empty.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.name-empty" text="You can\'t leave <strong>Your Name/Company Name</strong> empty." /><br>';
                 } else if ( !result['isRealNameLegal'] ) {
-                    errorMessage += 'The length of <strong>Your Name/Company Name</strong> must not exceed 32 characters.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.name-too-long" text="The length of <strong>Your Name/Company Name</strong> must not exceed 32 characters." /><br>';
                 }
                 if ( result['isEmailEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>Email</strong> empty.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.email-empty" text="You can\'t leave <strong>Email</strong> empty." /><br>';
                 } else if ( !result['isEmailLegal'] ) {
-                    errorMessage += 'The <strong>Email</strong> seems invalid.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.email-invalid" text="The <strong>Email</strong> seems invalid." /><br>';
                 } else if ( result['isEmailExists'] ) {
-                    errorMessage += 'Someone already use that email.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.email-already-exists" text="Someone already use that email." /><br>';
                 }
                 if ( result['isCountryEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>Country</strong> empty.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.country-empty" text="You can\'t leave <strong>Country</strong> empty." /><br>';
                 } else if ( !result['isCountryLegal'] ) {
-                    errorMessage += 'The length of <strong>Country</strong> must not exceed 24 characters.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.country-too-long" text="The length of <strong>Country</strong> must not exceed 24 characters." /><br>';
                 }
                 if ( result['isProvinceEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>State(Province)</strong> empty.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.state-empty" text="You can\'t leave <strong>State(Province)</strong> empty." /><br>';
                 } else if ( !result['isProvinceLegal'] ) {
-                    errorMessage += 'The length of <strong>State(Province)</strong> must not exceed 24 characters.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.state-too-long" text="The length of <strong>State(Province)</strong> must not exceed 24 characters." /><br>';
                 }
                 if ( !result['isCityLegal'] ) {
-                    errorMessage += 'The length of <strong>City</strong> must not exceed 24 characters.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.city-too-long" text="The length of <strong>City</strong> must not exceed 24 characters." /><br>';
                 }
                 if ( result['isPhoneEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>Phone</strong> empty.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.phone-empty" text="You can\'t leave <strong>Phone</strong> empty." /><br>';
                 } else if ( !result['isPhoneLegal'] ) {
-                    errorMessage += 'The <strong>Phone</strong> seems invalid.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.phone-invalid" text="The <strong>Phone</strong> seems invalid." /><br>';
                 }
                 if ( !result['isWebsiteLegal'] ) {
-                    errorMessage += 'The <strong>Website</strong> seems invalid.<br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.website-invalid" text="The <strong>Website</strong> seems invalid." /><br>';
                 }
                 $('#join-form').removeClass('loading');
                 $('.error > p').html(errorMessage);
