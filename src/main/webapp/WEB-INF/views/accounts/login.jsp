@@ -76,7 +76,6 @@
     </footer>
     <!-- Java Script -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <%@ include file="/WEB-INF/views/include/footer-scripts.jsp" %>
     <script type="text/javascript" src="${cdnUrl}/js/site.js"></script>
     <script type="text/javascript" src="${cdnUrl}/js/md5.js"></script>
     <script type="text/javascript">
