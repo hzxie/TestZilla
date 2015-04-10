@@ -6,7 +6,7 @@
 <html lang="${language}">
 <head>
     <meta charset="UTF-8">
-    <title><spring:message code="testzilla.account.join.sign-up" text="Sign Up" /> | TestZilla</title>
+    <title><spring:message code="testzilla.accounts.join.sign-up" text="Sign Up" /> | TestZilla</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="谢浩哲">
