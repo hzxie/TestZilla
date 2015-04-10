@@ -47,4 +47,3 @@
             </div> <!-- .column -->
         </div> <!-- #copyright -->
     </footer>
-    <%@ include file="/WEB-INF/views/include/footer-scripts.jsp" %>

@@ -45,3 +45,25 @@
             </div> <!-- #navigation -->
         </div> <!-- .row -->
     </header>
+    <!-- JavaScript for Localization -->
+    <script type="text/javascript">
+        $('#languages').dropdown({
+            onChange: function(value, text, $selectedItem) {
+                var postData = {
+                    language: value
+                };
+
+                $.ajax({
+                    type: 'GET',
+                    url: '<c:url value="/localization" />',
+                    data: postData,
+                    dataType: 'JSON',
+                    success: function(result) {
+                        if ( result['isSuccessful'] ) {
+                            location.reload();
+                        }
+                    }
+                });
+            }
+        });
+    </script>
