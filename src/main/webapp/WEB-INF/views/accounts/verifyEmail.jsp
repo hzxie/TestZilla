@@ -6,7 +6,7 @@
 <html lang="${language}">
 <head>
     <meta charset="UTF-8">
-    <title>Verify Your Email | TestZilla</title>
+    <title><spring:message code="testzilla.accounts.verifyEmail.verify-your-name" text="Verify Your Email" /> | TestZilla</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="谢浩哲">
@@ -28,8 +28,8 @@
     <div id="content" class="ui page stackable grid">
         <div class="row">
             <div id="slogan" class="column">
-                <h1>Join TestZilla</h1>
-                <h2>The best way to test your software.</h2>
+                <h1><spring:message code="testzilla.accounts.verifyEmail.join" text="Join" /> TestZilla</h1>
+                <h2><spring:message code="testzilla.accounts.verifyEmail.slogan" text="The best way to test your software." /></h2>
             </div> <!-- .column -->
         </div> <!-- .row -->
         <div class="row">
@@ -38,22 +38,22 @@
                     <a class="step">
                         <i class="icon user"></i>
                         <div class="content">
-                            <div class="title">Step 1</div> <!-- .title -->
-                            <div class="description">Create your account</div> <!-- .description -->
+                            <div class="title"><spring:message code="testzilla.accounts.step-1" text="Step 1" /></div> <!-- .title -->
+                            <div class="description"><spring:message code="testzilla.accounts.create-your-account" text="Create your account" /></div> <!-- .description -->
                         </div> <!-- .content -->
                     </a>
                     <a class="active step">
                         <i class="icon mail"></i>
                         <div class="content">
-                            <div class="title">Step 2</div> <!-- .title -->
-                            <div class="description">Verify your email</div> <!-- .description -->
+                            <div class="title"><spring:message code="testzilla.accounts.step-2" text="Step 2" /></div> <!-- .title -->
+                            <div class="description"><spring:message code="testzilla.accounts.verify-your-email" text="Verify your email" /></div> <!-- .description -->
                         </div> <!-- .content -->
                     </a>
                     <a class="step">
                         <i class="icon dashboard"></i>
                         <div class="content">
-                            <div class="title">Step 3</div> <!-- .title -->
-                            <div class="description">Go to your dashboard</div> <!-- .description -->
+                            <div class="title"><spring:message code="testzilla.accounts.step-3" text="Step 3" /></div> <!-- .title -->
+                            <div class="description"><spring:message code="testzilla.accounts.go-to-your-dashboard" text="Go to your dashboard" /></div> <!-- .description -->
                         </div> <!-- .content -->
                     </a>
                 </div> <!-- .steps -->
@@ -62,11 +62,11 @@
         <div class="row">
         	<div id="email-sent" class="column">
                 <div class="ui attached segment fluid">
-                    <a class="ui ribbon label">Email has been sent.</a>
+                    <a class="ui ribbon label"><spring:message code="testzilla.accounts.verifyEmail.email-has-been-sent" text="Email has been sent." /></a>
                     <p>
-                        An activation email has been sent to <span id="email">${email}</span>.<br />
-                        After verified your email, you'll get 100 credits.<br />
-                        <button class="ui primary button">Go to MailBox</button>
+                        <spring:message code="testzilla.accounts.verifyEmail.activation-email-sent-to" text="An activation email has been sent to " /><span id="email">${email}</span>.<br />
+                        <spring:message code="testzilla.accounts.verifyEmail.verification-reward-hint" text="After verified your email, you'll get 100 credits." /><br />
+                        <button class="ui primary button"><spring:message code="testzilla.accounts.verifyEmail.go-to-mailbox" text="Go to MailBox" /></button>
                     </p>
                 </div> <!-- .segment -->
 
