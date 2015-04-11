@@ -6,7 +6,7 @@
 <html lang="${language}">
 <head>
     <meta charset="UTF-8">
-    <title>Terms and Privacy | TestZilla</title>
+    <title><spring:message code="testzilla.terms.terms-and-privacy" text="Terms and Privacy" /> | TestZilla</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="谢浩哲">
@@ -28,11 +28,11 @@
         <div id="sub-header" class="ui page stackable grid segment">
             <div class="row">
                 <div class="column">
-                    <h1>Terms and Privacy</h1>
+                    <h1><spring:message code="testzilla.terms.terms-and-privacy" text="Terms and Privacy" /></h1>
                     <div class="ui breadcrumb">
-                        <a href="<c:url value="/" />" class="section">Home</a>
+                        <a href="<c:url value="/" />" class="section"><spring:message code="testzilla.terms.home" text="Home" /></a>
                         <div class="divider"> / </div>
-                        <div class="active section">Terms and Privacy</div>
+                        <div class="active section"><spring:message code="testzilla.terms.terms-and-privacy" text="Terms and Privacy" /></div>
                     </div> <!-- .breadcrumb -->
                 </div> <!-- .column -->
             </div> <!-- .row -->
@@ -41,7 +41,7 @@
             <div class="row">
                 <div class="twelve wide column">
                     <div id="main-content">
-                        <h3>Terms of use</h3>
+                        <h3><spring:message code="testzilla.terms.terms-of-use" text="Terms of use" /></h3>
                         ${termsOfUse}
                     </div> <!-- #main-content -->
                 </div> <!-- .column -->
@@ -49,9 +49,9 @@
                     <div class="ui sticky">
                         <div class="ui secondary vertical following fluid accordion menu">
                             <div class="item active">
-                                <a class="active title"><i class="dropdown icon" tabindex="0"></i> <b>Terms and Privacy</b></a>
+                                <a class="active title"><i class="dropdown icon" tabindex="0"></i> <b><spring:message code="testzilla.terms.terms-and-privacy" text="Terms and Privacy" /></b></a>
                                 <div class="active content menu">
-                                    <a class="item" href="#terms-of-use">Terms of use</a>
+                                    <a class="item" href="#terms-of-use"><spring:message code="testzilla.terms.terms-of-use" text="Terms of use" /></a>
                                 </div> <!-- .content -->
                             </div> <!-- .item -->
                         </div> <!-- .menu -->
