@@ -32,7 +32,7 @@
                 <div class="ui breadcrumb">
                     <a href="<c:url value="/" />" class="section"><spring:message code="testzilla.index.title" text="Home" /></a>
                     <div class="divider"> / </div>
-                    <a href="<c:url value="/products" />" class="section">Product Board</a>
+                    <a href="<c:url value="/products" />" class="section"><spring:message code="testzilla.products.product.product-board" text="Product Board" /></a>
                     <div class="divider"> / </div>
                     <div class="active section">${product.productName}</div>
                 </div>
@@ -41,27 +41,27 @@
         <div class="row">
             <div id="product" class="twelve wide column">
                 <div class="ui segment">
-                    <a class="ui ribbon label"><i class="icon content"></i> Product Detail</a>
+                    <a class="ui ribbon label"><i class="icon content"></i> <spring:message code="testzilla.products.product.product-detail" text="Product Detail" /></a>
                     <table class="ui table">
                         <tbody>
                             <tr>
-                                <td>Product Category</td>
+                                <td><spring:message code="testzilla.products.product.product-category" text="Product Category" /></td>
                                 <td>${product.productCategory.productCategoryName}</td>
                             </tr>
                             <tr>
-                                <td>Latest Version</td>
+                                <td><spring:message code="testzilla.products.product.latest-version" text="Latest Version" /></td>
                                 <td>${product.latestVersion}</td>
                             </tr>
                             <tr>
-                                <td>URL</td>
+                                <td><spring:message code="testzilla.products.product.url" text="URL" /></td>
                                 <td><a href="${product.url}" target="_blank">${product.url}</a></td>
                             </tr>
                             <tr>
-                                <td>Prerequisites</td>
+                                <td><spring:message code="testzilla.products.product.prerequisites" text="Prerequisites" /></td>
                                 <td>${product.prerequisites}</td>
                             </tr>
                             <tr>
-                                <td>Description</td>
+                                <td><spring:message code="testzilla.products.product.description" text="Description" /></td>
                                 <td>${product.description}</td>
                             </tr>
                         </tbody>
@@ -70,15 +70,15 @@
                 <c:choose>
                 <c:when test="${isLogin}">
                 <div class="ui segment">
-                    <a class="ui ribbon label"><i class="icon bug"></i> Issues</a>
-                    <button id="new-issue-button" class="ui button positive">New Issue</button>
-                    <div id="issue-message" class="ui info message">There aren't any issues.</div> <!-- #issue-message -->
+                    <a class="ui ribbon label"><i class="icon bug"></i> <spring:message code="testzilla.products.product.issues" text="Issues" /></a>
+                    <button id="new-issue-button" class="ui button positive"><spring:message code="testzilla.products.product.new-issue" text="New Issue" /></button>
+                    <div id="issue-message" class="ui info message"><spring:message code="testzilla.products.product.no-issues" text="There aren't any issues." /></div> <!-- #issue-message -->
                     <div id="bugs" class="ui styled accordion fluid"></div> <!-- #bugs -->
                     <div class="ui pagination menu"></div> <!-- .pagination -->
                 </div> <!-- .segment -->
                 <div class="ui segment">
-                    <a class="ui ribbon label"><i class="icon book"></i> Questionnaire</a>
-                    <div id="questionnaire-message" class="ui info message">There aren't any questionnaires.</div> <!-- #questionnaire-message -->
+                    <a class="ui ribbon label"><i class="icon book"></i> <spring:message code="testzilla.products.product.questionnaire" text="Questionnaire" /></a>
+                    <div id="questionnaire-message" class="ui info message"><spring:message code="testzilla.products.product.no-questionnaires" text="There aren't any questionnaires." /></div> <!-- #questionnaire-message -->
                 </div> <!-- .segment -->
                 </c:when>
                 <c:otherwise>
@@ -86,16 +86,16 @@
                     <i class="inbox icon"></i>
                     <div class="content">
                         <div class="header">
-                        Want to help improve this product?
+                        <spring:message code="testzilla.products.product.want-to-help" text="Want to help improve this product?" />
                         </div> <!-- header -->
-                        <p>After <a href="<c:url value="/accounts/login?forward=products/${product.productId}" />">sign in</a>, you can report bugs of this product.</p>
+                        <p><spring:message code="testzilla.products.product.after" text="After " /><a href="<c:url value="/accounts/login?forward=products/${product.productId}" />"><spring:message code="testzilla.products.product.sign-in" text="sign in" /></a><spring:message code="testzilla.products.product.can-report-bugs" text=", you can report bugs of this product." /></p>
                     </div> <!-- .content -->
                 </div> <!-- .message -->
                 </c:otherwise>
                 </c:choose>
             </div> <!-- .column -->
             <div id="related-products" class="four wide column">
-                <h3>Related Products</h3>
+                <h3><spring:message code="testzilla.products.product.related-products" text="Related Products" /></h3>
                 <div class="ui divided items">
                 <c:forEach var="relatedProduct" items="${relatedProducts}">
                     <c:if test="${relatedProduct.productId ne product.productId}">
@@ -106,7 +106,7 @@
                         <div class="middle aligned content">
                             <a class="header" href="<c:url value="/products/${relatedProduct.productId}" />">${relatedProduct.productName}</a>
                             <div class="meta">
-                                <span>${relatedProduct.numberOfIssues} issue(s) reported</span>
+                                <span>${relatedProduct.numberOfIssues}<spring:message code="testzilla.products.product.issues-reported" text=" issue(s) reported" /></span>
                             </div>
                         </div> <!-- .content -->
                     </div> <!-- .item -->
@@ -123,26 +123,26 @@
         <div id="bug-modal" class="ui long test modal transition scrolling hidden">
             <i class="close icon"></i>
             <div class="header">
-                <h3>New Issue</h3>
+                <h3><spring:message code="testzilla.products.product.new-issue" text="New Issue" /></h3>
             </div> <!-- .header -->
             <div class="content">
                 <div id="create-bug-error" class="ui error message hide"></div> <!-- #create-bug-error -->
                 <div class="ui form">
                     <div class="two required fields">
                         <div class="field">
-                            <label for="title">Title</label>
+                            <label for="title"><spring:message code="testzilla.products.product.title" text="Title" /></label>
                             <input id="title" type="text" />
                         </div> <!-- .field -->
                         <div class="field">
-                            <label for="version">Product Version</label>
+                            <label for="version"><spring:message code="testzilla.products.product.product-version" text="Product Version" /></label>
                             <input id="version" type="text" value="${product.latestVersion}" />
                         </div> <!-- .field -->
                     </div> <!-- .fields -->
                     <div class="two required fields">
                         <div class="field">
-                            <label>Category</label>
+                            <label><spring:message code="testzilla.products.product.category" text="Category" /></label>
                             <div class="ui selection dropdown" tabindex="0">
-                                <div class="default text">Please choose...</div>
+                                <div class="default text"><spring:message code="testzilla.products.product.please-choose" text="Please choose" />...</div>
                                 <i class="dropdown icon"></i>
                                 <input id="bug-category" type="hidden">
                                 <div class="menu transition hidden" tabindex="-1">
@@ -153,9 +153,9 @@
                             </div> <!-- .selection -->
                         </div> <!-- .field -->
                         <div class="field">
-                            <label>Severity</label>
+                            <label><spring:message code="testzilla.products.product.severity" text="Severity" /></label>
                             <div class="ui selection dropdown" tabindex="0">
-                                <div class="default text">Please choose...</div>
+                                <div class="default text"><spring:message code="testzilla.products.product.please-choose" text="Please choose" />...</div>
                                 <i class="dropdown icon"></i>
                                 <input id="bug-severity" type="hidden">
                                 <div class="menu transition hidden" tabindex="-1">
@@ -168,13 +168,13 @@
                     </div> <!-- .fields -->
                     <div id="markdown-editor" class="tab">
                         <div class="ui top attached tabular menu">
-                            <a class="item active" data-tab="editor">Editor</a>
-                            <a class="item" data-tab="preview">Preview</a>
+                            <a class="item active" data-tab="editor"><spring:message code="testzilla.products.product.editor" text="Editor" /></a>
+                            <a class="item" data-tab="preview"><spring:message code="testzilla.products.product.preview" text="Preview" /></a>
                         </div> <!-- .tabular -->
                         <div class="ui bottom attached tab segment active" data-tab="editor">
                             <div class="wmd-panel">
                                 <div id="wmd-button-bar"></div> <!-- #wmd-button-bar -->
-                                <textarea id="wmd-input" class="wmd-input" placeholder="Leave a comment (Markdown is supported)"></textarea>
+                                <textarea id="wmd-input" class="wmd-input" placeholder="<spring:message code="testzilla.products.product.leave-a-comment" text="Leave a comment (Markdown is supported)" />"></textarea>
                             </div> <!-- .wmd-panel -->
                         </div> <!-- .segment -->
                         <div class="ui bottom attached tab segment" data-tab="preview">
@@ -184,8 +184,8 @@
                 </div> <!-- .form -->
             </div> <!-- .content -->
             <div class="actions">
-                <button class="ui positive button" type="submit">Submit new issue</button>
-                <button class="ui negative button">Cancel</button>
+                <button class="ui positive button" type="submit"><spring:message code="testzilla.products.product.submit-new-issue" text="Submit new issue" /></button>
+                <button class="ui negative button"><spring:message code="testzilla.products.product.cancel" text="Cancel" /></button>
             </div> <!-- .actions -->
         </div> <!-- #bug-modal -->
     </div> <!-- .dimmer -->
@@ -390,29 +390,29 @@
                 var errorMessage  = '';
 
                 if ( result['isHunterEmpty'] ) {
-                    errorMessage += 'Please sign in before reporting an issue.<br />';
+                    errorMessage += '<spring:message code="testzilla.products.product.error.hunter-empty" text="Please sign in before reporting an issue." /><br />';
                 }
                 if ( !result['isProductExists'] ) {
-                    errorMessage += 'The product isn\'t exists.<br />';
+                    errorMessage += '<spring:message code="testzilla.products.product.error.product-not-exist" text="The product isn\'t exists." /><br />';
                 }
                 if ( result['isProductVersionEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>Product Version</strong> empty.<br />';
+                    errorMessage += '<spring:message code="testzilla.products.product.error.product-version-empty" text="You can\'t leave <strong>Product Version</strong> empty." /><br />';
                 } else if ( !result['isProductVersionLegal'] ) {
-                    errorMessage += 'The length of <strong>Product Version</strong> must not exceed 24 characters.<br />';
+                    errorMessage += '<spring:message code="testzilla.products.product.error.product-version-too-long" text="The length of <strong>Product Version</strong> must not exceed 24 characters." /><br />';
                 }
                 if ( result['isCategoryEmpty'] ) {
-                    errorMessage += 'Please choose the <strong>Category</strong> of the issue.<br />';
+                    errorMessage += '<spring:message code="testzilla.products.product.error.category-empty" text="Please choose the <strong>Category</strong> of the issue." /><br />';
                 }
                 if ( result['isSeverityEmpty'] ) {
-                    errorMessage += 'Please choose the <strong>Severity</strong> of the issue.<br />';
+                    errorMessage += '<spring:message code="testzilla.products.product.error.severity-empty" text="Please choose the <strong>Severity</strong> of the issue." /><br />';
                 }
                 if ( result['isTitleEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>Title</strong> empty.<br />';
+                    errorMessage += '<spring:message code="testzilla.products.product.error.title-empty" text="You can\'t leave <strong>Title</strong> empty." /><br />';
                 } else if ( !result['isTitleLegal'] ) {
-                    errorMessage += 'The length of <strong>Title</strong> must not exceed 64 characters.<br />';
+                    errorMessage += '<spring:message code="testzilla.products.product.error.title-too-long" text="The length of <strong>Title</strong> must not exceed 64 characters." /><br />';
                 }
                 if ( result['isDescriptionEmpty'] ) {
-                    errorMessage += 'You can\'t leave <strong>Description</strong> empty.<br />';
+                    errorMessage += '<spring:message code="testzilla.products.product.error.description-empty" text="You can\'t leave <strong>Description</strong> empty." /><br />';
                 }
 
                 $('#create-bug-error').html(errorMessage);

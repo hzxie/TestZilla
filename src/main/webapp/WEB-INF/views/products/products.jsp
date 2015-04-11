@@ -6,7 +6,7 @@
 <html lang="${language}">
 <head>
     <meta charset="UTF-8">
-    <title>Products | TestZilla</title>
+    <title><spring:message code="testzilla.products.products.products" text="Products" /> | TestZilla</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="谢浩哲">
@@ -28,11 +28,11 @@
     <div id="content" class="ui page stackable grid">
         <div class="row">
             <div class="column">
-                <h1>Products Board</h1>
+                <h1><spring:message code="testzilla.products.products.products-board" text="Products Board" /></h1>
                 <div class="ui breadcrumb">
                     <a href="<c:url value="/" />" class="section"><spring:message code="testzilla.index.title" text="Home" /></a>
                     <div class="divider"> / </div>
-                    <div class="active section">Product Board</div>
+                    <div class="active section"><spring:message code="testzilla.products.products.products-board" text="Product Board" /></div>
                 </div> <!-- .breadcrumb -->
             </div> <!-- .column -->
         </div> <!-- .row -->
@@ -41,21 +41,21 @@
                 <div id="sidebar" class="ui vertical menu fluid">
                     <div class="item">
                         <form class="ui input" action="<c:url value="/search" />">
-                            <input name="keyword" type="text" placeholder="Search..." />
+                            <input name="keyword" type="text" placeholder="<spring:message code="testzilla.products.products.search" text="Search" />..." />
                         </form> <!-- .input -->
                     </div> <!-- .item -->
                     <div id="sort-by">
                         <div class="header item">
-                            <i class="sort icon"></i>Sort by
+                            <i class="sort icon"></i><spring:message code="testzilla.products.products.sort-by" text="Sort by" />
                         </div> <!-- .header -->
-                        <a class="item active" href="javascript:void(0);" data-value="latest">Latest</a>
-                        <a class="item" href="javascript:void(0);" data-value="most-popular">Most Popular</a>
+                        <a class="item active" href="javascript:void(0);" data-value="latest"><spring:message code="testzilla.products.products.latest" text="Latest" /></a>
+                        <a class="item" href="javascript:void(0);" data-value="most-popular"><spring:message code="testzilla.products.products.most-popular" text="Most Popular" /></a>
                     </div> <!-- #sort-by -->
                     <div id="product-categories">
                         <div class="header item">
-                            <i class="list icon"></i>Project Categories
+                            <i class="list icon"></i><spring:message code="testzilla.products.products.project-categories" text="Project Categories" />
                         </div> <!-- .header -->
-                        <a class="item active" href="javascript:void(0);" data-value="all">All</a>
+                        <a class="item active" href="javascript:void(0);" data-value="all"><spring:message code="testzilla.products.products.all" text="All" /></a>
                         <c:forEach var="productCategory" items="${productCategories}">
                         <a class="item" href="javascript:void(0);" data-value="${productCategory.productCategorySlug}">${productCategory.productCategoryName}</a>
                         </c:forEach>
@@ -66,7 +66,7 @@
                 <div id="products" class="row">
                     <div class="column">
                         <div class="ui warning message hide">
-                            <p>No products found.</p>
+                            <p><spring:message code="testzilla.products.products.no-products-found" text="No products found." /></p>
                         </div> <!-- .message -->
                         <div class="ui relaxed divided items">
                         </div> <!-- .items -->
@@ -188,7 +188,7 @@
                                          '        <div class="description">%s</div> <!-- .description -->' + 
                                          '        <div class="extra">' + 
                                          '            <div class="ui label">%s</div> <!-- .label -->' + 
-                                         '            <div class="ui label">%s issue(s) reported</div> <!-- .label -->' + 
+                                         '            <div class="ui label">%s <spring:message code="testzilla.products.product.issues-reported" text="issue(s) reported" /></div> <!-- .label -->' + 
                                          '        </div> <!-- .extra -->' + 
                                          '    </div> <!-- .content -->' + 
                                          '</div> <!-- .item -->';
