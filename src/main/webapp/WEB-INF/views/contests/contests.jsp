@@ -6,7 +6,7 @@
 <html lang="${language}">
 <head>
     <meta charset="UTF-8">
-    <title>Contests | TestZilla</title>
+    <title><spring:message code="testzilla.contests.contests.contests" text="Contests" /> | TestZilla</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="谢浩哲">
@@ -28,11 +28,11 @@
     <div id="content" class="ui page stackable grid">
         <div class="row">
             <div class="column">
-                <h1>Contests</h1>
+                <h1><spring:message code="testzilla.contests.contests.contests" text="Contests" /></h1>
                 <div class="ui breadcrumb">
                     <a href="<c:url value="/" />" class="section"><spring:message code="testzilla.index.title" text="Home" /></a>
                     <div class="divider"> / </div>
-                    <div class="active section">Contests</div>
+                    <div class="active section"><spring:message code="testzilla.contests.contests.contests" text="Contests" /></div>
                 </div> <!-- .breadcrumb -->
             </div> <!-- .column -->
         </div> <!-- .row -->
@@ -41,14 +41,14 @@
                 <div id="sidebar" class="ui vertical menu fluid">
                     <div class="item">
                         <form class="ui input" action="<c:url value="/search" />">
-                            <input name="keyword" type="text" placeholder="Search..." />
+                            <input name="keyword" type="text" placeholder="<spring:message code="testzilla.accounts.dashboard.placeholder.search" text="Search" />..." />
                         </form> <!-- .input -->
                     </div> <!-- .item -->
                     <div id="product-categories">
                         <div class="header item">
-                            <i class="list icon"></i>Contests Categories
+                            <i class="list icon"></i><spring:message code="testzilla.contests.contests.contests-categories" text="Contests Categories" />
                         </div> <!-- .header -->
-                        <a class="item active" href="javascript:void(0);" data-value="all">All</a>
+                        <a class="item active" href="javascript:void(0);" data-value="all"><spring:message code="testzilla.contests.contests.all" text="All" /></a>
                     </div> <!-- #product-categories -->
                 </div> <!-- .menu -->
             </div> <!-- .column -->
@@ -56,7 +56,7 @@
                 <div id="contests" class="row">
                     <div class="column">
                         <div class="ui warning message">
-                            <p>No contests found.</p>
+                            <p><spring:message code="testzilla.contests.contests.no-contests-found" text="No contests found." /></p>
                         </div> <!-- .message -->
                         <div class="ui relaxed divided items">
                         </div> <!-- .items -->
