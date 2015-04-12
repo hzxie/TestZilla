@@ -266,7 +266,7 @@
                 var errorMessage  = '';
 
                 if ( result['isUsernameEmpty'] ) {
-                    errorMessage += '<spring:message code="testzilla.accounts.join.error.username-empty" text="You can\'t leave <strong>Username</strong> empty." /><br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.username-empty" text="You can&apos;t leave <strong>Username</strong> empty." /><br>';
                 } else if ( !result['isUsernameLegal'] ) {
                     var username = $('#username').val();
                     if ( username.length < 6 || username.length > 16 ) {
@@ -280,34 +280,34 @@
                     errorMessage += '<spring:message code="testzilla.accounts.join.error.username-already-exists" text="Someone already has that username." /><br>';
                 }
                 if ( result['isPasswordEmpty'] ) {
-                    errorMessage += '<spring:message code="testzilla.accounts.join.error.password-empty" text="You can\'t leave <strong>Password</strong> empty." /><br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.password-empty" text="You can&apos;t leave <strong>Password</strong> empty." /><br>';
                 } else if ( !result['isPasswordLegal'] ) {
                     errorMessage += '<spring:message code="testzilla.accounts.join.error.password-illegal-length" text="The length of <strong>Password</strong> must between 6 and 16 characters." /><br>';
                 } else if ( !result['isPasswordMatched'] ) {
-                    errorMessage += '<spring:message code="testzilla.accounts.join.error.password-unmatch" text="These passwords don\'t match." /><br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.password-unmatch" text="These passwords don&apos;t match." /><br>';
                 }
                 if ( !result['isUserGroupLegal'] ) {
                     errorMessage += '<spring:message code="testzilla.accounts.join.error.account-type-empty" text="Please choose your <strong>Account Type</strong>." /><br>';
                 }
                 if ( result['isRealNameEmpty'] ) {
-                    errorMessage += '<spring:message code="testzilla.accounts.join.error.name-empty" text="You can\'t leave <strong>Your Name/Company Name</strong> empty." /><br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.name-empty" text="You can&apos;t leave <strong>Your Name/Company Name</strong> empty." /><br>';
                 } else if ( !result['isRealNameLegal'] ) {
                     errorMessage += '<spring:message code="testzilla.accounts.join.error.name-too-long" text="The length of <strong>Your Name/Company Name</strong> must not exceed 32 characters." /><br>';
                 }
                 if ( result['isEmailEmpty'] ) {
-                    errorMessage += '<spring:message code="testzilla.accounts.join.error.email-empty" text="You can\'t leave <strong>Email</strong> empty." /><br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.email-empty" text="You can&apos;t leave <strong>Email</strong> empty." /><br>';
                 } else if ( !result['isEmailLegal'] ) {
                     errorMessage += '<spring:message code="testzilla.accounts.join.error.email-invalid" text="The <strong>Email</strong> seems invalid." /><br>';
                 } else if ( result['isEmailExists'] ) {
                     errorMessage += '<spring:message code="testzilla.accounts.join.error.email-already-exists" text="Someone already use that email." /><br>';
                 }
                 if ( result['isCountryEmpty'] ) {
-                    errorMessage += '<spring:message code="testzilla.accounts.join.error.country-empty" text="You can\'t leave <strong>Country</strong> empty." /><br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.country-empty" text="You can&apos;t leave <strong>Country</strong> empty." /><br>';
                 } else if ( !result['isCountryLegal'] ) {
                     errorMessage += '<spring:message code="testzilla.accounts.join.error.country-too-long" text="The length of <strong>Country</strong> must not exceed 24 characters." /><br>';
                 }
                 if ( result['isProvinceEmpty'] ) {
-                    errorMessage += '<spring:message code="testzilla.accounts.join.error.state-empty" text="You can\'t leave <strong>State(Province)</strong> empty." /><br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.state-empty" text="You can&apos;t leave <strong>State(Province)</strong> empty." /><br>';
                 } else if ( !result['isProvinceLegal'] ) {
                     errorMessage += '<spring:message code="testzilla.accounts.join.error.state-too-long" text="The length of <strong>State(Province)</strong> must not exceed 24 characters." /><br>';
                 }
@@ -315,7 +315,7 @@
                     errorMessage += '<spring:message code="testzilla.accounts.join.error.city-too-long" text="The length of <strong>City</strong> must not exceed 24 characters." /><br>';
                 }
                 if ( result['isPhoneEmpty'] ) {
-                    errorMessage += '<spring:message code="testzilla.accounts.join.error.phone-empty" text="You can\'t leave <strong>Phone</strong> empty." /><br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.join.error.phone-empty" text="You can&apos;t leave <strong>Phone</strong> empty." /><br>';
                 } else if ( !result['isPhoneLegal'] ) {
                     errorMessage += '<spring:message code="testzilla.accounts.join.error.phone-invalid" text="The <strong>Phone</strong> seems invalid." /><br>';
                 }

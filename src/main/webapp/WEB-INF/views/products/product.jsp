@@ -393,10 +393,10 @@
                     errorMessage += '<spring:message code="testzilla.products.product.error.hunter-empty" text="Please sign in before reporting an issue." /><br />';
                 }
                 if ( !result['isProductExists'] ) {
-                    errorMessage += '<spring:message code="testzilla.products.product.error.product-not-exist" text="The product isn\'t exists." /><br />';
+                    errorMessage += '<spring:message code="testzilla.products.product.error.product-not-exists" text="The product isn&apos;t exists." /><br />';
                 }
                 if ( result['isProductVersionEmpty'] ) {
-                    errorMessage += '<spring:message code="testzilla.products.product.error.product-version-empty" text="You can\'t leave <strong>Product Version</strong> empty." /><br />';
+                    errorMessage += '<spring:message code="testzilla.products.product.error.product-version-empty" text="You can&apos;t leave <strong>Product Version</strong> empty." /><br />';
                 } else if ( !result['isProductVersionLegal'] ) {
                     errorMessage += '<spring:message code="testzilla.products.product.error.product-version-too-long" text="The length of <strong>Product Version</strong> must not exceed 24 characters." /><br />';
                 }
@@ -407,12 +407,12 @@
                     errorMessage += '<spring:message code="testzilla.products.product.error.severity-empty" text="Please choose the <strong>Severity</strong> of the issue." /><br />';
                 }
                 if ( result['isTitleEmpty'] ) {
-                    errorMessage += '<spring:message code="testzilla.products.product.error.title-empty" text="You can\'t leave <strong>Title</strong> empty." /><br />';
+                    errorMessage += '<spring:message code="testzilla.products.product.error.title-empty" text="You can&apos;t leave <strong>Title</strong> empty." /><br />';
                 } else if ( !result['isTitleLegal'] ) {
                     errorMessage += '<spring:message code="testzilla.products.product.error.title-too-long" text="The length of <strong>Title</strong> must not exceed 64 characters." /><br />';
                 }
                 if ( result['isDescriptionEmpty'] ) {
-                    errorMessage += '<spring:message code="testzilla.products.product.error.description-empty" text="You can\'t leave <strong>Description</strong> empty." /><br />';
+                    errorMessage += '<spring:message code="testzilla.products.product.error.description-empty" text="You can&apos;t leave <strong>Description</strong> empty." /><br />';
                 }
 
                 $('#create-bug-error').html(errorMessage);
