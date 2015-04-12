@@ -451,8 +451,8 @@
         $(function() {
             converter = Markdown.getSanitizingConverter();
             converter.hooks.chain("preBlockGamut", function (text, rbg) {
-                return text.replace(/^ {0,3}""" *\n((?:.*?\n)+?) {0,3}""" *$/gm, function (whole, inner) {
-                    return "<blockquote>" + rbg(inner) + "</blockquote>\n";
+                return text.replace(/^ {0,3}""" *\\n((?:.*?\\n)+?) {0,3}""" *$/gm, function (whole, inner) {
+                    return "<blockquote>" + rbg(inner) + "</blockquote>\\n";
                 });
             });
 
@@ -551,24 +551,24 @@
                 var errorMessage  = '';
 
                 if ( result['isRealNameEmpty'] ) {
-                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.name-empty" text="You can\'t leave <strong>Your Name/Company Name</strong> empty." /><br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.name-empty" text="You can&apos;t leave <strong>Your Name/Company Name</strong> empty." /><br>';
                 } else if ( !result['isRealNameLegal'] ) {
                     errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.name-too-long" text="The length of <strong>Your Name/Company Name</strong> must not exceed 32 characters." /><br>';
                 }
                 if ( result['isEmailEmpty'] ) {
-                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.email-empty" text="You can\'t leave <strong>Email</strong> empty." /><br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.email-empty" text="You can&apos;t leave <strong>Email</strong> empty." /><br>';
                 } else if ( !result['isEmailLegal'] ) {
                     errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.email-invalid" text="The <strong>Email</strong> seems invalid." /><br>';
                 } else if ( result['isEmailExists'] ) {
                     errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.email-already-exists" text="Someone already use that email." /><br>';
                 }
                 if ( result['isCountryEmpty'] ) {
-                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.country-empty" text="You can\'t leave <strong>Country</strong> empty." /><br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.country-empty" text="You can&apos;t leave <strong>Country</strong> empty." /><br>';
                 } else if ( !result['isCountryLegal'] ) {
                     errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.country-too-long" text="The length of <strong>Country</strong> must not exceed 24 characters." /><br>';
                 }
                 if ( result['isProvinceEmpty'] ) {
-                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.state-empty" text="You can\'t leave <strong>State(Province)</strong> empty." /><br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.state-empty" text="You can&apos;t leave <strong>State(Province)</strong> empty." /><br>';
                 } else if ( !result['isProvinceLegal'] ) {
                     errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.state-too-long" text="The length of <strong>State(Province)</strong> must not exceed 24 characters." /><br>';
                 }
@@ -576,7 +576,7 @@
                     errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.city-too-long" text="The length of <strong>City</strong> must not exceed 24 characters." /><br>';
                 }
                 if ( result['isPhoneEmpty'] ) {
-                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.phone-empty" text="You can\'t leave <strong>Phone</strong> empty." /><br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.phone-empty" text="You can&apos;t leave <strong>Phone</strong> empty." /><br>';
                 } else if ( !result['isPhoneLegal'] ) {
                     errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.phone-invalid" text="The <strong>Phone</strong> seems invalid." /><br>';
                 }
@@ -590,7 +590,7 @@
                     errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.new-password-illegal-length" text="The length of <strong>New Password</strong> must between 6 and 16 characters." /><br>';
                 } 
                 if ( !result['isPasswordMatched'] ) {
-                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.new-password-unmatch" text="The new passwords don\'t match." /><br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.new-password-unmatch" text="The new passwords don&apos;t match." /><br>';
                 }
 
                 $('#profile-error').html(errorMessage);
@@ -699,7 +699,7 @@
                                      '    </div> <!-- .content -->' + 
                                      '</div> <!-- .item -->';
             return bugContentTemplate.format(bugTitle, product['productId'], product['productName'], productVersion,
-                                             stripHtml(converter.makeHtml(description.replace(/\\n/g, '\n'))), 
+                                             stripHtml(converter.makeHtml(description.replace(/\\\n/g, '\\n'))), 
                                              bugCategory['bugCategoryName'], bugStatus['bugStatusName'], getTimeElapsed(createTime));
         }
     </script>
@@ -760,7 +760,7 @@
                                      '    </div> <!-- .content -->' + 
                                      '</div> <!-- .item -->';
             return bugContentTemplate.format(bugTitle, product['productId'], product['productName'], productVersion,
-                                             bugId, stripHtml(converter.makeHtml(description.replace(/\\n/g, '\n'))), 
+                                             bugId, stripHtml(converter.makeHtml(description.replace(/\\\n/g, '\\n'))), 
                                              bugCategory['bugCategoryName'], bugSeverity['bugSeverityName'], 
                                              bugStatus['bugStatusName'], getTimeElapsed(createTime));
         }
@@ -809,7 +809,7 @@
                         $('#title', '#issue-modal').val(result['bug']['title']);
                         $('#product-name', '#issue-modal').val(result['bug']['product']['productName']);
                         $('#product-version', '#issue-modal').val(result['bug']['productVersion']);
-                        $('#description', '#issue-modal').html(converter.makeHtml(result['bug']['description'].replace(/\\n/g, '\n')));
+                        $('#description', '#issue-modal').html(converter.makeHtml(result['bug']['description'].replace(/\\\n/g, '\\n')));
 
                         $('#bug-category', '#issue-modal').parent().find('.text').removeClass('default');
                         $('#bug-category', '#issue-modal').parent().find('.text').html(result['bug']['bugCategory']['bugCategoryName']);
@@ -823,7 +823,7 @@
 
                         $('.form', '#issue-modal').removeClass('loading');
                     } else {
-                        alert('<spring:message code="testzilla.accounts.dashboard.alert.issue-not-exists" text="Issue not exists.\nPlease contact webmaster for help." />');
+                        alert('<spring:message code="testzilla.accounts.dashboard.alert.issue-not-exists" text="Issue not exists.\\nPlease contact webmaster for help." />');
                     }
                 }
             });
@@ -879,7 +879,7 @@
                 var errorMessage  = '';
 
                 if ( !result['isAllowedEdit'] ) {
-                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.issue-uneditable" text="You\'re not allowed to edit this issue." /><br>';
+                    errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.issue-uneditable" text="You&apos;re not allowed to edit this issue." /><br>';
                 }
                 if ( result['isStatusEmpty'] ) {
                     errorMessage += '<spring:message code="testzilla.accounts.dashboard.error.bug-status-empty" text="Please choose your <strong>Bug Status</strong>." /><br>';
@@ -1030,7 +1030,7 @@
                     if ( result['isSuccessful'] ) {
                         displayProduct(result['product']);
                     } else {
-                        alert('<spring:message code="testzilla.accounts.dashboard.alert.product-not-exists" text="Product not exists.\nPlease contact webmaster for help." />');
+                        alert('<spring:message code="testzilla.accounts.dashboard.alert.product-not-exists" text="Product not exists.\\nPlease contact webmaster for help." />');
                     }
 
                     $('.form', '#product').removeClass('loading');
@@ -1160,20 +1160,20 @@
                 $('.message', '#product').addClass('error');
 
                 if ( 'hasEnoughCredits' in result && !result['hasEnoughCredits'] ) {
-                    message += '<spring:message code="testzilla.accounts.dashboard.error.create-product-lack-credits" text="You didn\'t have enough credits to create a product." /><br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.create-product-lack-credits" text="You didn&apos;t have enough credits to create a product." /><br>';
                 } 
                 if ( 'isDeveloperEmpty' in result && result['isDeveloperEmpty'] ) {
-                    message += '<spring:message code="testzilla.accounts.dashboard.error.unable-create-product" text="You\'re not allowed to create a product." /><br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.unable-create-product" text="You&apos;re not allowed to create a product." /><br>';
                 } else if ( 'isDeveloperLegal' in result && !result['isDeveloperLegal'] ) {
-                    message += '<spring:message code="testzilla.accounts.dashboard.error.unable-edit-product" text="You\'re not allowed to edit the product." /><br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.unable-edit-product" text="You&apos;re not allowed to edit the product." /><br>';
                 }
                 if ( 'isProductNameEmpty' in result && result['isProductNameEmpty'] ) {
-                    message += '<spring:message code="testzilla.accounts.dashboard.error.product-name-empty" text="You can\'t leave <strong>Product Name</strong> empty." /><br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.product-name-empty" text="You can&apos;t leave <strong>Product Name</strong> empty." /><br>';
                 } else if ( 'isProductNameLegal' in result && !result['isProductNameLegal'] ) {
                     message += '<spring:message code="testzilla.accounts.dashboard.error.product-name-too-long" text="The length of <strong>Product Name</strong> must not exceed 32 characters." /><br>';
                 }
                 if ( 'isProductLogoEmpty' in result && result['isProductLogoEmpty'] ) {
-                    message += '<spring:message code="testzilla.accounts.dashboard.error.product-logo-url-empty" text="You can\'t leave <strong>Product Logo URL</strong> empty." /><br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.product-logo-url-empty" text="You can&apos;t leave <strong>Product Logo URL</strong> empty." /><br>';
                 } else if ( 'isProductLogoLegal' in result && !result['isProductLogoLegal'] ) {
                     message += '<spring:message code="testzilla.accounts.dashboard.error.product-logo-url-too-long" text="The length of <strong>Product Logo URL</strong> must not exceed 128 characters." /><br>';
                 }
@@ -1181,22 +1181,22 @@
                     message += '<spring:message code="testzilla.accounts.dashboard.error.product-category-empty" text="Please choose your <strong>Product Category</strong>." /><br>';
                 }
                 if ( 'isLatestVersionEmpty' in result && result['isLatestVersionEmpty'] ) {
-                    message += '<spring:message code="testzilla.accounts.dashboard.error.lastest-version-empty" text="You can\'t leave <strong>Latest Version</strong> empty." /><br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.latest-version-empty" text="You can&apos;t leave <strong>Latest Version</strong> empty." /><br>';
                 } else if ( 'isLatestVersionLegal' in result && !result['isLatestVersionLegal'] ) {
                     message += '<spring:message code="testzilla.accounts.dashboard.error.latest-version-too-long" text="The length of <strong>Latest Version</strong> must not exceed 24 characters." /><br>';
                 }
                 if ( 'isPrerequisitesEmpty' in result && result['isPrerequisitesEmpty'] ) {
-                    message += '<spring:message code="testzilla.accounts.dashboard.error.prerequisites-empty" text="You can\'t leave <strong>Prerequisites</strong> empty." /><br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.prerequisites-empty" text="You can&apos;t leave <strong>Prerequisites</strong> empty." /><br>';
                 } else if ( 'isPrerequisitesLegal' in result && !result['isPrerequisitesLegal'] ) {
                     message += '<spring:message code="testzilla.accounts.dashboard.error.prerequisites-too-long" text="The length of <strong>Prerequisites</strong> must not exceed 128 characters." /><br>';
                 }
                 if ( 'isProductUrlEmpty' in result && result['isProductUrlEmpty'] ) {
-                    message += '<spring:message code="testzilla.accounts.dashboard.error.product-url-empty" text="You can\'t leave <strong>Product URL</strong> empty." /><br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.product-url-empty" text="You can&apos;t leave <strong>Product URL</strong> empty." /><br>';
                 } else if ( 'isProductUrlLegal' in result && !result['isProductUrlLegal'] ) {
                     message += '<spring:message code="testzilla.accounts.dashboard.error.product-url-too-long" text="The length of <strong>Product URL</strong> must not exceed 256 characters." /><br>';
                 }
                 if ( 'isDescriptionEmpty' in result && result['isDescriptionEmpty'] ) {
-                    message += '<spring:message code="testzilla.accounts.dashboard.error.description-empty" text="You can\'t leave <strong>Description</strong> empty." /><br>';
+                    message += '<spring:message code="testzilla.accounts.dashboard.error.product-description-empty" text="You can&apos;t leave <strong>Description</strong> empty." /><br>';
                 }
             }
 

@@ -18,7 +18,7 @@
                 </c:choose>
                     <a class="item" href="<c:url value="/help" />"><spring:message code="testzilla.include.header.help-center" text="Help Center" /></a>
                     <a class="item" href="<c:url value="/search" />"><i class="fa fa-search"></i> <spring:message code="testzilla.include.header.search" text="Search" /></a>
-                    <div class="ui language floating dropdown link item" id="languages">
+                    <div id="languages" class="ui language floating dropdown link item">
                         <i class="world icon"></i>
                         <div class="text">${language}</div> <!-- .text -->
                         <div class="menu">
@@ -48,8 +48,8 @@
     <!-- JavaScript for Localization -->
     <script type="text/javascript">
         $('#languages').dropdown({
-            onChange: function(value, text, $selectedItem) {
-                var postData = {
+            onChange: function(value) {
+            	var postData = {
                     language: value
                 };
 
