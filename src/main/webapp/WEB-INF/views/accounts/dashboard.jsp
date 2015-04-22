@@ -445,6 +445,7 @@
         $(function() {
             $('.tabular.menu .item', '#content').tab();
             $('.ui.dropdown', '#content').dropdown();
+            $('.ui.dropdown', '.modals').dropdown();
         });
     </script>
     <script type="text/javascript">
