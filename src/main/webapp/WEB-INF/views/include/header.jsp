@@ -49,10 +49,13 @@
     <script type="text/javascript">
         $('#languages').dropdown({
             onChange: function(value) {
+            	if ( typeof(value) == 'undefined' ) {
+            		return;
+            	}
+            	
             	var postData = {
                     language: value
                 };
-
                 $.ajax({
                     type: 'GET',
                     url: '<c:url value="/localization" />',

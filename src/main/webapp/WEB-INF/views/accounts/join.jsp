@@ -193,8 +193,8 @@
     <script type="text/javascript" src="${cdnUrl}/js/country.js"></script>
     <script type="text/javascript">
         $(function() {
-            $('.ui.checkbox').checkbox();
-            $('.ui.dropdown').dropdown();
+            $('.ui.checkbox', '#content').checkbox();
+            $('.ui.dropdown', '#content').dropdown();
         });
     </script>
     <script type="text/javascript">
