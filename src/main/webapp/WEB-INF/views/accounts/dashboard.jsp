@@ -443,8 +443,8 @@
     <script type="text/javascript" src="${cdnUrl}/js/markdown.editor.min.js"></script>
     <script type="text/javascript">
         $(function() {
-            $('.tabular.menu .item').tab();
-            $('.ui.dropdown').dropdown();
+            $('.tabular.menu .item', '#content').tab();
+            $('.ui.dropdown', '#content').dropdown();
         });
     </script>
     <script type="text/javascript">
