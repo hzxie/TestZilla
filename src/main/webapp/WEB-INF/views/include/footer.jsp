@@ -17,9 +17,6 @@
                 <h4><spring:message code="testzilla.include.footer.contact" text="Contact" /></h4>
                 <div class="ui list">
                     <div class="item">
-                        <i class="fa fa-phone"></i> +86-21-1234 5678
-                    </div> <!-- .item -->
-                    <div class="item">
                         <i class="fa fa-envelope"></i> support@testzilla.org
                     </div> <!-- .item -->
                 </div> <!-- .list -->

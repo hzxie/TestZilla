@@ -41,7 +41,14 @@
             <div class="row">
                 <div class="twelve wide column">
                     <div id="main-content">
-                        <div class="ui message info"><spring:message code="testzilla.search.comming-soon" text="Coming Soon!" /></div>
+                        <div class="row">
+                            <div class="column">
+                                <form class="ui icon input fluid" onSumit="return false;">
+                                    <input name="keyword" type="text" />
+                                    <i class="search icon" type="submit"></i>
+                                </form> <!-- .input -->
+                            </div> <!-- .column -->
+                        </div> <!-- .row -->
                     </div> <!-- #main-content -->
                 </div> <!-- .column -->
                 <div class="four wide column">
