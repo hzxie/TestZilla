@@ -16,14 +16,20 @@ public class DigestUtils {
 	 * @return MD5加密后的密码
 	 */
 	public static String md5Hex(String password) {
-		String md5 = null;
+		String md5 = "";
 		if ( password == null || password.isEmpty() ) {
 			return "";
 		}
 		try {
-			MessageDigest digest = MessageDigest.getInstance("MD5");
-			digest.update(password.getBytes(), 0, password.length());
-			md5 = new BigInteger(1, digest.digest()).toString(16);
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			md.update(password.getBytes());
+	 		byte byteData[] = md.digest();
+	 
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < byteData.length; i++) {
+				sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+			}
+			md5 = sb.toString();
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
