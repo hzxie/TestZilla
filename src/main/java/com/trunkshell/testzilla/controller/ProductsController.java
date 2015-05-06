@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,10 +39,12 @@ public class ProductsController {
 	/**
 	 * 显示待测试的产品页面.
 	 * @param request - HttpRequest对象
+	 * @param response - HttpResponse对象
 	 * @return 一个包含待测试的产品列表内容的ModelAndView对象
 	 */
 	@RequestMapping(value = "", method = RequestMethod.GET)
-    public ModelAndView productsView(HttpServletRequest request) {
+    public ModelAndView productsView(
+    		HttpServletRequest request, HttpServletResponse response) {
 		List<ProductCategory> categories = getProductCategories();
 		
 		ModelAndView view = new ModelAndView("products/products");
@@ -123,12 +126,13 @@ public class ProductsController {
 	 * 显示产品详细信息页面.
 	 * @param productId - 产品的唯一标识符
 	 * @param request - HttpRequest请求
+	 * @param response - HttpResponse对象
 	 * @return 一个包含产品详细信息的ModelAndView对象
 	 */
 	@RequestMapping(value = "/{productId}")
 	public ModelAndView productView(
 			@PathVariable("productId") int productId,
-    		HttpServletRequest request) {
+    		HttpServletRequest request, HttpServletResponse response) {
 		Product product = productService.getProductsUsingProductId(productId);
 		if ( product == null ) {
 			throw new ResourceNotFoundException();

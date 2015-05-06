@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,11 +27,12 @@ public class LeaderboardController {
 	/**
 	 * 加载排行榜页面.
 	 * @param request - HttpRequest对象
+	 * @param response - HttpResponse对象
      * @return 一个包含登录页内容的ModelAndView对象
 	 */
 	@RequestMapping(value = "", method = RequestMethod.GET)
     public ModelAndView leaderBoardView(
-    		HttpServletRequest request) {
+    		HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView view = new ModelAndView("leaderboard/leaderboard");
 		return view;
 	}

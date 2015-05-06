@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.Logger;
@@ -37,12 +38,13 @@ public class AccountsController {
 	/**
 	 * 加载用户登录页面.
 	 * @param request - HttpRequest对象
+	 * @param response - HttpResponse对象
      * @return 一个包含登录页内容的ModelAndView对象
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView loginView(
     		@RequestParam(value="logout", required=false, defaultValue="false") boolean isLogout,
-    		HttpServletRequest request) {
+    		HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		if ( isLogout ) {
             destroySession(request, session);
@@ -122,11 +124,13 @@ public class AccountsController {
  
     /**
      * 显示用户的注册页面
-     * @param request - Http Servlet Request对象
+     * @param request - HttpRequest对象
+     * @param response - HttpResponse对象
      * @return 包含注册页面信息的ModelAndView对象
      */
     @RequestMapping(value = "/join", method = RequestMethod.GET)
-    public ModelAndView registerView(HttpServletRequest request) {
+    public ModelAndView registerView(
+    		HttpServletRequest request, HttpServletResponse response) {
     	ModelAndView view = null;
         if ( isLoggedIn(request.getSession()) ) {
             view = new ModelAndView("redirect:/");
@@ -200,13 +204,14 @@ public class AccountsController {
      * @param email - 待验证的电子邮件地址
      * @param code - 随机生成的验证字符串 
      * @param request - HttpRequest对象
+     * @param response - HttpResponse对象
      * @return 包含验证电子邮件页面信息的ModelAndView对象
      */
     @RequestMapping(value = "/verifyEmail", method = RequestMethod.GET)
     public ModelAndView verifyEmailView(
     		@RequestParam(value="email", required=false) String email,
             @RequestParam(value="code", required=false) String code,
-    		HttpServletRequest request) {
+    		HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		User currentUser = HttpSessionParser.getCurrentUser(session);
     	ModelAndView view = null;
@@ -234,13 +239,14 @@ public class AccountsController {
      * @param email - 待重置用户的电子邮件地址
      * @param code - 随机生成的验证字符串
      * @param request - HttpRequest对象
+     * @param response - HttpResponse对象
      * @return 包含重置密码页面信息的ModelAndView对象
      */
     @RequestMapping(value = "/resetPassword", method = RequestMethod.GET)
     public ModelAndView resetPasswordView(
     		@RequestParam(value="email", required=false) String email,
             @RequestParam(value="code", required=false) String code,
-    		HttpServletRequest request) {
+    		HttpServletRequest request, HttpServletResponse response) {
     	ModelAndView view = new ModelAndView("accounts/resetPassword");
     	return view;
     }
@@ -248,10 +254,12 @@ public class AccountsController {
     /**
      * 显示用户控制面板.
      * @param request - HttpRequest对象
+     * @param response - HttpResponse对象
      * @return 包含用户控制面板页面信息的ModelAndView对象
      */
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-    public ModelAndView dashboardView(HttpServletRequest request) {
+    public ModelAndView dashboardView(
+    		HttpServletRequest request, HttpServletResponse response) {
     	HttpSession session = request.getSession();
     	User currentUser = HttpSessionParser.getCurrentUser(session);
     	ModelAndView view = null;
