@@ -6,7 +6,7 @@
 <html lang="${language}">
 <head>
     <meta charset="UTF-8">
-    <title><spring:message code="testzilla.errors.404.title" text="Page Not Found" /> | TestZilla</title>
+    <title><spring:message code="testzilla.errors.500.title" text="Internal Server Error" /> | TestZilla</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="谢浩哲">
@@ -28,11 +28,11 @@
     <div id="content" class="ui page stackable grid">
         <div class="two column row">
             <div class="column">
-                <img src="${cdnUrl}/img/errors/404.png" alt="Error" />
+                <img src="${cdnUrl}/img/errors/error.png" alt="Error" />
             </div> <!-- .column -->
             <div id="error" class="column">
-                <h2><spring:message code="testzilla.errors.404.page-not-found" text="Page Not Found" /></h2>
-                <p><spring:message code="testzilla.errors.404.message" text="We can't find what you're looking for..." /></p>
+                <h2><spring:message code="testzilla.errors.500.internal-server-error" text="Internal Server Error" /></h2>
+                <p><spring:message code="testzilla.errors.500.message" text="The requested URL caused an internal server error." /></p>
                 <button class="ui primary button" onclick="history.go(-1);"><i class="fa fa-arrow-left"></i> <spring:message code="testzilla.errors.action" text="Go Back" /></button>
             </div> <!-- .column -->
         </div> <!-- .row -->

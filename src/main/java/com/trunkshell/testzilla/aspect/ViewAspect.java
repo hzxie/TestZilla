@@ -34,7 +34,7 @@ public class ViewAspect {
 		HttpSession session = request.getSession();
 		
 		view = (ModelAndView) proceedingJoinPoint.proceed();
-		view.addObject("language", getUserLanguage(session));
+		view.addObject("language", getUserLanguage(request, session));
 		
 		boolean isLoggedIn = isLoggedIn(session);
 		if ( isLoggedIn ) {
