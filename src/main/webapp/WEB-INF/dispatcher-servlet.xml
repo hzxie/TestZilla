@@ -93,11 +93,15 @@
         <property name="basename" value="classpath:localization/testzilla" />
         <property name="defaultEncoding" value="UTF-8" />
     </bean>
-    <mvc:interceptors>
-        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-            <property name="paramName" value="language" />
-        </bean>
-    </mvc:interceptors>
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<property name="defaultLocale" value="" />
+	</bean>
+	<mvc:interceptors>
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<property name="paramName" value="language" />
+		</bean>
+	</mvc:interceptors>
 
 	<!-- Mail Service -->
 	<bean id="velocityEngine"
