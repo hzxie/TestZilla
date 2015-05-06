@@ -10,9 +10,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.trunkshell.testzilla.model.User;
 import com.trunkshell.testzilla.service.UserService;
@@ -100,8 +98,6 @@ public class ViewAspect {
 		Locale locale = request.getLocale();
 		return locale;
 	}
-	
-	
 	
 	/**
 	 * 检查用户是否已经登录.
