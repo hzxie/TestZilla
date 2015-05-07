@@ -28,7 +28,7 @@
     <div id="content" class="ui page stackable grid">
         <div class="two column row">
             <div class="column">
-                <img src="${cdnUrl}/img/errors/404.png" alt="Error" />
+                <img src="${cdnUrl}/img/errors/error.png" alt="Error" />
             </div> <!-- .column -->
             <div id="error" class="column">
                 <h2><spring:message code="testzilla.errors.404.page-not-found" text="Page Not Found" /></h2>
