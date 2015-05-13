@@ -1,6 +1,6 @@
 ![TestZilla](https://raw.githubusercontent.com/zjhzxhz/TestZilla/master/src/main/webapp/assets/img/logo.png)
 
-Version: 1.0.0 (Under Development)
+Version: 1.0.0
 
 [![Build Status](https://travis-ci.org/zjhzxhz/TestZilla.png?branch=master)](https://travis-ci.org/zjhzxhz/TestZilla)
 
