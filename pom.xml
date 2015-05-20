@@ -4,11 +4,11 @@
 	<groupId>com.trunkshell</groupId>
 	<artifactId>testzilla</artifactId>
 	<packaging>war</packaging>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>TestZilla Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
-		<spring.version>4.1.5.RELEASE</spring.version>
+		<spring.version>4.1.6.RELEASE</spring.version>
 		<aspectj.version>1.8.5</aspectj.version>
 		<hibernate.version>4.3.8.Final</hibernate.version>
 		<druid.version>1.0.13</druid.version>
@@ -156,6 +156,7 @@
 	</dependencies>
 	<build>
 		<finalName>TestZilla</finalName>
+		<plugins>
 		<!-- Eclipse project -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
