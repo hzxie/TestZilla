@@ -12,14 +12,13 @@ Version: 1.0.0
 
 ### Introduction
 
-TestZilla is a crowd test platform based on [Spring MVC Framework](http://spring.io).
+TestZilla is a crowd test platform based on [Phalcon Framework](http://phalconphp.com).
 
 We're aimed to build a global crowd testing system for all platforms.
 
 The application used following components:
 
- - [Spring](http://spring.io) MVC Famework
- - [Druid](https://github.com/alibaba/druid/) Database Connection Pool
+ - [Phalcon](http://phalconphp.com) Famework
 
 ### License
 
