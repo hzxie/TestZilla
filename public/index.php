@@ -21,7 +21,7 @@ try {
      * The version of the application.
      * WARNING: Please DO NOT change it.
      */
-    define('APP_VERSION', '0.1.0');
+    define('APP_VERSION', '2.0.0');
 
     /**
      * Read the configuration
