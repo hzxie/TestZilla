@@ -56,6 +56,21 @@ div#footer::before {
 	content: '';
 }
 
+div#footer h5 {
+	margin-top: 0;
+}
+
+div#footer a {
+	color: #fff;
+}
+
+div#footer ul {
+	color: #fff;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
 /* Smaller than standard 960 (devices and browsers) */
 @media only screen and (max-width: 959px) {
 }

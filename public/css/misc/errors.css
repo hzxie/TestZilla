@@ -1,0 +1,14 @@
+div#content div#error-message {
+	padding-top: 180px;
+}
+
+div#footer {
+	margin-top: 20px;
+}
+
+/* All Mobile Sizes (devices and browser) */
+@media only screen and (max-width: 767px) {
+	div#content div#error-message {
+		padding-top: 0;
+	}
+}

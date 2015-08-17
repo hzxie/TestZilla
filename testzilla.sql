@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-08-16 16:19:45
+-- Generation Time: 2015-08-17 16:44:50
 -- 服务器版本： 5.6.24
 -- PHP Version: 5.6.8
 
@@ -156,19 +156,24 @@ INSERT INTO `tz_mail_verification` (`email`, `code`) VALUES
 CREATE TABLE IF NOT EXISTS `tz_options` (
   `option_id` int(8) NOT NULL,
   `option_key` varchar(32) NOT NULL,
-  `option_value` text NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+  `option_value` text NOT NULL,
+  `is_autoload` tinyint(1) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `tz_options`
 --
 
-INSERT INTO `tz_options` (`option_id`, `option_key`, `option_value`) VALUES
-(1, 'websiteName', 'TestZilla'),
-(2, 'description', ''),
-(3, 'copyright', ''),
-(4, 'googleAnalyticsCode', ''),
-(8, 'SensitiveWords', '[]');
+INSERT INTO `tz_options` (`option_id`, `option_key`, `option_value`, `is_autoload`) VALUES
+(1, 'websiteName', 'TestZilla', 1),
+(2, 'description', '', 1),
+(3, 'copyright', '<a href="http://www.testzilla.org">TestZilla</a>', 1),
+(4, 'googleAnalyticsCode', '', 1),
+(5, 'contactAddress', '', 1),
+(6, 'contactPhone', '', 1),
+(7, 'contactEmail', 'support@testzilla.org', 1),
+(8, 'socialLinks', '{}', 1),
+(9, 'SensitiveWords', '[]', 0);
 
 -- --------------------------------------------------------
 
@@ -436,7 +441,7 @@ ALTER TABLE `tz_bug_status`
 -- AUTO_INCREMENT for table `tz_options`
 --
 ALTER TABLE `tz_options`
-  MODIFY `option_id` int(8) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+  MODIFY `option_id` int(8) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `tz_points_logs`
 --

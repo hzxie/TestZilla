@@ -8,10 +8,10 @@
             </div> <!-- #logo -->
             <div id="nav" class="span8">
                 <ul class="inline">
-                    <li><a href="<?php echo $this->url->get(''); ?>">Home</a></li>
-                    <li><a href="<?php echo $this->url->get('products'); ?>">Products</a></li>
-                    <li><a href="<?php echo $this->url->get('contests'); ?>">Contests</a></li>
-                    <li><button class="btn btn-primary" onclick="window.location.href='<?php echo $this->url->get('accounts/signin'); ?>'">Sign in</button></li>
+                    <li><a href="<?php echo $this->url->get(''); ?>"><?php echo $localization['layout.home']; ?></a></li>
+                    <li><a href="<?php echo $this->url->get('products'); ?>"><?php echo $localization['layout.products']; ?></a></li>
+                    <li><a href="<?php echo $this->url->get('contests'); ?>"><?php echo $localization['layout.contests']; ?></a></li>
+                    <li><button class="btn btn-primary" onclick="window.location.href='<?php echo $this->url->get('accounts/signin'); ?>'"><?php echo $localization['layout.sign-in']; ?></button></li>
                 </ul>
             </div> <!-- #nav -->
         </div> <!-- .row-fluid -->
@@ -24,13 +24,23 @@
     <div class="container">
         <div class="row-fluid">
             <div class="span3">
-                <p>Block A</p>
+                <h5><?php echo $localization['layout.terms-and-privacy']; ?></h5>
+                <ul>
+                    <li><a href="<?php echo $this->url->get('terms'); ?>"><?php echo $localization['layout.terms']; ?></a></li>
+                    <li><a href="<?php echo $this->url->get('privacy'); ?>"><?php echo $localization['layout.privacy']; ?></a></li>
+                </ul>
             </div> <!-- .span3 -->
             <div class="span3">
-                <p>Block B</p>
+                <h5><?php echo $localization['layout.contact-us']; ?></h5>
+                <ul>
+                    <li><i class="fa fa-envelope"></i> <a href="mailto:support@testzilla.org">support@testzilla.org</a></li>
+                </ul>
             </div> <!-- .span3 -->
             <div class="span6">
-                <p>Block C</p>
+                <h5><?php echo $localization['layout.stay-connected']; ?></h5>
+                <ul class="inline">
+                    <li></li>
+                </ul>
             </div> <!-- .span6 -->
         </div> <!-- .row-fluid -->
     </div> <!-- .container -->

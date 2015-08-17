@@ -46,6 +46,10 @@ $router->add('/not-supported', array(
 ));
 
 /* Routers for AccountsController */
+$router->add('/accounts/signin', array(
+    'controller' => 'accounts',
+    'action'     => 'signInView',
+));
 $router->add('/accounts/signin.action', array(
     'controller' => 'accounts',
     'action'     => 'signIn',

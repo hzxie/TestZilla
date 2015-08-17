@@ -28,6 +28,10 @@ div#content div#hero form#sign-up-form {
 	padding: 40px 0;
 }
 
+div#content div#hero form#sign-up-form a {
+	color: #dedede;
+}
+
 div#content div#news {
 	padding: 40px 0;
 }

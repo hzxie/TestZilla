@@ -1,1 +1,71 @@
-HomePage
+    <?php echo Phalcon\Tag::stylesheetLink("${cdnUrl}/css/misc/homepage.css"); ?>
+	<div id="hero">
+            <div class="container">
+                <div class="row-fluid">
+                    <div class="span8">
+                        <h1 class="heading">
+                            <?php echo $localization['default.index.slogan']; ?>
+                        </h1>
+                    </div> <!-- .span8 -->
+                    <div class="span4">
+                        <form id="sign-up-form" onSubmit="return false;">
+                            <p class="control-group">
+                                <input id="username" class="span12" type="text" placeholder="<?php echo $localization['default.index.username']; ?>" />
+                            </p>
+                            <p class="control-group">
+                                <input id="email" class="span12" type="text" placeholder="<?php echo $localization['default.index.email']; ?>" />
+                            </p>
+                            <p class="control-group">
+                                <input id="password" class="span12" type="password" placeholder="<?php echo $localization['default.index.password']; ?>" />
+                            </p>
+                            <p>
+                            	<input id="csrf-token" type="hidden" />
+                                <button class="btn btn-inverse btn-block"><?php echo $localization['default.index.sign-up']; ?></button>
+                            </p>
+                            <p><?php echo str_replace(array('%termsUrl%', '%privacyUrl%'), array($this->url->get('terms'), $this->url->get('privacy')), $localization['default.index.agreen-terms']); ?></p>
+                        </form>
+                    </div> <!-- .span4 -->
+                </div> <!-- .row-fluid -->
+            </div> <!-- .container -->
+        </div> <!-- #hero -->
+        <div id="news">
+            <div class="container">
+                <div class="row-fluid">
+                    <div class="span6">
+                        <h4><?php echo $localization['default.index.partner-of-netease']; ?></h4>
+                        <p>
+                        	<?php echo $localization['default.index.software-testing-technology']; ?><br>
+                        	<a href="http://mooc.study.163.com/course/Tongji-1000002019" target="_blank"><?php echo $localization['default.index.learn-more']; ?></a>
+                        </p>
+                    </div> <!-- .span6 -->
+                    <div class="span6">
+                        <h4><?php echo $localization['default.index.new-version-of-testzilla']; ?></h4>
+                        <p>
+                        	<?php echo $localization['default.index.better-experience']; ?><br>
+                        	<a href="https://github.com/zjhzxhz/TestZilla/commits/master" target="_blank"><?php echo $localization['default.index.change-log']; ?></a>
+                        </p>
+                    </div> <!-- .span6 -->
+                </div> <!-- .row-fluid -->
+            </div> <!-- .container -->
+        </div> <!-- #news -->
+        <div id="introduction">
+            <div class="container">
+                <h3><?php echo $localization['default.index.what-is-testzilla']; ?></h3>
+                <div class="row-fluid">
+                    <div class="span4">
+                        <i class="fa fa-wrench"></i>
+                        <h4><?php echo $localization['default.index.best-tool']; ?></h4>
+                    </div> <!-- .span4 -->
+                    <div class="span4">
+                        <i class="fa fa-users"></i>
+                        <h4><?php echo $localization['default.index.voice-from-users']; ?></h4>
+                    </div> <!-- .span4 -->
+                    <div class="span4">
+                        <i class="fa fa-rocket"></i>
+                        <h4><?php echo $localization['default.index.easier-testing']; ?></h4>
+                    </div> <!-- .span4 -->
+                </div> <!-- .row-fluid -->
+            </div> <!-- .container -->
+        </div> <!-- #introduction -->
+        <div id="footer-canvas">
+        </div> <!-- #footer-canvas -->

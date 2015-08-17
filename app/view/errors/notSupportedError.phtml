@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="<?php echo $language; ?>">
+<head>
+    <meta charset="UTF-8">
+    <?php echo Phalcon\Tag::getTitle(); ?>
+    <meta name="robots" content="noindex">
+    <meta name="author" content="谢浩哲">
+    <!-- Icon -->
+    <link rel="shortcut icon" href="<?php echo $cdnUrl; ?>/favicon.ico" />
+    <!-- StyleSheets -->
+    <style type="text/css">
+        body {
+            margin: 50px;
+            font: 13px arial,sans-serif;
+        }
+
+        a {
+            color:#0152A6;
+            cursor:pointer;
+            outline:medium none;
+            text-decoration:none;
+        }
+
+        a img {
+            border: 0;
+        }
+
+        h1 {
+            font-size: 17px;
+        }
+
+        .footer {
+            font-size: 13px;
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <img src="<?php echo $cdnUrl; ?>img/logo.jpg" alt="Logo" />
+    <h1><?php echo $localization['errors.not-supported.browser-not-supported']; ?></h1>
+    <p><?php echo str_replace(array('%WebsiteName%', '%URL%'), array($websiteName, $this->url->get('help#browsers')), $localization['errors.not-supported.message']); ?></p>
+    <table width="650px" cellpadding="5">
+        <tbody>
+            <tr>
+                <td align="center" valign="center" width="120px">
+                    <a href="http://www.google.com/chrome/">
+                        <img src="<?php echo $cdnUrl; ?>img/browsers/chrome.jpg" alt="Chrome" />
+                    </a>
+                </td>
+                <td align="center" valign="center" width="120px">
+                    <a href="http://www.mozilla.com/firefox/">
+                        <img src="<?php echo $cdnUrl; ?>img/browsers/firefox.jpg" alt="Firefox" />
+                    </a>
+                </td>
+                <td align="center" valign="center" width="120px">
+                    <a href="http://www.microsoft.com/windows/internet-explorer/default.aspx">
+                        <img src="<?php echo $cdnUrl; ?>img/browsers/ie.jpg" alt="IE" />
+                    </a>
+                </td>
+                <td align="center" valign="center" width="120px">
+                    <a href="http://www.opera.com/">
+                        <img src="<?php echo $cdnUrl; ?>img/browsers/opera.jpg" alt="Opera" />
+                    </a>
+                </td>
+                <td align="center" valign="center" width="120px">
+                    <a href="http://www.apple.com/safari/download/">
+                        <img src="<?php echo $cdnUrl; ?>img/browsers/safari.jpg" alt="Safari" />
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" valign="top"><a href="http://www.google.com/chrome/?hl=${language}"><?php echo $localization['errors.not-supported.download']; ?> Google Chrome</a></td>
+                <td align="center" valign="top"><a href="http://www.mozilla.com/firefox/"><?php echo $localization['errors.not-supported.download']; ?> Firefox</a></td>
+                <td align="center" valign="top"><a href="http://www.microsoft.com/windows/internet-explorer/default.aspx"><?php echo $localization['errors.not-supported.download']; ?> Internet Explorer</a></td>
+                <td align="center" valign="top"><a href="http://www.opera.com/"><?php echo $localization['errors.not-supported.download']; ?> Opera</a></td>
+                <td align="center" valign="top"><a href="http://www.apple.com/safari/download/"><?php echo $localization['errors.not-supported.download']; ?> Safari</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="footer">&copy;<?php echo date('Y'); ?> <?php echo $copyright; ?></div>
+</body>
+</html>
