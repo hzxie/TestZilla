@@ -38,6 +38,10 @@ $messages = array(
     'default.index.voice-from-users'                => 'Voice from Users',
     'default.index.easier-testing'                  => 'Testing Never Becomes Easier',
     'default.index.please-wait'                     => 'Please wait...',
+    # accounts/signIn.phtml
+    'accounts.signin.title'                         => 'Sign In',
+    # accounts/signUp.phtml
+    'accounts.signup.title'                         => 'Sign Up',
     # errors/resourceNotFound.phtml
     'errors.404.title'                              => 'Page Not Found',
     'errors.404.page-not-found'                     => 'Page Not Found!',

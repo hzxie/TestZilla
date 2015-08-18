@@ -38,6 +38,10 @@ $messages = array(
     'default.index.voice-from-users'                => '来自用户的声音',
     'default.index.easier-testing'                  => '测试从未变得如此简单',
     'default.index.please-wait'                     => '请稍后...',
+    # accounts/signIn.phtml
+    'accounts.signin.title'                         => '登录',
+    # accounts/signUp.phtml
+    'accounts.signup.title'                         => '注册',
     # errors/resourceNotFound.phtml
     'errors.404.title'                              => '页面未找到',
     'errors.404.page-not-found'                     => '页面未找到!',

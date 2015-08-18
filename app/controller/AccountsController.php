@@ -22,10 +22,17 @@ class AccountsController extends BaseController {
     }
 
     /**
+     * Render to sign in page.
+     */
+    public function signInAction() {
+        $this->tag->prependTitle($this->localization['accounts.signin.title']);
+    }
+
+    /**
      * Handle the sign in requests.
      * @return a HTTP response object with JSON
      */
-    public function signInAction() {
+    public function doSignInAction() {
         $ipAddress   = $this->request->getClientAddress();
         $username    = $this->request->getPost('username');
         $password    = $this->request->getPost('password');
@@ -84,10 +91,22 @@ class AccountsController extends BaseController {
     }
 
     /**
+     * Render to sign up page.
+     */
+    public function signUpAction() {
+        $username               = $this->request->getPost('username');
+        $password               = $this->request->getPost('password');
+        $email                  = $this->request->getPost('email');
+        $result                 = $this->request->getPost('result');
+
+        $this->tag->prependTitle($this->localization['accounts.signup.title']);
+    }
+
+    /**
      * Handle the sign up requests.
      * @return a HTTP response object with JSON
      */
-    public function signUpAction() {
+    public function doSignUpAction() {
         $ipAddress              = $this->request->getClientAddress();
         $username               = $this->request->getPost('username');
         $password               = $this->request->getPost('password');

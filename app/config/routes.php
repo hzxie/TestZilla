@@ -40,15 +40,19 @@ $router->add('/not-supported', array(
 /* Routers for AccountsController */
 $router->add('/accounts/signin', array(
     'controller' => 'accounts',
-    'action'     => 'signInView',
+    'action'     => 'signIn',
 ));
 $router->add('/accounts/signin.action', array(
     'controller' => 'accounts',
-    'action'     => 'signIn',
+    'action'     => 'doSignIn',
+));
+$router->add('/accounts/signup', array(
+    'controller' => 'accounts',
+    'action'     => 'signUp',
 ));
 $router->add('/accounts/signup.action', array(
     'controller' => 'accounts',
-    'action'     => 'signUp',
+    'action'     => 'doSignUp',
 ));
 $router->add('/accounts/signout.action', array(
     'controller' => 'accounts',
