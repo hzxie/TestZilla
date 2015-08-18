@@ -87,7 +87,6 @@ class AccountsController extends BaseController {
      */
     public function signUpAction() {
         $ipAddress              = $this->request->getClientAddress();
-        $fullName               = $this->request->getPost('fullName');
         $username               = $this->request->getPost('username');
         $password               = $this->request->getPost('password');
         $email                  = $this->request->getPost('email');

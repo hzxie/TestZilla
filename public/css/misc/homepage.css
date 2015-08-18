@@ -1,0 +1,64 @@
+div#content div#hero {
+	background-color: #22b8eb;
+	background-image: url('../../img/hero.png');
+	background-position: bottom left;
+	background-repeat: no-repeat;
+	background-size: auto;
+	color: #fff;
+	position: relative;
+}
+
+div#content div#hero::after {
+	background: url('../../img/hero-wave.svg') repeat-x;
+	height: 16px;
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	content: '';
+}
+
+div#content div#hero h1.heading {
+	font-size: 60px;
+	line-height: 120%;
+	padding: 40px 0 0;
+}
+
+div#content div#hero form#sign-up-form {
+	padding: 40px 0;
+}
+
+div#content div#hero form#sign-up-form a {
+	color: #dedede;
+}
+
+div#content div#news {
+	padding: 40px 0;
+}
+
+div#content div#introduction {
+	background: #134a6a;
+	color: #fff;
+	text-align: center;
+	padding: 40px 0;
+}
+
+div#content div#introduction h3 {
+	margin-bottom: 20px;
+}
+
+div#content div#introduction h4 {
+	margin-top: 20px;
+}
+
+div#content div#introduction i.fa {
+	font-size: 96px;
+}
+
+div#content div#footer-canvas {
+	background-image: url('../../img/footer.png');
+	background-position: bottom center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 600px;
+}

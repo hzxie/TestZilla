@@ -1,0 +1,109 @@
+html, body {
+	background-color: #fff;
+	font-family: "Microsoft YaHei", "Segoe UI Light", "Segoe UI";
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	text-decoration: none;
+}
+
+button {
+	font-family: "Microsoft YaHei", "Segoe UI Light", "Segoe UI";
+}
+
+div.container {
+	width: 960px;
+}
+
+div#header {
+	padding: 15px 0;
+}
+
+div#header div#logo img {
+	height: 48px;
+	max-height: 48px;
+}
+
+div#header div#nav {
+	padding-top: 8px;
+	text-align: right;
+}
+
+div#header div#nav ul.inline button {
+	background-color: #86d801;
+}
+
+div#header div#nav ul.inline button:hover {
+	background-color: #fa8000;
+}
+
+div#footer {
+	background: #243137;
+	color: #fff;
+	padding: 40px 0;
+	position: relative;
+}
+
+div#footer::before {
+	background: url('../img/footer-wave.svg') repeat-x;
+	height: 16px;
+	width: 100%;
+	position: absolute;
+	top: -16px;
+	left: 0;
+	content: '';
+}
+
+div#footer h5 {
+	margin-top: 0;
+}
+
+div#footer a {
+	color: #fff;
+}
+
+div#footer ul {
+	color: #fff;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+/* Smaller than standard 960 (devices and browsers) */
+@media only screen and (max-width: 959px) {
+}
+
+/* Tablet Portrait size to standard 960 (devices and browsers) */
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+	div.container {
+		width: 768px;
+	}
+}
+
+/* All Mobile Sizes (devices and browser) */
+@media only screen and (max-width: 767px) {
+	div#header div#logo {
+		text-align: center;
+	}
+
+	div#header div#nav {
+		margin-top: 20px;
+		text-align: center;
+	}
+}
+
+/* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+	div.container {
+		width: 480px;
+	}
+}
+
+/* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
+@media only screen and (max-width: 479px) {
+	div.container {
+		width: 300px;
+	}
+}
