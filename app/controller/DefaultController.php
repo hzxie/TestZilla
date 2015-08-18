@@ -26,6 +26,22 @@ class DefaultController extends BaseController {
     }
 
     /**
+     * Change the language of view.
+     * @return whether the operation is successful
+     */
+    public function changeLanguageAction() {
+        $language    = $this->request->get('language');
+        $this->session->set('language', $language);
+        
+        $result      = array(
+            'isSuccessful'  => true,
+        );
+        $response    = new Response();
+        $response->setContent(json_encode($result));
+        return $response;
+    }
+
+    /**
      * Get CSRF token for Ajax request.
      * @return a HTTP response object with JSON
      */

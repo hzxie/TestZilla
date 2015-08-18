@@ -1,10 +1,10 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.3
+-- version 4.4.11
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-08-17 16:44:50
--- 服务器版本： 5.6.24
+-- Generation Time: Aug 18, 2015 at 05:07 上午
+-- Server version: 5.6.24
 -- PHP Version: 5.6.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `testzilla`
@@ -23,7 +23,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- 表的结构 `tz_bugs`
+-- Table structure for table `tz_bugs`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_bugs` (
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `tz_bugs` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1003 DEFAULT CHARSET=utf8;
 
 --
--- 转存表中的数据 `tz_bugs`
+-- Dumping data for table `tz_bugs`
 --
 
 INSERT INTO `tz_bugs` (`bug_id`, `product_id`, `product_version`, `bug_category_id`, `bug_status_id`, `bug_severity_id`, `bug_create_time`, `bug_hunter_id`, `bug_title`, `bug_description`, `bug_screenshots`) VALUES
@@ -52,7 +52,7 @@ INSERT INTO `tz_bugs` (`bug_id`, `product_id`, `product_version`, `bug_category_
 -- --------------------------------------------------------
 
 --
--- 表的结构 `tz_bug_categories`
+-- Table structure for table `tz_bug_categories`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_bug_categories` (
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `tz_bug_categories` (
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
--- 转存表中的数据 `tz_bug_categories`
+-- Dumping data for table `tz_bug_categories`
 --
 
 INSERT INTO `tz_bug_categories` (`bug_category_id`, `bug_category_slug`, `bug_category_name`) VALUES
@@ -82,7 +82,7 @@ INSERT INTO `tz_bug_categories` (`bug_category_id`, `bug_category_slug`, `bug_ca
 -- --------------------------------------------------------
 
 --
--- 表的结构 `tz_bug_severities`
+-- Table structure for table `tz_bug_severities`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_bug_severities` (
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `tz_bug_severities` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
--- 转存表中的数据 `tz_bug_severities`
+-- Dumping data for table `tz_bug_severities`
 --
 
 INSERT INTO `tz_bug_severities` (`bug_severity_id`, `bug_severity_slug`, `bug_severity_name`, `bug_severity_description`) VALUES
@@ -105,7 +105,7 @@ INSERT INTO `tz_bug_severities` (`bug_severity_id`, `bug_severity_slug`, `bug_se
 -- --------------------------------------------------------
 
 --
--- 表的结构 `tz_bug_status`
+-- Table structure for table `tz_bug_status`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_bug_status` (
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `tz_bug_status` (
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
--- 转存表中的数据 `tz_bug_status`
+-- Dumping data for table `tz_bug_status`
 --
 
 INSERT INTO `tz_bug_status` (`bug_status_id`, `bug_status_slug`, `bug_status_name`) VALUES
@@ -132,7 +132,7 @@ INSERT INTO `tz_bug_status` (`bug_status_id`, `bug_status_slug`, `bug_status_nam
 -- --------------------------------------------------------
 
 --
--- 表的结构 `tz_mail_verification`
+-- Table structure for table `tz_mail_verification`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_mail_verification` (
@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `tz_mail_verification` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- 转存表中的数据 `tz_mail_verification`
+-- Dumping data for table `tz_mail_verification`
 --
 
 INSERT INTO `tz_mail_verification` (`email`, `code`) VALUES
@@ -150,7 +150,7 @@ INSERT INTO `tz_mail_verification` (`email`, `code`) VALUES
 -- --------------------------------------------------------
 
 --
--- 表的结构 `tz_options`
+-- Table structure for table `tz_options`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_options` (
@@ -161,24 +161,24 @@ CREATE TABLE IF NOT EXISTS `tz_options` (
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
--- 转存表中的数据 `tz_options`
+-- Dumping data for table `tz_options`
 --
 
 INSERT INTO `tz_options` (`option_id`, `option_key`, `option_value`, `is_autoload`) VALUES
-(1, 'websiteName', 'TestZilla', 1),
-(2, 'description', '', 1),
-(3, 'copyright', '<a href="http://www.testzilla.org">TestZilla</a>', 1),
-(4, 'googleAnalyticsCode', '', 1),
-(5, 'contactAddress', '', 1),
-(6, 'contactPhone', '', 1),
-(7, 'contactEmail', 'support@testzilla.org', 1),
-(8, 'socialLinks', '{}', 1),
-(9, 'SensitiveWords', '[]', 0);
+(1, 'WebsiteName', 'TestZilla', 1),
+(2, 'Description', 'Crowd Test Platform Based on Phalcon Framework.', 1),
+(3, 'Copyright', '<a href="http://www.testzilla.org">TestZilla</a>', 1),
+(4, 'GoogleAnalyticsCode', '<script type="text/javascript">   (function(i,s,o,g,r,a,m){i[''GoogleAnalyticsObject'']=r;i[r]=i[r]||function(){   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)   })(window,document,''script'',''//www.google-analytics.com/analytics.js'',''ga'');    ga(''create'', ''UA-56635442-3'', ''auto'');   ga(''send'', ''pageview'');  </script>', 1),
+(5, 'ContactAddress', '', 1),
+(6, 'ContactPhone', '', 1),
+(7, 'ContactEmail', 'support@testzilla.org', 1),
+(8, 'SocialLinks', '{}', 1),
+(9, 'SensitiveWords', '["法轮","中央","六四","军区","共产党","国民党"]', 0);
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `tz_points_logs`
+-- Table structure for table `tz_points_logs`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_points_logs` (
@@ -190,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `tz_points_logs` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1004 DEFAULT CHARSET=utf8;
 
 --
--- 转存表中的数据 `tz_points_logs`
+-- Dumping data for table `tz_points_logs`
 --
 
 INSERT INTO `tz_points_logs` (`points_log_id`, `points_to_uid`, `points_get_time`, `points_rule_id`, `points_meta`) VALUES
@@ -202,7 +202,7 @@ INSERT INTO `tz_points_logs` (`points_log_id`, `points_to_uid`, `points_get_time
 -- --------------------------------------------------------
 
 --
--- 表的结构 `tz_points_rules`
+-- Table structure for table `tz_points_rules`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_points_rules` (
@@ -215,7 +215,7 @@ CREATE TABLE IF NOT EXISTS `tz_points_rules` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
--- 转存表中的数据 `tz_points_rules`
+-- Dumping data for table `tz_points_rules`
 --
 
 INSERT INTO `tz_points_rules` (`points_rule_id`, `points_rule_slug`, `points_rule_reputation`, `points_rule_credits`, `points_rule_title`, `points_rule_description`) VALUES
@@ -231,7 +231,7 @@ INSERT INTO `tz_points_rules` (`points_rule_id`, `points_rule_slug`, `points_rul
 -- --------------------------------------------------------
 
 --
--- 表的结构 `tz_products`
+-- Table structure for table `tz_products`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_products` (
@@ -247,7 +247,7 @@ CREATE TABLE IF NOT EXISTS `tz_products` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1002 DEFAULT CHARSET=utf8;
 
 --
--- 转存表中的数据 `tz_products`
+-- Dumping data for table `tz_products`
 --
 
 INSERT INTO `tz_products` (`product_id`, `product_name`, `product_logo`, `product_category_id`, `product_latest_version`, `product_developer_id`, `product_prerequisites`, `product_url`, `product_description`) VALUES
@@ -257,7 +257,7 @@ INSERT INTO `tz_products` (`product_id`, `product_name`, `product_logo`, `produc
 -- --------------------------------------------------------
 
 --
--- 表的结构 `tz_product_categories`
+-- Table structure for table `tz_product_categories`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_product_categories` (
@@ -267,7 +267,7 @@ CREATE TABLE IF NOT EXISTS `tz_product_categories` (
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
--- 转存表中的数据 `tz_product_categories`
+-- Dumping data for table `tz_product_categories`
 --
 
 INSERT INTO `tz_product_categories` (`product_category_id`, `product_category_slug`, `product_category_name`) VALUES
@@ -282,7 +282,7 @@ INSERT INTO `tz_product_categories` (`product_category_id`, `product_category_sl
 -- --------------------------------------------------------
 
 --
--- 表的结构 `tz_users`
+-- Table structure for table `tz_users`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_users` (
@@ -295,7 +295,7 @@ CREATE TABLE IF NOT EXISTS `tz_users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1003 DEFAULT CHARSET=utf8;
 
 --
--- 转存表中的数据 `tz_users`
+-- Dumping data for table `tz_users`
 --
 
 INSERT INTO `tz_users` (`uid`, `username`, `password`, `user_group_id`, `email`, `is_email_verified`) VALUES
@@ -306,7 +306,7 @@ INSERT INTO `tz_users` (`uid`, `username`, `password`, `user_group_id`, `email`,
 -- --------------------------------------------------------
 
 --
--- 表的结构 `tz_user_groups`
+-- Table structure for table `tz_user_groups`
 --
 
 CREATE TABLE IF NOT EXISTS `tz_user_groups` (
@@ -316,7 +316,7 @@ CREATE TABLE IF NOT EXISTS `tz_user_groups` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
--- 转存表中的数据 `tz_user_groups`
+-- Dumping data for table `tz_user_groups`
 --
 
 INSERT INTO `tz_user_groups` (`user_group_id`, `user_group_slug`, `user_group_name`) VALUES
@@ -473,11 +473,11 @@ ALTER TABLE `tz_users`
 ALTER TABLE `tz_user_groups`
   MODIFY `user_group_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
--- 限制导出的表
+-- Constraints for dumped tables
 --
 
 --
--- 限制表 `tz_bugs`
+-- Constraints for table `tz_bugs`
 --
 ALTER TABLE `tz_bugs`
   ADD CONSTRAINT `tz_bugs_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `tz_products` (`product_id`),
@@ -487,21 +487,21 @@ ALTER TABLE `tz_bugs`
   ADD CONSTRAINT `tz_bugs_ibfk_5` FOREIGN KEY (`bug_hunter_id`) REFERENCES `tz_users` (`uid`);
 
 --
--- 限制表 `tz_points_logs`
+-- Constraints for table `tz_points_logs`
 --
 ALTER TABLE `tz_points_logs`
   ADD CONSTRAINT `tz_points_logs_ibfk_1` FOREIGN KEY (`points_to_uid`) REFERENCES `tz_users` (`uid`),
   ADD CONSTRAINT `tz_points_logs_ibfk_2` FOREIGN KEY (`points_rule_id`) REFERENCES `tz_points_rules` (`points_rule_id`);
 
 --
--- 限制表 `tz_products`
+-- Constraints for table `tz_products`
 --
 ALTER TABLE `tz_products`
   ADD CONSTRAINT `tz_products_ibfk_1` FOREIGN KEY (`product_category_id`) REFERENCES `tz_product_categories` (`product_category_id`),
   ADD CONSTRAINT `tz_products_ibfk_2` FOREIGN KEY (`product_developer_id`) REFERENCES `tz_users` (`uid`);
 
 --
--- 限制表 `tz_users`
+-- Constraints for table `tz_users`
 --
 ALTER TABLE `tz_users`
   ADD CONSTRAINT `tz_users_ibfk_1` FOREIGN KEY (`user_group_id`) REFERENCES `tz_user_groups` (`user_group_id`);

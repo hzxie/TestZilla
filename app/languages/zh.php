@@ -13,8 +13,12 @@ $messages = array(
     'layout.terms-and-privacy'                      => '条款和隐私',
     'layout.terms'                                  => '使用条款',
     'layout.privacy'                                => '隐私声明',
+    'layout.internationalization'                   => '更换语言',
     'layout.contact-us'                             => '联系我们',
     'layout.stay-connected'                         => '关注我们',
+    'layout.copyright'                              => '版权所有',
+    'layout.all-rights-reserved'                    => '保留所有权利',
+    'layout.unknown-error'                          => '发生了未知错误.',
     # default/index.phtml
     'default.index.title'                           => '首页',
     'default.index.slogan'                          => '更好地一起<br>构建、测试软件.',

@@ -28,10 +28,13 @@ class BaseController extends Controller {
         $this->view->setVar('appVerion', APP_VERSION);
         
         // Website Options
-        $this->view->setVar('websiteName', self::$websiteName);
+        $this->view->setVar('websiteName', $this->getWebsiteName());
         $this->view->setVar('description', $this->getDescription());
         $this->view->setVar('copyright', $this->getCopyright());
         $this->view->setVar('googleAnalyticsCode', $this->getGoogleAnalyticsCode());
+        $this->view->setVar('contactAddress', $this->getContactAddress());
+        $this->view->setVar('contactPhone', $this->getContactPhone());
+        $this->view->setVar('contactEmail', $this->getContactEmail());
 
         // Load Profile for users
         $isLoggedIn = $this->isLoggedIn($this->session);
@@ -43,18 +46,32 @@ class BaseController extends Controller {
     }
 
     /**
+     * Get all autoload options from database.
+     * @param  String $optionName - the key of the option
+     * @return the value of the option
+     */
+    private function getOptionValue($optionName) {
+        if ( empty(self::$options) ) {
+            $resultSet = Option::find("is_autoload = 1");
+            foreach ( $resultSet as $rowSet ) {
+                $optionKey                  = $rowSet->getOptionKey();
+                $optionValue                = $rowSet->getOptionValue();
+                self::$options[$optionKey]  = $optionValue;
+            }
+        }
+
+        if ( !array_key_exists($optionName, self::$options) ) {
+            return NULL;
+        }
+        return self::$options[$optionName];
+    }
+
+    /**
      * Get the name of the website from database options.
      * @return the name of the website
      */
     private function getWebsiteName() {
-        if ( self::$websiteName != NULL ) {
-            return self::$websiteName;
-        }
-
-        $websiteNameOption = Option::findFirst("option_key = 'WebsiteName'");
-        self::$websiteName = $websiteNameOption->getOptionValue();
-
-        return self::$websiteName;
+        return $this->getOptionValue('WebsiteName');
     }
 
     /**
@@ -62,14 +79,7 @@ class BaseController extends Controller {
      * @return the description of the website.
      */
     private function getDescription() {
-        if ( self::$description != NULL ) {
-            return self::$description;
-        }
-
-        $descriptionOption = Option::findFirst("option_key = 'Description'");
-        self::$description = $descriptionOption->getOptionValue();
-
-        return self::$description;
+        return $this->getOptionValue('Description');
     }
 
     /**
@@ -77,32 +87,7 @@ class BaseController extends Controller {
      * @return the copyright of the website
      */
     private function getCopyright() {
-        if ( self::$copyright != NULL ) {
-            return self::$copyright;
-        }
-
-        $copyrightOption = Option::findFirst("option_key = 'Copyright'");
-        $copyright       = $copyrightOption->getOptionValue();
-
-        // Update the '${year}' field in copyright
-        self::$copyright = str_replace('%year%', date('Y'), $copyright);
-
-        return self::$copyright;
-    }
-
-    /**
-     * Get if the instance is for internal usage.
-     * @return if it's for internal usage
-     */
-    private function isInternalUsage() {
-        if ( self::$isInternalUsage != -1 ) {
-            return self::$isInternalUsage;
-        }
-
-        $isInternalUsageOption = Option::findFirst("option_key = 'InternalUsage'");
-        self::$isInternalUsage = $isInternalUsageOption->getOptionValue();
-
-        return self::$isInternalUsage;
+        return $this->getOptionValue('Copyright');
     }
 
     /**
@@ -110,14 +95,31 @@ class BaseController extends Controller {
      * @return the analytics code of the website
      */
     private function getGoogleAnalyticsCode() {
-        if ( self::$googleAnalyticsCode != NULL ) {
-            return self::$googleAnalyticsCode;
-        }
+        return $this->getOptionValue('GoogleAnalyticsCode');
+    }
 
-        $googleAnalyticsCodeOption = Option::findFirst("option_key = 'GoogleAnalyticsCode'");
-        self::$googleAnalyticsCode = $googleAnalyticsCodeOption->getOptionValue();
+    /**
+     * Get the contact address of the website from database options.
+     * @return the contact address of the website
+     */
+    private function getContactAddress() {
+        return $this->getOptionValue('ContactAddress');
+    }
 
-        return self::$googleAnalyticsCode;
+    /**
+     * Get the contact phone of the website from database options.
+     * @return the contact phone of the website
+     */
+    private function getContactPhone() {
+        return $this->getOptionValue('ContactPhone');
+    }
+
+    /**
+     * Get the contact email of the website from database options.
+     * @return the contact email of the website
+     */
+    private function getContactEmail() {
+        return $this->getOptionValue('ContactEmail');
     }
 
     /**
@@ -126,7 +128,7 @@ class BaseController extends Controller {
      */
     private function getPreferNaturalLanguage() {
         $languageDectorPlugin = new LanguageDectorPlugin();
-        return $languageDectorPlugin->getBestLanguage($this->request);
+        return $languageDectorPlugin->getCurrentLanguage($this->request, $this->session);
     }
 
     /**
@@ -175,33 +177,8 @@ class BaseController extends Controller {
     }
 
     /**
-     * The name of the website.
-     * @var String
+     * All autoload options of the application.
+     * @var array
      */
-    private static $websiteName = NULL;
-
-    /**
-     * The description of the website.
-     * @var String
-     */
-    private static $description = NULL;
-
-    /**
-     * The copyright of the website.
-     * @var String
-     */
-    private static $copyright = NULL;
-
-    /**
-     * If the value is true, the 'School & Partners' item won't
-     * displayed in the website.
-     * @var boolean
-     */
-    private static $isInternalUsage = -1;
-
-    /**
-     * The analytics code of website.
-     * @var String
-     */
-    private static $googleAnalyticsCode = null;
+    private static $options = array();
 }

@@ -15,7 +15,7 @@ class LanguageDectorPlugin extends Plugin {
     /**
      * Recommend best language for user according to the Accept-Language 
      * in HTTP header.
-     * @param  String $request - the HTTP Request
+     * @param  HttpRequest $request - the HTTP request
      * @return the language code of recommend language
      */
     public function getBestLanguage($request) {
@@ -34,6 +34,28 @@ class LanguageDectorPlugin extends Plugin {
     }
 
     /**
+     * Get current language of the view.
+     * @param  HttpRequest $request - the HTTP request
+     * @param  HttpSession $request - the HTTP session
+     * @return the current language of the view
+     */
+    public function getCurrentLanguage($request, $session) {
+        $language     = self::DEFAULT_LANGUAGE;
+        if ( $session->has('language') ) {
+            $language = $session->get('language');
+        } else {
+            $language = $this->getBestLanguage($request);
+        }
+
+        $languageDir  = APP_PATH . $this->config->application->languageDir;
+        $languageFile = "${languageDir}/${language}.php";
+        if ( file_exists( $languageFile ) ) {
+            return $language;
+        }
+        return self::DEFAULT_LANGUAGE;
+    }
+
+    /**
      * Get the language code without locale.
      * @param  String $languageCode - the language code(eg: en-US, en)
      * @return the language code without locale(eg: em)
@@ -42,7 +64,6 @@ class LanguageDectorPlugin extends Plugin {
         if ( strlen($languageCode) > 2 ) {
             $languageCode = substr($languageCode, 0, 2);
         }
-
         return strtolower($languageCode);
     }
 

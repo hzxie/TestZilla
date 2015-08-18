@@ -13,8 +13,12 @@ $messages = array(
     'layout.terms-and-privacy'                      => 'Terms and Privacy',
     'layout.terms'                                  => 'Terms',
     'layout.privacy'                                => 'Privacy',
+    'layout.internationalization'                   => 'Change Language',
     'layout.contact-us'                             => 'Contact Us',
     'layout.stay-connected'                         => 'Stay Connected',
+    'layout.copyright'                              => 'Copyright',
+    'layout.all-rights-reserved'                    => 'All rights reserved',
+    'layout.unknown-error'                          => 'Unknown error occurred.',
     # default/index.phtml
     'default.index.title'                           => 'Home',
     'default.index.slogan'                          => 'Test software<br>better, together.',

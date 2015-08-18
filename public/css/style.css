@@ -71,6 +71,25 @@ div#footer ul {
 	padding: 0;
 }
 
+div#footer i.fa {
+	display: inline-block;
+	*display: inline;
+	text-align: center;
+	width: 20px;
+	zoom: 1;
+}
+
+div#footer div#footer-bottom {
+	border-top: 1px solid #999;
+	font-size: 12px;
+	margin: 20px 0 0;
+	padding: 10px 0;
+}
+
+div#footer div#copyright {
+	padding: 15px 0;
+}
+
 /* Smaller than standard 960 (devices and browsers) */
 @media only screen and (max-width: 959px) {
 }
@@ -91,6 +110,14 @@ div#footer ul {
 	div#header div#nav {
 		margin-top: 20px;
 		text-align: center;
+	}
+
+	div#footer div.text-right {
+		display: none;
+	}
+
+	div#footer h5 {
+		margin-top: 20px;
 	}
 }
 

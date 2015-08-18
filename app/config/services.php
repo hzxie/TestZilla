@@ -130,25 +130,18 @@ $di->set('flash', function() {
  * Localization Service.
  */
 $di->set('localization', function() use ($di, $config) { 
-    $languageDectorPlugin = new LanguageDectorPlugin();
-    $session              = $di->getShared('session');
-    $request              = $di->getShared('request');
-
-    if ( $session->has('language') ) {
-        $language = $session->get('language');
-    } else {
-        $language = $languageDectorPlugin->getBestLanguage($request);
-    }
-
-    $languageDir  = APP_PATH . $config->application->languageDir;
-    $languageFile = "${languageDir}/${language}.php";
+    $languageDectorPlugin   = new LanguageDectorPlugin();
+    $session                = $di->getShared('session');
+    $request                = $di->getShared('request');
+    $language               = $languageDectorPlugin->getCurrentLanguage($request, $session);
+    $languageDir            = APP_PATH . $config->application->languageDir;
+    $languageFile           = "${languageDir}/${language}.php";
 
     if ( file_exists( $languageFile ) ) {
         require $languageFile;
     } else {
         require "${languageDir}/en.php";
     }
-
     return new TranslateArray(array(
         "content" => $messages
     ));

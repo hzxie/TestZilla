@@ -26,17 +26,9 @@ $router->add('/privacy', array(
     'controller' => 'default',
     'action'     => 'privacy',
 ));
-$router->add('/help', array(
+$router->add('/changeLanguage.action', array(
     'controller' => 'default',
-    'action'     => 'help',
-));
-$router->add('/about', array(
-    'controller' => 'default',
-    'action'     => 'about',
-));
-$router->add('/locale', array(
-    'controller' => 'default',
-    'action'     => 'locale',
+    'action'     => 'changeLanguage',
 ));
 
 /* Routers for ErrorsController */
