@@ -37,6 +37,7 @@ $messages = array(
     'default.index.best-tool'                       => '最佳的测试工具',
     'default.index.voice-from-users'                => '来自用户的声音',
     'default.index.easier-testing'                  => '测试从未变得如此简单',
+    'default.index.please-wait'                     => '请稍后...',
     # errors/resourceNotFound.phtml
     'errors.404.title'                              => '页面未找到',
     'errors.404.page-not-found'                     => '页面未找到!',

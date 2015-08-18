@@ -37,6 +37,7 @@ $messages = array(
     'default.index.best-tool'                       => 'Best Tool for Testing',
     'default.index.voice-from-users'                => 'Voice from Users',
     'default.index.easier-testing'                  => 'Testing Never Becomes Easier',
+    'default.index.please-wait'                     => 'Please wait...',
     # errors/resourceNotFound.phtml
     'errors.404.title'                              => 'Page Not Found',
     'errors.404.page-not-found'                     => 'Page Not Found!',

@@ -40,6 +40,7 @@ class AccountsController extends BaseController {
             $this->logger->log(sprintf('User: [Username=%s] signed in at %s.', $user, $ipAddress), Logger::INFO);
         }
         $response    = new Response();
+        $response->setHeader('Content-Type', 'application/json');
         $response->setContent(json_encode($result));
         return $response;
     }
@@ -69,6 +70,7 @@ class AccountsController extends BaseController {
             'isSuccessful' => true,
         );
         $response    = new Response();
+        $response->setHeader('Content-Type', 'application/json');
         $response->setContent(json_encode($result));
         return $response;
     }
@@ -93,7 +95,7 @@ class AccountsController extends BaseController {
         $isTokenValid           = $this->security->checkToken();
 
         $userService            = ServiceFactory::getService('UserService');
-        $result                 = $userService->createAccount($fullName, $username, $password, $email, $isTokenValid);
+        $result                 = $userService->createAccount($username, $password, $email, $isTokenValid);
         $result['csrfTokenKey'] = $this->security->getTokenKey();
         $result['csrfToken']    = $this->security->getToken();
 
@@ -103,6 +105,7 @@ class AccountsController extends BaseController {
             $this->logger->log(sprintf('User: [Username=%s] created at %s.', $user, $ipAddress), Logger::INFO);
         }
         $response = new Response();
+        $response->setHeader('Content-Type', 'application/json');
         $response->setContent(json_encode($result));
         return $response;
     }

@@ -72,19 +72,16 @@ class UserService extends Service {
 
     /**
      * Verify the data and create the account.
-     * @param  String $fullName - the full name of the user
      * @param  String $username - the username of the user
      * @param  String $password - the password of the user
      * @param  String $email - the email of the user
      * @param  boolean $isTokenValid - the CSRF token is valid
      * @return an array with data validation result
      */
-    public function createAccount($fullName, $username, $password, $email, $isTokenValid) {
+    public function createAccount($username, $password, $email, $isTokenValid) {
         $result                 = array(
             'isSuccessful'      => false,
             'isQuerySuccessful' => false,
-            'isFullnameEmpty'   => empty($fullName),
-            'isFullnameLegal'   => $this->isFullnameLegal($fullName),
             'isUsernameEmpty'   => empty($username),
             'isUsernameLegal'   => $this->isUsernameLegal($username),
             'isUsernameExists'  => $this->isUsernameExists($username),
@@ -95,8 +92,7 @@ class UserService extends Service {
             'isEmailExists'     => $this->isEmailExists($email),
             'isTokenValid'      => $isTokenValid,
         );
-        $result['isSuccessful'] = !$result['isFullnameEmpty']  &&  $result['isFullnameLegal'] &&
-                                  !$result['isUsernameEmpty']  &&  $result['isUsernameLegal'] &&
+        $result['isSuccessful'] = !$result['isUsernameEmpty']  &&  $result['isUsernameLegal'] &&
                                   !$result['isUsernameExists'] && !$result['isPasswordEmpty'] &&
                                    $result['isPasswordLegal']  && !$result['isEmailEmpty']    &&
                                    $result['isEmailLegal']     && !$result['isEmailExists']   &&
@@ -109,7 +105,6 @@ class UserService extends Service {
             $user->setPassword(md5($password));
             $user->setEmail($email);
             $user->setUserGroup($defaultUserGroup);
-            $user->setFullName($fullName);
             
             if ( !$user->create() ) {
                 $result['isSuccessful'] = false;
@@ -120,16 +115,6 @@ class UserService extends Service {
             }
         }
         return $result;
-    }
-
-    /**
-     * Verify if the full name field is legal.
-     * @param  String $fullName - the full name of the user
-     * @return if the full name field is legal
-     */
-    private function isFullnameLegal($fullName) {
-        $fullNameLength = mb_strlen($fullName, 'utf-8');
-        return $fullNameLength <= 64;
     }
 
     /**

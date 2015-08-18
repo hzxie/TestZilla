@@ -135,7 +135,7 @@ class BaseController extends Controller {
      * Verify if the user has logged in according to Session.
      * @return if the user has logged in
      */
-    private function isLoggedIn($session) {
+    protected function isLoggedIn($session) {
         if ( $session->has('isLoggedIn') ) {
             $isLoggedIn = $session->get('isLoggedIn');
             

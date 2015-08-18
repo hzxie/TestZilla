@@ -112,8 +112,9 @@ div#footer div#copyright {
 		text-align: center;
 	}
 
+	div#footer div#footer-bottom,
 	div#footer div.text-right {
-		display: none;
+		text-align: center;
 	}
 
 	div#footer h5 {

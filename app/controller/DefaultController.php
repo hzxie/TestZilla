@@ -22,6 +22,9 @@ class DefaultController extends BaseController {
      * Render to the homepage.
      */
     public function indexAction() {
+        if ( $this->isLoggedIn($this->session) ) {
+            $this->forward('/dashboard');
+        }
         $this->tag->prependTitle($this->localization['default.index.title']);
     }
 
@@ -32,7 +35,7 @@ class DefaultController extends BaseController {
     public function changeLanguageAction() {
         $language    = $this->request->get('language');
         $this->session->set('language', $language);
-        
+
         $result      = array(
             'isSuccessful'  => true,
         );
