@@ -1,0 +1,83 @@
+<?php echo Phalcon\Tag::stylesheetLink("${cdnUrl}/css/misc/about.css"); ?>
+<div id="ribbon" style="height: 500px;"></div>
+<div class="container">
+    <div class="row-fluid">
+        <div class="span9">
+            <div id="main-content">
+                <div class="section">
+                    <div class="markdown"><?php echo str_replace('%websiteName%', $websiteName, $localization['default.terms.introdction-content']); ?></div> <!-- .markdown -->
+                </div> <!-- .section -->
+                <div class="section">
+                    <h3 id="using-services"><?php echo $localization['default.terms.using-services']; ?></h3>
+                    <div class="markdown"><?php echo str_replace('%websiteName%', $websiteName, $localization['default.terms.using-services-content']); ?></div> <!-- .markdown -->
+                </div> <!-- .section -->
+                <div class="section">
+                    <h3 id="your-account"><?php echo $localization['default.terms.your-account']; ?></h3>
+                    <div class="markdown"><?php echo str_replace('%websiteName%', $websiteName, $localization['default.terms.your-account-content']); ?></div> <!-- .markdown -->
+                </div> <!-- .section -->
+                <div class="section">
+                    <h3 id="privacy-and-copyright"><?php echo $localization['default.terms.privacy-and-copyright']; ?></h3>
+                    <div class="markdown"><?php echo str_replace(array('%websiteName%', '%privacyUrl%'), array($websiteName, $this->url->get('/privacy')), $localization['default.terms.privacy-and-copyright-content']); ?></div> <!-- .markdown -->
+                </div> <!-- .section -->
+                <div class="section">
+                    <h3 id="your-content"><?php echo $localization['default.terms.your-content']; ?></h3>
+                    <div class="markdown"><?php echo str_replace('%websiteName%', $websiteName, $localization['default.terms.your-content-content']); ?></div> <!-- .markdown -->
+                </div> <!-- .section -->
+                <div class="section">
+                    <h3 id="software-in-service"><?php echo $localization['default.terms.software-in-service']; ?></h3>
+                    <div class="markdown"><?php echo str_replace('%websiteName%', $websiteName, $localization['default.terms.software-in-service-content']); ?></div> <!-- .markdown -->
+                </div> <!-- .section -->
+                <div class="section">
+                    <h3 id="service-modify-terminate"><?php echo $localization['default.terms.service-modify-terminate']; ?></h3>
+                    <div class="markdown"><?php echo str_replace('%websiteName%', $websiteName, $localization['default.terms.service-modify-terminate-content']); ?></div> <!-- .markdown -->
+                </div> <!-- .section -->
+                <div class="section">
+                    <h3 id="warranties-and-disclaimers"><?php echo $localization['default.terms.warranties-and-disclaimers']; ?></h3>
+                    <div class="markdown"><?php echo str_replace('%websiteName%', $websiteName, $localization['default.terms.warranties-and-disclaimers-content']); ?></div> <!-- .markdown -->
+                </div> <!-- .section -->
+                <div class="section">
+                    <h3 id="liability"><?php echo $localization['default.terms.liability']; ?></h3>
+                    <div class="markdown"><?php echo str_replace('%websiteName%', $websiteName, $localization['default.terms.liability-content']); ?></div> <!-- .markdown -->
+                </div> <!-- .section -->
+                <div class="section">
+                    <h3 id="business-use"><?php echo $localization['default.terms.business-use']; ?></h3>
+                    <div class="markdown"><?php echo str_replace('%websiteName%', $websiteName, $localization['default.terms.business-use-content']); ?></div> <!-- .markdown -->
+                </div> <!-- .section -->
+                <div class="section">
+                    <h3 id="about-terms"><?php echo $localization['default.terms.about-terms']; ?></h3>
+                    <div class="markdown"><?php echo str_replace('%websiteName%', $websiteName, $localization['default.terms.about-terms-content']); ?></div> <!-- .markdown -->
+                </div> <!-- .section -->
+            </div> <!-- #main-content -->
+        </div> <!-- .span9 -->
+        <div class="span3">
+            <div id="sidebar-nav">
+                <h5><?php echo $localization['default.terms.terms']; ?></h5>
+                <ul class="contents">
+                    <li><a href="#using-services"><?php echo $localization['default.terms.using-services']; ?></a></li>
+                    <li><a href="#your-account"><?php echo $localization['default.terms.your-account']; ?></a></li>
+                    <li><a href="#privacy-and-copyright"><?php echo $localization['default.terms.privacy-and-copyright']; ?></a></li>
+                    <li><a href="#your-content"><?php echo $localization['default.terms.your-content']; ?></a></li>
+                    <li><a href="#software-in-service"><?php echo $localization['default.terms.software-in-service']; ?></a></li>
+                    <li><a href="#service-modify-terminate"><?php echo $localization['default.terms.service-modify-terminate']; ?></a></li>
+                    <li><a href="#warranties-and-disclaimers"><?php echo $localization['default.terms.warranties-and-disclaimers']; ?></a></li>
+                    <li><a href="#liability"><?php echo $localization['default.terms.liability']; ?></a></li>
+                    <li><a href="#business-use"><?php echo $localization['default.terms.business-use']; ?></a></li>
+                    <li><a href="#about-terms"><?php echo $localization['default.terms.about-terms']; ?></a></li>
+                </ul>
+            </div> <!-- #sidebar-nav -->
+        </div> <!-- .span3 -->
+    </div> <!-- .row-fluid -->
+</div> <!-- .container -->
+
+<script type="text/javascript">
+    $.getScript('<?php echo $cdnUrl; ?>/js/markdown.min.js', function() {
+        converter = Markdown.getSanitizingConverter();
+
+        $('.markdown').each(function() {
+            var plainContent    = $(this).text(),
+                markdownContent = converter.makeHtml(plainContent.replace(/\\n/g, '\n'));
+
+            $(this).html(markdownContent);
+        });
+    });
+</script>

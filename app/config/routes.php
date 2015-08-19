@@ -59,4 +59,10 @@ $router->add('/accounts/signout', array(
     'action'     => 'signOut',
 ));
 
+/* Routers for ProductsController */
+$router->add('/products', array(
+    'controller' => 'products',
+    'action'     => 'index',
+));
+
 $router->handle();

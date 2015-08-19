@@ -29,6 +29,20 @@ class DefaultController extends BaseController {
     }
 
     /**
+     * Render to terms page.
+     */
+    public function termsAction() {
+        $this->tag->prependTitle($this->localization['default.terms.title']);
+    }
+
+    /**
+     * Render to privacy page.
+     */
+    public function privacyAction() {
+        $this->tag->prependTitle($this->localization['default.privacy.title']);
+    }
+
+    /**
      * Change the language of view.
      * @return whether the operation is successful
      */
