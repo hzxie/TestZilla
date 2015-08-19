@@ -1,22 +1,78 @@
 <?php echo Phalcon\Tag::stylesheetLink("${cdnUrl}/css/misc/about.css"); ?>
 <div id="ribbon" style="height: 500px;"></div>
 <div class="container">
-	<div class="row-fluid">
-		<div class="span9">
-			<div id="main-content">
-				<div class="section markdown">
-					
-				</div> <!-- .section -->
-			</div> <!-- #main-content -->
-		</div> <!-- .span9 -->
-		<div class="span3">
-			<div id="sidebar-nav">
-				<h5><?php echo $localization['default.terms.terms']; ?></h5>
-				<ul class="contents">
-					<li><a href="#">1</a></li>
-					<li><a href="#">2</a></li>
-				</ul>
-			</div> <!-- #sidebar-nav -->
-		</div> <!-- .span3 -->
-	</div> <!-- .row-fluid -->
+    <div class="row-fluid">
+        <div class="span9">
+            <div id="main-content">
+                <div class="section">
+                    <div class="markdown"><?php echo str_replace('%websiteName%', $websiteName, $localization['default.privacy.introdction-content']); ?></div> <!-- .markdown -->
+                </div> <!-- .section -->
+                <div class="section">
+                    <h3 id="information-gathering-and-usage"><?php echo $localization['default.privacy.information-gathering']; ?></h3>
+                    <div class="markdown"><?php echo str_replace('%websiteName%', $websiteName, $localization['default.privacy.information-gathering-content']); ?></div> <!-- .markdown -->
+                </div> <!-- .section -->
+                <div class="section">
+                    <h3 id="cookies"><?php echo $localization['default.privacy.cookies']; ?></h3>
+                    <div class="markdown"><?php echo str_replace('%websiteName%', $websiteName, $localization['default.privacy.cookies-content']); ?></div> <!-- .markdown -->
+                </div> <!-- .section -->
+                <div class="section">
+                    <h3 id="information-protection"><?php echo $localization['default.privacy.information-protection']; ?></h3>
+                    <div class="markdown"><?php echo str_replace('%websiteName%', $websiteName, $localization['default.privacy.information-protection-content']); ?></div> <!-- .markdown -->
+                </div> <!-- .section -->
+                <div class="section">
+                    <h3 id="information-integrity-and-retention"><?php echo $localization['default.privacy.information-integrity']; ?></h3>
+                    <div class="markdown"><?php echo str_replace('%websiteName%', $websiteName, $localization['default.privacy.information-integrity-content']); ?></div> <!-- .markdown -->
+                </div> <!-- .section -->
+                <div class="section">
+                    <h3 id="information-access"><?php echo $localization['default.privacy.information-access']; ?></h3>
+                    <div class="markdown"><?php echo str_replace('%websiteName%', $websiteName, $localization['default.privacy.information-access-content']); ?></div> <!-- .markdown -->
+                </div> <!-- .section -->
+                <div class="section">
+                    <h3 id="children"><?php echo $localization['default.privacy.children']; ?></h3>
+                    <div class="markdown"><?php echo str_replace('%websiteName%', $websiteName, $localization['default.privacy.children-content']); ?></div> <!-- .markdown -->
+                </div> <!-- .section -->
+                <div class="section">
+                    <h3 id="disclosure"><?php echo $localization['default.privacy.disclosure']; ?></h3>
+                    <div class="markdown"><?php echo str_replace('%websiteName%', $websiteName, $localization['default.privacy.disclosure-content']); ?></div> <!-- .markdown -->
+                </div> <!-- .section -->
+                <div class="section">
+                    <h3 id="commitment"><?php echo $localization['default.privacy.commitment']; ?></h3>
+                    <div class="markdown"><?php echo str_replace('%websiteName%', $websiteName, $localization['default.privacy.commitment-content']); ?></div> <!-- .markdown -->
+                </div> <!-- .section -->
+                <div class="section">
+                    <h3 id="changes"><?php echo $localization['default.privacy.changes']; ?></h3>
+                    <div class="markdown"><?php echo str_replace('%websiteName%', $websiteName, $localization['default.privacy.changes-content']); ?></div> <!-- .markdown -->
+                </div> <!-- .section -->
+            </div> <!-- #main-content -->
+        </div> <!-- .span9 -->
+        <div class="span3">
+            <div id="sidebar-nav">
+                <h5><?php echo $localization['default.privacy.privacy']; ?></h5>
+                <ul class="contents">
+                    <li><a href="#information-gathering-and-usage"><?php echo $localization['default.privacy.information-gathering']; ?></a></li>
+                    <li><a href="#cookies"><?php echo $localization['default.privacy.cookies']; ?></a></li>
+                    <li><a href="#information-protection"><?php echo $localization['default.privacy.information-protection']; ?></a></li>
+                    <li><a href="#information-integrity-and-retention"><?php echo $localization['default.privacy.information-integrity']; ?></a></li>
+                    <li><a href="#information-access"><?php echo $localization['default.privacy.information-access']; ?></a></li>
+                    <li><a href="#children"><?php echo $localization['default.privacy.children']; ?></a></li>
+                    <li><a href="#disclosure"><?php echo $localization['default.privacy.disclosure']; ?></a></li>
+                    <li><a href="#commitment"><?php echo $localization['default.privacy.commitment']; ?></a></li>
+                    <li><a href="#changes"><?php echo $localization['default.privacy.changes']; ?></a></li>
+                </ul>
+            </div> <!-- #sidebar-nav -->
+        </div> <!-- .span3 -->
+    </div> <!-- .row-fluid -->
 </div> <!-- .container -->
+
+<script type="text/javascript">
+    $.getScript('<?php echo $cdnUrl; ?>/js/markdown.min.js', function() {
+        converter = Markdown.getSanitizingConverter();
+
+        $('.markdown').each(function() {
+            var plainContent    = $(this).text(),
+                markdownContent = converter.makeHtml(plainContent.replace(/\\n/g, '\n'));
+
+            $(this).html(markdownContent);
+        });
+    });
+</script>
