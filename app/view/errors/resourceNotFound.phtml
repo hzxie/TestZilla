@@ -1,13 +1,13 @@
-    <?php echo Phalcon\Tag::stylesheetLink("${cdnUrl}/css/misc/errors.css"); ?>
-    <div id="content" class="container">
-        <div class="row-fluid">
-            <div class="span6">
-                <img src="<?php echo $cdnUrl; ?>/img/error.png" alt="Error" />
-            </div> <!-- .span6 -->
-            <div id="error-message" class="span6">
-                <h4><?php echo $localization['errors.404.page-not-found']; ?></h4>
-                <p><?php echo $localization['errors.404.message']; ?></p>
-                <button class="btn btn-primary" onclick="history.go(-1);"><?php echo $localization['errors.404.go-back']; ?></button>
-            </div> <!-- .span6 -->
-        </div> <!-- .row-fluid -->
-    </div> <!-- #content -->
+<?php echo Phalcon\Tag::stylesheetLink("${cdnUrl}/css/misc/errors.css"); ?>
+<div id="content" class="container">
+    <div class="row-fluid">
+        <div class="span6">
+            <img src="<?php echo $cdnUrl; ?>/img/error.png" alt="Error" />
+        </div> <!-- .span6 -->
+        <div id="error-message" class="span6">
+            <h4><?php echo $localization['errors.404.page-not-found']; ?></h4>
+            <p><?php echo $localization['errors.404.message']; ?></p>
+            <button class="btn btn-primary" onclick="history.go(-1);"><?php echo $localization['errors.404.go-back']; ?></button>
+        </div> <!-- .span6 -->
+    </div> <!-- .row-fluid -->
+</div> <!-- #content -->

@@ -142,8 +142,8 @@ class User extends Model {
      * @return the description of the User object
      */
     public function __toString() {
-        return sprintf('User: [Uid=%d, Username=%s, Email=%s, UserGroupID=%d, FullName=%s]', 
-                $this->uid, $this->username, $this->email, $this->user_group_id, $this->full_name);
+        return sprintf('User: [Uid=%d, Username=%s, Email=%s, Password=%s, UserGroupID=%d]', 
+                $this->uid, $this->username, $this->email, $this->password, $this->user_group_id);
     }
 
     /**

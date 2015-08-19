@@ -1,0 +1,108 @@
+<?php
+
+use Phalcon\Mvc\Model;
+
+/**
+ * The categories of product in the application.
+ *
+ * @package TestZilla\model\Model\ProductCategory
+ * @author Xie Haozhe <zjhzxhz@gmail.com>
+ */
+class ProductCategory extends Model {
+    /**
+     * Initialize the model.
+     * According to the document of Phalcon framework, we have to announce 
+     * the 1-N relationship in this function.
+     */
+    public function initialize() {
+       $this->belongsTo('product_category_id', 'Product', 'product_category_id');
+    }
+
+    /**
+     * Override the name of table in database.
+     * @return the name of table in database
+     */
+    public function getSource() {
+        return self::TABLE_NAME;
+    }
+
+    /**
+     * The getter of the field product_category_id.
+     * @return the unique ID of the product category
+     */
+    public function getProductCategoryId() {
+        return $this->product_category_id;
+    }
+
+    /**
+     * The setter of the field product_category_id.
+     * @param  int $productCategoryId - the unique ID of the product category
+     */
+    public function setProductCategoryId($productCategoryId) {
+        $this->product_category_id = $productCategoryId;
+    }
+
+    /**
+     * The getter of the field product_category_slug.
+     * @return the unique slug of the product category.
+     */
+    public function getProductCategorySlug() {
+        return $this->product_category_slug;
+    }
+
+    /**
+     * The setter of the field product_category_slug.
+     * @param String $productCategorySlug - the unique slug of the product category
+     */
+    public function setProductCategorySlug($productCategorySlug) {
+        $this->product_category_slug = $productCategorySlug;
+    }
+
+    /**
+     * The getter of the field product_category_name.
+     * @return The name of the product category.
+     */
+    public function getProductCategoryName() {
+        return $this->product_category_name;
+    }
+
+    /**
+     * The setter of the field product_category_name.
+     * @param String $productCategoryName - the name of the product category
+     */
+    public function setProductCategoryName($productCategoryName) {
+        $this->product_category_name = $productCategoryName;
+    }
+
+    /**
+     * Get the description of the ProductCategory object.
+     * @return the description of the ProductCategory object
+     */
+    public function __toString() {
+        return sprintf('ProductCategory: [ID=%d, Slug=%s, Name=%s]', 
+                $this->product_category_id, $this->product_category_slug, $this->product_category_name);
+    }
+
+    /**
+     * The unique ID of the product category.
+     * @var int
+     */
+    protected $product_category_id;
+    
+    /**
+     * The unique slug of the product category.
+     * @var String
+     */
+    protected $product_category_slug;
+
+    /**
+     * The name of the product category.
+     * @var String
+     */
+    protected $product_category_name;
+
+    /**
+     * The table name of the model.
+     */
+    const TABLE_NAME = 'tz_product_categories';
+}

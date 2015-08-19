@@ -1,0 +1,51 @@
+<?php echo Phalcon\Tag::stylesheetLink("${cdnUrl}/css/products/products.css"); ?>
+<div id="products" class="container">
+    <div class="row-fluid">
+        <div id="sidebar" class="span4">
+            <div class="section">
+                <h5><?php echo $localization['products.index.search']; ?></h5>
+                <form action="<?php echo $this->url->get('/products/search'); ?>" class="form-search">
+                    <div class="control-group">
+                        <input name="keyword" class="span12" type="text" placeholder="<?php echo $localization['products.index.keyword']; ?>" />
+                    </div> <!-- .control-group -->
+                </form>
+            </div> <!-- .section -->
+            <div class="section">
+                <h5><?php echo $localization['products.index.categories']; ?></h5>
+                <ul id="product-categories">
+                    <li class="active" data-value="all"><a href="javascript:void(0);"><?php echo $localization['products.index.all-categories']; ?></a></li>
+                <?php foreach ( $productCategories as $productCategory ): ?>
+                    <li data-value="<?php echo $productCategory['productCategorySlug']; ?>">
+                        <a href="javascript:void(0);">
+                        <?php 
+                            $DEFAULT_LANGUAGE     = 'en';
+                            $productCategoryNames = $productCategory['productCategoryName'];
+                            
+                            if ( array_key_exists($language, $productCategoryNames) ):
+                        ?>
+                            <?php echo $productCategoryNames[$language]; ?>
+                        <?php elseif ( array_key_exists($DEFAULT_LANGUAGE, $productCategoryNames) ): ?>
+                            <?php echo $productCategoryNames[$DEFAULT_LANGUAGE]; ?>
+                        <?php endif; ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+                </ul>
+            </div> <!-- .section -->
+        </div> <!-- .span4 -->
+        <div class="span8">
+        </div> <!-- .span8 -->
+    </div> <!-- .row-fluid -->
+</div> <!-- .container -->
+
+<script type="text/javascript">
+    $('a', '#product-categories').click(function() {
+        $('li.active', '#product-categories').removeClass('active');
+        $(this).parent().addClass('active');
+    });
+</script>
+<script type="text/javascript">
+    function getProducts(productCategory, pageNumber) {
+
+    }
+</script>

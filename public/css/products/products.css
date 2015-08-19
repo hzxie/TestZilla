@@ -1,0 +1,47 @@
+div#products {
+	margin-bottom: 40px;
+}
+
+div#products div#sidebar div.section {
+	margin-bottom: 10px;
+}
+
+div#products div#sidebar div.section h5 {
+	margin-top: 0;
+}
+
+div#products div#sidebar button.add-on {
+	height: 40px;
+	width: 40px;
+	border-radius: 0 6px 6px 0;
+}
+
+div#products div#sidebar ul#product-categories {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+div#products div#sidebar ul#product-categories > li {
+	padding: 5px 10px;
+	-webkit-border-radius: 4px;
+	   -moz-border-radius: 4px;
+	        border-radius: 4px;
+}
+
+div#products div#sidebar ul#product-categories > li > a{
+	color: #556473;
+	text-decoration: none !important;
+}
+
+div#products div#sidebar ul#product-categories > li.active {
+	background-color: #24b8eb;
+}
+
+div#products div#sidebar ul#product-categories > li.active > a {
+	color: #fff !important;
+}
+
+div#products div#sidebar ul#product-categories > li:hover > a{
+	color: #000;
+}

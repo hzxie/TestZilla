@@ -17,15 +17,19 @@ class ProductsController extends BaseController {
      */
     public function initialize() {
         parent::__initialize();
-        $logDir        = $this->config->application->logDir;
-        $this->logger  = new FileAdapter(APP_PATH . "/{$logDir}/TestZilla.log");
+        $logDir         = $this->config->application->logDir;
+        $this->logger   = new FileAdapter(APP_PATH . "/{$logDir}/TestZilla.log");
     }
 
     /**
      * Render to products page.
      */
     public function indexAction() {
+        $productService = ServiceFactory::getService('ProductService');
+        $categories     = $productService->getProductCategories();
+
         $this->tag->prependTitle($this->localization['products.index.title']);
+        $this->view->setVar('productCategories', $categories);
     }
 
     /**

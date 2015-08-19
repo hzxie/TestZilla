@@ -1,3 +1,7 @@
+html, body {
+	background-color: #fff;
+}
+
 div#content div#hero {
 	background-color: #22b8eb;
 	background-image: url('../../img/hero.png');
