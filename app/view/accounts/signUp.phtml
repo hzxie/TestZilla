@@ -1,1 +1,119 @@
-Sign Up
+<?php echo Phalcon\Tag::stylesheetLink("${cdnUrl}/css/accounts/signup.css"); ?>
+<div id="signup">
+    <h2><?php echo $localization['accounts.signup.sign-up']; ?></h2>
+    <div class="alert alert-error hide"></div>
+    <form id="signup-form" method="POST" onsubmit="onSubmit(); return false;">
+        <p class="row-fluid">
+            <label for="username"><?php echo $localization['accounts.signup.username']; ?></label>
+            <input id="username" name="username" class="span12" type="text" maxlength="16" value="<?php echo $username; ?>" />
+        </p>
+        <p class="row-fluid">
+            <label for="email"><?php echo $localization['accounts.signup.email']; ?></label>
+            <input id="email" name="email" class="span12" type="text" maxlength="64" value="<?php echo $email; ?>" />
+        </p>
+        <p class="row-fluid">
+            <label for="password">
+                <?php echo $localization['accounts.signup.password']; ?>
+            </label>
+            <input id="password" name="password" class="span12" type="password" maxlength="16" value="<?php echo $password; ?>" />
+        </p>
+        <p>
+            <input id="csrf-token" name="<?php echo $this->security->getTokenKey(); ?>" value="<?php echo $this->security->getToken(); ?>" type="hidden" />
+            <button class="btn btn-primary btn-block" type="submit"><?php echo $localization['accounts.signup.sign-up']; ?></button>
+        </p>
+    </form> <!-- #signup-form -->
+    <p class="text-center">
+        <?php echo $localization['accounts.signup.already-have-account']; ?><br>
+        <a href="<?php echo $this->url->get('/accounts/signin'); ?>"><?php echo $localization['accounts.signup.sign-in']; ?></a>
+    </p>
+</div>
+
+<?php if ( $isPost ): ?>
+<script type="text/javascript">
+    $(function() {
+        onSubmit();
+    });
+</script>
+<?php endif; ?>
+<script type="text/javascript">
+    function onSubmit() {
+        var username    = $('#username').val(),
+            email       = $('#email').val(),
+            password    = $('#password').val(),
+            csrfKey     = $('#csrf-token').attr('name'),
+            csrfValue   = $('#csrf-token').val();
+
+        $('button[type=submit]', '#signup-form').attr('disabled', 'disabled');
+        $('button[type=submit]', '#signup-form').html('<?php echo $localization['accounts.signup.please-wait']; ?>');
+        
+        return doSignUpAction(username, email, password, csrfKey, csrfValue);
+    }
+</script>
+<script type="text/javascript">
+    function doSignUpAction(username, email, password, csrfKey, csrfValue) {
+        var postData    = {
+            'username': username,
+            'email': email,
+            'password': password
+        };
+        postData[csrfKey] = csrfValue;
+
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo $this->url->get('/accounts/signup.action'); ?>',
+            data: postData,
+            dataType: 'JSON',
+            success: function(result) {
+                return processSignUpResult(result);
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    function processSignUpResult(result) {
+        if ( result['isSuccessful'] ) {
+            var forwardUrl       = '<?php echo $forwardUrl; ?>' || '<?php echo $this->url->get('/'); ?>';
+            window.location.href = forwardUrl;
+        } else {
+            var errorMessage     = '';
+
+            if ( !result['isTokenValid'] ) {
+                errorMessage    += '<?php echo $localization['accounts.signup.invalid-token']; ?><br>';
+            }
+            if ( result['isUsernameEmpty'] ) {
+                errorMessage    += '<?php echo $localization['accounts.signup.username-empty']; ?><br>';
+            } else if ( !result['isUsernameLegal'] ) {
+                var username = $('#username').val();
+
+                if ( username.length < 6 || username.length > 16 ) {
+                    errorMessage += '<?php echo $localization['accounts.signup.username-length-illegal']; ?><br>';
+                } else if ( !username[0].match(/[a-z]/i) ) {
+                    errorMessage += '<?php echo $localization['accounts.signup.username-beginning-illegal']; ?><br>';
+                } else {
+                    errorMessage += '<?php echo $localization['accounts.signup.username-character-illegal']; ?><br>';
+                }
+            } else if ( result['isUsernameExists'] ) {
+                errorMessage    += '<?php echo $localization['accounts.signup.username-taken']; ?><br>';
+            }
+            if ( result['isEmailEmpty'] ) {
+                errorMessage    += '<?php echo $localization['accounts.signup.email-empty']; ?><br>';
+            } else if ( !result['isEmailLegal'] ) {
+                errorMessage    += '<?php echo $localization['accounts.signup-email-illegal']; ?><br>';
+            } else if ( result['isEmailExists'] ) {
+                errorMessage    += '<?php echo $localization['accounts.signup.email-taken']; ?><br>';
+            }
+            if ( result['isPasswordEmpty'] ) {
+                errorMessage    += '<?php echo $localization['accounts.signup.password-empty']; ?><br>';
+            } else if ( !result['isPasswordLegal'] ) {
+                errorMessage    += '<?php echo $localization['accounts.signup.password-illegal']; ?><br>';
+            }
+
+            $('#csrf-token').attr('name', result['csrfTokenKey']);
+            $('#csrf-token').val(result['csrfToken']);
+            $('.alert-error').html(errorMessage);
+            $('.alert-error').removeClass('hide');
+        }
+        $('button[type=submit]', '#signup-form').removeAttr('disabled');
+        $('button[type=submit]', '#signup-form').html('<?php echo $localization['accounts.signup.sign-up']; ?>');
+    }
+</script>

@@ -99,7 +99,7 @@ class UserService extends Service {
                                    $result['isTokenValid'];
         
         if ( $result['isSuccessful'] ) {
-            $defaultUserGroup   = UserGroup::findFirst("user_group_slug = 'student'");
+            $defaultUserGroup   = UserGroup::findFirst("user_group_slug = 'user'");
             $user               = new User();
             $user->setUsername($username);
             $user->setPassword(md5($password));

@@ -17,8 +17,8 @@ class AccountsController extends BaseController {
      */
     public function initialize() {
         parent::__initialize();
-        $logDir            = $this->config->application->logDir;
-        $this->logger      = new FileAdapter(APP_PATH . "/{$logDir}/TestZilla.log");
+        $logDir        = $this->config->application->logDir;
+        $this->logger  = new FileAdapter(APP_PATH . "/{$logDir}/TestZilla.log");
     }
 
     /**
@@ -100,10 +100,10 @@ class AccountsController extends BaseController {
      * Render to sign up page.
      */
     public function signUpAction() {
-        $username               = $this->request->getPost('username');
-        $password               = $this->request->getPost('password');
-        $email                  = $this->request->getPost('email');
-        $result                 = $this->request->getPost('result');
+        $forwardUrl  = $this->request->get('forward');
+        $username    = $this->request->getPost('username');
+        $email       = $this->request->getPost('email');
+        $password    = $this->request->getPost('password');
 
         if ( $this->isLoggedIn($this->session) ) {
             $response    = new Response();
@@ -111,6 +111,11 @@ class AccountsController extends BaseController {
             return $response;
         }
         $this->tag->prependTitle($this->localization['accounts.signup.title']);
+        $this->view->setVar('isPost', $this->request->isPost());
+        $this->view->setVar('username', $username);
+        $this->view->setVar('email', $email);
+        $this->view->setVar('password', $password);
+        $this->view->setVar('forwardUrl', $forwardUrl);
     }
 
     /**
@@ -118,17 +123,18 @@ class AccountsController extends BaseController {
      * @return a HTTP response object with JSON
      */
     public function doSignUpAction() {
-        $ipAddress              = $this->request->getClientAddress();
-        $username               = $this->request->getPost('username');
-        $password               = $this->request->getPost('password');
-        $email                  = $this->request->getPost('email');
-        $isTokenValid           = $this->security->checkToken();
-
-        $userService            = ServiceFactory::getService('UserService');
-        $result                 = $userService->createAccount($username, $password, $email, $isTokenValid);
-        $result['csrfTokenKey'] = $this->security->getTokenKey();
-        $result['csrfToken']    = $this->security->getToken();
-
+        $ipAddress      = $this->request->getClientAddress();
+        $username       = $this->request->getPost('username');
+        $password       = $this->request->getPost('password');
+        $email          = $this->request->getPost('email');
+        $isTokenValid   = $this->security->checkToken();
+        $userService    = ServiceFactory::getService('UserService');
+        $result         = $userService->createAccount($username, $password, $email, $isTokenValid);
+        
+        if ( $isTokenValid ) {
+            $result['csrfTokenKey'] = $this->security->getTokenKey();
+            $result['csrfToken']    = $this->security->getToken();
+        }
         if ( $result['isSuccessful'] ) {
             $user    = $userService->getUserUsingUsernameOrEmail($username);
             $this->getSession($this->session, $user);

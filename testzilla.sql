@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.11
+-- version 4.4.3
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 18, 2015 at 05:07 上午
+-- Generation Time: Aug 19, 2015 at 08:34 上午
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `testzilla`
@@ -299,9 +299,9 @@ CREATE TABLE IF NOT EXISTS `tz_users` (
 --
 
 INSERT INTO `tz_users` (`uid`, `username`, `password`, `user_group_id`, `email`, `is_email_verified`) VALUES
-(1000, 'Administrator', '785ee107c11dfe36de668b1ae7baacbb', 3, 'webmaster@testzilla.org', 1),
-(1001, 'zjhzxhz', '785ee107c11dfe36de668b1ae7baacbb', 2, 'zjhzxhz@gmail.com', 1),
-(1002, 'TestZilla', '785ee107c11dfe36de668b1ae7baacbb', 2, 'support@testzilla.org', 1);
+(1000, 'Administrator', '785ee107c11dfe36de668b1ae7baacbb', 2, 'webmaster@testzilla.org', 1),
+(1001, 'zjhzxhz', '785ee107c11dfe36de668b1ae7baacbb', 1, 'zjhzxhz@gmail.com', 1),
+(1002, 'TestZilla', '785ee107c11dfe36de668b1ae7baacbb', 1, 'support@testzilla.org', 1);
 
 -- --------------------------------------------------------
 
@@ -313,16 +313,15 @@ CREATE TABLE IF NOT EXISTS `tz_user_groups` (
   `user_group_id` int(4) NOT NULL,
   `user_group_slug` varchar(24) NOT NULL,
   `user_group_name` varchar(24) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tz_user_groups`
 --
 
 INSERT INTO `tz_user_groups` (`user_group_id`, `user_group_slug`, `user_group_name`) VALUES
-(1, 'tester', 'Tester'),
-(2, 'developer', 'Developer'),
-(3, 'administrator', 'Administrator');
+(1, 'user', 'User'),
+(2, 'administrator', 'Administrator');
 
 --
 -- Indexes for dumped tables
@@ -471,7 +470,7 @@ ALTER TABLE `tz_users`
 -- AUTO_INCREMENT for table `tz_user_groups`
 --
 ALTER TABLE `tz_user_groups`
-  MODIFY `user_group_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `user_group_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- Constraints for dumped tables
 --

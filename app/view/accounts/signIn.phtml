@@ -1,14 +1,14 @@
 <?php echo Phalcon\Tag::stylesheetLink("${cdnUrl}/css/accounts/signin.css"); ?>
-<div id="login">
-    <h2><?php echo $localization['accounts.signin.signin']; ?></h2>
-    <div class="alert alert-error hide"><?php echo $localization['accounts.login.incorrect-password']; ?></div>
+<div id="signin">
+    <h2><?php echo $localization['accounts.signin.sign-in']; ?></h2>
+    <div class="alert alert-error hide"><?php echo $localization['accounts.signin.incorrect-password']; ?></div>
     <?php if ( $isLoggedOut ): ?>
-    <div class="alert alert-success"><?php echo $localization['accounts.login.sign-out']; ?></div> <!-- .alert-success -->
+    <div class="alert alert-success"><?php echo $localization['accounts.signin.sign-out']; ?></div> <!-- .alert-success -->
     <?php endif; ?>
-    <form id="login-form" method="POST" onsubmit="onSubmit(); return false;">
+    <form id="signin-form" method="POST" onsubmit="onSubmit(); return false;">
         <p class="row-fluid">
             <label for="username"><?php echo $localization['accounts.signin.username']; ?></label>
-            <input id="username" name="username" class="span12" type="text" maxlength="32">
+            <input id="username" name="username" class="span12" type="text" maxlength="64">
         </p>
         <p class="row-fluid">
             <label for="password">
@@ -27,11 +27,11 @@
             </label>
         </p>
         <p>
-            <button class="btn btn-primary btn-block" type="submit"><?php echo $localization['accounts.signin.signin']; ?></button>
+            <button class="btn btn-primary btn-block" type="submit"><?php echo $localization['accounts.signin.sign-in']; ?></button>
         </p>
-    </form> <!-- #login-form -->
+    </form> <!-- #signin-form -->
     <p class="text-center">
-        <?php echo $localization['accounts.login.dont-have-account']; ?><br>
+        <?php echo $localization['accounts.signin.dont-have-account']; ?><br>
         <a href="<?php echo $this->url->get('/accounts/signup'); ?>"><?php echo $localization['accounts.signin.create-account']; ?></a>
     </p>
 </div>
@@ -49,11 +49,11 @@
             rememberMe = $('input#remember-me').is(':checked');
         
         $('#password').val(password);
-        return doLoginAction(username, password, rememberMe);
+        return dosigninAction(username, password, rememberMe);
     };
 </script>
 <script type="text/javascript">
-    function doLoginAction(username, password, rememberMe) {
+    function dosigninAction(username, password, rememberMe) {
         var postData = {
             'username': username,
             'password': password,
@@ -66,13 +66,13 @@
             data: postData,
             dataType: 'JSON',
             success: function(result){
-                return processLoginResult(result);
+                return processsigninResult(result);
             }
         });
     }
 </script>
 <script type="text/javascript">
-    function processLoginResult(result) {
+    function processsigninResult(result) {
         if ( result['isSuccessful'] ) {
             var forwardUrl = '<?php echo $forwardUrl; ?>' || '<?php echo $this->url->get('/'); ?>';
             window.location.href = forwardUrl;
@@ -81,7 +81,7 @@
             $('.alert-error').removeClass('hide');
         }
 
-        $('button[type=submit]').html('<?php echo $localization['accounts.signin.signin']; ?>');
+        $('button[type=submit]').html('<?php echo $localization['accounts.signin.sign-in']; ?>');
         $('button[type=submit]').removeAttr('disabled');
     }
 </script>

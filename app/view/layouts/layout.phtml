@@ -18,12 +18,12 @@
                         <i class="caret"></i>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                      <li role="presentation">Signed in as <?php echo $user->username; ?></li>
+                      <li role="presentation"> <?php echo str_replace('%username%', $user->username, $localization['layout.sign-in-as']); ?></li>
                       <li role="presentation" class="divider"></li>
-                      <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo $this->url->get('/dashboard'); ?>">Dashboard</a></li>
-                      <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo $this->url->get('/dashboard/profile'); ?>">Your Profile</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo $this->url->get('/dashboard'); ?>"><?php echo $localization['layout.dashboard']; ?></a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo $this->url->get('/dashboard/profile'); ?>"><?php echo $localization['layout.profile']; ?></a></li>
                       <li role="presentation" class="divider"></li>
-                      <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo $this->url->get('/accounts/signout'); ?>">Sign Out</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo $this->url->get('/accounts/signout'); ?>"><?php echo $localization['layout.sign-out']; ?></a></li>
                     </ul>
                     </li>
                     <?php else: ?>

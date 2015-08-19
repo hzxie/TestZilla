@@ -8,18 +8,17 @@
                 </h1>
             </div> <!-- .span8 -->
             <div class="span4">
-                <form id="sign-up-form" onSubmit="onSubmit(); return false;">
+                <form id="sign-up-form" method="POST" action="<?php echo $this->url->get('/accounts/signup'); ?>">
                     <p class="control-group">
-                        <input id="username" class="span12" type="text" placeholder="<?php echo $localization['default.index.username']; ?>" />
+                        <input id="username" name="username" class="span12" type="text" placeholder="<?php echo $localization['default.index.username']; ?>" />
                     </p>
                     <p class="control-group">
-                        <input id="email" class="span12" type="text" placeholder="<?php echo $localization['default.index.email']; ?>" />
+                        <input id="email" name="email" class="span12" type="text" placeholder="<?php echo $localization['default.index.email']; ?>" />
                     </p>
                     <p class="control-group">
-                        <input id="password" class="span12" type="password" placeholder="<?php echo $localization['default.index.password']; ?>" />
+                        <input id="password" name="password" class="span12" type="password" placeholder="<?php echo $localization['default.index.password']; ?>" />
                     </p>
                     <p>
-                        <input id="csrf-token" name="<?php echo $this->security->getTokenKey(); ?>" value="<?php echo $this->security->getToken(); ?>" type="hidden" />
                         <button class="btn btn-inverse btn-block" type="submit"><?php echo $localization['default.index.sign-up']; ?></button>
                     </p>
                     <p><?php echo str_replace(array('%termsUrl%', '%privacyUrl%'), array($this->url->get('/terms'), $this->url->get('/privacy')), $localization['default.index.agreen-terms']); ?></p>
@@ -69,47 +68,3 @@
 </div> <!-- #introduction -->
 <div id="footer-canvas">
 </div> <!-- #footer-canvas -->
-
-<script type="text/javascript">
-    function onSubmit() {
-        var username    = $('#username').val(),
-            email       = $('#email').val(),
-            password    = $('#password').val(),
-            csrfKey     = $('#csrf-token').attr('name'),
-            csrfValue   = $('#csrf-token').val();
-
-        $('button[type=submit]', '#sign-up-form').attr('disabled', 'disabled');
-        $('button[type=submit]', '#sign-up-form').html('<?php echo $localization['default.index.please-wait']; ?>');
-        
-        return doSignUpAction(username, email, password, csrfKey, csrfValue);
-    }
-</script>
-<script type="text/javascript">
-    function doSignUpAction(username, email, password, csrfKey, csrfValue) {
-        var postData    = {
-            'username': username,
-            'email': email,
-            'password': password
-        };
-        postData[csrfKey] = csrfValue;
-
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo $this->url->get('//accounts/signup.action'); ?>',
-            data: postData,
-            dataType: 'JSON',
-            success: function(result) {
-                return processSignUpResult(result);
-            }
-        });
-    }
-</script>
-<script type="text/javascript">
-    function processSignUpResult(result) {
-        if ( result['isSuccessful'] ) {
-
-        } else {
-
-        }
-    }
-</script>
