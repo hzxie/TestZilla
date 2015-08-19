@@ -40,6 +40,16 @@ $messages = array(
     'default.index.please-wait'                     => 'Please wait...',
     # accounts/signIn.phtml
     'accounts.signin.title'                         => 'Sign In',
+    'accounts.signin.signin'                        => 'Sign In',
+    'accounts.login.incorrect-password'             => 'Incorrect username or password.',
+    'accounts.login.sign-out'                       => 'You are now logged out.',
+    'accounts.signin.username'                      => 'Username or Email',
+    'accounts.signin.password'                      => 'Password',
+    'accounts.signin.forgot-password'               => 'Forgot Password?',
+    'accounts.signin.remember-me'                   => 'Remember Me',
+    'accounts.login.dont-have-account'              => 'Don&acute;t have an account?',
+    'accounts.signin.create-account'                => 'Create Account',
+    'accounts.signin.please-wait'                   => 'Please wait...',
     # accounts/signUp.phtml
     'accounts.signup.title'                         => 'Sign Up',
     # errors/resourceNotFound.phtml

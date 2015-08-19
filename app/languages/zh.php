@@ -40,6 +40,16 @@ $messages = array(
     'default.index.please-wait'                     => '请稍后...',
     # accounts/signIn.phtml
     'accounts.signin.title'                         => '登录',
+    'accounts.signin.signin'                        => '登录',
+    'accounts.login.incorrect-password'             => '用户名或密码不正确.',
+    'accounts.login.sign-out'                       => '您已退出登录.',
+    'accounts.signin.username'                      => '用户名或电子邮件地址',
+    'accounts.signin.password'                      => '密码',
+    'accounts.signin.forgot-password'               => '忘记密码?',
+    'accounts.signin.remember-me'                   => '保持登录状态',
+    'accounts.login.dont-have-account'              => '没有账户?',
+    'accounts.signin.create-account'                => '创建账户',
+    'accounts.signin.please-wait'                   => '请稍后...',
     # accounts/signUp.phtml
     'accounts.signup.title'                         => '注册',
     # errors/resourceNotFound.phtml

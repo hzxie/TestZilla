@@ -38,9 +38,9 @@ class BaseController extends Controller {
 
         // Load Profile for users
         $isLoggedIn = $this->isLoggedIn($this->session);
+        $this->view->setVar('isLoggedIn', $isLoggedIn);
         if ( $isLoggedIn ) {
             $user   = $this->getCurrentUser($this->session);
-            $this->view->setVar('isLoggedIn', $isLoggedIn);
             $this->view->setVar('user', $user);
         }
     }
@@ -167,13 +167,13 @@ class BaseController extends Controller {
         $uriParts = explode('/', $uri);
         $params   = array_slice($uriParts, 2);
 
-    	return $this->dispatcher->forward(
-    		array(
-                    'controller' => $uriParts[0],
-                    'action'     => $uriParts[1],
-                    'params'     => $params
-    		)
-    	);
+        return $this->dispatcher->forward(
+            array(
+                'controller' => $uriParts[0],
+                'action'     => $uriParts[1],
+                'params'     => $params
+            )
+        );
     }
 
     /**

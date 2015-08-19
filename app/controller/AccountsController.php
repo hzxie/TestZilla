@@ -25,7 +25,17 @@ class AccountsController extends BaseController {
      * Render to sign in page.
      */
     public function signInAction() {
+        $isLoggedOut = $this->request->get('logout') == 'true';
+        $forwardUrl  = $this->request->get('forward');
+
+        if ( $this->isLoggedIn($this->session) ) {
+            $response    = new Response();
+            $response->redirect('/');
+            return $response;
+        }
         $this->tag->prependTitle($this->localization['accounts.signin.title']);
+        $this->view->setVar('isLoggedOut', $isLoggedOut);
+        $this->view->setVar('forwardUrl', $forwardUrl);
     }
 
     /**
@@ -73,12 +83,8 @@ class AccountsController extends BaseController {
         $this->destroySession($this->session);
         $this->logger->log(sprintf('User: [Username=%s] signed out at %s.', $user, $ipAddress), Logger::INFO);
         
-        $result      = array(
-            'isSuccessful' => true,
-        );
         $response    = new Response();
-        $response->setHeader('Content-Type', 'application/json');
-        $response->setContent(json_encode($result));
+        $response->redirect('/accounts/signin?logout=true');
         return $response;
     }
 
@@ -99,6 +105,11 @@ class AccountsController extends BaseController {
         $email                  = $this->request->getPost('email');
         $result                 = $this->request->getPost('result');
 
+        if ( $this->isLoggedIn($this->session) ) {
+            $response    = new Response();
+            $response->redirect('/');
+            return $response;
+        }
         $this->tag->prependTitle($this->localization['accounts.signup.title']);
     }
 

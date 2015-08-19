@@ -2,16 +2,33 @@
     <div class="container">
         <div class="row-fluid">
             <div id="logo" class="span4">
-                <a href="<?php echo $this->url->get(''); ?>">
+                <a href="<?php echo $this->url->get('/'); ?>">
                     <img src="<?php echo $cdnUrl; ?>/img/logo.png" alt="Logo" />
                 </a>
             </div> <!-- #logo -->
             <div id="nav" class="span8">
                 <ul class="inline">
-                    <li><a href="<?php echo $this->url->get(''); ?>"><?php echo $localization['layout.home']; ?></a></li>
-                    <li><a href="<?php echo $this->url->get('products'); ?>"><?php echo $localization['layout.products']; ?></a></li>
-                    <li><a href="<?php echo $this->url->get('contests'); ?>"><?php echo $localization['layout.contests']; ?></a></li>
-                    <li><button class="btn btn-primary" onclick="window.location.href='<?php echo $this->url->get('accounts/signin'); ?>'"><?php echo $localization['layout.sign-in']; ?></button></li>
+                    <li><a href="<?php echo $this->url->get('/'); ?>"><?php echo $localization['layout.home']; ?></a></li>
+                    <li><a href="<?php echo $this->url->get('/products'); ?>"><?php echo $localization['layout.products']; ?></a></li>
+                    <li><a href="<?php echo $this->url->get('/contests'); ?>"><?php echo $localization['layout.contests']; ?></a></li>
+                    <?php if ( isset($isLoggedIn) && $isLoggedIn ): ?>
+                    <li class="dropdown">
+                    <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="javascript:void(0);">
+                        <img src="<?php echo $cdnUrl; ?>/img/avatar.jpg" alt="avatar">
+                        <i class="caret"></i>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li role="presentation">Signed in as <?php echo $user->username; ?></li>
+                      <li role="presentation" class="divider"></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo $this->url->get('/dashboard'); ?>">Dashboard</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo $this->url->get('/dashboard/profile'); ?>">Your Profile</a></li>
+                      <li role="presentation" class="divider"></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo $this->url->get('/accounts/signout'); ?>">Sign Out</a></li>
+                    </ul>
+                    </li>
+                    <?php else: ?>
+                    <li><button class="btn btn-primary" onclick="window.location.href='<?php echo $this->url->get('/accounts/signin'); ?>'"><?php echo $localization['layout.sign-in']; ?></button></li>
+                    <?php endif; ?>
                 </ul>
             </div> <!-- #nav -->
         </div> <!-- .row-fluid -->
@@ -26,8 +43,8 @@
             <div class="span3">
                 <h5><?php echo $localization['layout.terms-and-privacy']; ?></h5>
                 <ul>
-                    <li><a href="<?php echo $this->url->get('terms'); ?>"><?php echo $localization['layout.terms']; ?></a></li>
-                    <li><a href="<?php echo $this->url->get('privacy'); ?>"><?php echo $localization['layout.privacy']; ?></a></li>
+                    <li><a href="<?php echo $this->url->get('/terms'); ?>"><?php echo $localization['layout.terms']; ?></a></li>
+                    <li><a href="<?php echo $this->url->get('/privacy'); ?>"><?php echo $localization['layout.privacy']; ?></a></li>
                 </ul>
             </div> <!-- .span3 -->
             <div class="span3">
@@ -76,7 +93,7 @@
     function setLanguage(language) {
         $.ajax({
             type: 'GET',
-            url: '<?php echo $this->url->get('changeLanguage.action'); ?>',
+            url: '<?php echo $this->url->get('/changeLanguage.action'); ?>',
             data: {
                 'language': language
             },

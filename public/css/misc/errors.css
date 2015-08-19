@@ -1,3 +1,7 @@
+html, body {
+	background-color: #f5f5f5;
+}
+
 div#content div#error-message {
 	padding-top: 180px;
 }

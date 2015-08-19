@@ -54,7 +54,7 @@ $router->add('/accounts/signup.action', array(
     'controller' => 'accounts',
     'action'     => 'doSignUp',
 ));
-$router->add('/accounts/signout.action', array(
+$router->add('/accounts/signout', array(
     'controller' => 'accounts',
     'action'     => 'signOut',
 ));
