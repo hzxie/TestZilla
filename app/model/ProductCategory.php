@@ -55,12 +55,15 @@ class ProductCategory extends Model {
      * @param String $productCategorySlug - the unique slug of the product category
      */
     public function setProductCategorySlug($productCategorySlug) {
+        if ( mb_strlen($productCategorySlug, 'utf-8') > 24 ) {
+            throw new InvalidArgumentException('[Model\ProductCategory] The length of productCategorySlug CANNOT exceed 24 characters.');
+        }
         $this->product_category_slug = $productCategorySlug;
     }
 
     /**
      * The getter of the field product_category_name.
-     * @return The name of the product category.
+     * @return The name of the product category in JSON format
      */
     public function getProductCategoryName() {
         return $this->product_category_name;
@@ -68,9 +71,13 @@ class ProductCategory extends Model {
 
     /**
      * The setter of the field product_category_name.
-     * @param String $productCategoryName - the name of the product category
+     * @param String $productCategoryName - the name of the product category in JSON format
      */
     public function setProductCategoryName($productCategoryName) {
+        $json = json_encode($productCategoryName);
+        if ( json_last_error() != JSON_ERROR_NONE ) {
+            throw new InvalidArgumentException('[Model\ProductCategory] The productCategoryName seems not a valid JSON.');
+        }
         $this->product_category_name = $productCategoryName;
     }
 
@@ -96,7 +103,7 @@ class ProductCategory extends Model {
     protected $product_category_slug;
 
     /**
-     * The name of the product category.
+     * The name of the product category (JSON format).
      * @var String
      */
     protected $product_category_name;

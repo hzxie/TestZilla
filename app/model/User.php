@@ -16,6 +16,7 @@ class User extends Model {
      */
     public function initialize() {
        $this->belongsTo('user_group_id', 'UserGroup', 'user_group_id');
+       $this->belongsTo('uid', 'Product', 'product_developer_id');
     }
 
     /**
@@ -116,25 +117,6 @@ class User extends Model {
             throw new InvalidArgumentException('[Model\User] Invalid Model\UserGroup.');
         }
         $this->user_group_id = $userGroup->getUserGroupId();
-    }
-
-    /**
-     * The getter of the field full_name.
-     * @return the full name of the user
-     */
-    public function getFullName() {
-        return $this->full_name ;
-    }
-
-    /**
-     * The setter of the field full_name.
-     * @param String $fullName - the full name of the user
-     */
-    public function setFullName($fullName) {
-        if ( mb_strlen($fullName, 'utf-8') > 64 ) {
-            throw new InvalidArgumentException('[Model\User] The length of fullName CANNOT exceed 64 characters.');
-        }
-        $this->full_name = $fullName;
     }
 
     /**
