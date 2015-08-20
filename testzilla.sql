@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 19, 2015 at 08:34 上午
+-- Generation Time: Aug 20, 2015 at 09:34 上午
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -236,13 +236,13 @@ INSERT INTO `tz_points_rules` (`points_rule_id`, `points_rule_slug`, `points_rul
 
 CREATE TABLE IF NOT EXISTS `tz_products` (
   `product_id` bigint(20) NOT NULL,
-  `product_name` varchar(32) NOT NULL,
   `product_logo` varchar(128) NOT NULL,
   `product_category_id` int(4) NOT NULL,
   `product_latest_version` varchar(24) NOT NULL,
   `product_developer_id` bigint(20) NOT NULL,
-  `product_prerequisites` varchar(128) NOT NULL,
   `product_url` varchar(256) NOT NULL,
+  `product_name` text NOT NULL,
+  `product_prerequisites` text NOT NULL,
   `product_description` text NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=1002 DEFAULT CHARSET=utf8;
 
@@ -250,9 +250,9 @@ CREATE TABLE IF NOT EXISTS `tz_products` (
 -- Dumping data for table `tz_products`
 --
 
-INSERT INTO `tz_products` (`product_id`, `product_name`, `product_logo`, `product_category_id`, `product_latest_version`, `product_developer_id`, `product_prerequisites`, `product_url`, `product_description`) VALUES
-(1000, 'TestZilla', 'http://www.testzilla.org/assets/img/logo.png', 1, '1.0 Beta', 1002, 'IE 10+, Firefox, Chrome or Safari', 'http://www.testzilla.org/', 'Global crowd testing platform designed for web, mobile and desktop applications.'),
-(1001, 'CourseOcean', 'http://www.courseocean.com/img/logo.png', 1, '1.0 Alpha', 1001, 'IE 7+, Firefox, Chrome or Safari', 'http://www.courseocean.com/', 'IT training platform that can provide courses and training for IT practitioners or companies. ');
+INSERT INTO `tz_products` (`product_id`, `product_logo`, `product_category_id`, `product_latest_version`, `product_developer_id`, `product_url`, `product_name`, `product_prerequisites`, `product_description`) VALUES
+(1000, 'http://www.testzilla.org/img/logo.png', 1, '2.0 Alpha', 1002, 'http://www.testzilla.org/', '{"en":"TestZilla", "zh":"TestZilla"}', 'IE 7+, Firefox, Chrome or Safari', 'Global crowd testing platform designed for web, mobile and desktop applications.'),
+(1001, 'http://www.courseocean.com/img/logo.png', 1, '1.0 Alpha', 1001, 'http://www.courseocean.com/', '{"en":"CourseOcean", "zh":"学海无涯"}', 'IE 7+, Firefox, Chrome or Safari', 'IT training platform that can provide courses and training for IT practitioners or companies. ');
 
 -- --------------------------------------------------------
 
@@ -263,7 +263,7 @@ INSERT INTO `tz_products` (`product_id`, `product_name`, `product_logo`, `produc
 CREATE TABLE IF NOT EXISTS `tz_product_categories` (
   `product_category_id` int(4) NOT NULL,
   `product_category_slug` varchar(24) NOT NULL,
-  `product_category_name` varchar(24) NOT NULL
+  `product_category_name` text NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
@@ -271,13 +271,13 @@ CREATE TABLE IF NOT EXISTS `tz_product_categories` (
 --
 
 INSERT INTO `tz_product_categories` (`product_category_id`, `product_category_slug`, `product_category_name`) VALUES
-(1, 'web', 'Web Application'),
-(2, 'ios', 'iOS Application'),
-(3, 'android', 'Android Application'),
-(4, 'windows-phone', 'WindowsPhone Application'),
-(5, 'windows', 'Windows Application'),
-(6, 'mac', 'Mac Application'),
-(7, 'others', 'Others');
+(1, 'web', '{ "en": "Web Application", "zh": "Web 应用程序" }'),
+(2, 'ios', '{ "en": "iOS Application", "zh": "iOS 应用程序" }'),
+(3, 'android', '{ "en": "Android Application", "zh": "Andriod 应用程序" }'),
+(4, 'windows-phone', '{ "en": "Windows Phone Application", "zh": "Windows Phone 应用程序" }'),
+(5, 'windows', '{ "en": "Windows Application", "zh": "Windows 应用程序" }'),
+(6, 'mac', '{ "en": "Mac Application", "zh": "Mac 应用程序" }'),
+(7, 'others', '{ "en": "Others", "zh": "其他" }');
 
 -- --------------------------------------------------------
 
@@ -292,7 +292,7 @@ CREATE TABLE IF NOT EXISTS `tz_users` (
   `user_group_id` int(4) NOT NULL,
   `email` varchar(64) NOT NULL,
   `is_email_verified` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=1003 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1004 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tz_users`
@@ -301,7 +301,8 @@ CREATE TABLE IF NOT EXISTS `tz_users` (
 INSERT INTO `tz_users` (`uid`, `username`, `password`, `user_group_id`, `email`, `is_email_verified`) VALUES
 (1000, 'Administrator', '785ee107c11dfe36de668b1ae7baacbb', 2, 'webmaster@testzilla.org', 1),
 (1001, 'zjhzxhz', '785ee107c11dfe36de668b1ae7baacbb', 1, 'zjhzxhz@gmail.com', 1),
-(1002, 'TestZilla', '785ee107c11dfe36de668b1ae7baacbb', 1, 'support@testzilla.org', 1);
+(1002, 'TestZilla', '785ee107c11dfe36de668b1ae7baacbb', 1, 'support@testzilla.org', 1),
+(1003, 'tester', '785ee107c11dfe36de668b1ae7baacbb', 1, 'noreply@zjhzxhz.com', 0);
 
 -- --------------------------------------------------------
 
@@ -465,7 +466,7 @@ ALTER TABLE `tz_product_categories`
 -- AUTO_INCREMENT for table `tz_users`
 --
 ALTER TABLE `tz_users`
-  MODIFY `uid` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1003;
+  MODIFY `uid` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1004;
 --
 -- AUTO_INCREMENT for table `tz_user_groups`
 --
