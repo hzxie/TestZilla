@@ -68,5 +68,9 @@ $router->add('/products/getProducts.action', array(
     'controller' => 'products',
     'action'     => 'getProducts',
 ));
+$router->add('/product/{productId}', array(
+    'controller' => 'products',
+    'action'     => 'product',
+));
 
 $router->handle();

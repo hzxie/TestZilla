@@ -44,18 +44,97 @@ class ProductsController extends BaseController {
 
         $productService         = ServiceFactory::getService('ProductService');
         $productCategoryId      = $productService->getProductCategoryId($productCategorySlug);
-        $products               = $productService->getProductsUsingCategory($productCategoryId, $offset, $limit);
+        $products               = $this->getProductsInBestLanguage(
+                                    $productService->getProductsUsingCategory($productCategoryId, $offset, $limit)
+                                  );
         $numberOfProducts       = $productService->getProductsCountUsingCategory($productCategoryId);
+
         $result                 = array(
             'isSuccessful'      => !empty($products),
             'products'          => $products,
             'totalPages'        => ceil($numberOfProducts / $limit),
         );
-
         $response               = new Response();
         $response->setHeader('Content-Type', 'application/json');
         $response->setContent(json_encode($result));
         return $response;
+    }
+
+    /**
+     * Get the best language for multi-language content for products.
+     * @param  Array $products - an array of product list in multi-languages
+     * @return an array of a list of product with the best language
+     */
+    private function getProductsInBestLanguage($products) {
+        if ( empty($products) ) {
+            return $products;
+        }
+        foreach ( $products as &$product ) {
+            $product = $this->getProductInBestLanguage($product);
+        }
+        return $products;
+    }
+
+    /**
+     * Render to product detail information page.
+     */
+    public function productAction() {
+        $productId      = $this->dispatcher->getParam('productId');
+        $productService = ServiceFactory::getService('ProductService');
+        $product        = $productService->getProductUsingId($productId);
+
+        if ( $product == NULL ) {
+            $this->forward('errors/resourceNotFound');
+            return;
+        }
+        $product = $this->getProductInBestLanguage($product);
+        $this->tag->prependTitle($product['productName']);
+        $this->view->setVar('product', $product);
+    }
+
+    /**
+     * Get the best language for multi-language content for product.
+     * @param  Array $product - an array contains detail information of the product
+     * @return an array contains detail information of the product with the best language
+     */
+    private function getProductInBestLanguage($product) {
+        if ( empty($product) ) {
+            return $product;
+        }
+        if ( array_key_exists('productName', $product) ) {
+            $product['productName']     = $this->getBestLanguageForContent($product['productName'], $this->request, $this->session);
+        }
+        if ( array_key_exists('productCategory', $product) ) {
+            $product['productCategory'] = $this->getBestLanguageForContent($product['productCategory'], $this->request, $this->session);
+        }
+        if ( array_key_exists('prerequisites', $product) ) {
+            $product['prerequisites']   = $this->getBestLanguageForContent($product['prerequisites'], $this->request, $this->session);
+        }
+        if ( array_key_exists('description', $product) ) {
+            $product['description']     = $this->getBestLanguageForContent($product['description'], $this->request, $this->session);
+        }
+        return $product;
+    }
+    
+    /**
+     * Get the best language for multi-language content.
+     * @param  Array       $content - multi-language content
+     * @param  HttpRequest $request - the HTTP request
+     * @param  HttpSession $session - the HTTP session
+     * @return the best language for multi-language content
+     */
+    private function getBestLanguageForContent($content, $request, $session) {
+        $languageDectorPlugin   = new LanguageDectorPlugin();
+        $currentLanguage        = $languageDectorPlugin->getCurrentLanguage($request, $session);
+        $defaultLanguage        = 'en';
+        $firstLanguage          = key($content);
+
+        if ( array_key_exists($currentLanguage, $content) ) {
+            return $content[$currentLanguage];
+        } else if ( array_key_exists($defaultLanguage, $content) ) {
+            return $content[$defaultLanguage];
+        }
+        return $content[$firstLanguage];
     }
 
     /**

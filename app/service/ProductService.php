@@ -43,7 +43,7 @@ class ProductService extends Service {
      * @return the unique ID of the ProductCategory
      */
     public function getProductCategoryId($productCategorySlug) {
-        $rowSet     = ProductCategory::findFirst("product_category_slug = '${productCategorySlug}'");
+        $rowSet = ProductCategory::findFirst("product_category_slug = '${productCategorySlug}'");
         
         if ( $rowSet == NULL ) {
             return 0;
@@ -51,8 +51,27 @@ class ProductService extends Service {
         return $rowSet->getProductCategoryId();
     }
 
+    /**
+     * Get detail information of a product
+     * @param  long $productId - the unique ID of the product
+     * @return [type]            [description]
+     */
     public function getProductUsingId($productId) {
+        $rowSet = Product::findFirst("product_id = '${productId}'");
 
+        if ( $rowSet == NULL ) {
+            return NULL;
+        }
+        return array(
+            'productId'         => $rowSet->getProductId(),
+            'productName'       => (array)json_decode($rowSet->getProductName()),
+            'productCategory'   => (array)json_decode($rowSet->getProductCategory()->getProductCategoryName()),
+            'productLogo'       => $rowSet->getProductLogo(),
+            'latestVersion'     => $rowSet->getLatestVersion(),
+            'projectUrl'        => $rowSet->getProductUrl(),
+            'prerequisites'     => (array)json_decode($rowSet->getPrerequisites()),
+            'description'       => (array)json_decode($rowSet->getDescription()),
+        );
     }
 
     public function getProductsUsingKeyword($keyword, $offset, $limit) {
@@ -60,9 +79,9 @@ class ProductService extends Service {
 
     /**
      * Get products of a certain category.
-     * @param  int    $productCategoryId - the unique ID of the category of product
-     * @param  long   $offset            - the index of first record of result set
-     * @param  int    $limit             - the number of records to get for each request
+     * @param  int  $productCategoryId - the unique ID of the category of product
+     * @param  long $offset            - the index of first record of result set
+     * @param  int  $limit             - the number of records to get for each request
      * @return an array which contains products of a certain category
      */
     public function getProductsUsingCategory($productCategoryId, $offset, $limit) {
@@ -73,6 +92,7 @@ class ProductService extends Service {
             $whereCondition,
             'limit'     => $limit,
             'offset'    => $offset,
+            'order'     => 'product_id DESC'
         ));
         foreach ( $resultSet as $rowSet ) {
             array_push($products, array(
@@ -89,7 +109,7 @@ class ProductService extends Service {
 
     /**
      * Get number of products of a certain category.
-     * @param  int    $productCategoryId - the unique ID of the category of product
+     * @param  int $productCategoryId - the unique ID of the category of product
      * @return number of products of a certain category
      */
     public function getProductsCountUsingCategory($productCategoryId) {

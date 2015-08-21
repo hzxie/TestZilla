@@ -151,33 +151,14 @@
                               '    </div>' +
                               '</li> <!-- .product -->';
 
-        return productTemplate.format(product['productLogo'], product['productId'], 
-                getContentInBestLanguage(product['productName']),
-                getContentInBestLanguage(product['productCategory']), product['latestVersion'], 
-                0, 
-                stripHtml(converter.makeHtml(getContentInBestLanguage(product['description']).replace(/\\n/g, '\n'))));
+        return productTemplate.format(product['productLogo'], product['productId'], product['productName'],
+                product['productCategory'], product['latestVersion'], 0, 
+                stripHtml(converter.makeHtml(product['description'].replace(/\\n/g, '\n'))));
     }
 </script>
 <script type="text/javascript">
     function stripHtml(str) {
         return str.replace(/<(?:.|\s)*?>/g, " ");
-    }
-</script>
-<script type="text/javascript">
-    function getContentInBestLanguage(content) {
-        var defaultLanguage  = 'en',
-            currentLanguage  = '<?php echo $language; ?>',
-            firstLanguage    = '';
-
-        for (var firstLanguage in content) break;
-
-        if ( typeof(content[currentLanguage]) != 'undefined' ) {
-            return content[currentLanguage];
-        } else if ( typeof(content[defaultLanguage]) != 'undefined' ) {
-            return content[defaultLanguage];
-        } else {
-            return content[firstLanguage];
-        }
     }
 </script>
 <script type="text/javascript">
