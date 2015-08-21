@@ -79,6 +79,8 @@ $messages = array(
     'products.index.keyword'                            => 'Keyword',
     'products.index.categories'                         => 'Product Categories',
     'products.index.all-categories'                     => 'All Categories',
+    'products.index.no-products'                        => 'No Products.',
+    'projects.index.issues-reported'                    => 'issue(s) reported',
     # errors/resourceNotFound.phtml
     'errors.404.title'                                  => 'Page Not Found',
     'errors.404.page-not-found'                         => 'Page Not Found!',

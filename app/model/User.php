@@ -162,7 +162,7 @@ class User extends Model {
      * The full name of the user.
      * @var String
      */
-    protected $full_name;
+    protected $is_email_verified;
 
     /**
      * The table name of the model.

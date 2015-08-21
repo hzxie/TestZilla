@@ -33,6 +33,37 @@ class ProductsController extends BaseController {
     }
 
     /**
+     * Get products of a certain category.
+     * @return an HttpResponse which contains information of products
+     */
+    public function getProductsAction() {
+        $productCategorySlug    = $this->request->get('productCategory');
+        $pageNumber             = $this->request->get('page');
+        $limit                  = self::NUMBER_OF_PRODUCTS_PER_PAGE;
+        $offset                 = $pageNumber <= 1 ? 0 :  ($pageNumber - 1) * $limit;
+
+        $productService         = ServiceFactory::getService('ProductService');
+        $productCategoryId      = $productService->getProductCategoryId($productCategorySlug);
+        $products               = $productService->getProductsUsingCategory($productCategoryId, $offset, $limit);
+        $numberOfProducts       = $productService->getProductsCountUsingCategory($productCategoryId);
+        $result                 = array(
+            'isSuccessful'      => !empty($products),
+            'products'          => $products,
+            'totalPages'        => ceil($numberOfProducts / $limit),
+        );
+
+        $response               = new Response();
+        $response->setHeader('Content-Type', 'application/json');
+        $response->setContent(json_encode($result));
+        return $response;
+    }
+
+    /**
+     * Number of products to display in one page in the view.
+     */
+    const NUMBER_OF_PRODUCTS_PER_PAGE = 15;
+
+    /**
      * The logger of AccountsController.
      * @var Phalcon\Logger\Adapter\File
      */

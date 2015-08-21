@@ -79,6 +79,8 @@ $messages = array(
     'products.index.keyword'                            => '关键词',
     'products.index.categories'                         => '产品分类',
     'products.index.all-categories'                     => '全部分类',
+    'products.index.no-products'                        => '暂无可用产品.',
+    'projects.index.issues-reported'                    => '个已报告问题',
     # errors/resourceNotFound.phtml
     'errors.404.title'                                  => '页面未找到',
     'errors.404.page-not-found'                         => '页面未找到!',

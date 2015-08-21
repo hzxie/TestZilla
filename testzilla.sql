@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.3
+-- version 4.4.11
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 20, 2015 at 09:34 上午
+-- Generation Time: Aug 21, 2015 at 03:28 下午
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `testzilla`
@@ -251,8 +251,8 @@ CREATE TABLE IF NOT EXISTS `tz_products` (
 --
 
 INSERT INTO `tz_products` (`product_id`, `product_logo`, `product_category_id`, `product_latest_version`, `product_developer_id`, `product_url`, `product_name`, `product_prerequisites`, `product_description`) VALUES
-(1000, 'http://www.testzilla.org/img/logo.png', 1, '2.0 Alpha', 1002, 'http://www.testzilla.org/', '{"en":"TestZilla", "zh":"TestZilla"}', 'IE 7+, Firefox, Chrome or Safari', 'Global crowd testing platform designed for web, mobile and desktop applications.'),
-(1001, 'http://www.courseocean.com/img/logo.png', 1, '1.0 Alpha', 1001, 'http://www.courseocean.com/', '{"en":"CourseOcean", "zh":"学海无涯"}', 'IE 7+, Firefox, Chrome or Safari', 'IT training platform that can provide courses and training for IT practitioners or companies. ');
+(1000, 'http://www.testzilla.org/img/logo.png', 1, '2.0 Alpha', 1002, 'http://www.testzilla.org/', '{"en":"TestZilla", "zh":"TestZilla"}', '{"en": "IE 7+, Firefox, Chrome or Safari", "zh": "IE 7+, Firefox, Chrome or Safari"}', '{"en": "", "zh": ""}'),
+(1001, 'http://www.courseocean.com/img/logo.png', 1, '1.0 Alpha', 1001, 'http://www.courseocean.com/', '{"en":"CourseOcean", "zh":"学海无涯"}', '{"zh": "IE 7+, Firefox, Chrome or Safari"}', '{"zh": ""}');
 
 -- --------------------------------------------------------
 

@@ -4,7 +4,7 @@
         <div id="sidebar" class="span4">
             <div class="section">
                 <h5><?php echo $localization['products.index.search']; ?></h5>
-                <form action="<?php echo $this->url->get('/products/search'); ?>" class="form-search">
+                <form class="form-search" onSubmit="return false;">
                     <div class="control-group">
                         <input name="keyword" class="span12" type="text" placeholder="<?php echo $localization['products.index.keyword']; ?>" />
                     </div> <!-- .control-group -->
@@ -34,18 +34,164 @@
             </div> <!-- .section -->
         </div> <!-- .span4 -->
         <div class="span8">
+            <p id="no-products" class="hide"><?php echo $localization['products.index.no-products']; ?></p>
+            <p id="loading" class="text-center"><img src="<?php echo $cdnUrl; ?>/img/loading.gif" alt=""></p>
+            <ul id="product-list"></ul>
+            <div id="pagination" class="pagination">
+                <ul></ul>
+            </div> <!-- #pagination -->
         </div> <!-- .span8 -->
     </div> <!-- .row-fluid -->
 </div> <!-- .container -->
 
 <script type="text/javascript">
-    $('a', '#product-categories').click(function() {
-        $('li.active', '#product-categories').removeClass('active');
-        $(this).parent().addClass('active');
+    $.getScript('<?php echo $cdnUrl; ?>/js/markdown.min.js', function() {
+        converter = Markdown.getSanitizingConverter();
+        getProducts();
     });
 </script>
 <script type="text/javascript">
-    function getProducts(productCategory, pageNumber) {
+    $('a', '#product-categories').click(function() {
+        $('li.active', '#product-categories').removeClass('active');
+        $(this).parent().addClass('active');
 
+        return getProducts();
+    });
+</script>
+<script type="text/javascript">
+    $('#pagination > ul').delegate('li', 'click', function(e) {
+        e.preventDefault();
+        if ( $(this).hasClass('disabled') ) {
+            return;
+        }
+        var currentPage = parseInt($('li.active > a', '#pagination > ul').html());
+        
+        $('#pagination > li.active').removeClass('active');
+        $(this).addClass('active');
+        var pageNumber  = $('a', this).html();
+
+        if ( pageNumber === '&lt;' ) {
+            pageNumber  = currentPage - 1;
+        } else if ( pageNumber === '&gt;' ) {
+            pageNumber  = currentPage + 1;
+        }
+        getProducts(pageNumber);
+    });
+</script>
+<script type="text/javascript">
+    function getProducts(pageNumber) {
+        var productCategory = $('li.active', '#product-categories').attr('data-value');
+
+        if ( typeof(pageNumber) == 'undefined' ) {
+            pageNumber = 1;
+        }
+        $('#loading').removeClass('hide');
+        return getProductsAction(productCategory, pageNumber);
+    }
+</script>
+<script type="text/javascript">
+    function getProductsAction(productCategory, pageNumber) {
+        var pageRequest = {
+            'productCategory': productCategory,
+            'page': pageNumber,
+        };
+        $.ajax({
+            type: 'GET',
+            url: '<?php echo $this->url->get('/products/getProducts.action'); ?>',
+            data: pageRequest,
+            dataType: 'JSON',
+            success: function(result){
+                return processResult(result, pageNumber);
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    function processResult(result, currentPage) {
+        $('#loading').addClass('hide');
+
+        if ( !result['isSuccessful'] ) {
+            $('#no-products').removeClass('hide');
+            $('#product-list').addClass('hide');
+            $('#pagination').addClass('hide');
+        } else {
+            $('#no-products').addClass('hide');
+            $('#product-list').removeClass('hide');
+            $('#pagination').removeClass('hide');
+            displayProducts(result['products']);
+            displayPagination(currentPage, result['totalPages']);
+        }
+    }
+</script>
+<script type="text/javascript">
+    function displayProducts(products) {
+        $('#product-list').empty();
+
+        for ( var i = 0; i < products.length; ++ i ) {
+            $('#product-list').append(
+                displayProduct(products[i])
+            );
+        }
+    }
+</script>
+<script type="text/javascript">
+    function displayProduct(product) {
+        var productTemplate = '<li class="product row-fluid">' +
+                              '    <div class="span3">' + 
+                              '        <img src="%s" alt="Product Logo" />' +
+                              '    </div>' +
+                              '    <div class="span9">' +
+                              '        <h5><a href="<?php echo $this->url->get('/product/') ?>%s">%s</a></h5>' +
+                              '        <ul class="inline">' +
+                              '            <li><i class="fa fa-list"></i> %s</li>' +
+                              '            <li><i class="fa fa-ticket"></i> %s</li>' +
+                              '            <li><i class="fa fa-bug"></i> %s <?php echo $localization['projects.index.issues-reported']; ?></li>' +
+                              '        </ul>' +
+                              '        <div class="markdown">%s</div>'
+                              '    </div>' +
+                              '</li> <!-- .product -->';
+
+        return productTemplate.format(product['productLogo'], product['productId'], 
+                getContentInBestLanguage(product['productName']),
+                getContentInBestLanguage(product['productCategory']), product['latestVersion'], 
+                0, 
+                stripHtml(converter.makeHtml(getContentInBestLanguage(product['description']).replace(/\\n/g, '\n'))));
+    }
+</script>
+<script type="text/javascript">
+    function stripHtml(str) {
+        return str.replace(/<(?:.|\s)*?>/g, " ");
+    }
+</script>
+<script type="text/javascript">
+    function getContentInBestLanguage(content) {
+        var defaultLanguage  = 'en',
+            currentLanguage  = '<?php echo $language; ?>',
+            firstLanguage    = '';
+
+        for (var firstLanguage in content) break;
+
+        if ( typeof(content[currentLanguage]) != 'undefined' ) {
+            return content[currentLanguage];
+        } else if ( typeof(content[defaultLanguage]) != 'undefined' ) {
+            return content[defaultLanguage];
+        } else {
+            return content[firstLanguage];
+        }
+    }
+</script>
+<script type="text/javascript">
+    function displayPagination(currentPage, totalPages) {
+        $('#pagination > ul').empty();
+
+        var lowerBound = currentPage - 5 > 0 ? currentPage - 5 : 1,
+            upperBound = currentPage + 5 < totalPages ? currentPage + 5 : totalPages;
+            paginationString  = '<li class="previous ' + ( currentPage > 1 ? '' : 'disabled') + '"><a href="#">&lt;</a></li>';
+
+        for ( var i = lowerBound; i <= upperBound; ++ i ) {
+            paginationString += '<li' + ( currentPage == i ? ' class="active"' : '' ) + '><a href="#">' + i + '</a></li>';
+        }
+        paginationString     += '<li class="next ' + ( currentPage < totalPages ? '' : 'disabled') + '"><a href="#">&gt;</a></li>';
+        $('#pagination > ul').append(paginationString);
     }
 </script>
