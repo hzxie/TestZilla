@@ -204,9 +204,9 @@ class Product extends Model {
      * @return the description of the User object
      */
     public function __toString() {
-        return sprintf('Product: [ID=%d, Name=%s, LogoUrl=%s, CategoryId=%d, LatestVersion=%s, DeveloperId=%d, URL=%s]', 
+        return sprintf('Product: [ID=%d, Name=%s, LogoUrl=%s, CategoryId=%d, LatestVersion=%s, DeveloperId=%d, URL=%s, Description=%s]', 
                 $this->product_id, $this->product_name, $this->product_logo, $this->product_category_id, 
-                $this->product_latest_version, $this->product_developer_id, $product_url);
+                $this->product_latest_version, $this->product_developer_id, $this->product_url, $this->product_description);
     }
 
     /**

@@ -55,6 +55,9 @@ class IssueCategory extends Model {
      * @param String $issueCategorySlug - the unique name of the category of issues
      */
     public function setIssueCategorySlug($issueCategorySlug) {
+        if ( mb_strlen($issueCategorySlug, 'utf-8') > 24 ) {
+            throw new InvalidArgumentException('[Model\IssueCategory] The length of issueCategorySlug CANNOT exceed 24 characters.');
+        }
         $this->issue_category_slug = $issueCategorySlug;
     }
 
@@ -71,6 +74,10 @@ class IssueCategory extends Model {
      * @param String $issueCategoryName - the display name of the category of issues
      */
     public function setIssueCategoryName($issueCategoryName) {
+        $json = json_encode($issueCategoryName);
+        if ( json_last_error() != JSON_ERROR_NONE ) {
+            throw new InvalidArgumentException('[Model\IssueCategory] The issueCategoryName seems not a valid JSON.');
+        }
         $this->issue_category_name = $issueCategoryName;
     }
 

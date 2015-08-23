@@ -55,6 +55,9 @@ class IssueStatus extends Model {
      * @param String $issueStatusSlug - the unique name of the status of issues
      */
     public function setIssueStatusSlug($issueStatusSlug) {
+        if ( mb_strlen($issueStatusSlug, 'utf-8') > 24 ) {
+            throw new InvalidArgumentException('[Model\IssueStatus] The length of issueStatusSlug CANNOT exceed 24 characters.');
+        }
         $this->issue_status_slug = $issueStatusSlug;
     }
 
@@ -71,6 +74,10 @@ class IssueStatus extends Model {
      * @param String $issueStatusName - the display name of the status of issues
      */
     public function setIssueStatusName($issueStatusName) {
+        $json = json_encode($issueStatusName);
+        if ( json_last_error() != JSON_ERROR_NONE ) {
+            throw new InvalidArgumentException('[Model\IssueStatus] The issueStatusName seems not a valid JSON.');
+        }
         $this->issue_status_name = $issueStatusName;
     }
 
@@ -104,5 +111,5 @@ class IssueStatus extends Model {
     /**
      * The table name of the model.
      */
-    const TABLE_NAME = 'tz_issue_categories';
+    const TABLE_NAME = 'tz_issue_status';
 }

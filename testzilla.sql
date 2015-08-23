@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 23, 2015 at 09:16 上午
+-- Generation Time: Aug 23, 2015 at 03:11 下午
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -35,18 +35,17 @@ CREATE TABLE IF NOT EXISTS `tz_issues` (
   `issue_create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `issue_hunter_id` bigint(20) NOT NULL,
   `issue_title` varchar(64) NOT NULL,
-  `issue_description` text NOT NULL,
-  `issue_screenshots` text
+  `issue_description` text NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=1003 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tz_issues`
 --
 
-INSERT INTO `tz_issues` (`issue_id`, `product_id`, `product_version`, `issue_category_id`, `issue_status_id`, `issue_create_time`, `issue_hunter_id`, `issue_title`, `issue_description`, `issue_screenshots`) VALUES
-(1000, 1000, '1.0 Beta', 5, 4, '2015-01-22 08:05:00', 1001, 'Bug #1000', '# Marked in browser\\n\\nRendered by **marked**.', NULL),
-(1001, 1000, '1.0 Beta', 12, 1, '2015-02-03 08:05:00', 1000, 'Bug #1001', 'This is the *first* editor.\r\n------------------------------\r\n\r\nJust plain **Markdown**, except that the input is sanitized:\r\n\r\nand that it implements "fenced blockquotes" via a plugin:\r\n\r\n"""\r\nDo it like this:\r\n\r\n1. Have idea.\r\n2. ???\r\n3. Profit!\r\n"""', NULL),
-(1002, 1001, '1.0 Beta', 2, 1, '2015-02-03 12:11:20', 1001, 'Bug #1002', '# Marked in browser\\n\\nRendered by **marked**.', '');
+INSERT INTO `tz_issues` (`issue_id`, `product_id`, `product_version`, `issue_category_id`, `issue_status_id`, `issue_create_time`, `issue_hunter_id`, `issue_title`, `issue_description`) VALUES
+(1000, 1000, '1.0 Beta', 5, 4, '2015-01-22 08:05:00', 1001, 'Bug #1000', '# Marked in browser\\n\\nRendered by **marked**.'),
+(1001, 1000, '1.0 Beta', 12, 1, '2015-02-03 08:05:00', 1000, 'Bug #1001', 'This is the *first* editor.\r\n------------------------------\r\n\r\nJust plain **Markdown**, except that the input is sanitized:\r\n\r\nand that it implements "fenced blockquotes" via a plugin:\r\n\r\n"""\r\nDo it like this:\r\n\r\n1. Have idea.\r\n2. ???\r\n3. Profit!\r\n"""'),
+(1002, 1001, '1.0 Beta', 2, 1, '2015-02-03 12:11:20', 1001, 'Bug #1002', '# Marked in browser\\n\\nRendered by **marked**.');
 
 -- --------------------------------------------------------
 

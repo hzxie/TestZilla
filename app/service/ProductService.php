@@ -4,7 +4,7 @@ use Phalcon\Logger;
 use Phalcon\Logger\Adapter\File as FileAdapter;
 
 /**
- * The bussiness layer for AccountsController.
+ * The bussiness layer for products.
  *
  * @package TestZilla\Service\ProductService
  * @author Xie Haozhe <zjhzxhz@gmail.com>
