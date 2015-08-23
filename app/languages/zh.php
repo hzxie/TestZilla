@@ -81,6 +81,16 @@ $messages = array(
     'products.index.all-categories'                     => '全部分类',
     'products.index.no-products'                        => '暂无可用产品.',
     'projects.index.issues-reported'                    => '个已报告问题',
+    # products/product.phtml
+    'products.product.introduction'                     => '产品概述',
+    'products.product.product-name'                     => '产品名称',
+    'products.product.product-category'                 => '产品分类',
+    'products.product.latest-version'                   => '最新版本',
+    'products.product.product-url'                      => '产品主页',
+    'products.product.prerequisites'                    => '先决条件',
+    'products.product.description'                      => '产品介绍',
+    'products.product.user'                             => '用户',
+    'products.product.developer'                        => '开发者',
     # errors/resourceNotFound.phtml
     'errors.404.title'                                  => '页面未找到',
     'errors.404.page-not-found'                         => '页面未找到!',
@@ -96,7 +106,6 @@ $messages = array(
     'errors.not-supported.browser-not-supported'        => '浏览器不受支持.',
     'errors.not-supported.message'                      => '%WebsiteName% 不再支持您的浏览器. 请升级您的浏览器. <a href="%URL%">了解更多</a>.',
     'errors.not-supported.download'                     => '下载',
-
     # defaults/terms.phtml
     'default.terms.title'                               => '使用条款',
     'default.terms.terms'                               => '使用条款',

@@ -54,7 +54,7 @@ class ProductService extends Service {
     /**
      * Get detail information of a product
      * @param  long $productId - the unique ID of the product
-     * @return [type]            [description]
+     * @return an array which contains information of the product
      */
     public function getProductUsingId($productId) {
         $rowSet = Product::findFirst("product_id = '${productId}'");
@@ -68,7 +68,12 @@ class ProductService extends Service {
             'productCategory'   => (array)json_decode($rowSet->getProductCategory()->getProductCategoryName()),
             'productLogo'       => $rowSet->getProductLogo(),
             'latestVersion'     => $rowSet->getLatestVersion(),
-            'projectUrl'        => $rowSet->getProductUrl(),
+            'productUrl'        => $rowSet->getProductUrl(),
+            'developer'         => array(
+                'uid'           => $rowSet->getDeveloper()->getUid(),
+                'username'      => $rowSet->getDeveloper()->getUsername(),
+                'email'         => $rowSet->getDeveloper()->getEmail(),
+            ),
             'prerequisites'     => (array)json_decode($rowSet->getPrerequisites()),
             'description'       => (array)json_decode($rowSet->getDescription()),
         );

@@ -81,6 +81,16 @@ $messages = array(
     'products.index.all-categories'                     => 'All Categories',
     'products.index.no-products'                        => 'No Products.',
     'projects.index.issues-reported'                    => 'issue(s) reported',
+    # products/product.phtml
+    'products.product.introduction'                     => 'Introduction',
+    'products.product.product-name'                     => 'Product Name',
+    'products.product.product-category'                 => 'Product Category',
+    'products.product.latest-version'                   => 'Latest Version',
+    'products.product.product-url'                      => 'Homepage',
+    'products.product.prerequisites'                    => 'Prerequisites',
+    'products.product.description'                      => 'Description',
+    'products.product.user'                             => 'User',
+    'products.product.developer'                        => 'Developer',
     # errors/resourceNotFound.phtml
     'errors.404.title'                                  => 'Page Not Found',
     'errors.404.page-not-found'                         => 'Page Not Found!',

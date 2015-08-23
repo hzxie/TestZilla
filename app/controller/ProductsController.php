@@ -77,9 +77,9 @@ class ProductsController extends BaseController {
 
     /**
      * Render to product detail information page.
+     * @param  $productId - the unique ID of the product
      */
-    public function productAction() {
-        $productId      = $this->dispatcher->getParam('productId');
+    public function productAction($productId) {
         $productService = ServiceFactory::getService('ProductService');
         $product        = $productService->getProductUsingId($productId);
 
