@@ -19,7 +19,7 @@
                             </div> <!-- .row-fluid -->
                             <div class="row-fluid">
                                 <div class="span4 text-bold"><?php echo $localization['products.product.product-category']; ?></div> <!-- .span4 -->
-                                <div class="span8"><?php echo $product['productCategory']; ?></div> <!-- .span8 -->
+                                <div class="span8"><?php echo $product['productCategory']['productCategoryName']; ?></div> <!-- .span8 -->
                             </div> <!-- .row-fluid -->
                             <div class="row-fluid">
                                 <div class="span4 text-bold"><?php echo $localization['products.product.latest-version']; ?></div> <!-- .span4 -->
@@ -65,6 +65,28 @@
                     </a>
                 </p>
             </div> <!-- #developer -->
+            <div id="relational-products">
+                <h5><?php echo $localization['products.product.relational-products']; ?></h5>
+                <ul>
+                <?php foreach ( $relationalProducts as $rProduct ): ?>
+                <?php if ( $rProduct['productId'] != $product['productId'] ): ?>
+                    <li class="product row-fluid">
+                        <div class="span4">
+                            <img src="<?php echo $rProduct['productLogo']; ?>" alt="Product Logo" />
+                        </div> <!-- .span4 -->
+                        <div class="span8">
+                            <h6>
+                                <a href="<?php echo $this->url->get("/product/${rProduct['productId']}"); ?>">
+                                    <?php echo $rProduct['productName']; ?>
+                                </a>
+                            </h6>
+                            <p><?php echo $rProduct['latestVersion']; ?></p>
+                        </div> <!-- .span8 -->
+                    </li>
+                <?php endif; ?>
+                <?php endforeach; ?>
+                </ul>
+            </div> <!-- #relational-products -->
         </div> <!-- .span3 -->
     </div> <!-- .row-fluid -->
 </div> <!-- #product -->

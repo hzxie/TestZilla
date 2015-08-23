@@ -48,10 +48,38 @@ div#product div.panel div.body div.section div#product-logo img {
 	max-height: 40px;
 }
 
+div#developer,
+div#relational-products {
+	margin-bottom: 20px;
+}
+
 div#developer img {
 	display: block;
 	margin-bottom: 10px;
 	max-width: 128px;
 	height: 128px;
 	width: 128px;
+}
+
+div#relational-products ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+div#relational-products li.product {
+	margin-bottom: 10px;
+}
+
+div#relational-products li.product h6 {
+	margin: 0;
+	text-transform: none;
+}
+
+div#relational-products li.product h6 > a {
+	color: #333;
+}
+
+div#relational-products li.product p {
+	font-size: 12px;
 }

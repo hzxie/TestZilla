@@ -93,6 +93,7 @@ $messages = array(
     'products.product.issues'                           => '提交的问题',
     'products.product.user'                             => '用户',
     'products.product.developer'                        => '开发者',
+    'products.product.relational-products'              => '相关产品',
     # errors/resourceNotFound.phtml
     'errors.404.title'                                  => '页面未找到',
     'errors.404.page-not-found'                         => '页面未找到!',

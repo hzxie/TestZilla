@@ -46,9 +46,9 @@ class ProductsController extends BaseController {
         $productService         = ServiceFactory::getService('ProductService');
         $productCategoryId      = $productService->getProductCategoryId($productCategorySlug);
         $products               = $this->getProductsInBestLanguage(
-                                    $productService->getProductsUsingCategory($productCategoryId, $keyword, $offset, $limit)
+                                    $productService->getProductsUsingCategoryAndKeyword($productCategoryId, $keyword, $offset, $limit)
                                   );
-        $numberOfProducts       = $productService->getProductsCountUsingCategory($productCategoryId, $keyword);
+        $numberOfProducts       = $productService->getProductsCountUsingCategoryAndKeyword($productCategoryId, $keyword);
 
         $result                 = array(
             'isSuccessful'      => !empty($products),
@@ -88,9 +88,14 @@ class ProductsController extends BaseController {
             $this->forward('errors/resourceNotFound');
             return;
         }
-        $product = $this->getProductInBestLanguage($product);
+        
+        $product            = $this->getProductInBestLanguage($product);
+        $productCategoryId  = $product['productCategory']['productCategoryId'];
+        $relationalProducts = $this->getProductsInBestLanguage($productService->getProductsUsingCategory($productCategoryId, 0, 5));
+
         $this->tag->prependTitle($product['productName']);
         $this->view->setVar('product', $product);
+        $this->view->setVar('relationalProducts', $relationalProducts);
     }
 
     /**
@@ -106,7 +111,8 @@ class ProductsController extends BaseController {
             $product['productName']     = $this->getBestLanguageForContent($product['productName'], $this->request, $this->session);
         }
         if ( array_key_exists('productCategory', $product) ) {
-            $product['productCategory'] = $this->getBestLanguageForContent($product['productCategory'], $this->request, $this->session);
+            $product['productCategory']['productCategoryName'] = 
+                $this->getBestLanguageForContent($product['productCategory']['productCategoryName'], $this->request, $this->session);
         }
         if ( array_key_exists('prerequisites', $product) ) {
             $product['prerequisites']   = $this->getBestLanguageForContent($product['prerequisites'], $this->request, $this->session);

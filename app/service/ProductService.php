@@ -16,7 +16,7 @@ class ProductService extends Service {
     public function initialize() {
         parent::initialize();
         $logDir            = $this->config->application->logDir;
-        $this->logger      = new FileAdapter(APP_PATH . "/{$logDir}/TestZilla.log");
+        $this->logger      = new FileAdapter(APP_PATH . '/{$logDir}/TestZilla.log');
     }
 
     /**
@@ -43,7 +43,12 @@ class ProductService extends Service {
      * @return the unique ID of the ProductCategory
      */
     public function getProductCategoryId($productCategorySlug) {
-        $rowSet = ProductCategory::findFirst("product_category_slug = '${productCategorySlug}'");
+        $rowSet = ProductCategory::findFirst(array(
+            'conditions'    => 'product_category_slug = ?1',
+            'bind'          => array(
+                1           => $productCategorySlug,
+            ),
+        ));
         
         if ( $rowSet == NULL ) {
             return 0;
@@ -57,7 +62,12 @@ class ProductService extends Service {
      * @return an array which contains information of the product
      */
     public function getProductUsingId($productId) {
-        $rowSet = Product::findFirst("product_id = '${productId}'");
+        $rowSet = Product::findFirst(array(
+            'conditions'    => 'product_id = ?1',
+            'bind'          => array(
+                1           => $productId,
+            ),
+        ));
 
         if ( $rowSet == NULL ) {
             return NULL;
@@ -65,18 +75,50 @@ class ProductService extends Service {
         return array(
             'productId'         => $rowSet->getProductId(),
             'productName'       => (array)json_decode($rowSet->getProductName()),
-            'productCategory'   => (array)json_decode($rowSet->getProductCategory()->getProductCategoryName()),
+            'productCategory'   => array(
+                'productCategoryId'     => $rowSet->getProductCategory()->getProductCategoryId(),
+                'productCategoryName'   => (array)json_decode($rowSet->getProductCategory()->getProductCategoryName()),
+            ),
             'productLogo'       => $rowSet->getProductLogo(),
             'latestVersion'     => $rowSet->getLatestVersion(),
             'productUrl'        => $rowSet->getProductUrl(),
             'developer'         => array(
-                'uid'           => $rowSet->getDeveloper()->getUid(),
-                'username'      => $rowSet->getDeveloper()->getUsername(),
-                'email'         => $rowSet->getDeveloper()->getEmail(),
+                'uid'                   => $rowSet->getDeveloper()->getUid(),
+                'username'              => $rowSet->getDeveloper()->getUsername(),
+                'email'                 => $rowSet->getDeveloper()->getEmail(),
             ),
             'prerequisites'     => (array)json_decode($rowSet->getPrerequisites()),
             'description'       => (array)json_decode($rowSet->getDescription()),
         );
+    }
+
+    /**
+     * Get products in a certain category.
+     * @param  int    $productCategoryId - the unique ID of the category of product
+     * @param  long   $offset            - the index of first record of result set
+     * @param  int    $limit             - the number of records to get for each request
+     * @return an array which contains products of a certain category
+     */
+    public function getProductsUsingCategory($productCategoryId, $offset, $limit) {
+        $products       = array();
+        $resultSet      = Product::find(array(
+            'conditions'    => 'product_category_id = ?1',
+            'bind'          => array(
+                1           => $productCategoryId,
+            ),
+            'limit'     => $limit,
+            'offset'    => $offset,
+            'order'     => 'product_id DESC',
+        ));
+        foreach ( $resultSet as $rowSet ) {
+            array_push($products, array(
+                'productId'         => $rowSet->getProductId(),
+                'productName'       => (array)json_decode($rowSet->getProductName()),
+                'productLogo'       => $rowSet->getProductLogo(),
+                'latestVersion'     => $rowSet->getLatestVersion(),
+            ));
+        }
+        return $products;
     }
 
     /**
@@ -87,20 +129,22 @@ class ProductService extends Service {
      * @param  int    $limit             - the number of records to get for each request
      * @return an array which contains products of a certain category
      */
-    public function getProductsUsingCategory($productCategoryId, $keyword, $offset, $limit) {
+    public function getProductsUsingCategoryAndKeyword($productCategoryId, $keyword, $offset, $limit) {
         $products       = array();
         $conditions     = $this->getQueryOfProductsUsingCategoryAndKeyword($productCategoryId, $keyword);
 
         $resultSet      = Product::find(array_merge($conditions, array(
             'limit'     => $limit,
             'offset'    => $offset,
-            'order'     => 'product_id DESC'
+            'order'     => 'product_id DESC',
         )));
         foreach ( $resultSet as $rowSet ) {
             array_push($products, array(
                 'productId'         => $rowSet->getProductId(),
                 'productName'       => (array)json_decode($rowSet->getProductName()),
-                'productCategory'   => (array)json_decode($rowSet->getProductCategory()->getProductCategoryName()),
+                'productCategory'   => array(
+                    'productCategoryName'   => (array)json_decode($rowSet->getProductCategory()->getProductCategoryName()),
+                ),
                 'productLogo'       => $rowSet->getProductLogo(),
                 'latestVersion'     => $rowSet->getLatestVersion(),
                 'description'       => (array)json_decode($rowSet->getDescription()),
@@ -115,12 +159,11 @@ class ProductService extends Service {
      * @param  String $keyword           - the keyword of the product name
      * @return number of products of a certain category
      */
-    public function getProductsCountUsingCategory($productCategoryId, $keyword) {
+    public function getProductsCountUsingCategoryAndKeyword($productCategoryId, $keyword) {
         $conditions     = $this->getQueryOfProductsUsingCategoryAndKeyword($productCategoryId, $keyword);
         $resultSet      = Product::find($conditions);
 
         return $resultSet->count();
-        return 0;
     }
 
     /**

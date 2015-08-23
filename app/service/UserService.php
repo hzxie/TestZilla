@@ -15,8 +15,6 @@ class UserService extends Service {
      */
     public function initialize() {
         parent::initialize();
-        $logDir            = $this->config->application->logDir;
-        $this->logger      = new FileAdapter(APP_PATH . "/{$logDir}/TestZilla.log");
     }
 
     /**
@@ -25,7 +23,12 @@ class UserService extends Service {
      * @return an expected user object or NULL
      */
     public function getUserUsingUid($uid) {
-        return User::findFirst("uid = '$uid'");
+        return User::findFirst(array(
+            'conditions'    => 'uid = ?1',
+            'bind'          => array(
+                1           => $uid,
+            ),
+        ));
     }
 
     /**
@@ -38,9 +41,19 @@ class UserService extends Service {
         $user         = NULL;
 
         if ( $isUsingEmail === false ) {
-            $user = User::findFirst("username = '$username'");
+            $user = User::findFirst(array(
+                'conditions'    => 'username = ?1',
+                'bind'          => array(
+                    1           => $username,
+                ),
+            ));
         } else {
-            $user = User::findFirst("email = '$username'");
+            $user = User::findFirst(array(
+                'conditions'    => 'email = ?1',
+                'bind'          => array(
+                    1           => $username,
+                ),
+            ));
         }
         return $user;
     }
@@ -129,7 +142,12 @@ class UserService extends Service {
      * @return if the username has been taken
      */
     private function isUsernameExists($username) {
-        $user = User::findFirst("username = '$username'");
+        $user = User::findFirst(array(
+            'conditions'    => 'username = ?1',
+            'bind'          => array(
+                1           => $username,
+            ),
+        ));
         return $user != NULL;
     }
 
@@ -159,7 +177,12 @@ class UserService extends Service {
      * @return if the email has been taken
      */
     private function isEmailExists($email) {
-        $user = User::findFirst("email = '$email'");
+        $user = User::findFirst(array(
+            'conditions'    => 'email = ?1',
+            'bind'          => array(
+                1           => $email,
+            ),
+        ));
         return $user != NULL;
     }
 }
