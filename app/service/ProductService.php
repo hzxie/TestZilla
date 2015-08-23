@@ -89,14 +89,13 @@ class ProductService extends Service {
      */
     public function getProductsUsingCategory($productCategoryId, $keyword, $offset, $limit) {
         $products       = array();
-        $whereCondition = $this->getQueryOfProductsUsingCategoryAndKeyword($productCategoryId, $keyword);
+        $conditions     = $this->getQueryOfProductsUsingCategoryAndKeyword($productCategoryId, $keyword);
 
-        $resultSet      = Product::find(array(
-            $whereCondition,
+        $resultSet      = Product::find(array_merge($conditions, array(
             'limit'     => $limit,
             'offset'    => $offset,
             'order'     => 'product_id DESC'
-        ));
+        )));
         foreach ( $resultSet as $rowSet ) {
             array_push($products, array(
                 'productId'         => $rowSet->getProductId(),
@@ -117,10 +116,11 @@ class ProductService extends Service {
      * @return number of products of a certain category
      */
     public function getProductsCountUsingCategory($productCategoryId, $keyword) {
-        $whereCondition = $this->getQueryOfProductsUsingCategoryAndKeyword($productCategoryId, $keyword);
-        $resultSet      = Product::find($whereCondition);
+        $conditions     = $this->getQueryOfProductsUsingCategoryAndKeyword($productCategoryId, $keyword);
+        $resultSet      = Product::find($conditions);
 
         return $resultSet->count();
+        return 0;
     }
 
     /**
@@ -130,22 +130,29 @@ class ProductService extends Service {
      * @return the conditions of query statement
      */
     private function getQueryOfProductsUsingCategoryAndKeyword($productCategoryId, $keyword) {
-        $query                = '';
-        $isFirstCondition     = true;
+        $conditions             = '';
+        $parameters             = array();
+        $isFirstCondition       = true;
 
         if ( $productCategoryId != 0 ) {
-            $query           .= "product_category_id = ${productCategoryId}";
-            $isFirstCondition = false;
+            $isFirstCondition   = false;
+            $conditions        .= ' product_category_id = ?1';
+            $parameters         = array_replace($parameters, array(
+                1               => $productCategoryId,
+            ));
         }
         if ( !empty(trim($keyword)) ) {
-            $query           .= ($isFirstCondition ? '' : ' AND ') . "product_name LIKE '%{$keyword}%'";
+            if ( !$isFirstCondition ) {
+                $conditions    .= ' AND ';
+            }
+            $conditions        .= 'product_name LIKE ?2';
+            $parameters         = array_replace($parameters, array(
+                2               => "%{$keyword}%",
+            ));
         }
-        return $query;
+        return array(
+            'conditions'        => $conditions,
+            'bind'              => $parameters,
+        );
     }
-
-    /**
-     * The logger of ProductService.
-     * @var Phalcon\Logger\Adapter\File
-     */
-    private $logger;
 }
