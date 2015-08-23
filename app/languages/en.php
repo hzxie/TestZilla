@@ -82,6 +82,7 @@ $messages = array(
     'products.index.no-products'                        => 'No Products.',
     'projects.index.issues-reported'                    => 'issue(s) reported',
     # products/product.phtml
+    'products.product.product-information'              => 'Product Introduction',
     'products.product.introduction'                     => 'Introduction',
     'products.product.product-name'                     => 'Product Name',
     'products.product.product-category'                 => 'Product Category',
@@ -89,6 +90,7 @@ $messages = array(
     'products.product.product-url'                      => 'Homepage',
     'products.product.prerequisites'                    => 'Prerequisites',
     'products.product.description'                      => 'Description',
+    'products.product.issues'                           => 'Issues',
     'products.product.user'                             => 'User',
     'products.product.developer'                        => 'Developer',
     # errors/resourceNotFound.phtml

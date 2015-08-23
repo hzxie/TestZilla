@@ -79,19 +79,17 @@ class ProductService extends Service {
         );
     }
 
-    public function getProductsUsingKeyword($keyword, $offset, $limit) {
-    }
-
     /**
      * Get products of a certain category.
-     * @param  int  $productCategoryId - the unique ID of the category of product
-     * @param  long $offset            - the index of first record of result set
-     * @param  int  $limit             - the number of records to get for each request
+     * @param  int    $productCategoryId - the unique ID of the category of product
+     * @param  String $keyword           - the keyword of the product name
+     * @param  long   $offset            - the index of first record of result set
+     * @param  int    $limit             - the number of records to get for each request
      * @return an array which contains products of a certain category
      */
-    public function getProductsUsingCategory($productCategoryId, $offset, $limit) {
+    public function getProductsUsingCategory($productCategoryId, $keyword, $offset, $limit) {
         $products       = array();
-        $whereCondition = $productCategoryId == 0 ? '' : "product_category_id = ${productCategoryId}";
+        $whereCondition = $this->getQueryOfProductsUsingCategoryAndKeyword($productCategoryId, $keyword);
 
         $resultSet      = Product::find(array(
             $whereCondition,
@@ -114,18 +112,39 @@ class ProductService extends Service {
 
     /**
      * Get number of products of a certain category.
-     * @param  int $productCategoryId - the unique ID of the category of product
+     * @param  int    $productCategoryId - the unique ID of the category of product
+     * @param  String $keyword           - the keyword of the product name
      * @return number of products of a certain category
      */
-    public function getProductsCountUsingCategory($productCategoryId) {
-        $whereCondition = $productCategoryId == 0 ? '' : "product_category_id = ${productCategoryId}";
+    public function getProductsCountUsingCategory($productCategoryId, $keyword) {
+        $whereCondition = $this->getQueryOfProductsUsingCategoryAndKeyword($productCategoryId, $keyword);
         $resultSet      = Product::find($whereCondition);
 
         return $resultSet->count();
     }
 
     /**
-     * The logger of UserService.
+     * Get the conditions of query statement.
+     * @param  int    $productCategoryId - the unique ID of the category of product
+     * @param  String $keyword           - the keyword of the product name
+     * @return the conditions of query statement
+     */
+    private function getQueryOfProductsUsingCategoryAndKeyword($productCategoryId, $keyword) {
+        $query                = '';
+        $isFirstCondition     = true;
+
+        if ( $productCategoryId != 0 ) {
+            $query           .= "product_category_id = ${productCategoryId}";
+            $isFirstCondition = false;
+        }
+        if ( !empty(trim($keyword)) ) {
+            $query           .= ($isFirstCondition ? '' : ' AND ') . "product_name LIKE '%{$keyword}%'";
+        }
+        return $query;
+    }
+
+    /**
+     * The logger of ProductService.
      * @var Phalcon\Logger\Adapter\File
      */
     private $logger;

@@ -2,48 +2,49 @@ div#product {
 	margin-bottom: 40px;
 }
 
-div#product div#container {
+div#product div.panel {
+	margin-bottom: 20px;
 	-webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .1);
 	   -moz-box-shadow: 0 0 5px rgba(0, 0, 0, .1);
 	        box-shadow: 0 0 5px rgba(0, 0, 0, .1);
 }
 
-div#product div.header {
+div#product div.panel div.header {
 	background-color: #2980b9;
 	color: #fff;
 	padding: 10px;
 }
 
-div#product div.body {
+div#product div.panel div.body {
 	background: #fff;
 	padding: 20px;
 }
 
-div#product div.section {
+div#product div.panel div.body  div.section {
 	border-top: 5px solid #2980b9;
 	margin-top: 10px;
-	padding-top: 10px;
+	padding-top: 20px;
 	position: relative;
 }
 
-div#product div.section:first-child {
+div#product div.panel div.body div.section:first-child {
 	border-top: none;
 	margin-top: 0;
 	padding-top: 0;
 }
 
-div#product div.section div.description {
+div#product div.panel div.body div.section div.description {
 	color: #666;
 	padding: 10px 20px 0;
 }
 
-div#product div.section div#product-logo {
+div#product div.panel div.body div.section div#product-logo {
 	position: absolute;
 	top: -10px;
 	right: 0;
 }
 
-div#product div.section div#product-logo img {
+div#product div.panel div.body div.section div#product-logo img {
 	max-height: 40px;
 }
 

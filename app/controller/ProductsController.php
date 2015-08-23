@@ -38,6 +38,7 @@ class ProductsController extends BaseController {
      */
     public function getProductsAction() {
         $productCategorySlug    = $this->request->get('productCategory');
+        $keyword                = $this->request->get('keyword');
         $pageNumber             = $this->request->get('page');
         $limit                  = self::NUMBER_OF_PRODUCTS_PER_PAGE;
         $offset                 = $pageNumber <= 1 ? 0 :  ($pageNumber - 1) * $limit;
@@ -45,9 +46,9 @@ class ProductsController extends BaseController {
         $productService         = ServiceFactory::getService('ProductService');
         $productCategoryId      = $productService->getProductCategoryId($productCategorySlug);
         $products               = $this->getProductsInBestLanguage(
-                                    $productService->getProductsUsingCategory($productCategoryId, $offset, $limit)
+                                    $productService->getProductsUsingCategory($productCategoryId, $keyword, $offset, $limit)
                                   );
-        $numberOfProducts       = $productService->getProductsCountUsingCategory($productCategoryId);
+        $numberOfProducts       = $productService->getProductsCountUsingCategory($productCategoryId, $keyword);
 
         $result                 = array(
             'isSuccessful'      => !empty($products),

@@ -15,8 +15,8 @@ class User extends Model {
      * the N-1 relationship in this function.
      */
     public function initialize() {
-       $this->belongsTo('user_group_id', 'UserGroup', 'user_group_id');
-       $this->belongsTo('uid', 'Product', 'product_developer_id');
+        $this->belongsTo('user_group_id', 'UserGroup', 'user_group_id');
+        $this->belongsTo('uid', 'Product', 'product_developer_id');
     }
 
     /**

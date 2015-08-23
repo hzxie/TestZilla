@@ -15,7 +15,7 @@ class ProductCategory extends Model {
      * the 1-N relationship in this function.
      */
     public function initialize() {
-       $this->belongsTo('product_category_id', 'Product', 'product_category_id');
+        $this->belongsTo('product_category_id', 'Product', 'product_category_id');
     }
 
     /**

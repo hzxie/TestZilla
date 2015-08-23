@@ -107,11 +107,8 @@ class UserService extends Service {
             $user->setUserGroup($defaultUserGroup);
             
             if ( !$user->create() ) {
-                $result['isSuccessful'] = false;
-                foreach ( $user->getMessages() as $message ) {
-                    $this->logger->log('[Service\UserService] Error occurred while creating user.', Logger::ERROR);
-                    $this->logger->log('[Service\UserService] ' . $message, Logger::ERROR);
-                }
+                $result['isSuccessful']      = false;
+                $result['isQuerySuccessful'] = false;
             }
         }
         return $result;
@@ -165,10 +162,4 @@ class UserService extends Service {
         $user = User::findFirst("email = '$email'");
         return $user != NULL;
     }
-
-    /**
-     * The logger of UserService.
-     * @var Phalcon\Logger\Adapter\File
-     */
-    private $logger;
 }

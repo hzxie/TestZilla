@@ -1,48 +1,58 @@
 <?php echo Phalcon\Tag::stylesheetLink("${cdnUrl}/css/products/product.css"); ?>
 <div id="product" class="container">
     <div class="row-fluid">
-        <div id="container" class="span9">
-            <div class="header">
-                <?php echo $product['productName']; ?>
-            </div> <!-- .header -->
-            <div class="body">
-                <div class="section">
-                    <h4><?php echo $localization['products.product.introduction']; ?></h4>
-                    <div id="product-logo">
-                        <img src="<?php echo $product['productLogo']; ?>" alt="Product Logo" />
-                    </div> <!-- #product-logo -->
-                    <div class="description">
-                        <div class="row-fluid">
-                            <div class="span4 text-bold"><?php echo $localization['products.product.product-name']; ?></div> <!-- .span4 -->
-                            <div class="span8"><?php echo $product['productName']; ?></div> <!-- .span8 -->
-                        </div> <!-- .row-fluid -->
-                        <div class="row-fluid">
-                            <div class="span4 text-bold"><?php echo $localization['products.product.product-category']; ?></div> <!-- .span4 -->
-                            <div class="span8"><?php echo $product['productCategory']; ?></div> <!-- .span8 -->
-                        </div> <!-- .row-fluid -->
-                        <div class="row-fluid">
-                            <div class="span4 text-bold"><?php echo $localization['products.product.latest-version']; ?></div> <!-- .span4 -->
-                            <div class="span8"><?php echo $product['latestVersion']; ?></div> <!-- .span8 -->
-                        </div> <!-- .row-fluid -->
-                        <div class="row-fluid">
-                            <div class="span4 text-bold"><?php echo $localization['products.product.product-url']; ?></div> <!-- .span4 -->
-                            <div class="span8">
-                                <a href="<?php echo $product['productUrl']; ?>" target="_blank">
-                                    <?php echo $product['productUrl']; ?>
-                                </a>
-                            </div> <!-- .span8 -->
-                        </div> <!-- .row-fluid -->
-                        <div class="row-fluid">
-                            <div class="span4 text-bold"><?php echo $localization['products.product.prerequisites']; ?></div> <!-- .span4 -->
-                            <div class="span8"><?php echo $product['prerequisites']; ?></div> <!-- .span8 -->
-                        </div> <!-- .row-fluid -->
-                    </div> <!-- .description -->
-                </div> <!-- .section -->
-                <div class="section">
-                    <h4><?php echo $localization['products.product.description']; ?></h4>
-                    <div class="description markdown"><?php echo $product['description']; ?></div> <!-- .description -->
-                </div> <!-- .section -->
-            </div> <!-- .body -->
+        <div class="span9">
+            <div class="panel">
+                <div class="header">
+                    <?php echo $localization['products.product.product-information']; ?>
+                </div> <!-- .header -->
+                <div class="body">
+                    <div class="section">
+                        <h4><?php echo $localization['products.product.introduction']; ?></h4>
+                        <div id="product-logo">
+                            <img src="<?php echo $product['productLogo']; ?>" alt="Product Logo" />
+                        </div> <!-- #product-logo -->
+                        <div class="description">
+                            <div class="row-fluid">
+                                <div class="span4 text-bold"><?php echo $localization['products.product.product-name']; ?></div> <!-- .span4 -->
+                                <div class="span8"><?php echo $product['productName']; ?></div> <!-- .span8 -->
+                            </div> <!-- .row-fluid -->
+                            <div class="row-fluid">
+                                <div class="span4 text-bold"><?php echo $localization['products.product.product-category']; ?></div> <!-- .span4 -->
+                                <div class="span8"><?php echo $product['productCategory']; ?></div> <!-- .span8 -->
+                            </div> <!-- .row-fluid -->
+                            <div class="row-fluid">
+                                <div class="span4 text-bold"><?php echo $localization['products.product.latest-version']; ?></div> <!-- .span4 -->
+                                <div class="span8"><?php echo $product['latestVersion']; ?></div> <!-- .span8 -->
+                            </div> <!-- .row-fluid -->
+                            <div class="row-fluid">
+                                <div class="span4 text-bold"><?php echo $localization['products.product.product-url']; ?></div> <!-- .span4 -->
+                                <div class="span8">
+                                    <a href="<?php echo $product['productUrl']; ?>" target="_blank">
+                                        <?php echo $product['productUrl']; ?>
+                                    </a>
+                                </div> <!-- .span8 -->
+                            </div> <!-- .row-fluid -->
+                            <div class="row-fluid">
+                                <div class="span4 text-bold"><?php echo $localization['products.product.prerequisites']; ?></div> <!-- .span4 -->
+                                <div class="span8"><?php echo $product['prerequisites']; ?></div> <!-- .span8 -->
+                            </div> <!-- .row-fluid -->
+                        </div> <!-- .description -->
+                    </div> <!-- .section -->
+                    <div class="section">
+                        <h4><?php echo $localization['products.product.description']; ?></h4>
+                        <div class="description markdown"><?php echo $product['description']; ?></div> <!-- .description -->
+                    </div> <!-- .section -->
+                </div> <!-- .body -->
+            </div> <!-- .panel -->
+            <div class="panel">
+                <div class="header">
+                    <?php echo $localization['products.product.issues']; ?>
+                    <a href="//new-issue" class="pull-right"></a>
+                </div> <!-- .header -->
+                <div class="body">
+                </div> <!-- .body -->
+            </div> <!-- .panel -->
         </div> <!-- .span9 -->
         <div class="span3">
             <div id="developer">

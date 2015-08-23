@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 21, 2015 at 03:28 下午
+-- Generation Time: Aug 23, 2015 at 09:16 上午
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -23,111 +23,86 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tz_bugs`
+-- Table structure for table `tz_issues`
 --
 
-CREATE TABLE IF NOT EXISTS `tz_bugs` (
-  `bug_id` bigint(20) NOT NULL,
+CREATE TABLE IF NOT EXISTS `tz_issues` (
+  `issue_id` bigint(20) NOT NULL,
   `product_id` bigint(20) NOT NULL,
   `product_version` varchar(24) NOT NULL,
-  `bug_category_id` int(4) NOT NULL,
-  `bug_status_id` int(4) NOT NULL,
-  `bug_severity_id` int(4) NOT NULL,
-  `bug_create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `bug_hunter_id` bigint(20) NOT NULL,
-  `bug_title` varchar(64) NOT NULL,
-  `bug_description` text NOT NULL,
-  `bug_screenshots` text
+  `issue_category_id` int(4) NOT NULL,
+  `issue_status_id` int(4) NOT NULL,
+  `issue_create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `issue_hunter_id` bigint(20) NOT NULL,
+  `issue_title` varchar(64) NOT NULL,
+  `issue_description` text NOT NULL,
+  `issue_screenshots` text
 ) ENGINE=InnoDB AUTO_INCREMENT=1003 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tz_bugs`
+-- Dumping data for table `tz_issues`
 --
 
-INSERT INTO `tz_bugs` (`bug_id`, `product_id`, `product_version`, `bug_category_id`, `bug_status_id`, `bug_severity_id`, `bug_create_time`, `bug_hunter_id`, `bug_title`, `bug_description`, `bug_screenshots`) VALUES
-(1000, 1000, '1.0 Beta', 5, 4, 3, '2015-01-22 08:05:00', 1001, 'Bug #1000', '# Marked in browser\\n\\nRendered by **marked**.', NULL),
-(1001, 1000, '1.0 Beta', 12, 1, 2, '2015-02-03 08:05:00', 1000, 'Bug #1001', 'This is the *first* editor.\r\n------------------------------\r\n\r\nJust plain **Markdown**, except that the input is sanitized:\r\n\r\nand that it implements "fenced blockquotes" via a plugin:\r\n\r\n"""\r\nDo it like this:\r\n\r\n1. Have idea.\r\n2. ???\r\n3. Profit!\r\n"""', NULL),
-(1002, 1001, '1.0 Beta', 2, 1, 1, '2015-02-03 12:11:20', 1001, 'Bug #1002', '# Marked in browser\\n\\nRendered by **marked**.', '');
+INSERT INTO `tz_issues` (`issue_id`, `product_id`, `product_version`, `issue_category_id`, `issue_status_id`, `issue_create_time`, `issue_hunter_id`, `issue_title`, `issue_description`, `issue_screenshots`) VALUES
+(1000, 1000, '1.0 Beta', 5, 4, '2015-01-22 08:05:00', 1001, 'Bug #1000', '# Marked in browser\\n\\nRendered by **marked**.', NULL),
+(1001, 1000, '1.0 Beta', 12, 1, '2015-02-03 08:05:00', 1000, 'Bug #1001', 'This is the *first* editor.\r\n------------------------------\r\n\r\nJust plain **Markdown**, except that the input is sanitized:\r\n\r\nand that it implements "fenced blockquotes" via a plugin:\r\n\r\n"""\r\nDo it like this:\r\n\r\n1. Have idea.\r\n2. ???\r\n3. Profit!\r\n"""', NULL),
+(1002, 1001, '1.0 Beta', 2, 1, '2015-02-03 12:11:20', 1001, 'Bug #1002', '# Marked in browser\\n\\nRendered by **marked**.', '');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tz_bug_categories`
+-- Table structure for table `tz_issue_categories`
 --
 
-CREATE TABLE IF NOT EXISTS `tz_bug_categories` (
-  `bug_category_id` int(4) NOT NULL,
-  `bug_category_slug` varchar(24) NOT NULL,
-  `bug_category_name` varchar(24) NOT NULL
+CREATE TABLE IF NOT EXISTS `tz_issue_categories` (
+  `issue_category_id` int(4) NOT NULL,
+  `issue_category_slug` varchar(24) NOT NULL,
+  `issue_category_name` text NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tz_bug_categories`
+-- Dumping data for table `tz_issue_categories`
 --
 
-INSERT INTO `tz_bug_categories` (`bug_category_id`, `bug_category_slug`, `bug_category_name`) VALUES
-(1, 'crashes', 'Application Crashes'),
-(2, 'exceptions', 'Exceptions'),
-(3, 'functional', 'Functional Errors'),
-(4, 'file-io', 'File I/O'),
-(5, 'gui', 'Graphical User Interface'),
-(6, 'database', 'Database'),
-(7, 'network', 'Network'),
-(8, 'optimization', 'Optimization'),
-(9, 'portability', 'Portability'),
-(10, 'security', 'Security'),
-(11, 'threads', 'Threads Synchronization'),
-(12, 'others', 'Others');
+INSERT INTO `tz_issue_categories` (`issue_category_id`, `issue_category_slug`, `issue_category_name`) VALUES
+(1, 'crashes', '{"en": "Application Crashes", "zh": "应用程序崩溃"}'),
+(2, 'exceptions', '{"en": "Exceptions", "zh": "异常"}'),
+(3, 'functional', '{"en": "Functional Errors", "zh": "功能性错误"}'),
+(4, 'file-io', '{"en": "File I/O", "zh": "文件 I/O"}'),
+(5, 'gui', '{"en": "Graphical User Interface", "zh": "图形用户界面"}'),
+(6, 'database', '{"en": "Database", "zh": "数据库"}'),
+(7, 'network', '{"en": "Network", "zh": "网络"}'),
+(8, 'optimization', '{"en": "Optimization", "zh": "优化"}'),
+(9, 'portability', '{"en": "Portability", "zh": "可移植性"}'),
+(10, 'security', '{"en": "Security", "zh": "安全"}'),
+(11, 'threads', '{"en": "Threads Safety", "zh": "线程安全性"}'),
+(12, 'others', '{"en": "Others", "zh": "其他"}');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tz_bug_severities`
+-- Table structure for table `tz_issue_status`
 --
 
-CREATE TABLE IF NOT EXISTS `tz_bug_severities` (
-  `bug_severity_id` int(4) NOT NULL,
-  `bug_severity_slug` varchar(24) NOT NULL,
-  `bug_severity_name` varchar(24) NOT NULL,
-  `bug_severity_description` text NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `tz_issue_status` (
+  `issue_status_id` int(4) NOT NULL,
+  `issue_status_slug` varchar(24) NOT NULL,
+  `issue_status_name` text NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tz_bug_severities`
+-- Dumping data for table `tz_issue_status`
 --
 
-INSERT INTO `tz_bug_severities` (`bug_severity_id`, `bug_severity_slug`, `bug_severity_name`, `bug_severity_description`) VALUES
-(1, 'critical', 'Critical', 'The defect affects critical functionality or critical data. It does not have a workaround. Example: Unsuccessful installation, complete failure of a feature.'),
-(2, 'major', 'Major', 'The defect affects major functionality or major data. It has a workaround but is not obvious and is difficult. Example: A feature is not functional from one module but the task is doable if 10 complicated indirect steps are followed in another module/s.'),
-(3, 'minor', 'Minor', 'The defect affects minor functionality or non-critical data. It has an easy workaround. Example: A minor feature that is not functional in one module but the same task is easily doable from another module.'),
-(4, 'trivial', 'Trivial', 'The defect does not affect functionality or data. It does not even need a workaround. It does not impact productivity or efficiency. It is merely an inconvenience. Example: Petty layout discrepancies, spelling/grammatical errors.');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tz_bug_status`
---
-
-CREATE TABLE IF NOT EXISTS `tz_bug_status` (
-  `bug_status_id` int(4) NOT NULL,
-  `bug_status_slug` varchar(24) NOT NULL,
-  `bug_status_name` varchar(24) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tz_bug_status`
---
-
-INSERT INTO `tz_bug_status` (`bug_status_id`, `bug_status_slug`, `bug_status_name`) VALUES
-(1, 'unconfirmed', 'Unconfirmed'),
-(2, 'confirmed', 'Confirmed'),
-(3, 'fixed', 'Fixed'),
-(4, 'nvalid', 'Invalid'),
-(5, 'wontfix', 'Won''t Fix'),
-(6, 'later', 'Fix Later'),
-(7, 'duplicate', 'Duplicate'),
-(8, 'worksforme', 'Can''t Reappear'),
-(9, 'enhancement', 'Enhancement');
+INSERT INTO `tz_issue_status` (`issue_status_id`, `issue_status_slug`, `issue_status_name`) VALUES
+(1, 'unconfirmed', '{"en":"Unconfirmed", "zh": "未确认"}'),
+(2, 'confirmed', '{"en": "Confirmed", "zh": "已确认"}'),
+(3, 'fixed', '{"en": "Fixed", "zh": "已修复"}'),
+(4, 'nvalid', '{"en": "Invalid", "zh": "无效"}'),
+(5, 'wontfix', '{"en", "Won''t Fix", "zh": "将不修复"}'),
+(6, 'later', '{"en": "Fix Later", "zh": "在以后修复"}'),
+(7, 'duplicate', '{"en": "Duplicate", "zh": "重复"}'),
+(8, 'worksforme', '{"en": "Can''t Reappear", "zh": "无法复现"}');
 
 -- --------------------------------------------------------
 
@@ -137,15 +112,16 @@ INSERT INTO `tz_bug_status` (`bug_status_id`, `bug_status_slug`, `bug_status_nam
 
 CREATE TABLE IF NOT EXISTS `tz_mail_verification` (
   `email` varchar(64) NOT NULL,
-  `code` varchar(36) NOT NULL
+  `code` varchar(36) NOT NULL,
+  `expires_time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tz_mail_verification`
 --
 
-INSERT INTO `tz_mail_verification` (`email`, `code`) VALUES
-('zjhzxhz@qq.com', '3d6f91cd-2868-44ee-b907-df87146a512a');
+INSERT INTO `tz_mail_verification` (`email`, `code`, `expires_time`) VALUES
+('zjhzxhz@qq.com', '3d6f91cd-2868-44ee-b907-df87146a512a', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -252,7 +228,7 @@ CREATE TABLE IF NOT EXISTS `tz_products` (
 
 INSERT INTO `tz_products` (`product_id`, `product_logo`, `product_category_id`, `product_latest_version`, `product_developer_id`, `product_url`, `product_name`, `product_prerequisites`, `product_description`) VALUES
 (1000, 'http://www.testzilla.org/img/logo.png', 1, '2.0 Alpha', 1002, 'http://www.testzilla.org/', '{"en":"TestZilla", "zh":"TestZilla"}', '{"en": "IE 7+, Firefox, Chrome or Safari", "zh": "IE 7+, Firefox, Chrome or Safari"}', '{"en": "", "zh": ""}'),
-(1001, 'http://www.courseocean.com/img/logo.png', 1, '1.0 Alpha', 1001, 'http://www.courseocean.com/', '{"en":"CourseOcean", "zh":"学海无涯"}', '{"zh": "IE 7+, Firefox, Chrome or Safari"}', '{"zh": ""}');
+(1001, 'http://www.courseocean.com/img/logo.png', 1, '1.0 Alpha', 1001, 'http://www.courseocean.com/', '{"en":"CourseOcean", "zh":"学海无涯"}', '{"zh": "IE 7+, Firefox, Chrome or Safari"}', '{"zh": "# Hello World"}');
 
 -- --------------------------------------------------------
 
@@ -329,34 +305,27 @@ INSERT INTO `tz_user_groups` (`user_group_id`, `user_group_slug`, `user_group_na
 --
 
 --
--- Indexes for table `tz_bugs`
+-- Indexes for table `tz_issues`
 --
-ALTER TABLE `tz_bugs`
-  ADD PRIMARY KEY (`bug_id`),
+ALTER TABLE `tz_issues`
+  ADD PRIMARY KEY (`issue_id`),
   ADD KEY `product_id` (`product_id`),
-  ADD KEY `bug_category_id` (`bug_category_id`,`bug_status_id`),
+  ADD KEY `bug_category_id` (`issue_category_id`,`issue_status_id`),
   ADD KEY `product_id_2` (`product_id`),
-  ADD KEY `bug_status_id` (`bug_status_id`),
-  ADD KEY `bug_hunter_id` (`bug_hunter_id`),
-  ADD KEY `bug_severity_id` (`bug_severity_id`);
+  ADD KEY `bug_status_id` (`issue_status_id`),
+  ADD KEY `bug_hunter_id` (`issue_hunter_id`);
 
 --
--- Indexes for table `tz_bug_categories`
+-- Indexes for table `tz_issue_categories`
 --
-ALTER TABLE `tz_bug_categories`
-  ADD PRIMARY KEY (`bug_category_id`);
+ALTER TABLE `tz_issue_categories`
+  ADD PRIMARY KEY (`issue_category_id`);
 
 --
--- Indexes for table `tz_bug_severities`
+-- Indexes for table `tz_issue_status`
 --
-ALTER TABLE `tz_bug_severities`
-  ADD PRIMARY KEY (`bug_severity_id`);
-
---
--- Indexes for table `tz_bug_status`
---
-ALTER TABLE `tz_bug_status`
-  ADD PRIMARY KEY (`bug_status_id`);
+ALTER TABLE `tz_issue_status`
+  ADD PRIMARY KEY (`issue_status_id`);
 
 --
 -- Indexes for table `tz_mail_verification`
@@ -418,25 +387,20 @@ ALTER TABLE `tz_user_groups`
 --
 
 --
--- AUTO_INCREMENT for table `tz_bugs`
+-- AUTO_INCREMENT for table `tz_issues`
 --
-ALTER TABLE `tz_bugs`
-  MODIFY `bug_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1003;
+ALTER TABLE `tz_issues`
+  MODIFY `issue_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1003;
 --
--- AUTO_INCREMENT for table `tz_bug_categories`
+-- AUTO_INCREMENT for table `tz_issue_categories`
 --
-ALTER TABLE `tz_bug_categories`
-  MODIFY `bug_category_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+ALTER TABLE `tz_issue_categories`
+  MODIFY `issue_category_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
--- AUTO_INCREMENT for table `tz_bug_severities`
+-- AUTO_INCREMENT for table `tz_issue_status`
 --
-ALTER TABLE `tz_bug_severities`
-  MODIFY `bug_severity_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT for table `tz_bug_status`
---
-ALTER TABLE `tz_bug_status`
-  MODIFY `bug_status_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+ALTER TABLE `tz_issue_status`
+  MODIFY `issue_status_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `tz_options`
 --
@@ -477,14 +441,13 @@ ALTER TABLE `tz_user_groups`
 --
 
 --
--- Constraints for table `tz_bugs`
+-- Constraints for table `tz_issues`
 --
-ALTER TABLE `tz_bugs`
-  ADD CONSTRAINT `tz_bugs_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `tz_products` (`product_id`),
-  ADD CONSTRAINT `tz_bugs_ibfk_2` FOREIGN KEY (`bug_category_id`) REFERENCES `tz_bug_categories` (`bug_category_id`),
-  ADD CONSTRAINT `tz_bugs_ibfk_3` FOREIGN KEY (`bug_status_id`) REFERENCES `tz_bug_status` (`bug_status_id`),
-  ADD CONSTRAINT `tz_bugs_ibfk_4` FOREIGN KEY (`bug_severity_id`) REFERENCES `tz_bug_severities` (`bug_severity_id`),
-  ADD CONSTRAINT `tz_bugs_ibfk_5` FOREIGN KEY (`bug_hunter_id`) REFERENCES `tz_users` (`uid`);
+ALTER TABLE `tz_issues`
+  ADD CONSTRAINT `tz_issues_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `tz_products` (`product_id`),
+  ADD CONSTRAINT `tz_issues_ibfk_2` FOREIGN KEY (`issue_category_id`) REFERENCES `tz_issue_categories` (`issue_category_id`),
+  ADD CONSTRAINT `tz_issues_ibfk_3` FOREIGN KEY (`issue_status_id`) REFERENCES `tz_issue_status` (`issue_status_id`),
+  ADD CONSTRAINT `tz_issues_ibfk_4` FOREIGN KEY (`issue_hunter_id`) REFERENCES `tz_users` (`uid`);
 
 --
 -- Constraints for table `tz_points_logs`

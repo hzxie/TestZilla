@@ -82,13 +82,15 @@ $messages = array(
     'products.index.no-products'                        => '暂无可用产品.',
     'projects.index.issues-reported'                    => '个已报告问题',
     # products/product.phtml
+    'products.product.product-information'              => '产品信息',
     'products.product.introduction'                     => '产品概述',
     'products.product.product-name'                     => '产品名称',
     'products.product.product-category'                 => '产品分类',
     'products.product.latest-version'                   => '最新版本',
     'products.product.product-url'                      => '产品主页',
     'products.product.prerequisites'                    => '先决条件',
-    'products.product.description'                      => '产品介绍',
+    'products.product.description'                      => '详细信息',
+    'products.product.issues'                           => '提交的问题',
     'products.product.user'                             => '用户',
     'products.product.developer'                        => '开发者',
     # errors/resourceNotFound.phtml

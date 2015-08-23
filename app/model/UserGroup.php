@@ -16,7 +16,7 @@ class UserGroup extends Model {
      * the 1-N relationship in this function.
      */
     public function initialize() {
-       $this->hasMany('user_group_id', 'User', 'user_group_id');
+        $this->hasMany('user_group_id', 'User', 'user_group_id');
     }
 
     /**

@@ -4,9 +4,9 @@
         <div id="sidebar" class="span4">
             <div class="section">
                 <h5><?php echo $localization['products.index.search']; ?></h5>
-                <form class="form-search" onSubmit="return false;">
+                <form class="form-search" onSubmit="getProducts(); return false;">
                     <div class="control-group">
-                        <input name="keyword" class="span12" type="text" placeholder="<?php echo $localization['products.index.keyword']; ?>" />
+                        <input id="keyword" name="keyword" class="span12" type="text" placeholder="<?php echo $localization['products.index.keyword']; ?>" />
                     </div> <!-- .control-group -->
                 </form>
             </div> <!-- .section -->
@@ -80,19 +80,21 @@
 </script>
 <script type="text/javascript">
     function getProducts(pageNumber) {
-        var productCategory = $('li.active', '#product-categories').attr('data-value');
+        var productCategory = $('li.active', '#product-categories').attr('data-value'),
+            keyword         = $('#keyword').val();
 
         if ( typeof(pageNumber) == 'undefined' ) {
             pageNumber = 1;
         }
         $('#loading').removeClass('hide');
-        return getProductsAction(productCategory, pageNumber);
+        return getProductsAction(productCategory, keyword, pageNumber);
     }
 </script>
 <script type="text/javascript">
-    function getProductsAction(productCategory, pageNumber) {
+    function getProductsAction(productCategory, keyword, pageNumber) {
         var pageRequest = {
             'productCategory': productCategory,
+            'keyword': keyword,
             'page': pageNumber,
         };
         $.ajax({
