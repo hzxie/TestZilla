@@ -34,7 +34,7 @@ class ProductsController extends BaseController {
 
     /**
      * Get products of a certain category.
-     * @return an HttpResponse which contains information of products
+     * @return a HttpResponse which contains information of products
      */
     public function getProductsAction() {
         $productCategorySlug    = $this->request->get('productCategory');
@@ -78,7 +78,7 @@ class ProductsController extends BaseController {
 
     /**
      * Render to product detail information page.
-     * @param  $productId - the unique ID of the product
+     * @param long $productId - the unique ID of the product
      */
     public function productAction($productId) {
         $productService = ServiceFactory::getService('ProductService');
@@ -96,6 +96,69 @@ class ProductsController extends BaseController {
         $this->tag->prependTitle($product['productName']);
         $this->view->setVar('product', $product);
         $this->view->setVar('relationalProducts', $relationalProducts);
+    }
+
+    /**
+     * Get issues of a certain product.
+     * @param  long $productId - the unique ID of the product
+     * @return a HttpResponse which contains information of issues of a product
+     */
+    public function getIssuesAction($productId) {
+        $issueCategorySlug  = $this->request->get('issueCategory');
+        $issueStatusSlug    = $this->request->get('issueStatus');
+        $hunterUsername     = $this->request->get('hunter');
+        $pageNumber         = $this->request->get('page');
+        $limit              = self::NUMBER_OF_ISSUES_PER_REQUEST;
+        $offset             = $pageNumber <= 1 ? 0 :  ($pageNumber - 1) * $limit;
+
+        $productService     = ServiceFactory::getService('ProductService');
+        $issueService       = ServiceFactory::getService('IssueService');
+        $product            = $productService->getProductUsingId($productId);
+
+        if ( $product == NULL ) {
+            $this->forward('errors/resourceNotFound');
+            return;
+        }
+        $issueCategoryId    = $issueService->getIssueCategoryId($issueCategorySlug);
+        $issueStatusId      = $issueService->getIssueStatusId($issueStatusSlug);
+        $issues             = $issueService->getIssuesUsingCategoryAndStatusAndHunter($issueCategoryId, $issueStatusId, $hunterUsername, $offset, $limit);
+        $numberOfIssues     = $issueService->getIssuesCountUsingCategoryAndStatusAndHunter($issueCategoryId, $issueStatusId, $hunterUsername);
+
+        $result             = array(
+            'isSuccessful'  => !empty($issues),
+            'products'      => $issues,
+            'totalPages'    => ceil($numberOfIssues / $limit),
+        );
+        $response   = new Response();
+        $response->setHeader('Content-Type', 'application/json');
+        $response->setContent(json_encode($result));
+        return $response;
+    }
+
+    /**
+     * Render to new issue page to create an issue.
+     * @param  long $productId - the unique ID of the product
+     */
+    public function newIssueAction($productId) {
+        if ( !$this->isLoggedIn($this->session) ) {
+            $response    = new Response();
+            $response->redirect("/accounts/signin?forward=/product/{$productId}/new-issue");
+            return $response;
+        }
+        $productService     = ServiceFactory::getService('ProductService');
+        $issueService       = ServiceFactory::getService('IssueService');
+        $product            = $productService->getProductUsingId($productId);
+
+        if ( $product == NULL ) {
+            $this->forward('errors/resourceNotFound');
+            return;
+        }
+        $product            = $this->getProductInBestLanguage($product);
+        $issueCategories    = $issueService->getIssueCategories();
+        $issueStatusList    = $issueService->getIssueStatusList();
+
+        $this->tag->prependTitle($this->localization['products.new-issue.title'] . ' · ' . $product['productName']);
+        $this->view->setVar('product', $product);
     }
 
     /**
@@ -145,9 +208,14 @@ class ProductsController extends BaseController {
     }
 
     /**
-     * Number of products to display in one page in the view.
+     * Number of products to display in a page in the view.
      */
     const NUMBER_OF_PRODUCTS_PER_PAGE = 15;
+
+    /**
+     * Number of issues to get in a request.
+     */
+    const NUMBER_OF_ISSUES_PER_REQUEST = 15;
 
     /**
      * The logger of AccountsController.

@@ -94,6 +94,8 @@ $messages = array(
     'products.product.user'                             => 'User',
     'products.product.developer'                        => 'Developer',
     'products.product.relational-products'              => 'Relational Products',
+    # products/new-issue.phtml
+    'products.new-issue.title'                          => 'New Issue',
     # errors/resourceNotFound.phtml
     'errors.404.title'                                  => 'Page Not Found',
     'errors.404.page-not-found'                         => 'Page Not Found!',

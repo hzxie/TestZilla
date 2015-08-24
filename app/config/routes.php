@@ -72,5 +72,13 @@ $router->add('/product/{productId}', array(
     'controller' => 'products',
     'action'     => 'product',
 ));
+$router->add('/product/{productId}/getIssues.action', array(
+    'controller' => 'products',
+    'action'     => 'getIssues',
+));
+$router->add('/product/{productId}/new-issue', array(
+    'controller' => 'products',
+    'action'     => 'newIssue',
+));
 
 $router->handle();

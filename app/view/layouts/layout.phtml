@@ -26,8 +26,13 @@
                       <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo $this->url->get('/accounts/signout'); ?>"><?php echo $localization['layout.sign-out']; ?></a></li>
                     </ul>
                     </li>
-                    <?php else: ?>
-                    <li><button class="btn btn-primary" onclick="window.location.href='<?php echo $this->url->get('/accounts/signin'); ?>'"><?php echo $localization['layout.sign-in']; ?></button></li>
+                    <?php 
+                        else: 
+                            $currentUrl = $_SERVER['REQUEST_URI'];
+                            $baseUrl    = $this->url->get();
+                            $forwardUrl = substr($currentUrl, strlen($baseUrl));
+                    ?>
+                    <li><button class="btn btn-primary" onclick="window.location.href='<?php echo $this->url->get("/accounts/signin?forward=${forwardUrl}"); ?>'"><?php echo $localization['layout.sign-in']; ?></button></li>
                     <?php endif; ?>
                 </ul>
             </div> <!-- #nav -->

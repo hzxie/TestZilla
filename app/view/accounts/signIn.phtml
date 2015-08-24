@@ -74,7 +74,7 @@
 <script type="text/javascript">
     function processsigninResult(result) {
         if ( result['isSuccessful'] ) {
-            var forwardUrl = '<?php echo $forwardUrl; ?>' || '<?php echo $this->url->get('/'); ?>';
+            var forwardUrl       = '<?php echo $this->url->get("${forwardUrl}"); ?>' || '<?php echo $this->url->get('/'); ?>';
             window.location.href = forwardUrl;
         } else {
             $('#password').val('');

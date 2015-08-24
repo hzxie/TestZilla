@@ -41,20 +41,40 @@ class UserService extends Service {
         $user         = NULL;
 
         if ( $isUsingEmail === false ) {
-            $user = User::findFirst(array(
-                'conditions'    => 'username = ?1',
-                'bind'          => array(
-                    1           => $username,
-                ),
-            ));
+            $user     = $this->getUserUsingUsername($username);
         } else {
-            $user = User::findFirst(array(
-                'conditions'    => 'email = ?1',
-                'bind'          => array(
-                    1           => $username,
-                ),
-            ));
+            $user     = $this->getUserUsingEmail($username);
         }
+        return $user;
+    }
+
+    /**
+     * Get User object using username.
+     * @param String $username - the username of the user
+     * @return an expected user object or NULL
+     */
+    public function getUserUsingUsername($username) {
+        $user = User::findFirst(array(
+            'conditions'    => 'username = ?1',
+            'bind'          => array(
+                1           => $username,
+            ),
+        ));
+        return $user;
+    }
+
+    /**
+     * Get User object using email.
+     * @param String $email - the email of the user
+     * @return an expected user object or NULL
+     */
+    public function getUserUsingEmail($email) {
+        $user = User::findFirst(array(
+            'conditions'    => 'email = ?1',
+            'bind'          => array(
+                1           => $email,
+            ),
+        ));
         return $user;
     }
 

@@ -15,13 +15,11 @@ class ProductService extends Service {
      */
     public function initialize() {
         parent::initialize();
-        $logDir            = $this->config->application->logDir;
-        $this->logger      = new FileAdapter(APP_PATH . '/{$logDir}/TestZilla.log');
     }
 
     /**
      * Get all categories of product.
-     * @return an array with contains information of product categories.
+     * @return an array with contains information of product categories
      */
     public function getProductCategories() {
         $categories = array();
