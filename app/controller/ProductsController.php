@@ -167,6 +167,11 @@ class ProductsController extends BaseController {
         return $response;
     }
 
+    /**
+     * Get the best language for multi-language content for issues.
+     * @param  Array $issues - an array of issue list in multi-languages
+     * @return an array of a list of issue with the best language
+     */
     public function getIssuesInBestLanguage($issues) {
         if ( empty($issues) ) {
             return $issues;
@@ -177,6 +182,24 @@ class ProductsController extends BaseController {
             $issue['issueStatus']   = $this->getIssueStatusInBestLanguage($issue['issueStatus']);
         }
         return $issues;
+    }
+
+    /**
+     * Render to detail information of issue page.
+     * @param  long $issueId - the unique ID of the issue
+     */
+    public function issueAction($issueId) {
+        $issueService   = ServiceFactory::getService('IssueService');
+        $issue          = $issueService->getIssueUsingId($issueId);
+
+        if ( $issue == NULL ) {
+            $this->forward('errors/resourceNotFound');
+            return;
+        }
+        $issueTitle     = $issue['issueTitle'];
+        $product        = $this->getProductInBestLanguage($issue['product']);
+        $this->tag->prependTitle($issueTitle . ' · ' . $product['productName']);
+        $this->view->setVar('issue', $issue);
     }
 
     /**
@@ -295,6 +318,11 @@ class ProductsController extends BaseController {
      * Number of issues to get in a request.
      */
     const NUMBER_OF_ISSUES_PER_REQUEST = 15;
+
+    /**
+     * Number of replies of issue to get in a request.
+     */
+    const NUMBER_OF_ISSUE_REPLIES_PER_REQUEST = 50;
 
     /**
      * The logger of AccountsController.

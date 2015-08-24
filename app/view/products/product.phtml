@@ -239,19 +239,25 @@
 </script>
 <script type="text/javascript">
     function getIssueContent(issue) {
-        var issueTemplate = '<li class="issue" data-value="%s">' +
-                            '    <h5><a href="<?php echo $this->url->get('/issue/'); ?>%s">%s</a></h5>' +
-                            '    <ul class="inline">' +
-                            '        <li><i class="fa fa-list"></i> %s</li>' +
-                            '        <li><i class="fa fa-caret-square-o-down"></i> %s</li>' +
-                            '        <li><i class="fa fa-clock-o"></i> %s</li>' +
-                            '        <li><i class="fa fa-user"></i> <a href="<?php echo $this->url->get('/accounts/user/'); ?>%s">%s</a></li>' +
-                            '    </ul>' + 
+        var issueTemplate = '<li class="issue row-fluid" data-value="%s">' +
+                            '    <div class="span10">' +
+                            '        <h5><a href="<?php echo $this->url->get('/issue/'); ?>%s">%s</a></h5>' +
+                            '        <ul class="inline">' +
+                            '            <li><i class="fa fa-list"></i> %s</li>' +
+                            '            <li><i class="fa fa-caret-square-o-down"></i> %s</li>' +
+                            '            <li><i class="fa fa-clock-o"></i> %s</li>' +
+                            '            <li><i class="fa fa-user"></i> <a href="<?php echo $this->url->get('/accounts/user/'); ?>%s">%s</a></li>' +
+                            '        </ul>' + 
+                            '    </div> <!-- .span10 -->' +
+                            '    <div class="issue-reply span2 text-right">' + 
+                            '        <i class="fa fa-comments"></i> %s' +
+                            '    </div> <!-- .span2 -->' +
                             '</li>';
 
         return issueTemplate.format(issue['issueId'], issue['issueId'], issue['issueTitle'], 
                 issue['issueCategory']['issueCategoryName'], issue['issueStatus']['issueStatusName'],
-                getTimeElapsed(issue['createTime']), issue['hunter']['uid'], issue['hunter']['username']);
+                getTimeElapsed(issue['createTime']), issue['hunter']['uid'], issue['hunter']['username'],
+                issue['issueRepliesCount']);
     }
 </script>
 <script type="text/javascript">

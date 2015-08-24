@@ -92,6 +92,81 @@ class IssueService extends Service {
     }
 
     /**
+     * Get detail information of a issue.
+     * @param  long $issueId - the unique ID of the issue
+     * @return an array which contains information of the issue
+     */
+    public function getIssueUsingId($issueId) {
+        $rowSet     = Issue::findFirst(array(
+            'conditions'    => 'issue_id = ?1',
+            'bind'          => array(
+                1           => $issueId,
+            ),
+        ));
+
+        if ( $rowSet == NULL ) {
+            return NULL;
+        }
+        return array(
+            'issueId'       => $rowSet->getIssueId(),
+            'product'       => array(
+                'productId'         => $rowSet->getProduct()->getProductId(),
+                'productName'       => (array)json_decode($rowSet->getProduct()->getProductName()),
+                'latestVersion'     => $rowSet->getProduct()->getLatestVersion(),
+            ),
+            'productVersion'    => $rowSet->getProductVersion(),
+            'issueCategory'     => array(
+                'issueCategoryId'   => $rowSet->getIssueCategory()->getIssueCategoryId(),
+                'issueCategoryName' => (array)json_decode($rowSet->getIssueCategory()->getIssueCategoryName()),
+            ),
+            'issueStatus'       => array(
+                'issueStatusId'     => $rowSet->getIssueStatus()->getIssueStatusId(),
+                'issueStatusName'   => (array)json_decode($rowSet->getIssueStatus()->getIssueStatusName()),
+            ),
+            'createTime'        => $rowSet->getCreateTime(),
+            'hunter'            => array(
+                'uid'               => $rowSet->getHunter()->getUid(),
+                'username'          => $rowSet->getHunter()->getUsername(),
+            ),
+            'issueTitle'        => $rowSet->getIssueTitle(),
+            'issueDescription'  => $rowSet->getIssueDescription(),
+        );
+    }
+
+    /**
+     * Get the list of replies of an issue.
+     * @param  long $issueId - the unique ID of the issue
+     * @param  long $offset  - the index of first record of result set
+     * @param  int  $limit   - the number of records to get for each request
+     * @return the list of replies of an issue
+     */
+    public function getIssueReplies($issueId, $offset, $limit) {
+        $issueReplies   = array();
+        $resultSet      = IssueReply::find(array(
+            'conditions'    => 'issue_id = ?1',
+            'bind'          => array(
+                1           => $issueId,
+            ),
+            'limit'         => $limit,
+            'offset'        => $offset,
+            'order'         => 'issue_reply_id DESC',
+        ));
+
+        foreach ( $resultSet as $rowSet ) {
+            array_push($issueReplies, array(
+                'issueReplyId'  => $rowSet->getIssueReplyId(),
+                'createTime'    => $rowSet->getCreateTime(),
+                'submiter'      => array(
+                    'uid'       => $rowSet->getSubmiter()->getUid(),
+                    'username'  => $rowSet->getSubmiter()->getUsername(),
+                ),
+                'description'   => $rowSet->getDescription(),
+            ));            
+        }
+        return $issueReplies;
+    }
+
+    /**
      * Get issues in a certain category, status and founded by a certain user.
      * @param  long   $productId       - the unique ID of the product
      * @param  int    $issueCategoryId - the unique ID of a category of issue
@@ -134,6 +209,7 @@ class IssueService extends Service {
                     'username'          => $rowSet->getHunter()->getUsername(),
                 ),
                 'issueTitle'        => $rowSet->getIssueTitle(),
+                'issueRepliesCount' => $rowSet->getNumberOfIssueReplies(),
             ));
         }
         return $issues;

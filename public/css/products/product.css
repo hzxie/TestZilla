@@ -76,8 +76,19 @@ div#product div.panel div.body ul#issues li.issue:last-child {
 	border-bottom: none;
 }
 
-div#product div.panel div.body ul#issues li.issue a {
-	color: #2980b9;
+div#product div.panel div.body ul#issues li.issue h5 {
+	height: 20px;
+	overflow: hidden;
+}
+
+div#product div.panel div.body ul#issues li.issue ul.inline a {
+	color: #34495e;
+}
+
+div#product div.panel div.body ul#issues li.issue div.issue-reply {
+	color: #666;
+	font-size: 16px;
+	padding: 25px 0 15px;
 }
 
 div#developer,

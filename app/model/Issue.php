@@ -9,7 +9,7 @@ use Phalcon\Mvc\Model;
  * @author Xie Haozhe <zjhzxhz@gmail.com>
  */
 class Issue extends Model {
-	/**
+    /**
      * Initialize the model.
      * According to the document of Phalcon framework, we have to announce 
      * the N-1 relationship in this function.
@@ -19,6 +19,8 @@ class Issue extends Model {
         $this->belongsTo('issue_category_id', 'IssueCategory', 'issue_category_id');
         $this->belongsTo('issue_status_id', 'IssueStatus', 'issue_status_id');
         $this->belongsTo('issue_hunter_id', 'User', 'uid');
+        
+        $this->hasMany('issue_id', 'IssueReply', 'issue_id');
     }
 
     /**
@@ -189,6 +191,14 @@ class Issue extends Model {
      */
     public function setIssueDescription($description) {
         $this->issue_description = $description;
+    }
+
+    /**
+     * Get number of replies of the issue.
+     * @return number of replies of the issue
+     */
+    public function getNumberOfIssueReplies() {
+        return $this->issueReply->count();
     }
 
     /**

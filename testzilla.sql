@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 24, 2015 at 02:57 下午
+-- Generation Time: Aug 24, 2015 at 05:22 下午
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -76,6 +76,27 @@ INSERT INTO `tz_issue_categories` (`issue_category_id`, `issue_category_slug`, `
 (10, 'security', '{"en": "Security", "zh": "安全"}'),
 (11, 'threads', '{"en": "Threads Safety", "zh": "线程安全性"}'),
 (12, 'others', '{"en": "Others", "zh": "其他"}');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tz_issue_replies`
+--
+
+CREATE TABLE IF NOT EXISTS `tz_issue_replies` (
+  `issue_reply_id` bigint(20) NOT NULL,
+  `issue_id` bigint(20) NOT NULL,
+  `issue_reply_create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `issue_reply_submiter_uid` bigint(20) NOT NULL,
+  `issue_reply_description` text NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tz_issue_replies`
+--
+
+INSERT INTO `tz_issue_replies` (`issue_reply_id`, `issue_id`, `issue_reply_create_time`, `issue_reply_submiter_uid`, `issue_reply_description`) VALUES
+(1000, 1000, '2015-08-24 15:02:26', 1001, 'Issue Reply of Issue #1000');
 
 -- --------------------------------------------------------
 
@@ -321,6 +342,14 @@ ALTER TABLE `tz_issue_categories`
   ADD PRIMARY KEY (`issue_category_id`);
 
 --
+-- Indexes for table `tz_issue_replies`
+--
+ALTER TABLE `tz_issue_replies`
+  ADD PRIMARY KEY (`issue_reply_id`),
+  ADD KEY `issue_id` (`issue_id`),
+  ADD KEY `issue_reply_submiter_uid` (`issue_reply_submiter_uid`);
+
+--
 -- Indexes for table `tz_issue_status`
 --
 ALTER TABLE `tz_issue_status`
@@ -396,6 +425,11 @@ ALTER TABLE `tz_issues`
 ALTER TABLE `tz_issue_categories`
   MODIFY `issue_category_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
+-- AUTO_INCREMENT for table `tz_issue_replies`
+--
+ALTER TABLE `tz_issue_replies`
+  MODIFY `issue_reply_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1001;
+--
 -- AUTO_INCREMENT for table `tz_issue_status`
 --
 ALTER TABLE `tz_issue_status`
@@ -447,6 +481,13 @@ ALTER TABLE `tz_issues`
   ADD CONSTRAINT `tz_issues_ibfk_2` FOREIGN KEY (`issue_category_id`) REFERENCES `tz_issue_categories` (`issue_category_id`),
   ADD CONSTRAINT `tz_issues_ibfk_3` FOREIGN KEY (`issue_status_id`) REFERENCES `tz_issue_status` (`issue_status_id`),
   ADD CONSTRAINT `tz_issues_ibfk_4` FOREIGN KEY (`issue_hunter_id`) REFERENCES `tz_users` (`uid`);
+
+--
+-- Constraints for table `tz_issue_replies`
+--
+ALTER TABLE `tz_issue_replies`
+  ADD CONSTRAINT `tz_issue_replies_ibfk_1` FOREIGN KEY (`issue_id`) REFERENCES `tz_issues` (`issue_id`),
+  ADD CONSTRAINT `tz_issue_replies_ibfk_2` FOREIGN KEY (`issue_reply_submiter_uid`) REFERENCES `tz_users` (`uid`);
 
 --
 -- Constraints for table `tz_points_logs`
