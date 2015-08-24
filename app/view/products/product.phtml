@@ -48,9 +48,48 @@
             <div class="panel">
                 <div class="header">
                     <?php echo $localization['products.product.issues']; ?>
-                    <a href="//new-issue" class="pull-right"></a>
+                    <a href="<?php echo $this->url->get("/product/${product['productId']}/new-issue"); ?>" class="pull-right">
+                        <i class="fa fa-plus"></i> <?php echo $localization['products.product.new-issue']; ?>
+                    </a>
                 </div> <!-- .header -->
                 <div class="body">
+                    <div class="row-fluid">
+                        <div class="span6">
+                            <h4><?php echo $localization['products.product.quick-search']; ?></h4>
+                        </div> <!-- .span6 -->
+                        <div class="span6 text-right">
+                            <button id="issue-filter" class="btn btn-primary"><?php echo $localization['products.product.filter']; ?></button>
+                        </div> <!-- .span6 -->
+                    </div> <!-- .row-fluid -->
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <select id="issue-category">
+                                <option value=""><?php echo $localization['products.product.issue-category']; ?></option>
+                            <?php foreach ( $issueCategories as $issueCategory ): ?>
+                                <option value="<?php echo $issueCategory['issueCategorySlug']; ?>"><?php echo $issueCategory['issueCategoryName']; ?></option>
+                            <?php endforeach; ?>
+                            </select>
+                        </div> <!-- .span4 -->
+                        <div class="span4">
+                            <select id="issue-status">
+                                <option value=""><?php echo $localization['products.product.issue-status']; ?></option>
+                            <?php foreach ( $issueStatusList as $issueStatus ): ?>
+                                <option value="<?php echo $issueStatus['issueStatusSlug']; ?>"><?php echo $issueStatus['issueStatusName']; ?></option>
+                            <?php endforeach; ?>
+                            </select>
+                        </div> <!-- .span4 -->
+                        <div class="span4">
+                            <div class="control-group">
+                                <input id="hunter" class="span12" type="text" placeholder="<?php echo $localization['products.product.filter-username'] ?>" />
+                            </div> <!-- .control-group -->
+                        </div> <!-- .span4 -->
+                    </div> <!-- .row-fluid -->
+                    <p id="no-issues" class="hide"><?php echo $localization['products.product.no-issues']; ?></p>
+                    <p id="loading" class="text-center"><img src="<?php echo $cdnUrl; ?>/img/loading.gif" alt=""></p>
+                    <ul id="issues"></ul>
+                    <div id="pagination" class="pagination text-center">
+                        <ul></ul>
+                    </div> <!-- #pagination -->
                 </div> <!-- .body -->
             </div> <!-- .panel -->
         </div> <!-- .span9 -->
@@ -92,6 +131,11 @@
 </div> <!-- #product -->
 
 <script type="text/javascript">
+    $.getScript('<?php echo $cdnUrl; ?>/js/moment.min.js', function() {
+        moment.locale('<?php echo $language; ?>');
+    });
+</script>
+<script type="text/javascript">
     $.getScript('<?php echo $cdnUrl; ?>/js/markdown.min.js', function() {
         converter = Markdown.getSanitizingConverter();
 
@@ -102,4 +146,132 @@
             $(this).html(markdownContent);
         });
     });
+</script>
+<script type="text/javascript">
+    $(function() {
+        return getIssues();
+    });
+</script>
+<script type="text/javascript">
+    $('#issue-filter').click(function() {
+        return getIssues();
+    });
+</script>
+<script type="text/javascript">
+    $('#pagination > ul').delegate('li', 'click', function(e) {
+        e.preventDefault();
+        if ( $(this).hasClass('disabled') ) {
+            return;
+        }
+        var currentPage = parseInt($('li.active > a', '#pagination > ul').html());
+        
+        $('#pagination > li.active').removeClass('active');
+        $(this).addClass('active');
+        var pageNumber  = $('a', this).html();
+
+        if ( pageNumber === '&lt;' ) {
+            pageNumber  = currentPage - 1;
+        } else if ( pageNumber === '&gt;' ) {
+            pageNumber  = currentPage + 1;
+        }
+        getIssues(pageNumber);
+    });
+</script>
+<script type="text/javascript">
+    function getIssues(pageNumber) {
+        var issueCategory = $('#issue-category').val(),
+            issueStatus   = $('#issue-status').val(),
+            hunter        = $('#hunter').val();
+
+        if ( typeof(pageNumber) == 'undefined' ) {
+            pageNumber = 1;
+        }
+        $('#loading').removeClass('hide');
+        return getIssuesAction(issueCategory, issueStatus, hunter, pageNumber);
+    }
+</script>
+<script type="text/javascript">
+    function getIssuesAction(issueCategory, issueStatus, hunter, pageNumber) {
+        var pageRequest = {
+            'issueCategory': issueCategory,
+            'issueStatus': issueStatus,
+            'hunter': hunter,
+            'page': pageNumber,
+        };
+        $.ajax({
+            type: 'GET',
+            url: '<?php echo $this->url->get("/product/${product['productId']}/getIssues.action"); ?>',
+            data: pageRequest,
+            dataType: 'JSON',
+            success: function(result){
+                return processResult(result, pageNumber);
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    function processResult(result, pageNumber) {
+        $('#loading').addClass('hide');
+
+        if ( !result['isSuccessful'] ) {
+            $('#no-issues').removeClass('hide');
+            $('#issues').addClass('hide');
+            $('#pagination').addClass('hide');
+        } else {
+            $('#no-issues').addClass('hide');
+            $('#issues').removeClass('hide');
+            $('#pagination').removeClass('hide');
+            displayIssues(result['issues'])
+            displayPagination(pageNumber, result['totalPages']);
+        }
+    }
+</script>
+<script type="text/javascript">
+    function displayIssues(issues) {
+        $('#issues').empty();
+
+        for ( var i = 0; i < issues.length; ++ i ) {
+            $('#issues').append(
+                getIssueContent(issues[i])
+            );
+        }
+    }
+</script>
+<script type="text/javascript">
+    function getIssueContent(issue) {
+        var issueTemplate = '<li class="issue" data-value="%s">' +
+                            '    <h5><a href="<?php echo $this->url->get('/issue/'); ?>%s">%s</a></h5>' +
+                            '    <ul class="inline">' +
+                            '        <li><i class="fa fa-list"></i> %s</li>' +
+                            '        <li><i class="fa fa-caret-square-o-down"></i> %s</li>' +
+                            '        <li><i class="fa fa-clock-o"></i> %s</li>' +
+                            '        <li><i class="fa fa-user"></i> <a href="<?php echo $this->url->get('/accounts/user/'); ?>%s">%s</a></li>' +
+                            '    </ul>' + 
+                            '</li>';
+
+        return issueTemplate.format(issue['issueId'], issue['issueId'], issue['issueTitle'], 
+                issue['issueCategory']['issueCategoryName'], issue['issueStatus']['issueStatusName'],
+                getTimeElapsed(issue['createTime']), issue['hunter']['uid'], issue['hunter']['username']);
+    }
+</script>
+<script type="text/javascript">
+    function getTimeElapsed(dateTimeString) {
+        var dateTime = moment(dateTimeString);
+        return dateTime.fromNow();
+    }
+</script>
+<script type="text/javascript">
+    function displayPagination(currentPage, totalPages) {
+        $('#pagination > ul').empty();
+
+        var lowerBound = currentPage - 5 > 0 ? currentPage - 5 : 1,
+            upperBound = currentPage + 5 < totalPages ? currentPage + 5 : totalPages;
+            paginationString  = '<li class="previous ' + ( currentPage > 1 ? '' : 'disabled') + '"><a href="#">&lt;</a></li>';
+
+        for ( var i = lowerBound; i <= upperBound; ++ i ) {
+            paginationString += '<li' + ( currentPage == i ? ' class="active"' : '' ) + '><a href="#">' + i + '</a></li>';
+        }
+        paginationString     += '<li class="next ' + ( currentPage < totalPages ? '' : 'disabled') + '"><a href="#">&gt;</a></li>';
+        $('#pagination > ul').append(paginationString);
+    }
 </script>

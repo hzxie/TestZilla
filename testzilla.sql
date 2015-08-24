@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 23, 2015 at 03:11 下午
+-- Generation Time: Aug 24, 2015 at 02:57 下午
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -98,7 +98,7 @@ INSERT INTO `tz_issue_status` (`issue_status_id`, `issue_status_slug`, `issue_st
 (2, 'confirmed', '{"en": "Confirmed", "zh": "已确认"}'),
 (3, 'fixed', '{"en": "Fixed", "zh": "已修复"}'),
 (4, 'nvalid', '{"en": "Invalid", "zh": "无效"}'),
-(5, 'wontfix', '{"en", "Won''t Fix", "zh": "将不修复"}'),
+(5, 'wontfix', '{"en": "Won''t Fox", "zh": "将不修复"}'),
 (6, 'later', '{"en": "Fix Later", "zh": "在以后修复"}'),
 (7, 'duplicate', '{"en": "Duplicate", "zh": "重复"}'),
 (8, 'worksforme', '{"en": "Can''t Reappear", "zh": "无法复现"}');

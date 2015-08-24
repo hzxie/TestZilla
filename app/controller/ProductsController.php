@@ -82,6 +82,7 @@ class ProductsController extends BaseController {
      */
     public function productAction($productId) {
         $productService = ServiceFactory::getService('ProductService');
+        $issueService   = ServiceFactory::getService('IssueService');
         $product        = $productService->getProductUsingId($productId);
 
         if ( $product == NULL ) {
@@ -92,10 +93,39 @@ class ProductsController extends BaseController {
         $product            = $this->getProductInBestLanguage($product);
         $productCategoryId  = $product['productCategory']['productCategoryId'];
         $relationalProducts = $this->getProductsInBestLanguage($productService->getProductsUsingCategory($productCategoryId, 0, 5));
+        $issueCategories    = $this->getIssueCategoriesInBestLanguage($issueService->getIssueCategories());
+        $issueStatusList    = $this->getIssueStatusListInBestLanguage($issueService->getIssueStatusList());
 
         $this->tag->prependTitle($product['productName']);
         $this->view->setVar('product', $product);
         $this->view->setVar('relationalProducts', $relationalProducts);
+        $this->view->setVar('issueCategories', $issueCategories);
+        $this->view->setVar('issueStatusList', $issueStatusList);
+    }
+
+    /**
+     * Get the best language for multi-language content for product.
+     * @param  Array $product - an array contains detail information of the product
+     * @return an array contains detail information of the product with the best language
+     */
+    private function getProductInBestLanguage($product) {
+        if ( empty($product) ) {
+            return $product;
+        }
+        if ( array_key_exists('productName', $product) ) {
+            $product['productName']     = $this->getBestLanguageForContent($product['productName'], $this->request, $this->session);
+        }
+        if ( array_key_exists('productCategory', $product) ) {
+            $product['productCategory']['productCategoryName'] = 
+                $this->getBestLanguageForContent($product['productCategory']['productCategoryName'], $this->request, $this->session);
+        }
+        if ( array_key_exists('prerequisites', $product) ) {
+            $product['prerequisites']   = $this->getBestLanguageForContent($product['prerequisites'], $this->request, $this->session);
+        }
+        if ( array_key_exists('description', $product) ) {
+            $product['description']     = $this->getBestLanguageForContent($product['description'], $this->request, $this->session);
+        }
+        return $product;
     }
 
     /**
@@ -121,18 +151,32 @@ class ProductsController extends BaseController {
         }
         $issueCategoryId    = $issueService->getIssueCategoryId($issueCategorySlug);
         $issueStatusId      = $issueService->getIssueStatusId($issueStatusSlug);
-        $issues             = $issueService->getIssuesUsingCategoryAndStatusAndHunter($issueCategoryId, $issueStatusId, $hunterUsername, $offset, $limit);
-        $numberOfIssues     = $issueService->getIssuesCountUsingCategoryAndStatusAndHunter($issueCategoryId, $issueStatusId, $hunterUsername);
+        $issues             = $this->getIssuesInBestLanguage(
+                                $issueService->getIssuesUsingCategoryAndStatusAndHunter($productId, $issueCategoryId, $issueStatusId, $hunterUsername, $offset, $limit)
+                              );
+        $numberOfIssues     = $issueService->getIssuesCountUsingCategoryAndStatusAndHunter($productId, $issueCategoryId, $issueStatusId, $hunterUsername);
 
         $result             = array(
             'isSuccessful'  => !empty($issues),
-            'products'      => $issues,
+            'issues'        => $issues,
             'totalPages'    => ceil($numberOfIssues / $limit),
         );
         $response   = new Response();
         $response->setHeader('Content-Type', 'application/json');
         $response->setContent(json_encode($result));
         return $response;
+    }
+
+    public function getIssuesInBestLanguage($issues) {
+        if ( empty($issues) ) {
+            return $issues;
+        }
+
+        foreach ( $issues as &$issue ) {
+            $issue['issueCategory'] = $this->getIssueCategoryInBestLanguage($issue['issueCategory']);
+            $issue['issueStatus']   = $this->getIssueStatusInBestLanguage($issue['issueStatus']);
+        }
+        return $issues;
     }
 
     /**
@@ -162,28 +206,63 @@ class ProductsController extends BaseController {
     }
 
     /**
-     * Get the best language for multi-language content for product.
-     * @param  Array $product - an array contains detail information of the product
-     * @return an array contains detail information of the product with the best language
+     * Get the best language for multi-language content for categories of issues.
+     * @param  Array $issueCategories - an array of product list in multi-languages
+     * @return an array of a list of category of issues with the best language
      */
-    private function getProductInBestLanguage($product) {
-        if ( empty($product) ) {
-            return $product;
+    private function getIssueCategoriesInBestLanguage($issueCategories) {
+        if ( empty($issueCategories) ) {
+            return $issueCategories;
         }
-        if ( array_key_exists('productName', $product) ) {
-            $product['productName']     = $this->getBestLanguageForContent($product['productName'], $this->request, $this->session);
+        foreach ( $issueCategories as &$issueCategory ) {
+            $issueCategory = $this->getIssueCategoryInBestLanguage($issueCategory);
         }
-        if ( array_key_exists('productCategory', $product) ) {
-            $product['productCategory']['productCategoryName'] = 
-                $this->getBestLanguageForContent($product['productCategory']['productCategoryName'], $this->request, $this->session);
+        return $issueCategories;
+    }
+
+    /**
+     * Get the best language for multi-language content for category of issues.
+     * @param  Array $issueCategory - an array contains detail information of the category of issues
+     * @return an array contains detail information of the category of issues with the best language
+     */
+    private function getIssueCategoryInBestLanguage($issueCategory) {
+        if ( empty($issueCategory) ) {
+            return $issueCategory;
         }
-        if ( array_key_exists('prerequisites', $product) ) {
-            $product['prerequisites']   = $this->getBestLanguageForContent($product['prerequisites'], $this->request, $this->session);
+        if ( array_key_exists('issueCategoryName', $issueCategory) ) {
+            $issueCategory['issueCategoryName'] = $this->getBestLanguageForContent($issueCategory['issueCategoryName'], $this->request, $this->session);
         }
-        if ( array_key_exists('description', $product) ) {
-            $product['description']     = $this->getBestLanguageForContent($product['description'], $this->request, $this->session);
+        return $issueCategory;
+    }
+
+    /**
+     * * Get the best language for multi-language content for status of issues list.
+     * @param  Array $issueStatusList - an array of status of issues list in multi-languages
+     * @return an array of a list of status of issues with the best language
+     */
+    private function getIssueStatusListInBestLanguage($issueStatusList) {
+        if ( empty($issueStatusList) ) {
+            return $issueStatusList;
         }
-        return $product;
+        foreach ( $issueStatusList as &$issueStatus ) {
+            $issueStatus = $this->getIssueStatusInBestLanguage($issueStatus);
+        }
+        return $issueStatusList;
+    }
+
+    /**
+     * Get the best language for multi-language content for status of issues.
+     * @param  Array $issueStatus - an array contains detail information of the status of issues
+     * @return an array contains detail information of the status of issues with the best language
+     */
+    private function getIssueStatusInBestLanguage($issueStatus) {
+        if ( empty($issueStatus) ) {
+            return $issueStatus;
+        }
+        if ( array_key_exists('issueStatusName', $issueStatus) ) {
+            $issueStatus['issueStatusName'] = $this->getBestLanguageForContent($issueStatus['issueStatusName'], $this->request, $this->session);
+        }
+        return $issueStatus;
     }
     
     /**

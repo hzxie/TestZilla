@@ -15,9 +15,13 @@ div#product div.panel div.header {
 	padding: 10px;
 }
 
+div#product div.panel div.header > a {
+	color: #fff;
+}
+
 div#product div.panel div.body {
 	background: #fff;
-	padding: 20px;
+	padding: 20px 10px;
 }
 
 div#product div.panel div.body  div.section {
@@ -46,6 +50,34 @@ div#product div.panel div.body div.section div#product-logo {
 
 div#product div.panel div.body div.section div#product-logo img {
 	max-height: 40px;
+}
+
+div#product div.panel div.body button#issue-filter {
+	margin-bottom: 10px;	
+}
+
+div#product div.panel div.body p#loading img {
+	max-height: 24px;
+}
+
+div#product div.panel div.body ul#issues {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+div#product div.panel div.body ul#issues li.issue {
+	border-bottom: 1px solid #dedede;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+}
+
+div#product div.panel div.body ul#issues li.issue:last-child {
+	border-bottom: none;
+}
+
+div#product div.panel div.body ul#issues li.issue a {
+	color: #2980b9;
 }
 
 div#developer,

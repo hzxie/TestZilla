@@ -131,13 +131,13 @@
 
         for ( var i = 0; i < products.length; ++ i ) {
             $('#product-list').append(
-                displayProduct(products[i])
+                getProductContent(products[i])
             );
         }
     }
 </script>
 <script type="text/javascript">
-    function displayProduct(product) {
+    function getProductContent(product) {
         var productTemplate = '<li class="product row-fluid">' +
                               '    <div class="span3">' + 
                               '        <img src="%s" alt="Product Logo" />' +
