@@ -186,6 +186,9 @@
         if ( typeof(pageNumber) == 'undefined' ) {
             pageNumber = 1;
         }
+        $('#no-issues').addClass('hide');
+        $('#issues').addClass('hide');
+        $('#pagination').addClass('hide');
         $('#loading').removeClass('hide');
         return getIssuesAction(issueCategory, issueStatus, hunter, pageNumber);
     }
@@ -215,10 +218,7 @@
 
         if ( !result['isSuccessful'] ) {
             $('#no-issues').removeClass('hide');
-            $('#issues').addClass('hide');
-            $('#pagination').addClass('hide');
         } else {
-            $('#no-issues').addClass('hide');
             $('#issues').removeClass('hide');
             $('#pagination').removeClass('hide');
             displayIssues(result['issues'])

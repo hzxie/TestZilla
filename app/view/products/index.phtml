@@ -86,6 +86,9 @@
         if ( typeof(pageNumber) == 'undefined' ) {
             pageNumber = 1;
         }
+        $('#no-products').addClass('hide');
+        $('#product-list').addClass('hide');
+        $('#pagination').addClass('hide');
         $('#loading').removeClass('hide');
         return getProductsAction(productCategory, keyword, pageNumber);
     }
@@ -114,10 +117,7 @@
 
         if ( !result['isSuccessful'] ) {
             $('#no-products').removeClass('hide');
-            $('#product-list').addClass('hide');
-            $('#pagination').addClass('hide');
         } else {
-            $('#no-products').addClass('hide');
             $('#product-list').removeClass('hide');
             $('#pagination').removeClass('hide');
             displayProducts(result['products']);
