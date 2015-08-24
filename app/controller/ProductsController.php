@@ -203,6 +203,30 @@ class ProductsController extends BaseController {
     }
 
     /**
+     * Get the list of replies of an issue.
+     * @param  long $issueId - the unique ID of the issue
+     * @return a HttpResponse which contains information of replies of an issue
+     */
+    public function getIssueRepliesAction($issueId) {
+        $pageNumber     = $this->request->get('page');
+        $limit          = self::NUMBER_OF_ISSUE_REPLIES_PER_REQUEST;
+        $offset         = $pageNumber <= 1 ? 0 :  ($pageNumber - 1) * $limit;
+
+        $issueService   = ServiceFactory::getService('IssueService');
+        $issueReplies   = $issueService->getIssueReplies($issueId, $offset, $limit);
+
+        $result         = array(
+            'isSuccessful'  => empty($issueReplies),
+            'hasMore'       => count($issueReplies) == $limit,
+            'issueReplies'  => $issueReplies,
+        );
+        $response   = new Response();
+        $response->setHeader('Content-Type', 'application/json');
+        $response->setContent(json_encode($result));
+        return $response;
+    }
+
+    /**
      * Render to new issue page to create an issue.
      * @param  long $productId - the unique ID of the product
      */
