@@ -246,6 +246,34 @@ class ProductsController extends BaseController {
     }
 
     /**
+     * Create a reply of an issue.
+     * @param  long $issueId - the unique ID of the issue
+     * @return an HttpResponse contains data validation result
+     */
+    public function createIssueReplyAction($issueId) {
+        $replyContent   = strip_tags($this->request->getPost('content'));
+        $submiter       = $this->getCurrentUserObject($this->session);
+        $isTokenValid   = $this->security->checkToken();
+        $issueService   = ServiceFactory::getService('IssueService');
+        $issue          = $issueService->getIssueObjectUsingId($issueId);
+
+        if ( $issue == NULL ) {
+            $this->forward('errors/resourceNotFound');
+            return;
+        }
+        $result         = $issueService->createIssueReply($issue, $submiter, $replyContent, $isTokenValid);
+        
+        if ( $isTokenValid ) {
+            $result['csrfTokenKey'] = $this->security->getTokenKey();
+            $result['csrfToken']    = $this->security->getToken();
+        }
+        $response       = new Response();
+        $response->setHeader('Content-Type', 'application/json');
+        $response->setContent(json_encode($result));
+        return $response;
+    }
+
+    /**
      * Render to new issue page to create an issue.
      * @param  long $productId - the unique ID of the product
      */

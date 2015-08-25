@@ -94,15 +94,25 @@ class IssueService extends Service {
     /**
      * Get detail information of a issue.
      * @param  long $issueId - the unique ID of the issue
-     * @return an array which contains information of the issue
+     * @return an object of Issue which contains information of the issue
      */
-    public function getIssueUsingId($issueId) {
+    public function getIssueObjectUsingId($issueId) {
         $rowSet     = Issue::findFirst(array(
             'conditions'    => 'issue_id = ?1',
             'bind'          => array(
                 1           => $issueId,
             ),
         ));
+        return $rowSet;
+    }
+
+    /**
+     * Get detail information of a issue.
+     * @param  long $issueId - the unique ID of the issue
+     * @return an array which contains information of the issue
+     */
+    public function getIssueUsingId($issueId) {
+        $rowSet     = $this->getIssueObjectUsingId($issueId);
 
         if ( $rowSet == NULL ) {
             return NULL;
@@ -133,40 +143,6 @@ class IssueService extends Service {
             'issueDescription'  => $rowSet->getIssueDescription(),
             'issueRepliesCount' => $rowSet->getNumberOfIssueReplies(),
         );
-    }
-
-    /**
-     * Get the list of replies of an issue.
-     * @param  long $issueId - the unique ID of the issue
-     * @param  long $offset  - the index of first record of result set
-     * @param  int  $limit   - the number of records to get for each request
-     * @return the list of replies of an issue
-     */
-    public function getIssueReplies($issueId, $offset, $limit) {
-        $issueReplies   = array();
-        $resultSet      = IssueReply::find(array(
-            'conditions'    => 'issue_id = ?1',
-            'bind'          => array(
-                1           => $issueId,
-            ),
-            'limit'         => $limit,
-            'offset'        => $offset,
-            'order'         => 'issue_reply_id DESC',
-        ));
-
-        foreach ( $resultSet as $rowSet ) {
-            array_push($issueReplies, array(
-                'issueReplyId'  => $rowSet->getIssueReplyId(),
-                'createTime'    => $rowSet->getCreateTime(),
-                'submiter'      => array(
-                    'uid'       => $rowSet->getSubmiter()->getUid(),
-                    'username'  => $rowSet->getSubmiter()->getUsername(),
-                    'email'     => $rowSet->getSubmiter()->getEmail(),
-                ),
-                'description'   => $rowSet->getDescription(),
-            ));            
-        }
-        return $issueReplies;
     }
 
     /**
@@ -274,5 +250,70 @@ class IssueService extends Service {
             'conditions'        => $conditions,
             'bind'              => $parameters,
         );
+    }
+
+    /**
+     * Get the list of replies of an issue.
+     * @param  long $issueId - the unique ID of the issue
+     * @param  long $offset  - the index of first record of result set
+     * @param  int  $limit   - the number of records to get for each request
+     * @return the list of replies of an issue
+     */
+    public function getIssueReplies($issueId, $offset, $limit) {
+        $issueReplies   = array();
+        $resultSet      = IssueReply::find(array(
+            'conditions'    => 'issue_id = ?1',
+            'bind'          => array(
+                1           => $issueId,
+            ),
+            'limit'         => $limit,
+            'offset'        => $offset,
+        ));
+
+        foreach ( $resultSet as $rowSet ) {
+            array_push($issueReplies, array(
+                'issueReplyId'  => $rowSet->getIssueReplyId(),
+                'createTime'    => $rowSet->getCreateTime(),
+                'submiter'      => array(
+                    'uid'       => $rowSet->getSubmiter()->getUid(),
+                    'username'  => $rowSet->getSubmiter()->getUsername(),
+                    'email'     => $rowSet->getSubmiter()->getEmail(),
+                ),
+                'description'   => $rowSet->getDescription(),
+            ));           
+        }
+        return $issueReplies;
+    }
+
+    /**
+     * Create a reply of an issue.
+     * @param  Issue   $issue        - the issue which reply to
+     * @param  User    $submiter     - the user who submit the reply
+     * @param  String  $description  - the content of the the reply
+     * @param  boolean $isTokenValid - whether the CSRF token is correct
+     * @return an array with data validation result
+     */
+    public function createIssueReply($issue, $submiter, $description, $isTokenValid) {
+        $result                 = array(
+            'isSuccessful'      => false,
+            'isIssueExists'     => $issue != NULL,
+            'isUserLogined'     => $submiter != NULL,
+            'isContentEmpty'    => empty($description),
+            'isTokenValid'      => $isTokenValid,
+        );
+        $result['isSuccessful'] = $result['isIssueExists'] &&  $result['isUserLogined'] &&
+                                  $result['isTokenValid']  && !$result['isContentEmpty'];
+
+        if ( $result['isSuccessful'] ) {
+            $issueReply = new IssueReply();
+            $issueReply->setIssue($issue);
+            $issueReply->setSubmiter($submiter);
+            $issueReply->setDescription($description);
+
+            if ( !$issueReply->create() ) {
+                $result['isSuccessful']      = false;
+            }            
+        }
+        return $result;
     }
 }

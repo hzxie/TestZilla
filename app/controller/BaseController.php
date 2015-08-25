@@ -149,7 +149,7 @@ class BaseController extends Controller {
     /**
      * Get current User object from session.
      * @param  Session $session - the HTTP Session
-     * @return the current User object or NULL
+     * @return an array contains information of user logged in
      */
     protected function getCurrentUser($session) {
         $userService = ServiceFactory::getService('UserService');
@@ -165,6 +165,17 @@ class BaseController extends Controller {
             );
         }
         return $user;
+    }
+
+    /**
+     * Get current User object from session.
+     * @param  Session $session - the HTTP Session
+     * @return the current User object or NULL
+     */
+    protected function getCurrentUserObject($session) {
+        $userService = ServiceFactory::getService('UserService');
+        $uid         = $session->get('uid');
+        return $userService->getUserUsingUid($uid);
     }
 
     /**

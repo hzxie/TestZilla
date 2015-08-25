@@ -88,5 +88,9 @@ $router->add('/issue/{issueId}/getIssueReplies.action', array(
     'controller' => 'products',
     'action'     => 'getIssueReplies',
 ));
+$router->add('/issue/{issueId}/createIssueReply.action', array(
+    'controller' => 'products',
+    'action'     => 'createIssueReply',
+));
 
 $router->handle();

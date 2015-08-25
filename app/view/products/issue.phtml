@@ -6,7 +6,7 @@
             <ul class="inline">
                 <li><i class="fa fa-clock-o"></i> <span class="datetime"><?php echo $issue['createTime']; ?></span></li>
                 <li><i class="fa fa-user"></i> <a href="<?php echo $this->url->get("/accounts/user/{$issue['hunter']['uid']}"); ?>"><?php echo $issue['hunter']['username']; ?></a></li>
-                <li><i class="fa fa-comments"></i> <?php echo $issue['issueRepliesCount']; ?> <?php echo $localization['product.issue.comments']; ?></li>
+                <li><i class="fa fa-comments"></i> <span id="comments-count"><?php echo $issue['issueRepliesCount']; ?></span> <?php echo $localization['product.issue.comments']; ?></li>
             </ul>
         </div> <!-- .span9 -->
         <div class="span3 text-right">
@@ -43,7 +43,7 @@
             <ul id="issue-replies"></ul>
             <p id="loading" class="text-center">
                 <img src="<?php echo $cdnUrl; ?>/img/loading.gif" alt="">
-                <a href="javascript:void(0);">Load More...</a>
+                <a href="javascript:void(0);"><?php echo $localization['products.issue.load-more']; ?></a>
             </p>
         <?php if ( isset($isLoggedIn) && $isLoggedIn ): ?>
             <div id="editor" class="row-fluid">
@@ -59,10 +59,12 @@
                         <div class="reply-header">
                             <label for="wmd-input">
                                 <?php echo $localization['products.issue.leave-a-comment']; ?>
+                                <input id="csrf-token" name="<?php echo $this->security->getTokenKey(); ?>" value="<?php echo $this->security->getToken(); ?>" type="hidden" />
                                 <button id="create-issue-reply" class="btn btn-primary"><?php echo $localization['products.issue.comment']; ?></button>
                             </label>
                         </div> <!-- .reply-header -->
                         <div class="reply-body">
+                            <div class="alert alert-error hide"></div> <!-- .alert-error -->
                             <div id="markdown-editor">
                                 <div class="wmd-panel">
                                     <div id="wmd-button-bar"></div> <!-- #wmd-button-bar -->
@@ -84,6 +86,14 @@
             <div class="section">
                 <h5><?php echo $localization['products.issue.issue-status']; ?></h5>
                 <p><?php echo $issue['issueStatus']['issueStatusName']; ?></p>
+            </div> <!-- .section -->
+            <div class="section">
+                <h5><?php echo $localization['products.issue.product-name']; ?></h5>
+                <p>
+                    <a href="<?php echo $this->url->get("/product/{$issue['product']['productId']}"); ?>">
+                        <?php echo $issue['product']['productName']; ?>
+                    </a>
+                </p>
             </div> <!-- .section -->
             <div class="section">
                 <h5><?php echo $localization['products.issue.milestone']; ?></h5>
@@ -154,13 +164,13 @@
             data: pageRequest,
             dataType: 'JSON',
             success: function(result){
-                return processResult(result);
+                return processGetRepliesResult(result);
             }
         });
     }
 </script>
 <script type="text/javascript">
-    function processResult(result) {
+    function processGetRepliesResult(result) {
         $('img', '#loading').addClass('hide');
         if ( result['hasMore'] ) {
             $('a', '#loading').removeClass('hide');
@@ -218,3 +228,79 @@
         return dateTime.fromNow();
     }
 </script>
+<?php if ( isset($isLoggedIn) && $isLoggedIn ): ?>
+<script type="text/javascript">
+    $('#create-issue-reply').click(function() {
+        var replyContent = $('#wmd-input').val(),
+            csrfKey      = $('#csrf-token').attr('name'),
+            csrfValue    = $('#csrf-token').val();
+
+        $('.alert-error').addClass('hide');
+        $('#create-issue-reply').html('<?php echo $localization['products.issue.please-wait']; ?>');
+        $('#create-issue-reply').attr('disabled', 'disabled');
+
+        return createIssueReply(replyContent, csrfKey, csrfValue);
+    });
+</script>
+<script type="text/javascript">
+    function createIssueReply(replyContent, csrfKey, csrfValue) {
+        var postData = {
+            'content': replyContent
+        };
+        postData[csrfKey] = csrfValue;
+
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo $this->url->get("/issue/{$issue['issueId']}/createIssueReply.action"); ?>',
+            data: postData,
+            dataType: 'JSON',
+            success: function(result){
+                return processCreateReplyResult(result, replyContent);
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    function processCreateReplyResult(result, replyContent) {
+        if ( result['isSuccessful'] ) {
+            var currentReplies = parseInt($('#comments-count').html());
+
+            $('#issue-replies').append(
+                getIssueReplyContent({
+                    createTime: 'now',
+                    submiter: {
+                        'uid': <?php echo $user['uid']; ?>,
+                        'username': '<?php echo $user['username']; ?>',
+                        'email': '<?php echo $user['email']; ?>'
+                    },
+                    description: replyContent
+                })
+            );
+            $('#comments-count').html(currentReplies + 1);
+            $('#wmd-input').val('');
+        } else {
+            var errorMessage  = '';
+
+            if ( !result['isTokenValid'] ) {
+                errorMessage += '<?php echo $localization['products.issue.invalid-token']; ?><br>';
+            }
+            if ( !result['isUserLogined'] ) {
+                errorMessage += '<?php echo $localization['products.issue.user-not-logged-in']; ?><br>';
+            }
+            if ( !result['isIssueExists'] ) {
+                errorMessage += '<?php echo $localization['products.issue.issue-not-exists']; ?><br>';
+            }
+            if ( result['isContentEmpty'] ) {
+                errorMessage += '<?php echo $localization['products.issue.empty-content']; ?><br>';
+            }
+            $('.alert-error').html(errorMessage);
+            $('.alert-error').removeClass('hide');
+        }
+
+        $('#csrf-token').attr('name', result['csrfTokenKey']);
+        $('#csrf-token').val(result['csrfToken']);
+        $('#create-issue-reply').html('<?php echo $localization['products.issue.comment']; ?>');
+        $('#create-issue-reply').removeAttr('disabled');
+    }
+</script>
+<?php endif; ?>

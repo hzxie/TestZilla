@@ -111,7 +111,8 @@ div#issue div.body div#editor button#create-issue-reply {
 	right: 0;
 }
 
-div#issue div.body div#markdown-editor {
+div#issue div.body div#markdown-editor,
+div#issue div.body div.alert {
 	margin: 10px;
 }
 

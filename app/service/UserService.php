@@ -114,7 +114,6 @@ class UserService extends Service {
     public function createAccount($username, $password, $email, $isTokenValid) {
         $result                 = array(
             'isSuccessful'      => false,
-            'isQuerySuccessful' => false,
             'isUsernameEmpty'   => empty($username),
             'isUsernameLegal'   => $this->isUsernameLegal($username),
             'isUsernameExists'  => $this->isUsernameExists($username),
@@ -141,7 +140,6 @@ class UserService extends Service {
             
             if ( !$user->create() ) {
                 $result['isSuccessful']      = false;
-                $result['isQuerySuccessful'] = false;
             }
         }
         return $result;
