@@ -1,4 +1,4 @@
-<?php echo Phalcon\Tag::stylesheetLink("${cdnUrl}/css/accounts/signin.css"); ?>
+<?php echo Phalcon\Tag::stylesheetLink("{$cdnUrl}/css/accounts/signin.css"); ?>
 <div id="signin">
     <h2><?php echo $localization['accounts.signin.sign-in']; ?></h2>
     <div class="alert alert-error hide"><?php echo $localization['accounts.signin.incorrect-password']; ?></div>
@@ -36,7 +36,7 @@
     </p>
 </div>
 
-<?php echo Phalcon\Tag::javascriptInclude("${cdnUrl}/js/md5.min.js", false); ?>
+<?php echo Phalcon\Tag::javascriptInclude("{$cdnUrl}/js/md5.min.js", false); ?>
 <script type="text/javascript">
     function onSubmit() {
         $('.alert-success').addClass('hide');
@@ -74,7 +74,7 @@
 <script type="text/javascript">
     function processsigninResult(result) {
         if ( result['isSuccessful'] ) {
-            var forwardUrl       = '<?php echo $this->url->get("${forwardUrl}"); ?>' || '<?php echo $this->url->get('/'); ?>';
+            var forwardUrl       = '<?php echo $this->url->get("{$forwardUrl}"); ?>' || '<?php echo $this->url->get('/'); ?>';
             window.location.href = forwardUrl;
         } else {
             $('#password').val('');

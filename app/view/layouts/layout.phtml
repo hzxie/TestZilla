@@ -14,11 +14,11 @@
                     <?php if ( isset($isLoggedIn) && $isLoggedIn ): ?>
                     <li class="dropdown">
                     <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="javascript:void(0);">
-                        <img src="<?php echo $cdnUrl; ?>/img/avatar.jpg" alt="avatar">
+                        <img src="https://secure.gravatar.com/avatar/<?php echo md5(strtolower(trim($user['email']))); ?>" alt="avatar">
                         <i class="caret"></i>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                      <li role="presentation"> <?php echo str_replace('%username%', $user->username, $localization['layout.sign-in-as']); ?></li>
+                      <li role="presentation"> <?php echo str_replace('%username%', $user['username'], $localization['layout.sign-in-as']); ?></li>
                       <li role="presentation" class="divider"></li>
                       <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo $this->url->get('/dashboard'); ?>"><?php echo $localization['layout.dashboard']; ?></a></li>
                       <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo $this->url->get('/dashboard/profile'); ?>"><?php echo $localization['layout.profile']; ?></a></li>
@@ -32,7 +32,7 @@
                             $baseUrl    = $this->url->get();
                             $forwardUrl = substr($currentUrl, strlen($baseUrl));
                     ?>
-                    <li><button class="btn btn-primary" onclick="window.location.href='<?php echo $this->url->get("/accounts/signin?forward=${forwardUrl}"); ?>'"><?php echo $localization['layout.sign-in']; ?></button></li>
+                    <li><button class="btn btn-primary" onclick="window.location.href='<?php echo $this->url->get("/accounts/signin?forward={$forwardUrl}"); ?>'"><?php echo $localization['layout.sign-in']; ?></button></li>
                     <?php endif; ?>
                 </ul>
             </div> <!-- #nav -->

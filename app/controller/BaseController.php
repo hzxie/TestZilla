@@ -154,8 +154,16 @@ class BaseController extends Controller {
     protected function getCurrentUser($session) {
         $userService = ServiceFactory::getService('UserService');
         $uid         = $session->get('uid');
-        $user        = $userService->getUserUsingUid($uid);
+        $rowSet      = $userService->getUserUsingUid($uid);
+        $user        = array();
 
+        if ( $rowSet != NULL ) {
+            $user    = array(
+                'uid'       => $rowSet->getUid(),
+                'username'  => $rowSet->getUsername(),
+                'email'     => $rowSet->getEmail(),
+            );
+        }
         return $user;
     }
 

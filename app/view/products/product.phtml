@@ -1,4 +1,4 @@
-<?php echo Phalcon\Tag::stylesheetLink("${cdnUrl}/css/products/product.css"); ?>
+<?php echo Phalcon\Tag::stylesheetLink("{$cdnUrl}/css/products/product.css"); ?>
 <div id="product" class="container">
     <div class="row-fluid">
         <div class="span9">
@@ -48,7 +48,7 @@
             <div class="panel">
                 <div class="header">
                     <?php echo $localization['products.product.issues']; ?>
-                    <a href="<?php echo $this->url->get("/product/${product['productId']}/new-issue"); ?>" class="pull-right">
+                    <a href="<?php echo $this->url->get("/product/{$product['productId']}/new-issue"); ?>" class="pull-right">
                         <i class="fa fa-plus"></i> <?php echo $localization['products.product.new-issue']; ?>
                     </a>
                 </div> <!-- .header -->
@@ -96,7 +96,7 @@
         <div class="span3">
             <div id="developer">
                 <h5><?php echo $localization['products.product.user']; ?></h5>
-                <img src="https://www.gravatar.com/avatar/<?php echo md5(strtolower(trim($product['developer']['email']))); ?>?s=128" alt="User Avatar" class="img-circle">
+                <img src="https://secure.gravatar.com/avatar/<?php echo md5(strtolower(trim($product['developer']['email']))); ?>?s=128" alt="User Avatar" class="img-circle">
                 <p>
                     <?php echo $localization['products.product.developer']; ?>: 
                     <a href="<?php echo $this->url->get('/user/') . $product['developer']['uid']; ?>">
@@ -115,7 +115,7 @@
                         </div> <!-- .span4 -->
                         <div class="span8">
                             <h6>
-                                <a href="<?php echo $this->url->get("/product/${rProduct['productId']}"); ?>">
+                                <a href="<?php echo $this->url->get("/product/{$rProduct['productId']}"); ?>">
                                     <?php echo $rProduct['productName']; ?>
                                 </a>
                             </h6>
@@ -203,7 +203,7 @@
         };
         $.ajax({
             type: 'GET',
-            url: '<?php echo $this->url->get("/product/${product['productId']}/getIssues.action"); ?>',
+            url: '<?php echo $this->url->get("/product/{$product['productId']}/getIssues.action"); ?>',
             data: pageRequest,
             dataType: 'JSON',
             success: function(result){

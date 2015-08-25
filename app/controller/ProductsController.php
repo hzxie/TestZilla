@@ -178,8 +178,7 @@ class ProductsController extends BaseController {
         }
 
         foreach ( $issues as &$issue ) {
-            $issue['issueCategory'] = $this->getIssueCategoryInBestLanguage($issue['issueCategory']);
-            $issue['issueStatus']   = $this->getIssueStatusInBestLanguage($issue['issueStatus']);
+            $issue = $this->getIssueInBestLanguage($issue);
         }
         return $issues;
     }
@@ -196,10 +195,31 @@ class ProductsController extends BaseController {
             $this->forward('errors/resourceNotFound');
             return;
         }
+        $issue          = $this->getIssueInBestLanguage($issue);
         $issueTitle     = $issue['issueTitle'];
-        $product        = $this->getProductInBestLanguage($issue['product']);
-        $this->tag->prependTitle($issueTitle . ' · ' . $product['productName']);
+        $this->tag->prependTitle($issueTitle . ' · ' . $issue['product']['productName']);
         $this->view->setVar('issue', $issue);
+    }
+
+    /**
+     * Get the best language for multi-language content for issue.
+     * @param  Array $issue - an array contains detail information of the issue
+     * @return an array contains detail information of the issue with the best language
+     */
+    private function getIssueInBestLanguage($issue) {
+        if ( empty($issue) ) {
+            return $issue;
+        }
+        if ( array_key_exists('product', $issue) ) {
+            $issue['product']       = $this->getProductInBestLanguage($issue['product']);
+        }
+        if ( array_key_exists('issueCategory', $issue) ) {
+            $issue['issueCategory'] = $this->getIssueCategoryInBestLanguage($issue['issueCategory']);
+        }
+        if ( array_key_exists('issueStatus', $issue) ) {
+            $issue['issueStatus']   = $this->getIssueStatusInBestLanguage($issue['issueStatus']);
+        }
+        return $issue;
     }
 
     /**
@@ -208,15 +228,14 @@ class ProductsController extends BaseController {
      * @return a HttpResponse which contains information of replies of an issue
      */
     public function getIssueRepliesAction($issueId) {
-        $pageNumber     = $this->request->get('page');
         $limit          = self::NUMBER_OF_ISSUE_REPLIES_PER_REQUEST;
-        $offset         = $pageNumber <= 1 ? 0 :  ($pageNumber - 1) * $limit;
+        $offset         = $this->request->get('currentReplies');
 
         $issueService   = ServiceFactory::getService('IssueService');
         $issueReplies   = $issueService->getIssueReplies($issueId, $offset, $limit);
 
         $result         = array(
-            'isSuccessful'  => empty($issueReplies),
+            'isSuccessful'  => !empty($issueReplies),
             'hasMore'       => count($issueReplies) == $limit,
             'issueReplies'  => $issueReplies,
         );

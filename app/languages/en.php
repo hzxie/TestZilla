@@ -101,6 +101,16 @@ $messages = array(
     'products.product.user'                             => 'User',
     'products.product.developer'                        => 'Developer',
     'products.product.relational-products'              => 'Relational Products',
+    # projects/issue.phtml
+    'projects.issue.new-issue'                          => 'New Issue',
+    'product.issue.comments'                            => 'comment(s)',
+    'products.issue.commented-on'                       => 'commented on',
+    'products.issue.leave-a-comment'                    => 'Leave a comment',
+    'products.issue.comment'                            => 'Comment',
+    'products.issue.issue-category'                     => 'Issue Category',
+    'products.issue.issue-status'                       => 'Issue Status',
+    'products.issue.milestone'                          => 'Product Version',
+    'products.issue.latest-version'                     => 'Latest Version:',
     # products/new-issue.phtml
     'products.new-issue.title'                          => 'New Issue',
     # errors/resourceNotFound.phtml

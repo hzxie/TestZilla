@@ -127,9 +127,11 @@ class IssueService extends Service {
             'hunter'            => array(
                 'uid'               => $rowSet->getHunter()->getUid(),
                 'username'          => $rowSet->getHunter()->getUsername(),
+                'email'             => $rowSet->getHunter()->getEmail(),
             ),
             'issueTitle'        => $rowSet->getIssueTitle(),
             'issueDescription'  => $rowSet->getIssueDescription(),
+            'issueRepliesCount' => $rowSet->getNumberOfIssueReplies(),
         );
     }
 
@@ -159,6 +161,7 @@ class IssueService extends Service {
                 'submiter'      => array(
                     'uid'       => $rowSet->getSubmiter()->getUid(),
                     'username'  => $rowSet->getSubmiter()->getUsername(),
+                    'email'     => $rowSet->getSubmiter()->getEmail(),
                 ),
                 'description'   => $rowSet->getDescription(),
             ));            

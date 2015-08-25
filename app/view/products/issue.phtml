@@ -1,0 +1,220 @@
+<?php echo Phalcon\Tag::stylesheetLink("{$cdnUrl}/css/products/issue.css"); ?>
+<div id="issue" class="container">
+    <div class="header row-fluid">
+        <div class="span9">
+            <h3><?php echo $issue['issueTitle']; ?></h3>
+            <ul class="inline">
+                <li><i class="fa fa-clock-o"></i> <span class="datetime"><?php echo $issue['createTime']; ?></span></li>
+                <li><i class="fa fa-user"></i> <a href="<?php echo $this->url->get("/accounts/user/{$issue['hunter']['uid']}"); ?>"><?php echo $issue['hunter']['username']; ?></a></li>
+                <li><i class="fa fa-comments"></i> <?php echo $issue['issueRepliesCount']; ?> <?php echo $localization['product.issue.comments']; ?></li>
+            </ul>
+        </div> <!-- .span9 -->
+        <div class="span3 text-right">
+            <button class="btn btn-primary" onclick="window.location.href='<?php echo $this->url->get("/product/{$issue['product']['productId']}/new-issue"); ?>'"><?php echo $localization['projects.issue.new-issue']; ?></button>
+        </div> <!-- .span3 -->
+    </div> <!-- .row-fluid -->
+    <div class="body row-fluid">
+        <div class="span9">
+            <div class="row-fluid">
+                <div class="span2">
+                    <div class="avatar">
+                        <a href="<?php echo $this->url->get("/accounts/user/{$issue['hunter']['uid']}"); ?>">
+                            <img src="https://secure.gravatar.com/avatar/<?php echo md5(strtolower(trim($issue['hunter']['email']))); ?>" alt="@<?php echo $issue['hunter']['username']; ?>">
+                        </a>
+                    </div> <!-- .avatar -->
+                </div> <!-- .span2 -->
+                <div class="span10">
+                    <div class="issue-reply <?php if ( $issue['hunter']['uid'] == $user['uid'] ): echo 'current-user'; endif;?>">
+                        <div class="reply-header">
+                            <a href="<?php echo $this->url->get("/accounts/user/{$issue['hunter']['uid']}"); ?>">
+                                <?php echo $issue['hunter']['username']; ?>
+                            </a>
+                            <?php echo $localization['products.issue.commented-on']; ?>
+                            <span class="datetime">
+                                <?php echo $issue['createTime']; ?>
+                            </span>
+                        </div> <!-- .reply-header -->
+                        <div class="reply-body">
+                            <div class="markdown"><?php echo $issue['issueDescription']; ?></div> <!-- .markdown -->
+                        </div> <!-- .reply-body -->
+                    </div> <!-- .issue-reply -->
+                </div> <!-- .span10 -->
+            </div> <!-- .row-fluid -->
+            <ul id="issue-replies"></ul>
+            <p id="loading" class="text-center">
+                <img src="<?php echo $cdnUrl; ?>/img/loading.gif" alt="">
+                <a href="javascript:void(0);">Load More...</a>
+            </p>
+        <?php if ( isset($isLoggedIn) && $isLoggedIn ): ?>
+            <div id="editor" class="row-fluid">
+                <div class="span2">
+                    <div class="avatar">
+                        <a href="<?php echo $this->url->get("/accounts/user/{$user['uid']}"); ?>">
+                            <img src="https://secure.gravatar.com/avatar/<?php echo md5(strtolower(trim($user['email']))); ?>" alt="@<?php echo $issue['hunter']['username']; ?>">
+                        </a>
+                    </div> <!-- .avatar -->
+                </div> <!-- .span2 -->
+                <div class="span10">
+                    <div class="issue-reply current-user">
+                        <div class="reply-header">
+                            <label for="wmd-input">
+                                <?php echo $localization['products.issue.leave-a-comment']; ?>
+                                <button id="create-issue-reply" class="btn btn-primary"><?php echo $localization['products.issue.comment']; ?></button>
+                            </label>
+                        </div> <!-- .reply-header -->
+                        <div class="reply-body">
+                            <div id="markdown-editor">
+                                <div class="wmd-panel">
+                                    <div id="wmd-button-bar"></div> <!-- #wmd-button-bar -->
+                                    <textarea id="wmd-input" class="wmd-input"></textarea>
+                                </div> <!-- .wmd-panel -->
+                                <div id="wmd-preview" class="wmd-panel wmd-preview"></div> <!-- .wmd-preview -->
+                            </div> <!-- #markdown-editor -->
+                        </div> <!-- .reply-body -->
+                    </div> <!-- .issue-reply -->
+                </div> <!-- .span10 -->
+            </div> <!-- .#editor -->
+        <?php endif; ?>
+        </div> <!-- .span9 -->
+        <div class="span3">
+            <div class="section">
+                <h5><?php echo $localization['products.issue.issue-category']; ?></h5>
+                <p><?php echo $issue['issueCategory']['issueCategoryName']; ?></p>
+            </div> <!-- .section -->
+            <div class="section">
+                <h5><?php echo $localization['products.issue.issue-status']; ?></h5>
+                <p><?php echo $issue['issueStatus']['issueStatusName']; ?></p>
+            </div> <!-- .section -->
+            <div class="section">
+                <h5><?php echo $localization['products.issue.milestone']; ?></h5>
+                <p>
+                    <?php echo $issue['productVersion']; ?> <br>
+                <?php if ( $issue['product']['latestVersion'] != $issue['productVersion'] ): ?>
+                    (<?php echo $localization['products.issue.latest-version']; ?> <?php echo $issue['product']['latestVersion']; ?>)
+                <?php endif; ?>
+                </p>
+            </div> <!-- .section -->
+        </div> <!-- .span3 -->
+    </div> <!-- .row-fluid -->
+</div> <!-- #issue -->
+
+<script type="text/javascript">
+    $.when(
+        $.getScript('<?php echo $cdnUrl; ?>/js/md5.min.js'),
+        $.getScript('<?php echo $cdnUrl; ?>/js/moment.min.js'),
+        $.getScript('<?php echo $cdnUrl; ?>/js/markdown.min.js'),
+        $.Deferred(function(deferred) {
+            $(deferred.resolve);
+        })
+    ).done(function() {
+        moment.locale('<?php echo $language; ?>');
+        $('span.datetime').each(function() {
+            var dateTime = $(this).html();
+            $(this).html(getTimeElapsed(dateTime));
+        });
+
+        converter = Markdown.getSanitizingConverter();
+        editor    = new Markdown.Editor(converter);
+        editor.run();
+        $('.markdown').each(function() {
+            var plainContent    = $(this).text(),
+                markdownContent = converter.makeHtml(plainContent.replace(/\\n/g, '\n'));
+            
+            $(this).html(markdownContent);
+        });
+       
+        getIssueReplies();
+    });
+</script>
+<script type="text/javascript">
+    $('a', '#loading').click(function() {
+        if ( $('img', '#loading').hasClass('hide') ) {
+            getIssueReplies();
+        }
+    });
+</script>
+<script type="text/javascript">
+    function getIssueReplies() {
+        var currentReplies = $('li', '#issue-replies').length;
+
+        $('a', '#loading').addClass('hide');
+        $('img', '#loading').removeClass('hide');
+        return getIssueRepliesAction(currentReplies);
+    }
+</script>
+<script type="text/javascript">
+    function getIssueRepliesAction(currentReplies) {
+        var pageRequest = {
+            'currentReplies': currentReplies,
+        };
+
+        $.ajax({
+            type: 'GET',
+            url: '<?php echo $this->url->get("/issue/{$issue['issueId']}/getIssueReplies.action"); ?>',
+            data: pageRequest,
+            dataType: 'JSON',
+            success: function(result){
+                return processResult(result);
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    function processResult(result) {
+        $('img', '#loading').addClass('hide');
+        if ( result['hasMore'] ) {
+            $('a', '#loading').removeClass('hide');
+        }
+        if ( result['isSuccessful'] ) {
+            return displayIssueReplies(result['issueReplies']);
+        }
+    }
+</script>
+<script type="text/javascript">
+    function displayIssueReplies(issueReplies) {
+        for ( var i = 0; i < issueReplies.length; ++ i ) {
+            $('#issue-replies').append(
+                getIssueReplyContent(issueReplies[i])
+            );
+        }
+    }
+</script>
+<script type="text/javascript">
+    function getIssueReplyContent(issueReply) {
+        var issueReplyTemplate = '<li class="row-fluid">' + 
+                                 '    <div class="span2">' +
+                                 '        <div class="avatar">' +
+                                 '            <a href="<?php echo $this->url->get("/accounts/user/%s"); ?>">' +
+                                 '                <img src="https://secure.gravatar.com/avatar/%s" alt="@%s">' +
+                                 '            </a>' +
+                                 '        </div> <!-- .avatar -->' +
+                                 '    </div> <!-- .span2 -->' +
+                                 '    <div class="span10">' +
+                                 '        <div class="issue-reply %s">' +
+                                 '            <div class="reply-header">' +
+                                 '                <a href="<?php echo $this->url->get("/accounts/user/%s"); ?>">%s</a>' +
+                                 '                <?php echo $localization['products.issue.commented-on']; ?>' +
+                                 '                %s' +
+                                 '                </span>' +
+                                 '            </div> <!-- .reply-header -->' +
+                                 '            <div class="reply-body">' +
+                                 '                <div class="markdown">%s</div> <!-- .markdown -->' +
+                                 '            </div> <!-- .reply-body -->' +
+                                 '        </div> <!-- .issue-reply -->' +
+                                 '    </div> <!-- .span10 -->' +
+                                 '</li>';
+
+        return issueReplyTemplate.format(issueReply['submiter']['uid'], 
+                md5(issueReply['submiter']['email'].toLowerCase()),
+                issueReply['submiter']['username'],
+                (issueReply['submiter']['uid'] == '<?php echo $user['uid']; ?>' ? 'current-user' : ''), 
+                issueReply['submiter']['uid'], issueReply['submiter']['username'],
+                getTimeElapsed(issueReply['createTime']), converter.makeHtml(issueReply['description']));
+    }
+</script>
+<script type="text/javascript">
+    function getTimeElapsed(dateTimeString) {
+        var dateTime = moment(dateTimeString);
+        return dateTime.fromNow();
+    }
+</script>

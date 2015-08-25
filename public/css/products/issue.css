@@ -1,0 +1,135 @@
+div#issue {
+	margin-bottom: 60px;
+}
+
+div#issue div.header {
+	border-bottom: 1px solid #dedede;
+}
+
+div#issue div.header ul.inline li {
+	padding-left: 0;
+	padding-right: 10px;
+}
+
+div#issue div.header ul.inline li a {
+	color: #34495e;
+}
+
+div#issue div.body div.avatar {
+	padding: 10px 10px 10px 0; 
+	height: 80px;
+}
+
+div#issue div.body div.avatar img {
+	border-radius: 4px;
+}
+
+div#issue div.body div.issue-reply {
+	background-color: #fff;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	margin: 10px 0 20px;
+	position: relative;
+}
+
+div#issue div.body div.issue-reply:before,
+div#issue div.body div.issue-reply:after {
+	content: ' ';
+	border-color: transparent;
+	border-style: solid solid outset;
+	display: block;
+	pointer-events: none;
+	position: absolute;
+	top: 11px;
+	left: -16px;
+	right: 100%;
+	height: 0;
+	width: 0;
+}
+
+div#issue div.body div.issue-reply:before {
+	border-right-color: #ddd;
+	border-width: 8px;
+}
+
+div#issue div.body div.issue-reply:after {
+	border-width: 7px;
+	border-right-color: #f7f7f7;
+	margin-top: 1px;
+	margin-left: 2px
+}
+
+div#issue div.body div.issue-reply.current-user {
+	border-color: #bfccd1;
+}
+
+div#issue div.body div.issue-reply.current-user:before {
+	border-right-color: #bfccd1;
+	border-width: 8px;
+}
+
+div#issue div.body div.issue-reply div.reply-header {
+	background-color: #f7f7f7;
+	border-bottom: 1px solid #eee;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	color: #767676;
+	padding: 10px 15px;
+}
+
+div#issue div.body div.issue-reply.current-user div.reply-header {
+	background-color: #f2f8fa;
+	border-bottom-color: #dde4e6
+}
+
+div#issue div.body div.issue-reply div.markdown {
+	padding: 10px;
+}
+
+div#issue div.body ul#issue-replies {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+div#issue div.body p#loading img {
+	max-height: 24px;
+}
+
+div#issue div.body div#editor div.reply-header {
+	height: 40px;
+}
+
+div#issue div.body div#editor div.reply-header label {
+	padding-top: 10px;
+	position: relative;
+}
+
+div#issue div.body div#editor button#create-issue-reply {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+div#issue div.body div#markdown-editor {
+	margin: 10px;
+}
+
+div#issue div.body div#markdown-editor div#wmd-button-bar,
+div#issue div.body div#markdown-editor textarea#wmd-input {
+	border-width: 1px;
+}
+
+div#issue div.body div.section {
+	border-bottom: 1px solid #dedede;
+	font-size: 13px;
+	padding: 10px 0 10px;
+}
+
+div#issue div.body div.section:last-child {
+	border-bottom: none;
+}
+
+div#issue div.body div.section p {
+	padding-left: 15px;
+}

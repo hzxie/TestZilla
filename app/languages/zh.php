@@ -101,6 +101,16 @@ $messages = array(
     'products.product.user'                             => '用户',
     'products.product.developer'                        => '开发者',
     'products.product.relational-products'              => '相关产品',
+    # projects/issue.phtml
+    'projects.issue.new-issue'                          => '新问题',
+    'product.issue.comments'                            => '条评论',
+    'products.issue.commented-on'                       => '评论于',
+    'products.issue.leave-a-comment'                    => '发表评论',
+    'products.issue.comment'                            => '评论',
+    'products.issue.issue-category'                     => '问题分类',
+    'products.issue.issue-status'                       => '问题状态',
+    'products.issue.milestone'                          => '产品版本',
+    'products.issue.latest-version'                     => '最新版本:',
     # products/new-issue.phtml
     'products.new-issue.title'                          => '新问题',
     # errors/resourceNotFound.phtml

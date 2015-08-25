@@ -1,4 +1,4 @@
-<?php echo Phalcon\Tag::stylesheetLink("${cdnUrl}/css/accounts/signup.css"); ?>
+<?php echo Phalcon\Tag::stylesheetLink("{$cdnUrl}/css/accounts/signup.css"); ?>
 <div id="signup">
     <h2><?php echo $localization['accounts.signup.sign-up']; ?></h2>
     <div class="alert alert-error hide"></div>
@@ -72,7 +72,7 @@
 <script type="text/javascript">
     function processSignUpResult(result) {
         if ( result['isSuccessful'] ) {
-            var forwardUrl       = '<?php echo $this->url->get("${forwardUrl}"); ?>' || '<?php echo $this->url->get('/'); ?>';
+            var forwardUrl       = '<?php echo $this->url->get("{$forwardUrl}"); ?>' || '<?php echo $this->url->get('/'); ?>';
             window.location.href = forwardUrl;
         } else {
             var errorMessage     = '';
