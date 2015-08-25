@@ -1,4 +1,4 @@
-<?php echo Phalcon\Tag::stylesheetLink("{$cdnUrl}/css/products/product.css"); ?>
+<?php echo Phalcon\Tag::stylesheetLink("{$cdnUrl}/css/products/product.css?ver={$appVerion}"); ?>
 <div id="product" class="container">
     <div class="row-fluid">
         <div class="span9">
@@ -131,25 +131,24 @@
 </div> <!-- #product -->
 
 <script type="text/javascript">
-    $.getScript('<?php echo $cdnUrl; ?>/js/moment.min.js', function() {
+    $.when(
+        $.getScript('<?php echo $cdnUrl; ?>/js/moment.min.js'),
+        $.getScript('<?php echo $cdnUrl; ?>/js/markdown.min.js'),
+        $.Deferred(function(deferred) {
+            $(deferred.resolve);
+        })
+    ).done(function() {
         moment.locale('<?php echo $language; ?>');
-    });
-</script>
-<script type="text/javascript">
-    $.getScript('<?php echo $cdnUrl; ?>/js/markdown.min.js', function() {
-        converter = Markdown.getSanitizingConverter();
 
+        converter = Markdown.getSanitizingConverter();
         $('.markdown').each(function() {
             var plainContent    = $(this).text(),
-                markdownContent = converter.makeHtml(plainContent.replace(/\\\n/g, '\\n'));
+                markdownContent = converter.makeHtml(plainContent.replace(/\\n/g, '\n'));
             
             $(this).html(markdownContent);
         });
-    });
-</script>
-<script type="text/javascript">
-    $(function() {
-        return getIssues();
+       
+        getIssues();
     });
 </script>
 <script type="text/javascript">
