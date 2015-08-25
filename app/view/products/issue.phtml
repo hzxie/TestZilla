@@ -124,8 +124,10 @@
         });
 
         converter = Markdown.getSanitizingConverter();
+    <?php if ( isset($isLoggedIn) && $isLoggedIn ): ?>
         editor    = new Markdown.Editor(converter);
         editor.run();
+    <?php endif; ?>    
         $('.markdown').each(function() {
             var plainContent    = $(this).text(),
                 markdownContent = converter.makeHtml(plainContent.replace(/\\n/g, '\n'));
@@ -217,7 +219,7 @@
         return issueReplyTemplate.format(issueReply['submiter']['uid'], 
                 md5(issueReply['submiter']['email'].toLowerCase()),
                 issueReply['submiter']['username'],
-                (issueReply['submiter']['uid'] == '<?php echo $user['uid']; ?>' ? 'current-user' : ''), 
+                (issueReply['submiter']['uid'] == '<?php echo ( isset($user) ? $user['uid'] : NULL ); ?>' ? 'current-user' : ''), 
                 issueReply['submiter']['uid'], issueReply['submiter']['username'],
                 getTimeElapsed(issueReply['createTime']), converter.makeHtml(issueReply['description']));
     }
