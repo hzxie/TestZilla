@@ -73,6 +73,19 @@ $messages = array(
     'accounts.signup.email-taken'                       => 'Someone has taken that email address.',
     'accounts.signup.password-empty'                    => 'You can&acute;t leave Password empty.',
     'accounts.signup.password-illegal'                  => 'The length of Password must between 6 and 16 characters.',
+    # dashboard/sidebar
+    'dashboard.sidebar.dashboard'                       => 'Dashboard',
+    'dashboard.sidebar.profile'                         => 'Profile',
+    'dashboard.sidebar.my-products'                     => 'My Products',
+    'dashboard.sidebar.my-issues'                       => 'My Issues',
+    # dashboard/index.phtml
+    'dashboard.index.title'                             => 'Dashboard',
+    # dashboard/profile.phtml
+    'dashboard.profile.title'                           => 'Profile',
+    # dashboard/products.phtml
+    'dashboard.products.title'                          => 'Products',
+    # dashboard/issues.phtml
+    'dashboard.issues.title'                            => 'Issues',
     # products/index.phtml
     'products.index.title'                              => 'Products',
     'products.index.search'                             => 'Search Products',

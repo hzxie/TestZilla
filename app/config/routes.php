@@ -59,6 +59,24 @@ $router->add('/accounts/signout', array(
     'action'     => 'signOut',
 ));
 
+/* Routers for DashboardController */
+$router->add('/dashboard', array(
+    'controller' => 'dashboard',
+    'action'     => 'index',
+));
+$router->add('/dashboard/profile', array(
+    'controller' => 'dashboard',
+    'action'     => 'profile',
+));
+$router->add('/dashboard/products', array(
+    'controller' => 'dashboard',
+    'action'     => 'products',
+));
+$router->add('/dashboard/issues', array(
+    'controller' => 'dashboard',
+    'action'     => 'issues',
+));
+
 /* Routers for ProductsController */
 $router->add('/products', array(
     'controller' => 'products',

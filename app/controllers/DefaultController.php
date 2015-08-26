@@ -23,7 +23,7 @@ class DefaultController extends BaseController {
      */
     public function indexAction() {
         if ( $this->isLoggedIn($this->session) ) {
-            $this->forward('/dashboard');
+            $this->forward('dashboard/index');
         }
         $this->tag->prependTitle($this->localization['default.index.title']);
     }

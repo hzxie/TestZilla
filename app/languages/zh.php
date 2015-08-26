@@ -73,6 +73,19 @@ $messages = array(
     'accounts.signup.email-taken'                       => '电子邮件地址已被他人使用.',
     'accounts.signup.password-empty'                    => '请填写密码.',
     'accounts.signup.password-illegal'                  => '密码的长度必须在6-16个字符之间',
+    # dashboard/sidebar
+    'dashboard.sidebar.dashboard'                       => '控制板',
+    'dashboard.sidebar.profile'                         => '个人资料',
+    'dashboard.sidebar.my-products'                     => '我的产品',
+    'dashboard.sidebar.my-issues'                       => '我的问题',
+    # dashboard/index.phtml
+    'dashboard.index.title'                             => '控制板',
+    # dashboard/profile.phtml
+    'dashboard.profile.title'                           => '个人资料',
+    # dashboard/products.phtml
+    'dashboard.products.title'                          => '我的产品',
+    # dashboard/issues.phtml
+    'dashboard.issues.title'                            => '我的问题',
     # products/index.phtml
     'products.index.title'                              => '产品列表',
     'products.index.search'                             => '搜索产品',

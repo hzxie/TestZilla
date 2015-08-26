@@ -1,0 +1,23 @@
+<?php echo Phalcon\Tag::stylesheetLink("{$cdnUrl}/css/dashboard/style.css?ver={$appVerion}"); ?>
+<div id="dashboard" class="container">
+    <div class="row-fluid">
+        <div id="sidebar" class="span3">
+            <ul id="sidebar-nav">
+                <li>
+                    <a href="<?php echo $this->url->get('/dashboard'); ?>"><?php echo $localization['dashboard.sidebar.dashboard']; ?></a>
+                </li>
+                <li class="active">
+                    <a href="<?php echo $this->url->get('/dashboard/profile'); ?>"><?php echo $localization['dashboard.sidebar.profile']; ?></a>
+                </li>
+                <li>
+                    <a href="<?php echo $this->url->get('/dashboard/products'); ?>"><?php echo $localization['dashboard.sidebar.my-products']; ?></a>
+                </li>
+                <li>
+                    <a href="<?php echo $this->url->get('/dashboard/issues'); ?>"><?php echo $localization['dashboard.sidebar.my-issues']; ?></a>
+                </li>
+            </ul>
+        </div> <!-- #sidebar -->
+        <div id="main-content" class="span9">
+        </div> <!-- #main-content -->
+    </div> <!-- .row-fluid -->
+</div> <!-- .container -->
