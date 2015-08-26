@@ -251,7 +251,7 @@ class ProductsController extends BaseController {
      * @return an HttpResponse contains data validation result
      */
     public function createIssueReplyAction($issueId) {
-        $replyContent   = strip_tags($this->request->getPost('content'));
+        $replyContent   = $this->getFilteredContent(strip_tags($this->request->getPost('content')));
         $submiter       = $this->getCurrentUserObject($this->session);
         $isTokenValid   = $this->security->checkToken();
         $issueService   = ServiceFactory::getService('IssueService');
@@ -297,6 +297,25 @@ class ProductsController extends BaseController {
 
         $this->tag->prependTitle($this->localization['products.new-issue.title'] . ' · ' . $product['productName']);
         $this->view->setVar('product', $product);
+    }
+
+    /**
+     * Create an issue of a product.
+     * @param  long $productId - the unique ID of the product
+     * @return an HttpResponse contains data validation result
+     */
+    public function createNewIssueAction($productId) {
+
+    }
+
+    /**
+     * Get content without sensitive words.
+     * @param  String $content - the content need to be filtered
+     * @return the content without sensitive words
+     */
+    private function getFilteredContent($content) {
+        $sensitiveWordPlugin = new SensitiveWordPlugin();
+        return $sensitiveWordPlugin->getFilteredContent($content);
     }
 
     /**

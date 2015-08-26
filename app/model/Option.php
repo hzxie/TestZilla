@@ -69,6 +69,14 @@ class Option extends Model {
     }
 
     /**
+     * Whether the option is loaded all the time.
+     * @return whether the option is loaded all the time 
+     */
+    public function isAutoload() {
+        return $is_autoload;
+    }
+
+    /**
      * Get the description of the Option object.
      * @return the description of the Option object
      */
@@ -94,6 +102,12 @@ class Option extends Model {
      * @var String
      */
     protected $option_value;
+
+    /**
+     * Whether the option is loaded all the time.
+     * @var boolean
+     */
+    protected $is_autoload;
 
     /**
      * The table name of the model.
