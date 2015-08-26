@@ -147,6 +147,27 @@ class AccountsController extends BaseController {
     }
 
     /**
+     * Render to reset password page.
+     */
+    public function resetPasswordAction() {
+        $email          = $this->request->get('email');
+        $token          = $this->request->get('token');
+        $isTokenSet     = !empty($token);
+        $isTokenValid   = false;
+
+        if ( $this->isLoggedIn($this->session) ) {
+            $response    = new Response();
+            $response->redirect('/');
+            return $response;
+        }
+        $this->tag->prependTitle($this->localization['accounts.reset-password.title']);
+        $this->view->setVar('email', $email);
+        $this->view->setVar('token', $token);
+        $this->view->setVar('isTokenSet', $isTokenSet);
+        $this->view->setVar('isTokenValid', $isTokenValid);
+    }
+
+    /**
      * The logger of AccountsController.
      * @var Phalcon\Logger\Adapter\File
      */

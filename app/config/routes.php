@@ -58,6 +58,10 @@ $router->add('/accounts/signout', array(
     'controller' => 'accounts',
     'action'     => 'signOut',
 ));
+$router->add('/accounts/reset-password', array(
+    'controller' => 'accounts',
+    'action'     => 'resetPassword',
+));
 
 /* Routers for DashboardController */
 $router->add('/dashboard', array(
