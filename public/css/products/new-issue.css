@@ -1,30 +1,30 @@
-div#issue {
+div#new-issue {
 	margin-bottom: 60px;
 }
 
-div#issue div.header {
+div#new-issue div.header {
 	border-bottom: 1px solid #dedede;
 }
 
-div#issue div.header ul.inline li {
+div#new-issue div.header ul.inline li {
 	padding-left: 0;
 	padding-right: 10px;
 }
 
-div#issue div.header ul.inline li a {
+div#new-issue div.header ul.inline li a {
 	color: #34495e;
 }
 
-div#issue div.body div.avatar {
+div#new-issue div.body div.avatar {
 	padding: 10px 10px 10px 0; 
 	height: 80px;
 }
 
-div#issue div.body div.avatar img {
+div#new-issue div.body div.avatar img {
 	border-radius: 4px;
 }
 
-div#issue div.body div.issue-reply {
+div#new-issue div.body div.issue {
 	background-color: #fff;
 	border: 1px solid #ddd;
 	border-radius: 4px;
@@ -32,8 +32,8 @@ div#issue div.body div.issue-reply {
 	position: relative;
 }
 
-div#issue div.body div.issue-reply:before,
-div#issue div.body div.issue-reply:after {
+div#new-issue div.body div.issue:before,
+div#new-issue div.body div.issue:after {
 	content: ' ';
 	border-color: transparent;
 	border-style: solid solid outset;
@@ -47,92 +47,54 @@ div#issue div.body div.issue-reply:after {
 	width: 0;
 }
 
-div#issue div.body div.issue-reply:before {
+div#new-issue div.body div.issue:before {
 	border-right-color: #ddd;
 	border-width: 8px;
 }
 
-div#issue div.body div.issue-reply:after {
+div#new-issue div.body div.issue:after {
 	border-width: 7px;
 	border-right-color: #f7f7f7;
 	margin-top: 1px;
 	margin-left: 2px
 }
 
-div#issue div.body div.issue-reply.current-user {
+div#new-issue div.body div.issue.current-user {
 	border-color: #bfccd1;
 }
 
-div#issue div.body div.issue-reply.current-user:before {
+div#new-issue div.body div.issue.current-user:before {
 	border-right-color: #bfccd1;
 	border-width: 8px;
 }
 
-div#issue div.body div.issue-reply div.reply-header {
+div#new-issue div.body div.issue div.issue-header {
 	background-color: #f7f7f7;
 	border-bottom: 1px solid #eee;
 	border-top-left-radius: 4px;
 	border-top-right-radius: 4px;
 	color: #767676;
-	padding: 10px 15px;
+	padding: 10px 15px 0;
 }
 
-div#issue div.body div.issue-reply.current-user div.reply-header {
+div#new-issue div.body div.issue.current-user div.issue-header {
 	background-color: #f2f8fa;
 	border-bottom-color: #dde4e6
 }
 
-div#issue div.body div.issue-reply div.markdown {
-	padding: 10px 15px;
+div#new-issue div.body div.alert {
+	margin-top: 10px;
 }
 
-div#issue div.body ul#issue-replies {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
-
-div#issue div.body p#loading img {
-	max-height: 24px;
-}
-
-div#issue div.body div#editor div.reply-header {
-	height: 40px;
-}
-
-div#issue div.body div#editor div.reply-header label {
-	padding-top: 10px;
-	position: relative;
-}
-
-div#issue div.body div#editor button#create-issue-reply {
-	position: absolute;
-	top: 0;
-	right: 0;
-}
-
-div#issue div.body div#markdown-editor,
-div#issue div.body div.alert {
+div#new-issue div.body div#markdown-editor {
 	margin: 10px 15px;
 }
 
-div#issue div.body div#markdown-editor div#wmd-button-bar,
-div#issue div.body div#markdown-editor textarea#wmd-input {
+div#new-issue div.body input[type=text],
+div#new-issue div.body select,
+div#new-issue div.body div#markdown-editor div#wmd-button-bar,
+div#new-issue div.body div#markdown-editor textarea#wmd-input {
 	border-width: 1px;
-}
-
-div#issue div.body div.section {
-	border-bottom: 1px solid #dedede;
-	font-size: 13px;
-	padding: 10px 0 10px;
-}
-
-div#issue div.body div.section:last-child {
-	border-bottom: none;
-}
-
-div#issue div.body div.section p {
-	padding-left: 15px;
 }
 
 /* Smaller than standard 960 (devices and browsers) */
@@ -145,7 +107,7 @@ div#issue div.body div.section p {
 
 /* All Mobile Sizes (devices and browser) */
 @media only screen and (max-width: 767px) {
-	div#issue div.header div.span3 {
+	div#new-issue div.header div.span3 {
 		text-align: left;
 		margin-bottom: 10px;
 	}

@@ -267,6 +267,11 @@ class ProductsController extends BaseController {
             $result['csrfTokenKey'] = $this->security->getTokenKey();
             $result['csrfToken']    = $this->security->getToken();
         }
+        if ( $isSuccessful ) {
+            $issueReplyId   = $result['issueReplyId'];
+            $ipAddress      = $this->request->getClientAddress();
+            $this->logger->log(sprintf('IssueReply #%d created by User[%s] at %s.', $issueReplyId, $submiter, $ipAddress), Logger::INFO);
+        }
         $response       = new Response();
         $response->setHeader('Content-Type', 'application/json');
         $response->setContent(json_encode($result));
@@ -292,11 +297,11 @@ class ProductsController extends BaseController {
             return;
         }
         $product            = $this->getProductInBestLanguage($product);
-        $issueCategories    = $issueService->getIssueCategories();
-        $issueStatusList    = $issueService->getIssueStatusList();
+        $issueCategories    = $this->getIssueCategoriesInBestLanguage($issueService->getIssueCategories());
 
         $this->tag->prependTitle($this->localization['products.new-issue.title'] . ' · ' . $product['productName']);
         $this->view->setVar('product', $product);
+        $this->view->setVar('issueCategories', $issueCategories);
     }
 
     /**
@@ -304,8 +309,36 @@ class ProductsController extends BaseController {
      * @param  long $productId - the unique ID of the product
      * @return an HttpResponse contains data validation result
      */
-    public function createNewIssueAction($productId) {
+    public function createIssueAction($productId) {
+        $issueTitle         = $this->getFilteredContent(strip_tags($this->request->getPost('issueTitle')));
+        $issueCategorySlug  = $this->getFilteredContent(strip_tags($this->request->getPost('issueCategory')));
+        $productVersion     = $this->getFilteredContent(strip_tags($this->request->getPost('productVersion')));
+        $issueDescription   = $this->getFilteredContent(strip_tags($this->request->getPost('issueDescription')));
+        $isTokenValid       = $this->security->checkToken();
+        $productService     = ServiceFactory::getService('ProductService');
+        $issueService       = ServiceFactory::getService('IssueService');
+        $product            = $productService->getProductObjectUsingId($productId);
+        $hunter             = $this->getCurrentUserObject($this->session);
 
+        if ( $product == NULL ) {
+            $this->forward('errors/resourceNotFound');
+            return;
+        }
+        $result             = $issueService->createIssue($product, $productVersion, $issueCategorySlug, 
+                                                $hunter, $issueTitle, $issueDescription, $isTokenValid);
+        if ( $isTokenValid ) {
+            $result['csrfTokenKey'] = $this->security->getTokenKey();
+            $result['csrfToken']    = $this->security->getToken();
+        }
+        if ( $isSuccessful ) {
+            $issueId        = $result['issueId'];
+            $ipAddress      = $this->request->getClientAddress();
+            $this->logger->log(sprintf('Issue #%d created by User[%s] at %s.', $issueId, $hunter, $ipAddress), Logger::INFO);
+        }
+        $response = new Response();
+        $response->setHeader('Content-Type', 'application/json');
+        $response->setContent(json_encode($result));
+        return $response;
     }
 
     /**

@@ -141,6 +141,23 @@ div#relational-products li.product p {
 	div#relational-products {
 		display: none;
 	}
+
+	div#product div.panel div.body div.row-fluid,
+	div#product ul#issues li.issue {
+		position: relative;
+	}
+
+	div#product div.panel div.body button#issue-filter {
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+
+	div#product div.panel div.body ul#issues li.issue div.issue-reply {
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
 }
 
 /* Mobile Landscape Size to Tablet Portrait (devices and browsers) */

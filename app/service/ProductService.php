@@ -57,15 +57,25 @@ class ProductService extends Service {
     /**
      * Get detail information of a product
      * @param  long $productId - the unique ID of the product
-     * @return an array which contains information of the product
+     * @return an object of Product which contains information of the product
      */
-    public function getProductUsingId($productId) {
+    public function getProductObjectUsingId($productId) {
         $rowSet = Product::findFirst(array(
             'conditions'    => 'product_id = ?1',
             'bind'          => array(
                 1           => $productId,
             ),
         ));
+        return $rowSet;
+    }
+
+    /**
+     * Get detail information of a product
+     * @param  long $productId - the unique ID of the product
+     * @return an array which contains information of the product
+     */
+    public function getProductUsingId($productId) {
+        $rowSet = $this->getProductObjectUsingId($productId);
 
         if ( $rowSet == NULL ) {
             return NULL;

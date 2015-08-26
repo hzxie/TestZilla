@@ -253,6 +253,98 @@ class IssueService extends Service {
     }
 
     /**
+     * Create an issue of a product.
+     * @param  Product $product           - the product which the issue points to
+     * @param  String  $productVersion    - the version of the product where the issue found
+     * @param  String  $issueCategorySlug - the unique slug of the category of the issue
+     * @param  User    $hunter            - the user who found the issue
+     * @param  String  $issueTitle        - the title of the issue
+     * @param  String  $issueDescription  - the description of the issue
+     * @param  boolean $isTokenValid      - whether the CSRF token is correct
+     * @return an array with data validation result
+     */
+    public function createIssue($product, $productVersion, $issueCategorySlug, $hunter, $issueTitle, $issueDescription, $isTokenValid) {
+        $issueCategory      = $this->getIssueCategoryObjectUsingSlug($issueCategorySlug);
+        $result             = array(
+            'isSuccessful'          => false,
+            'isProductExists'       => $product != NULL,
+            'isProductVersionEmpty' => empty($productVersion),
+            'isProductVersionLegal' => $this->isProductVersionLegal($productVersion),
+            'isIssueCategoryEmpty'  => $issueCategory == NULL,
+            'isUserLogined'         => $hunter != NULL,
+            'isIssueTitleEmpty'     => empty($issueTitle),
+            'isIssueTitleLegal'     => $this->isIssueTitleLegal($issueTitle),
+            'isDescriptionEmpty'    => empty($issueDescription),
+            'isTokenValid'          => $isTokenValid,
+        );
+        $result['isSuccessful']     =  $result['isProductExists']       && !$result['isProductVersionEmpty'] &&
+                                       $result['isProductVersionLegal'] && !$result['isIssueCategoryEmpty']  &&  
+                                       $result['isUserLogined']         && !$result['isIssueTitleEmpty']     &&
+                                       $result['isIssueTitleLegal']     && !$result['isDescriptionEmpty']    &&
+                                       $result['isTokenValid'];
+
+        if ( $result['isSuccessful'] ) {
+            $issueStatus    = IssueStatus::findFirst("issue_status_slug = 'unconfirmed'");
+            $issue          = new Issue();
+            $issue->setProduct($product);
+            $issue->setProductVersion($productVersion);
+            $issue->setIssueCategory($issueCategory);
+            $issue->setIssueStatus($issueStatus);
+            $issue->setHunter($hunter);
+            $issue->setIssueTitle($issueTitle);
+            $issue->setIssueDescription($issueDescription);
+
+            if ( !$issue->create() ) {
+                $result['isSuccessful'] = false;
+            } else {
+                $result['issueId']      = $issue->getIssueId();
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Get the object of a category of issues using a slug.
+     * @param  String $issueCategorySlug - the unique slug of the category of the issue
+     * @return an expetcted object of a category of issues
+     */
+    private function getIssueCategoryObjectUsingSlug($issueCategorySlug) {
+        $issueCategory      = IssueCategory::findFirst(array(
+            'conditions'    => 'issue_category_slug = ?1',
+            'bind'          => array(
+                1           => $issueCategorySlug,
+            ),
+        ));
+        return $issueCategory;
+    }
+
+    /**
+     * Verify if the product version is legal.
+     * NOTE: the length of a valid product version should no more than 24 characters.
+     * @param  String  $productVersion - the version of the product where the issue found
+     * @return whether the product version is legal
+     */
+    private function isProductVersionLegal($productVersion) {
+        if ( mb_strlen($productVersion, 'utf-8') > 24 ) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Verify if the title of the issue is legal.
+     * NOTE: the length of a valid title of the issue should no more than 64 characters.
+     * @param  String  $issueTitle        - the title of the issue
+     * @return whether the title of the issue is legal
+     */
+    private function isIssueTitleLegal($issueTitle) {
+        if ( mb_strlen($issueTitle, 'utf-8') > 64 ) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Get the list of replies of an issue.
      * @param  long $issueId - the unique ID of the issue
      * @param  long $offset  - the index of first record of result set
@@ -311,8 +403,10 @@ class IssueService extends Service {
             $issueReply->setDescription($description);
 
             if ( !$issueReply->create() ) {
-                $result['isSuccessful']      = false;
-            }            
+                $result['isSuccessful'] = false;
+            } else {
+                $result['issueReplyId'] = $issueReply->getIssueReplyId();
+            }
         }
         return $result;
     }

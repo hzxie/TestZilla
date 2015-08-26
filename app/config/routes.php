@@ -80,6 +80,10 @@ $router->add('/product/{productId}/new-issue', array(
     'controller' => 'products',
     'action'     => 'newIssue',
 ));
+$router->add('/product/{productId}/createIssue.action', array(
+    'controller' => 'products',
+    'action'     => 'createIssue',
+));
 $router->add('/issue/{issueId}', array(
     'controller' => 'products',
     'action'     => 'issue',

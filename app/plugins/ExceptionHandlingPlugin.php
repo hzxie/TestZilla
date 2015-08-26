@@ -29,7 +29,6 @@ class ExceptionHandlingPlugin extends Plugin {
                         'controller'    => 'errors',
                         'action'        => 'resourceNotFound'
                     ));
-
                     return false;
             }
         }

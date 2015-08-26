@@ -1,0 +1,159 @@
+<?php echo Phalcon\Tag::stylesheetLink("{$cdnUrl}/css/products/new-issue.css?ver={$appVerion}"); ?>
+<div id="new-issue" class="container">
+    <div class="header row-fluid">
+        <div class="span9">
+            <h3><?php echo $localization['products.new-issue.new-issue']; ?></h3>
+            <ul class="inline">
+                <li>
+                    <?php echo $localization['products.new-issue.product-name']; ?> 
+                    <a href="<?php echo $this->url->get("/product/{$product['productId']}"); ?>" target="_blank">
+                        <?php echo $product['productName']; ?>
+                    </a>
+                </li>
+                <li><?php echo $localization['products.new-issue.latest-version']; ?> <?php echo $product['latestVersion']; ?></li>
+            </ul>
+        </div> <!-- .span9 -->
+        <div class="span3 text-right">
+            <input id="csrf-token" name="<?php echo $this->security->getTokenKey(); ?>" value="<?php echo $this->security->getToken(); ?>" type="hidden" />
+            <button id="create-issue" class="btn btn-primary"><?php echo $localization['products.new-issue.create-issue']; ?></button>
+        </div> <!-- .span3 -->
+    </div> <!-- .row-fluid -->
+    <div class="body row-fluid">
+        <div class="span10">
+            <div class="row-fluid">
+                <div class="span2">
+                    <div class="avatar">
+                        <a href="<?php echo $this->url->get("/accounts/user/{$user['uid']}"); ?>">
+                            <img src="https://secure.gravatar.com/avatar/<?php echo md5(strtolower(trim($user['email']))); ?>" alt="@<?php echo $user['username']; ?>">
+                        </a>
+                    </div> <!-- .avatar -->
+                </div> <!-- .span2 -->
+                <div class="span10">
+                    <div class="alert alert-error hide"></div> <!-- .alert-error -->
+                    <div class="issue current-user">
+                        <div class="issue-header">
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <div class="control-group">
+                                        <input id="issue-title" class="span12" type="text" maxlength="64" placeholder="<?php echo $localization['products.new-issue.issue-title']; ?>" />
+                                    </div> <!-- .control-group -->
+                                </div> <!-- .span12 -->
+                            </div> <!-- .row-fluid -->
+                            <div class="row-fluid">
+                                <div class="span6">
+                                    <select id="issue-category">
+                                        <option value=""><?php echo $localization['products.new-issue.issue-category']; ?></option>
+                                    <?php foreach ( $issueCategories as $issueCategory ): ?>
+                                        <option value="<?php echo $issueCategory['issueCategorySlug']; ?>"><?php echo $issueCategory['issueCategoryName']; ?></option>
+                                    <?php endforeach; ?>
+                                    </select>
+                                </div> <!-- .span6 -->
+                                <div class="span6">
+                                    <div class="control-group">
+                                        <input id="product-version" class="span12" type="text" maxlength="24" placeholder="<?php echo $localization['products.new-issue.product-version']; ?>" value="<?php echo $product['latestVersion']; ?>" />
+                                    </div> <!-- .control-group -->
+                                </div> <!-- .span6 -->
+                            </div> <!-- .row-fluid -->
+                        </div> <!-- .issue-header -->
+                        <div class="issue-body">
+                            <div id="markdown-editor">
+                                <div class="wmd-panel">
+                                    <div id="wmd-button-bar"></div> <!-- #wmd-button-bar -->
+                                    <textarea id="wmd-input" class="wmd-input" placeholder="<?php echo $localization['products.new-issue.description']; ?>"></textarea>
+                                </div> <!-- .wmd-panel -->
+                                <div id="wmd-preview" class="wmd-panel wmd-preview"></div> <!-- .wmd-preview -->
+                            </div> <!-- #markdown-editor -->
+                        </div> <!-- .issue-body -->
+                    </div> <!-- .issue -->
+                </div> <!-- .span10 -->
+            </div> <!-- .row-fluid -->
+        </div> <!-- .span10 -->
+    </div> <!-- .row-fluid -->
+</div> <!-- #new-issue -->
+
+<script type="text/javascript">
+    $.getScript('<?php echo $cdnUrl; ?>/js/markdown.min.js', function() {
+        converter = Markdown.getSanitizingConverter();
+        editor    = new Markdown.Editor(converter);
+        editor.run();
+    });
+</script>
+<script type="text/javascript">
+    $('#create-issue').click(function() {
+        var issueTitle          = $('#issue-title').val(),
+            issueCategory       = $('#issue-category').val(),
+            productVersion      = $('#product-version').val(),
+            issueDescription    = $('#wmd-input').val(),
+            csrfKey             = $('#csrf-token').attr('name'),
+            csrfValue           = $('#csrf-token').val();
+
+        $('.alert-error').addClass('hide');
+        $('#create-issue').html('<?php echo $localization['products.new-issue.please-wait']; ?>');
+        $('#create-issue').attr('disabled', 'disabled');
+        return createIssue(issueTitle, issueCategory, productVersion, issueDescription, csrfKey, csrfValue);
+    });
+</script>
+<script type="text/javascript">
+    function createIssue(issueTitle, issueCategory, productVersion, issueDescription, csrfKey, csrfValue) {
+        var postData = {
+            'issueTitle': issueTitle,
+            'issueCategory': issueCategory,
+            'productVersion': productVersion,
+            'issueDescription': issueDescription
+        };
+        postData[csrfKey] = csrfValue;
+
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo $this->url->get("/product/{$product['productId']}/createIssue.action"); ?>',
+            data: postData,
+            dataType: 'JSON',
+            success: function(result){
+                return processCreateIssueResult(result);
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    function processCreateIssueResult(result) {
+        if ( result['isSuccessful'] ) {
+            var issueId = result['issueId'];
+            window.location.href = '<?php echo $this->url->get('/issue/'); ?>' + issueId;
+        } else {
+            var errorMessage  = '';
+
+            if ( !result['isTokenValid'] ) {
+                errorMessage += '<?php echo $localization['products.new-issue.invalid-token']; ?><br>';
+            }
+            if ( !result['isUserLogined'] ) {
+                errorMessage += '<?php echo $localization['products.new-issue.user-not-logged-in']; ?><br>';
+            }
+            if ( !result['isProductExists'] ) {
+                errorMessage += '<?php echo $localization['products.new-issue.product-not-exists']; ?><br>';
+            }
+            if ( result['isIssueTitleEmpty'] ) {
+                errorMessage += '<?php echo $localization['products.new-issue.issue-title-empty']; ?><br>';
+            } else if ( !result['isIssueTitleLegal'] ) {
+                errorMessage += '<?php echo $localization['products.new-issue.issue-title-invalid']; ?><br>';
+            }
+            if ( result['isIssueCategoryEmpty'] ) {
+                errorMessage += '<?php echo $localization['products.new-issue.issue-category-empty']; ?><br>';
+            }
+            if ( result['isProductVersionEmpty'] ) {
+                errorMessage += '<?php echo $localization['products.new-issue.product-version-empty']; ?><br>';
+            } else if ( !result['isProductVersionLegal'] ) {
+                errorMessage += '<?php echo $localization['products.new-issue.product-version-illegal']; ?><br>';
+            }
+            if ( result['isDescriptionEmpty'] ) {
+                errorMessage += '<?php echo $localization['products.new-issue.issue-description-empty']; ?><br>';
+            }
+
+            $('.alert-error').html(errorMessage);
+            $('.alert-error').removeClass('hide');
+            $('#csrf-token').attr('name', result['csrfTokenKey']);
+            $('#csrf-token').val(result['csrfToken']);
+            $('#create-issue').html('<?php echo $localization['products.new-issue.create-issue']; ?>');
+            $('#create-issue').removeAttr('disabled');
+        }
+    }
+</script>
