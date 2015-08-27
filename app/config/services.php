@@ -127,6 +127,13 @@ $di->set('flash', function() {
 });
 
 /**
+ * Mail Service.
+ */
+$di->set('mailSender', function(){
+    return new MailSender();
+});
+
+/**
  * Localization Service.
  */
 $di->set('localization', function() use ($di, $config) { 

@@ -160,6 +160,7 @@ class AccountsController extends BaseController {
             $response->redirect('/');
             return $response;
         }
+
         $this->tag->prependTitle($this->localization['accounts.reset-password.title']);
         $this->view->setVar('email', $email);
         $this->view->setVar('token', $token);
