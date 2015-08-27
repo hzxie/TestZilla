@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 24, 2015 at 05:22 下午
+-- Generation Time: Aug 27, 2015 at 04:46 上午
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `tz_issues` (
   `issue_hunter_id` bigint(20) NOT NULL,
   `issue_title` varchar(64) NOT NULL,
   `issue_description` text NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1003 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1004 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tz_issues`
@@ -45,7 +45,8 @@ CREATE TABLE IF NOT EXISTS `tz_issues` (
 INSERT INTO `tz_issues` (`issue_id`, `product_id`, `product_version`, `issue_category_id`, `issue_status_id`, `issue_create_time`, `issue_hunter_id`, `issue_title`, `issue_description`) VALUES
 (1000, 1000, '1.0 Beta', 5, 4, '2015-01-22 08:05:00', 1001, 'Bug #1000', '# Marked in browser\\n\\nRendered by **marked**.'),
 (1001, 1000, '1.0 Beta', 12, 1, '2015-02-03 08:05:00', 1000, 'Bug #1001', 'This is the *first* editor.\r\n------------------------------\r\n\r\nJust plain **Markdown**, except that the input is sanitized:\r\n\r\nand that it implements "fenced blockquotes" via a plugin:\r\n\r\n"""\r\nDo it like this:\r\n\r\n1. Have idea.\r\n2. ???\r\n3. Profit!\r\n"""'),
-(1002, 1001, '1.0 Beta', 2, 1, '2015-02-03 12:11:20', 1001, 'Bug #1002', '# Marked in browser\\n\\nRendered by **marked**.');
+(1002, 1001, '1.0 Beta', 2, 1, '2015-02-03 12:11:20', 1001, 'Bug #1002', '# Marked in browser\\n\\nRendered by **marked**.'),
+(1003, 1000, '2.0 Alpha', 3, 1, '2015-08-26 08:46:16', 1001, 'Test', 'Test');
 
 -- --------------------------------------------------------
 
@@ -89,14 +90,24 @@ CREATE TABLE IF NOT EXISTS `tz_issue_replies` (
   `issue_reply_create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `issue_reply_submiter_uid` bigint(20) NOT NULL,
   `issue_reply_description` text NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1011 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tz_issue_replies`
 --
 
 INSERT INTO `tz_issue_replies` (`issue_reply_id`, `issue_id`, `issue_reply_create_time`, `issue_reply_submiter_uid`, `issue_reply_description`) VALUES
-(1000, 1000, '2015-08-24 15:02:26', 1001, 'Issue Reply of Issue #1000');
+(1000, 1000, '2015-08-24 15:02:26', 1001, 'Issue Reply of Issue #1000'),
+(1001, 1000, '2015-08-25 12:11:46', 1001, '# Hello World'),
+(1002, 1000, '2015-08-25 12:12:30', 1001, '哎呀哈 玩脱了\n\n```\nvar test = ''玩脱了'';\n```'),
+(1003, 1000, '2015-08-25 12:12:39', 1001, '哎呀哈 玩脱了\n\n```\nvar test = ''玩脱了'';\n```'),
+(1004, 1000, '2015-08-25 12:13:40', 1001, 'a'),
+(1005, 1000, '2015-08-25 12:13:51', 1001, 'a'),
+(1006, 1000, '2015-08-25 12:14:19', 1001, '# Hello'),
+(1007, 1000, '2015-08-25 12:22:40', 1001, 'Test'),
+(1008, 1001, '2015-08-25 15:03:24', 1001, 'Test'),
+(1009, 1001, '2015-08-26 08:06:37', 1001, 'This reply is used to test get IssueReplyId after insert.'),
+(1010, 1001, '2015-08-26 08:07:13', 1001, 'This reply is used to test get IssueReplyId after insert.');
 
 -- --------------------------------------------------------
 
@@ -132,15 +143,15 @@ INSERT INTO `tz_issue_status` (`issue_status_id`, `issue_status_slug`, `issue_st
 
 CREATE TABLE IF NOT EXISTS `tz_mail_verification` (
   `email` varchar(64) NOT NULL,
-  `code` varchar(36) NOT NULL,
-  `expires_time` datetime NOT NULL
+  `token` varchar(36) NOT NULL,
+  `expire_time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tz_mail_verification`
 --
 
-INSERT INTO `tz_mail_verification` (`email`, `code`, `expires_time`) VALUES
+INSERT INTO `tz_mail_verification` (`email`, `token`, `expire_time`) VALUES
 ('zjhzxhz@qq.com', '3d6f91cd-2868-44ee-b907-df87146a512a', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
@@ -418,7 +429,7 @@ ALTER TABLE `tz_user_groups`
 -- AUTO_INCREMENT for table `tz_issues`
 --
 ALTER TABLE `tz_issues`
-  MODIFY `issue_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1003;
+  MODIFY `issue_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1004;
 --
 -- AUTO_INCREMENT for table `tz_issue_categories`
 --
@@ -428,7 +439,7 @@ ALTER TABLE `tz_issue_categories`
 -- AUTO_INCREMENT for table `tz_issue_replies`
 --
 ALTER TABLE `tz_issue_replies`
-  MODIFY `issue_reply_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1001;
+  MODIFY `issue_reply_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1011;
 --
 -- AUTO_INCREMENT for table `tz_issue_status`
 --

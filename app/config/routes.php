@@ -62,6 +62,14 @@ $router->add('/accounts/reset-password', array(
     'controller' => 'accounts',
     'action'     => 'resetPassword',
 ));
+$router->add('/accounts/forgotPassword.action', array(
+    'controller' => 'accounts',
+    'action'     => 'doForgotPassword',
+));
+$router->add('/accounts/resetPassword.action', array(
+    'controller' => 'accounts',
+    'action'     => 'doResetPassword',
+));
 
 /* Routers for DashboardController */
 $router->add('/dashboard', array(

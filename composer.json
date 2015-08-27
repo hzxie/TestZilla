@@ -1,0 +1,12 @@
+{
+    "name": "TestZilla",
+    "description": "Crowd Test Platform",
+    "license": "GPL v3",
+    "keywords": [
+        "crowd-test"
+    ],
+    "homepage": "http://www.testzilla.org/",
+    "require": {
+        "swiftmailer/swiftmailer": "5.4.*"
+    }
+}

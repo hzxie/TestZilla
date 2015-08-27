@@ -167,6 +167,32 @@ class AccountsController extends BaseController {
         $this->view->setVar('isTokenValid', $isTokenValid);
     }
 
+    public function doForgotPasswordAction() {
+        $username       = $this->request->get('username');
+        $email          = $this->request->get('email');
+        $isTokenValid   = $this->security->checkToken();
+        $result         = array();
+
+        $response = new Response();
+        $response->setHeader('Content-Type', 'application/json');
+        $response->setContent(json_encode($result));
+        return $response;
+    }
+
+    public function doResetPasswordAction() {
+        $email              = $this->request->get('email');
+        $token              = $this->request->get('token');
+        $newPassword        = $this->request->get('newPassword');
+        $confirmPassword    = $this->request->get('confirmPassword');
+        $isTokenValid       = $this->security->checkToken();
+        $result             = array();
+
+        $response = new Response();
+        $response->setHeader('Content-Type', 'application/json');
+        $response->setContent(json_encode($result));
+        return $response;
+    }
+
     /**
      * The logger of AccountsController.
      * @var Phalcon\Logger\Adapter\File

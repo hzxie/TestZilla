@@ -84,7 +84,7 @@ class AccessControlPlugin extends Plugin {
             $publicResources    = array(
                 'default'       => array('index', 'getCsrfToken', 'terms', 'privacy', 'changeLanguage'),
                 'errors'        => array('notSupportedError', 'resourceNotFound', 'internalServerError'),
-                'accounts'      => array('signIn', 'doSignIn', 'signUp', 'doSignUp', 'signOut', 'resetPassword'),
+                'accounts'      => array('signIn', 'doSignIn', 'signUp', 'doSignUp', 'signOut', 'resetPassword', 'doForgotPassword', 'doResetPassword'),
                 'products'      => array('index', 'getProducts', 'product', 'getIssues', 'newIssue', 'issue', 'getIssueReplies'),
             );
             foreach ( $publicResources as $resource => $actions ) {
