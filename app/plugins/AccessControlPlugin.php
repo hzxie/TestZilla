@@ -29,7 +29,7 @@ class AccessControlPlugin extends Plugin {
             $uid         = $this->session->get('uid');
             $userService = ServiceFactory::getService('UserService');
             $user        = $userService->getUserUsingUid($uid);
-            $userGroup   = $user->getUserGroup()->getUserGroupSlug();
+            $userGroup   = $user['userGroup']['userGroupSlug'];
         }
 
         $controller      = $dispatcher->getControllerName();
@@ -84,7 +84,7 @@ class AccessControlPlugin extends Plugin {
             $publicResources    = array(
                 'default'       => array('index', 'getCsrfToken', 'terms', 'privacy', 'changeLanguage'),
                 'errors'        => array('notSupportedError', 'resourceNotFound', 'internalServerError'),
-                'accounts'      => array('signIn', 'doSignIn', 'signUp', 'doSignUp', 'signOut', 'resetPassword', 'doForgotPassword', 'doResetPassword'),
+                'accounts'      => array('signIn', 'doSignIn', 'signUp', 'doSignUp', 'signOut', 'user', 'resetPassword', 'doForgotPassword', 'doResetPassword'),
                 'products'      => array('index', 'getProducts', 'product', 'getIssues', 'newIssue', 'issue', 'getIssueReplies'),
             );
             foreach ( $publicResources as $resource => $actions ) {
@@ -93,7 +93,8 @@ class AccessControlPlugin extends Plugin {
 
             // Resources for users logged in
             $loggedInResources  = array(
-                'dashboard'     => array('index', 'profile', 'products', 'issues'),
+                'products'      => array('createIssue', 'createIssueReply'),
+                'dashboard'     => array('index', 'profile', 'changePassword', 'updateProfile', 'products', 'issues'),
             );
             foreach ( $loggedInResources as $resource => $actions ) {
                 $acl->addResource(new Resource($resource), $actions);

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 27, 2015 at 04:46 上午
+-- Generation Time: Aug 28, 2015 at 09:24 上午
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -152,6 +152,7 @@ CREATE TABLE IF NOT EXISTS `tz_mail_verification` (
 --
 
 INSERT INTO `tz_mail_verification` (`email`, `token`, `expire_time`) VALUES
+('zjhzxhz@gmail.com', '55df165fd7adf', '2015-08-28 15:53:35'),
 ('zjhzxhz@qq.com', '3d6f91cd-2868-44ee-b907-df87146a512a', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
@@ -289,6 +290,19 @@ INSERT INTO `tz_product_categories` (`product_category_id`, `product_category_sl
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tz_usermeta`
+--
+
+CREATE TABLE IF NOT EXISTS `tz_usermeta` (
+  `meta_id` bigint(20) NOT NULL,
+  `uid` bigint(20) NOT NULL,
+  `meta_key` varchar(64) NOT NULL,
+  `meta_value` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tz_users`
 --
 
@@ -307,7 +321,7 @@ CREATE TABLE IF NOT EXISTS `tz_users` (
 
 INSERT INTO `tz_users` (`uid`, `username`, `password`, `user_group_id`, `email`, `is_email_verified`) VALUES
 (1000, 'Administrator', '785ee107c11dfe36de668b1ae7baacbb', 2, 'webmaster@testzilla.org', 1),
-(1001, 'zjhzxhz', '785ee107c11dfe36de668b1ae7baacbb', 1, 'zjhzxhz@gmail.com', 1),
+(1001, 'zjhzxhz', '44171448dff153570f22e1323a1db9cf', 1, 'zjhzxhz@gmail.com', 1),
 (1002, 'TestZilla', '785ee107c11dfe36de668b1ae7baacbb', 1, 'support@testzilla.org', 1),
 (1003, 'tester', '785ee107c11dfe36de668b1ae7baacbb', 1, 'noreply@zjhzxhz.com', 0);
 
@@ -407,6 +421,13 @@ ALTER TABLE `tz_product_categories`
   ADD PRIMARY KEY (`product_category_id`);
 
 --
+-- Indexes for table `tz_usermeta`
+--
+ALTER TABLE `tz_usermeta`
+  ADD PRIMARY KEY (`meta_id`),
+  ADD KEY `uid` (`uid`);
+
+--
 -- Indexes for table `tz_users`
 --
 ALTER TABLE `tz_users`
@@ -471,6 +492,11 @@ ALTER TABLE `tz_products`
 ALTER TABLE `tz_product_categories`
   MODIFY `product_category_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
+-- AUTO_INCREMENT for table `tz_usermeta`
+--
+ALTER TABLE `tz_usermeta`
+  MODIFY `meta_id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `tz_users`
 --
 ALTER TABLE `tz_users`
@@ -513,6 +539,12 @@ ALTER TABLE `tz_points_logs`
 ALTER TABLE `tz_products`
   ADD CONSTRAINT `tz_products_ibfk_1` FOREIGN KEY (`product_category_id`) REFERENCES `tz_product_categories` (`product_category_id`),
   ADD CONSTRAINT `tz_products_ibfk_2` FOREIGN KEY (`product_developer_id`) REFERENCES `tz_users` (`uid`);
+
+--
+-- Constraints for table `tz_usermeta`
+--
+ALTER TABLE `tz_usermeta`
+  ADD CONSTRAINT `tz_usermeta_ibfk_1` FOREIGN KEY (`uid`) REFERENCES `tz_users` (`uid`);
 
 --
 -- Constraints for table `tz_users`

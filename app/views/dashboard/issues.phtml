@@ -1,7 +1,7 @@
 <?php echo Phalcon\Tag::stylesheetLink("{$cdnUrl}/css/dashboard/style.css?ver={$appVerion}"); ?>
 <div id="dashboard" class="container">
     <div class="row-fluid">
-        <div id="sidebar" class="span3">
+        <div id="sidebar" class="span4">
             <ul id="sidebar-nav">
                 <li>
                     <a href="<?php echo $this->url->get('/dashboard'); ?>"><?php echo $localization['dashboard.sidebar.dashboard']; ?></a>
@@ -17,7 +17,7 @@
                 </li>
             </ul>
         </div> <!-- #sidebar -->
-        <div id="main-content" class="span9">
+        <div id="main-content" class="span8">
         </div> <!-- #main-content -->
     </div> <!-- .row-fluid -->
 </div> <!-- .container -->

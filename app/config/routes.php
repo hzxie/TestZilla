@@ -58,6 +58,10 @@ $router->add('/accounts/signout', array(
     'controller' => 'accounts',
     'action'     => 'signOut',
 ));
+$router->add('/accounts/user/${uid}', array(
+    'controller' => 'accounts',
+    'action'     => 'user',
+));
 $router->add('/accounts/reset-password', array(
     'controller' => 'accounts',
     'action'     => 'resetPassword',
@@ -79,6 +83,14 @@ $router->add('/dashboard', array(
 $router->add('/dashboard/profile', array(
     'controller' => 'dashboard',
     'action'     => 'profile',
+));
+$router->add('/dashboard/changePassword.action', array(
+    'controller' => 'dashboard',
+    'action'     => 'changePassword',
+));
+$router->add('/dashboard/updateProfile.action', array(
+    'controller' => 'dashboard',
+    'action'     => 'updateProfile',
 ));
 $router->add('/dashboard/products', array(
     'controller' => 'dashboard',

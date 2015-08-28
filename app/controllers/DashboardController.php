@@ -36,6 +36,32 @@ class DashboardController extends BaseController {
     }
 
     /**
+     * Change password for user logged in.
+     * @return a HttpResponse contains JSON data infer whether the operation is successful
+     */
+    public function changePasswordAction() {
+        $result   = array();
+
+        $response = new Response();
+        $response->setHeader('Content-Type', 'application/json');
+        $response->setContent(json_encode($result));
+        return $response;
+    }
+
+    /**
+     * Update profile for user logged in.
+     * @return a HttpResponse contains JSON data infer whether the operation is successful
+     */
+    public function updateProfileAction() {
+        $result   = array();
+
+        $response = new Response();
+        $response->setHeader('Content-Type', 'application/json');
+        $response->setContent(json_encode($result));
+        return $response;
+    }
+
+    /**
      * Render to products page.
      */
     public function productsAction() {

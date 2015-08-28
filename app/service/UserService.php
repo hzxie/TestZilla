@@ -20,9 +20,32 @@ class UserService extends Service {
     /**
      * Get user object using the unique ID of the user.
      * @param  long $uid - the unique ID of the user
-     * @return an expected user object or NULL
+     * @return an array contains infomration of the user
      */
     public function getUserUsingUid($uid) {
+        $rowSet = $this->getUserObjectUsingUid($uid);
+
+        if ( $rowSet == NULL ) {
+            return $NULL;
+        }
+        return array(
+            'uid'       => $rowSet->getUid(),
+            'username'  => $rowSet->getUsername(),
+            'email'     => $rowSet->getEmail(),
+            'userGroup' => array(
+                'userGroupId'   => $rowSet->getUserGroup()->getUserGroupId(),
+                'userGroupSlug' => $rowSet->getUserGroup()->getUserGroupSlug(),
+                'userGroupName' => $rowSet->getUserGroup()->getUserGroupName(),
+            ),
+        );
+    }
+
+    /**
+     * Get user object using the unique ID of the user.
+     * @param  long $uid - the unique ID of the user
+     * @return an expected user object or NULL
+     */
+    public function getUserObjectUsingUid($uid) {
         return User::findFirst(array(
             'conditions'    => 'uid = ?1',
             'bind'          => array(

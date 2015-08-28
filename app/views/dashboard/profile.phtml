@@ -1,7 +1,8 @@
 <?php echo Phalcon\Tag::stylesheetLink("{$cdnUrl}/css/dashboard/style.css?ver={$appVerion}"); ?>
+<?php echo Phalcon\Tag::stylesheetLink("{$cdnUrl}/css/dashboard/profile.css?ver={$appVerion}"); ?>
 <div id="dashboard" class="container">
     <div class="row-fluid">
-        <div id="sidebar" class="span3">
+        <div id="sidebar" class="span4">
             <ul id="sidebar-nav">
                 <li>
                     <a href="<?php echo $this->url->get('/dashboard'); ?>"><?php echo $localization['dashboard.sidebar.dashboard']; ?></a>
@@ -17,7 +18,402 @@
                 </li>
             </ul>
         </div> <!-- #sidebar -->
-        <div id="main-content" class="span9">
-        </div> <!-- #main-content -->
+        <div class="span8">
+            <div id="main-content">
+                <form id="password-form" class="section" method="POST" onSubmit="onChangePasswordSubmit(); return false;">
+                    <h4><?php echo $localization['dashboard.profile.change-password']; ?></h4>
+                    <div class="row-fluid">
+                        <div class="alert alert-error hide"></div>
+                        <div class="alert alert-success hide"><?php echo $localization['dashboard.profile.password-changed']; ?></div>
+                    </div> <!-- .row-fluid -->
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <label for="old-password"><?php echo $localization['dashboard.profile.old-password']; ?></label>
+                        </div> <!-- .span4 -->
+                        <div class="span8">
+                            <div class="control-group">
+                                <input id="old-password" class="span8" type="password" maxlength="16" />
+                            </div> <!-- .control-group -->
+                        </div> <!-- .span8 -->
+                    </div> <!-- .row-fluid -->
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <label for="new-password"><?php echo $localization['dashboard.profile.new-password']; ?></label>
+                        </div> <!-- .span4 -->
+                        <div class="span8">
+                            <div class="control-group">
+                                <input id="new-password" class="span8" type="password" maxlength="16" />
+                            </div> <!-- .control-group -->
+                        </div> <!-- .span8 -->
+                    </div> <!-- .row-fluid -->
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <label for="confirm-new-password"><?php echo $localization['dashboard.profile.confirm-new-password']; ?></label>
+                        </div> <!-- .span4 -->
+                        <div class="span8">
+                            <div class="control-group">
+                                <input id="confirm-new-password" class="span8" type="password" maxlength="16" />
+                            </div> <!-- .control-group -->
+                        </div> <!-- .span8 -->
+                    </div> <!-- .row-fluid -->
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <button class="btn btn-primary btn-block" type="submit"><?php echo $localization['dashboard.profile.change-password']; ?></button>
+                        </div> <!-- .span12 -->
+                    </div> <!-- .row-fluid -->
+                </form> <!-- #password-form -->
+                <form id="profile-form" class="section" method="POST" onSubmit="onChangeProfileSubmit(); return false;">
+                    <h4><?php echo $localization['dashboard.profile.profile']; ?></h4>
+                    <div class="row-fluid">
+                        <div class="alert alert-error hide"></div>
+                        <div class="alert alert-success hide"><?php echo $localization['dashboard.profile.profile-changed']; ?></div>
+                    </div> <!-- .row-fluid -->
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <label for="email"><?php echo $localization['dashboard.profile.email']; ?></label>
+                        </div> <!-- .span4 -->
+                        <div class="span8">
+                            <div class="control-group">
+                                <input id="email" class="span8" type="text" value="<?php echo isset($user) ? $user['email'] : '' ; ?>" maxlength="64" placeholder="you@example.com" />
+                            </div> <!-- .control-group -->
+                        </div> <!-- .span8 -->
+                    </div> <!-- .row-fluid -->
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <label for="location"><?php echo $localization['dashboard.profile.location']; ?></label>
+                        </div> <!-- .span4 -->
+                        <div class="span8">
+                            <div class="control-group">
+                                <input id="location" class="span8" type="text" value="<?php echo isset($location) ? $location : '' ; ?>" maxlength="128" placeholder="<?php echo $localization['dashboard.profile.location-example']; ?>" />
+                            </div> <!-- .control-group -->
+                        </div> <!-- .span8 -->
+                    </div> <!-- .row-fluid -->
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <label for="website"><?php echo $localization['dashboard.profile.website']; ?></label>
+                        </div> <!-- .span4 -->
+                        <div class="span8">
+                            <div class="control-group">
+                                <input id="website" class="span8" type="text" value="<?php echo isset($website) ? $website : '' ; ?>" maxlength="64" placeholder="http://www.testzilla.org" />
+                            </div> <!-- .control-group -->
+                        </div> <!-- .span8 -->
+                    </div> <!-- .row-fluid -->
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <label for="social-links">
+                                <?php echo $localization['dashboard.profile.social-links']; ?>
+                                <a id="new-social-link" title="<?php echo $localization['dashboard.profile.new-social-link']; ?>" href="javascript:void(0);">
+                                    <i class="fa fa-plus-circle"></i>
+                                </a>
+                            </label>
+                            <div id="social-links">
+                                <p id="no-social-links"><?php echo $localization['dashboard.profile.no-social-links']; ?></p>
+                                <ul></ul>
+                            </div> <!-- #social-links -->
+                        </div> <!-- .span12 -->
+                    </div> <!-- .row-fluid -->
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <label for="wmd-input"><?php echo $localization['dashboard.profile.about-me']; ?></label>    
+                            <div id="markdown-editor">
+                                <div class="wmd-panel">
+                                    <div id="wmd-button-bar"></div> <!-- #wmd-button-bar -->
+                                    <textarea id="wmd-input" class="wmd-input" placeholder="<?php echo $localization['dashboard.profile.introduce-yourself']; ?>"><?php echo isset($aboutMe) ? $aboutMe : '' ?></textarea>
+                                </div> <!-- .wmd-panel -->
+                                <div id="wmd-preview" class="wmd-panel wmd-preview"></div> <!-- .wmd-preview -->
+                            </div> <!-- #markdown-editor -->
+                        </div> <!-- .span12 -->
+                    </div> <!-- .row-fluid -->
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <button class="btn btn-primary btn-block" type="submit"><?php echo $localization['dashboard.profile.update-profile']; ?></button>
+                        </div> <!-- .span12 -->
+                    </div> <!-- .row-fluid -->
+                </form> <!-- #profile-form -->    
+            </div> <!-- #main-content -->
+        </div> <!-- .span8 -->
     </div> <!-- .row-fluid -->
 </div> <!-- .container -->
+
+<script type="text/javascript">
+    $.getScript('<?php echo $cdnUrl; ?>/js/markdown.min.js', function() {
+        converter = Markdown.getSanitizingConverter();
+        editor    = new Markdown.Editor(converter);
+        editor.run();
+    });
+</script>
+<script type="text/javascript">
+    function onChangePasswordSubmit() {
+        $('.alert-success', '#password-form').addClass('hide');
+        $('.alert-error', '#password-form').addClass('hide');
+        $('button[type=submit]', '#password-form').attr('disabled', 'disabled');
+        $('button[type=submit]', '#password-form').html('<?php echo $localization['dashboard.profile.please-wait']; ?>');
+
+        var oldPassword     = $('#old-password').val(),
+            newPassword     = $('#new-password').val(),
+            confirmPassword = $('#confirm-new-password').val();
+
+        return doChangePasswordAction(oldPassword, newPassword, confirmPassword);
+    }
+</script>
+<script type="text/javascript">
+    function doChangePasswordAction(oldPassword, newPassword, confirmPassword) {
+        var postData = {
+            'oldPassword': oldPassword,
+            'newPassword': newPassword,
+            'confirmPassword': confirmPassword
+        };
+        
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo $this->url->get('/dashboard/changePassword.action'); ?>',
+            data: postData,
+            dataType: 'JSON',
+            success: function(result){
+                return processChangePasswordResult(result);
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    function processChangePasswordResult(result) {
+        if ( result['isSuccessful'] ) {
+            $('.alert-success', '#password-form').removeClass('hide');
+        } else {
+            var errorMessage  = '';
+
+            if ( !result['isOldPasswordCorrect'] ) {
+                errorMessage += '<?php echo $localization['dashboard.profile.old-password-incorrect']; ?><br>';
+            }
+            if ( result['isNewPasswordEmpty'] ) {
+                errorMessage += '<?php echo $localization['dashboard.profile.new-password-empty']; ?><br>';
+            }
+            if ( !result['isNewPasswordLegal'] ) {
+                errorMessage += '<?php echo $localization['dashboard.profile.new-password-illegal']; ?><br>';
+            }
+            if ( !result['isConfirmPasswordMatched'] ) {
+                errorMessage += '<?php echo $localization['dashboard.profile.new-password-not-matched']; ?><br>';
+            }
+            $('.alert-error', '#password-form').html(errorMessage);
+            $('.alert-error', '#password-form').removeClass('hide');
+        }
+        $('button[type=submit]', '#password-form').html('<?php echo $localization['dashboard.profile.change-password']; ?>');
+        $('button[type=submit]', '#password-form').removeAttr('disabled');
+    }
+</script>
+<script type="text/javascript">
+    socialServices      = {
+        'Facebook'      : 'https://facebook.com/',
+        'Twitter'       : 'https://twitter.com/',
+        'Weibo'         : 'http://weibo.com/',
+        'Instagram'     : 'https://instagram.com/',
+        'GitHub'        : 'https://github.com/',
+        'StackOverflow' : 'http://stackoverflow.com/users/',
+        'LinkedIn'      : 'https://www.linkedin.com/profile/view?id='
+    };
+</script>
+<script type="text/javascript">
+    $(function() {
+        var mySocialLinks   = {
+            'Facebook'      : '<?php echo isset($socialLinks['Facebook']) ? $socialLinks['Facebook'] : ''; ?>',
+            'Twitter'       : '<?php echo isset($socialLinks['Twitter']) ? $socialLinks['Twitter'] : ''; ?>',
+            'Weibo'         : '<?php echo isset($socialLinks['Weibo']) ? $socialLinks['Weibo'] : ''; ?>',
+            'Instagram'     : '<?php echo isset($socialLinks['Instagram']) ? $socialLinks['Instagram'] : ''; ?>',
+            'GitHub'        : '<?php echo isset($socialLinks['GitHub']) ? $socialLinks['GitHub'] : ''; ?>',
+            'StackOverflow' : '<?php echo isset($socialLinks['StackOverflow']) ? $socialLinks['StackOverflow'] : ''; ?>',
+            'LinkedIn'      : '<?php echo isset($socialLinks['LinkedIn']) ? $socialLinks['LinkedIn'] : ''; ?>'
+        };
+
+        for ( var serviceName in mySocialLinks ) {
+            var serviceBaseUrl  = socialServices[serviceName],
+                serviceUsername = mySocialLinks[serviceName],
+                serviceUrl      = serviceBaseUrl + serviceUsername;
+
+            if ( typeof(serviceUsername) != 'undefined' && serviceUsername != '' ) {
+                $('#no-social-links').addClass('hide');
+                $('#social-links > ul').append(getSocialLinkContainer(serviceName, serviceUrl));
+            }
+        }
+    });
+</script>
+<script type="text/javascript">
+    $('#new-social-link').click(function() {
+        var serviceName = 'Facebook', 
+            serviceUrl  = socialServices['Facebook'];
+        
+        $('#no-social-links').addClass('hide');
+        $('#social-links > ul').append(getSocialLinkContainer(serviceName, serviceUrl));
+    });
+</script>
+<script type="text/javascript">
+    function getSocialLinkContainer(serviceName, serviceUrl) {
+        var containerTemplate = '<li class="social-link">' +
+                                '    <div class="header">' +
+                                '        <h5>%s</h5>' +
+                                '        <ul class="inline">' +
+                                '            <li><a href="javascript:void(0);"><i class="fa fa-edit"></i></a></li>' +
+                                '            <li><a href="javascript:void(0);"><i class="fa fa-trash"></i></a></li>' +
+                                '        </ul>' +
+                                '    </div> <!-- .header -->' +
+                                '    <div class="body hide">' +
+                                '        <div class="row-fluid">' +
+                                '            <div class="span4">' +
+                                '                <label><?php echo $localization['dashboard.profile.service-name']; ?></label>' +
+                                '            </div> <!-- .span4 -->' +
+                                '            <div class="span8">' +
+                                '                <div class="control-group">' +
+                                '                    <select class="service">' + getSocialLinkOptions(serviceName) + '</select>' +
+                                '                </div> <!-- .control-group -->' +
+                                '            </div> <!-- .span8 -->' +
+                                '        </div> <!-- .row-fluid -->' +
+                                '        <div class="row-fluid">' +
+                                '            <div class="span4">' +
+                                '                <label>URL</label>' +
+                                '            </div> <!-- .span4 -->' +
+                                '            <div class="span8">' +
+                                '                <div class="control-group">' +
+                                '                    <input class="url span8" type="text" maxlength="128" value="%s" />' +
+                                '                </div> <!-- .control-group -->' +
+                                '            </div> <!-- .span8 -->' +
+                                '        </div> <!-- .row-fluid -->' +
+                                '    </div> <!-- .body -->' +
+                                '</li> <!-- .social-link -->';
+
+        return containerTemplate.format(serviceName, serviceUrl);
+    }
+</script>
+<script type="text/javascript">
+    function getSocialLinkOptions(selectedServiceName) {
+        var socialLinkOptions       = '',
+            optionTemplate          = '<option value="%s">%s</option>',
+            selectedOptionTemplate  = '<option value="%s" selected>%s</option>';
+
+        for ( var serviceName in socialServices ) {
+            if ( serviceName == selectedServiceName ) {
+                socialLinkOptions  += selectedOptionTemplate.format(serviceName, serviceName);
+            } else {
+                socialLinkOptions  += optionTemplate.format(serviceName, serviceName);
+            }
+        }
+        return socialLinkOptions;
+    }
+</script>
+<script type="text/javascript">
+    $('#social-links').delegate('i.fa-edit', 'click', function() {
+        var socialLinkContainer = $(this).parent().parent().parent().parent().parent(),
+            isBodyUnfolded      = $('.body', $(socialLinkContainer)).is(':visible');
+
+        if ( isBodyUnfolded ) {
+            $('.body', $(socialLinkContainer)).addClass('hide');
+        } else {
+            $('.body', $(socialLinkContainer)).removeClass('hide');
+        }
+    });
+</script>
+<script type="text/javascript">
+    $('#social-links').delegate('i.fa-trash', 'click',function() {
+        var socialLinkContainer = $(this).parent().parent().parent().parent().parent(),
+            socialLinks         = $('li.social-link', '#social-links').length;
+        
+        $(socialLinkContainer).remove();
+
+        if ( socialLinks == 1 ) {
+            $('#no-social-links').removeClass('hide');
+        }
+    });
+</script>
+<script type="text/javascript">
+    $('#social-links').delegate('select.service', 'change', function() {
+        var socialLinkContainer = $(this).parent().parent().parent().parent().parent(),
+            serviceName         = $(this).val(),
+            serviceBaseUrl      = socialServices[serviceName];
+        
+        $('h5', $(socialLinkContainer)).html(serviceName);
+        $('input.url', $(socialLinkContainer)).val(serviceBaseUrl);
+    });
+</script>
+<script type="text/javascript">
+    function getSocialLinks() {
+        var socialLinks = {};
+
+        $('.social-link').each(function() {
+            var serviceName     = $('select.service', $(this)).val(),
+                serviceUrl      = $('input.url', $(this)).val(),
+                serviceBaseUrl  = socialServices[serviceName],
+                serviceUsername = serviceUrl.substr(serviceBaseUrl.length);
+
+            if ( serviceUrl.indexOf(serviceBaseUrl) != -1 && serviceUsername != '' ) {
+                socialLinks[serviceName] = serviceUsername;
+            }
+        });
+        return JSON.stringify(socialLinks);
+    }
+</script>
+<script type="text/javascript">
+    function onChangeProfileSubmit() {
+        $('.alert-success', '#profile-form').addClass('hide');
+        $('.alert-error', '#profile-form').addClass('hide');
+        $('button[type=submit]', '#profile-form').attr('disabled', 'disabled');
+        $('button[type=submit]', '#profile-form').html('<?php echo $localization['dashboard.profile.please-wait']; ?>');
+
+        var email       = $('#email').val(),
+            location    = $('#location').val(),
+            website     = $('#website').val(),
+            socialLinks = getSocialLinks(),
+            aboutMe     = $('#wmd-input').val();
+
+        return doUpdateProfileAction(email, location, website, socialLinks, aboutMe);
+    }
+</script>
+<script type="text/javascript">
+    function doUpdateProfileAction(email, location, website, socialLinks, aboutMe) {
+        var postData = {
+            'email': email,
+            'location': location,
+            'website': website,
+            'socialLinks': socialLinks,
+            'aboutMe': aboutMe
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo $this->url->get('/dashboard/updateProfile.action'); ?>',
+            data: postData,
+            dataType: 'JSON',
+            success: function(result){
+                return processUpdateProfileResult(result);
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    function processUpdateProfileResult(result) {
+        if ( result['isSuccessful'] ) {
+            $('.alert-success', '#profile-form').removeClass('hide');
+        } else {
+            var errorMessage  = '';
+
+            if ( result['isEmailEmpty'] ) {
+                errorMessage += '<?php echo $localization['dashboard.profile.email-empty']; ?><br>';
+            } else if ( !result['isEmailLegal'] ) {
+                errorMessage += '<?php echo $localization['dashboard.profile.email-illegal']; ?><br>';
+            } else if ( result['isEmailExists'] ) {
+                errorMessage += '<?php echo $localization['dashboard.profile.email-existing']; ?><br>';
+            }
+            if ( !result['isLocationLegal'] ) {
+                errorMessage += '<?php echo $localization['dashboard.profile.location-illegal']; ?><br>';
+            }
+            if ( !result['isWebsiteLegal'] ) {
+                errorMessage += '<?php echo $localization['dashboard.profile.website-legal']; ?><br>';
+            }
+            if ( !result['isAboutMeLegal'] ) {
+                errorMessage += '<?php echo $localization['dashboard.profile.about-me-legal']; ?><br>';
+            }
+
+            $('.alert-error', '#profile-form').html(errorMessage);
+            $('.alert-error', '#profile-form').removeClass('hide');
+        }
+        $('button[type=submit]', '#profile-form').html('<?php echo $localization['dashboard.profile.update-profile']; ?>');
+        $('button[type=submit]', '#profile-form').removeAttr('disabled');
+    }
+</script>

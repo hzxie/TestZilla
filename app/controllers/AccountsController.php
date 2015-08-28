@@ -147,6 +147,23 @@ class AccountsController extends BaseController {
     }
 
     /**
+     * Render to user's profile page.
+     * @param  long $uid - the unique ID of the user
+     */
+    public function userAction($uid) {
+        $userService    = ServiceFactory::getService('UserService');
+        $user           = $userService->getUserUsingUid($uid);
+
+        if ( $user == NULL ) {
+            $this->forward('errors/resourceNotFound');
+            return;
+        }
+        
+        $this->tag->prependTitle($user['username']);
+        $this->view->setVar('user', $user);
+    }
+
+    /**
      * Render to reset password page.
      */
     public function resetPasswordAction() {
