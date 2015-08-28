@@ -1,5 +1,8 @@
 <?php echo Phalcon\Tag::stylesheetLink("{$cdnUrl}/css/dashboard/style.css?ver={$appVerion}"); ?>
 <?php echo Phalcon\Tag::stylesheetLink("{$cdnUrl}/css/dashboard/profile.css?ver={$appVerion}"); ?>
+
+<?php echo $this->getContent(); ?>
+
 <div id="dashboard" class="container">
     <div class="row-fluid">
         <div id="sidebar" class="span4">

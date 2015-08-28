@@ -171,6 +171,16 @@ class BaseController extends Controller {
     }
 
     /**
+     * Get content without sensitive words.
+     * @param  String $content - the content need to be filtered
+     * @return the content without sensitive words
+     */
+    protected function getFilteredContent($content) {
+        $sensitiveWordPlugin = new SensitiveWordPlugin();
+        return $sensitiveWordPlugin->getFilteredContent($content);
+    }
+
+    /**
      * Redirect to another function to handle this request.
      * @param  String $uri - the URI to redirect
      */

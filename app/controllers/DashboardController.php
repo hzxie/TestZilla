@@ -32,7 +32,12 @@ class DashboardController extends BaseController {
      * Render to profile page.
      */
     public function profileAction() {
+        $uid            = $this->session->get('uid');
+        $userService    = ServiceFactory::getService('UserService');
+        $userMeta       = $userService->getUserMetaUsingUid($uid);
+
         $this->tag->prependTitle($this->localization['dashboard.profile.title']);
+        $this->view->setVars($userMeta);
     }
 
     /**
@@ -63,7 +68,15 @@ class DashboardController extends BaseController {
      * @return a HttpResponse contains JSON data infer whether the operation is successful
      */
     public function updateProfileAction() {
-        $result   = array();
+        $email          = $this->request->getPost('email');
+        $location       = $this->getFilteredContent(strip_tags($this->request->getPost('location')));
+        $website        = $this->request->getPost('website');
+        $socialLinks    = $this->request->getPost('socialLinks');
+        $aboutMe        = $this->getFilteredContent(strip_tags($this->request->getPost('aboutMe')));
+        $currentUser    = $this->getCurrentUserObject($this->session);
+        
+        $userService    = ServiceFactory::getService('UserService');
+        $result         = $userService->updateProfile($currentUser, $email, $location, $website, $socialLinks, $aboutMe);
 
         $response = new Response();
         $response->setHeader('Content-Type', 'application/json');

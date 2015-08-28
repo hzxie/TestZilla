@@ -102,6 +102,34 @@ class UserService extends Service {
     }
 
     /**
+     * Get the meta data of a user.
+     * @param  long  $uid - the unique ID of the user
+     * @return an array contains all meta data of the user
+     */
+    public function getUserMetaUsingUid($uid) {
+        $userMeta       = array();
+        $resultSet      = UserMeta::find(array(
+            'conditions'    => 'uid = ?1',
+            'bind'          => array(
+                1           => $uid,
+            ),
+        ));
+
+        foreach ( $resultSet as $rowSet ) {
+            $key        = $rowSet->getMetaKey();
+            $value      = $rowSet->getMetaValue();
+
+            if ( $key == 'socialLinks' ) {
+                $value  = (array)json_decode($value);
+            }
+            $userMeta   = array_merge($userMeta, array(
+                $key  => $value
+            ));
+        }
+        return $userMeta;
+    }
+
+    /**
      * Verify if the username and password is correct.
      * @param  String  $username - the username of the user
      * @param  String  $password - the password of the user
@@ -169,6 +197,92 @@ class UserService extends Service {
     }
 
     /**
+     * Change password for user logged in.
+     * @param  User   $user            - the user who wants to change password
+     * @param  String $oldPassword     - the password the user used now
+     * @param  String $newPassword     - the new password
+     * @param  String $confirmPassword - the confirmation of the new password
+     * @return an array contains data infer whether the password is changed
+     */
+    public function changePassword($user, $oldPassword, $newPassword, $confirmPassword) {
+        $result     = array(
+            'isSuccessful'              => false,
+            'isUserLoggedIn'            => $user != NULL,
+            'isOldPasswordCorrect'      => $user->getPassword() == md5($oldPassword),
+            'isNewPasswordEmpty'        => empty($newPassword),
+            'isNewPasswordLegal'        => $this->isPasswordLegal($newPassword),
+            'isConfirmPasswordMatched'  => $newPassword == $confirmPassword,
+        );
+        $result['isSuccessful'] =  $result['isUserLoggedIn']     && $result['isOldPasswordCorrect'] &&
+                                  !$result['isNewPasswordEmpty'] && $result['isNewPasswordLegal']   &&
+                                   $result['isConfirmPasswordMatched'];
+
+        if ( $result['isSuccessful'] ) {
+            $user->setPassword(md5($newPassword));
+            if ( !$user->update() ) {
+                $result['isSuccessful'] = false;
+            }
+        }
+        return $result;
+    }
+
+    public function updateProfile($user, $email, $location, $website, $socialLinks, $aboutMe) {
+        $result = array(
+            'isSuccessful'      => false,
+            'isEmailEmpty'      => empty($email),
+            'isEmailLegal'      => $this->isEmailLegal($email),
+            'isEmailExists'     => $this->isEmailExistsExceptCurrentUser($user, $email),
+            'isLocationLegal'   => mb_strlen($location, 'utf-8') <= 128,
+            'isWebsiteLegal'    => $this->isWebsiteLegal($website),
+            'isAboutMeLegal'    => mb_strlen($aboutMe, 'utf-8') <= 256,
+        );
+        $result['isSuccessful'] = !$result['isEmailEmpty']   && $result['isEmailLegal']    &&
+                                  !$result['isEmailExists']  && $result['isLocationLegal'] &&
+                                   $result['isWebsiteLegal'] && $result['isAboutMeLegal'];
+
+        if ( $result['isSuccessful'] ) {
+            $user->setEmail($email);
+            $user->update();
+
+            $this->updateUserMeta($user, 'location', $location);
+            $this->updateUserMeta($user, 'website', $website);
+            $this->updateUserMeta($user, 'socialLinks', $socialLinks);
+            $this->updateUserMeta($user, 'aboutMe', $aboutMe);
+        }
+        return $result;
+    }
+
+    /**
+     * Update the meta data of the user.
+     * @param  User  $user       - the user who wants to update meta data
+     * @param  String $metaKey   - the key of the meta
+     * @param  String $metaValue - the value of the meta
+     */
+    private function updateUserMeta($user, $metaKey, $metaValue) {
+        $userMeta = UserMeta::findFirst(array(
+            'conditions'    => 'uid = ?1 AND meta_key = ?2',
+            'bind'          => array(
+                1           => $user->getUid(),
+                2           => $metaKey,
+            ),
+        ));
+
+        if ( $userMeta == NULL ) {
+            if ( empty($metaValue) ) {
+                return;
+            }
+            $userMeta = new UserMeta();
+            $userMeta->setUser($user);
+            $userMeta->setMetaKey($metaKey);
+            $userMeta->setMetaValue($metaValue);
+            $userMeta->create();
+        } else {
+            $userMeta->setMetaValue($metaValue);
+            $userMeta->update();
+        }
+    }
+
+    /**
      * Verify if the username field is legal.
      * @param  String $username - the username of the user
      * @return if the username field is legal
@@ -228,33 +342,26 @@ class UserService extends Service {
     }
 
     /**
-     * Change password for user logged in.
-     * @param  User   $user            - the user who wants to change password
-     * @param  String $oldPassword     - the password the user used now
-     * @param  String $newPassword     - the new password
-     * @param  String $confirmPassword - the confirmation of the new password
-     * @return an array contains data infer whether the password is changed
+     * Check if the email has been taken by other users (except current user).
+     * @param  User    $user  - current user
+     * @param  String  $email - the email of the user wants to use
+     * @return whether the email has been taken by other users
      */
-    public function changePassword($user, $oldPassword, $newPassword, $confirmPassword) {
-        $result     = array(
-            'isSuccessful'              => false,
-            'isUserLoggedIn'            => $user != NULL,
-            'isOldPasswordCorrect'      => $user->getPassword() == md5($oldPassword),
-            'isNewPasswordEmpty'        => empty($newPassword),
-            'isNewPasswordLegal'        => $this->isPasswordLegal($newPassword),
-            'isConfirmPasswordMatched'  => $newPassword == $confirmPassword,
-        );
-        $result['isSuccessful'] =  $result['isUserLoggedIn']     && $result['isOldPasswordCorrect'] &&
-                                  !$result['isNewPasswordEmpty'] && $result['isNewPasswordLegal']   &&
-                                   $result['isConfirmPasswordMatched'];
-
-        if ( $result['isSuccessful'] ) {
-            $user->setPassword(md5($newPassword));
-            if ( !$user->update() ) {
-                $result['isSuccessful'] = false;
-            }
+    private function isEmailExistsExceptCurrentUser($user, $email) {
+        if ( $user->getEmail() == $email ) {
+            return false;
         }
-        return $result;
+        return $this->isEmailExists($email);
+    }
+
+    /**
+     * [isWebsiteLegal description]
+     * @param  [type]  $website [description]
+     * @return boolean          [description]
+     */
+    private function isWebsiteLegal($website) {
+        return strlen($website) <= 64 &&
+               preg_match('/^(http|https):\/\/[A-Za-z0-9-]+\.[A-Za-z0-9_.]+$/', $website);
     }
 
     /**

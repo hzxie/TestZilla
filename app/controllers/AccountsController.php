@@ -158,9 +158,11 @@ class AccountsController extends BaseController {
             $this->forward('errors/resourceNotFound');
             return;
         }
-        
+
+        $userMeta       = $userService->getUserMetaUsingUid($uid);
         $this->tag->prependTitle($user['username']);
         $this->view->setVar('user', $user);
+        $this->view->setVars($userMeta);
     }
 
     /**

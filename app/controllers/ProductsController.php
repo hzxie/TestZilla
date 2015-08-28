@@ -342,16 +342,6 @@ class ProductsController extends BaseController {
     }
 
     /**
-     * Get content without sensitive words.
-     * @param  String $content - the content need to be filtered
-     * @return the content without sensitive words
-     */
-    private function getFilteredContent($content) {
-        $sensitiveWordPlugin = new SensitiveWordPlugin();
-        return $sensitiveWordPlugin->getFilteredContent($content);
-    }
-
-    /**
      * Get the best language for multi-language content for categories of issues.
      * @param  Array $issueCategories - an array of product list in multi-languages
      * @return an array of a list of category of issues with the best language
