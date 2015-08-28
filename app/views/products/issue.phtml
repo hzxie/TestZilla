@@ -1,4 +1,5 @@
 <?php echo Phalcon\Tag::stylesheetLink("{$cdnUrl}/css/products/issue.css?ver={$appVerion}"); ?>
+<?php echo $this->getContent(); ?>
 <div id="issue" class="container">
     <div class="header row-fluid">
         <div class="span9">
@@ -24,7 +25,7 @@
                     </div> <!-- .avatar -->
                 </div> <!-- .span2 -->
                 <div class="span10">
-                    <div class="issue-reply <?php if ( $issue['hunter']['uid'] == $user['uid'] ): echo 'current-user'; endif;?>">
+                    <div class="issue-reply <?php if ( $issue['hunter']['uid'] == (isset($user) ? $user['uid'] : '') ): echo 'current-user'; endif;?>">
                         <div class="reply-header">
                             <a href="<?php echo $this->url->get("/accounts/user/{$issue['hunter']['uid']}"); ?>">
                                 <?php echo $issue['hunter']['username']; ?>

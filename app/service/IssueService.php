@@ -170,7 +170,7 @@ class IssueService extends Service {
                 'issueId'           => $rowSet->getIssueId(),
                 'product'           => array(
                     'productId'         => $rowSet->getProduct()->getProductId(),
-                    'productName'       => $rowSet->getProduct()->getProductName(),
+                    'productName'       => (array)json_decode($rowSet->getProduct()->getProductName()),
                     'latestVersion'     => $rowSet->getProduct()->getLatestVersion(),
                 ),
                 'productVersion'    => $rowSet->getProductVersion(),

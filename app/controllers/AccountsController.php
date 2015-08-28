@@ -54,7 +54,7 @@ class AccountsController extends BaseController {
         if ( $result['isSuccessful'] ) {
             $user    = $userService->getUserUsingUsernameOrEmail($username);
             $this->getSession($this->session, $user);
-            $this->logger->log(sprintf('User: [Username=%s] signed in at %s.', $user, $ipAddress), Logger::INFO);
+            $this->logger->log(sprintf('User: [%s] signed in at %s.', $user, $ipAddress), Logger::INFO);
         }
         $response    = new Response();
         $response->setHeader('Content-Type', 'application/json');
@@ -81,7 +81,7 @@ class AccountsController extends BaseController {
         $user        = $this->getCurrentUser($this->session);
 
         $this->destroySession($this->session);
-        $this->logger->log(sprintf('User: [Username=%s] signed out at %s.', $user, $ipAddress), Logger::INFO);
+        $this->logger->log(sprintf('User: [%s] signed out at %s.', $user, $ipAddress), Logger::INFO);
         
         $response    = new Response();
         $response->redirect('/accounts/signin?logout=true');
@@ -138,7 +138,7 @@ class AccountsController extends BaseController {
         if ( $result['isSuccessful'] ) {
             $user    = $userService->getUserUsingUsernameOrEmail($username);
             $this->getSession($this->session, $user);
-            $this->logger->log(sprintf('User: [Username=%s] created at %s.', $user, $ipAddress), Logger::INFO);
+            $this->logger->log(sprintf('User: [%s] created at %s.', $user, $ipAddress), Logger::INFO);
         }
         $response = new Response();
         $response->setHeader('Content-Type', 'application/json');
@@ -209,6 +209,10 @@ class AccountsController extends BaseController {
         if ( $isTokenValid ) {
             $result['csrfTokenKey'] = $this->security->getTokenKey();
             $result['csrfToken']    = $this->security->getToken();
+        }
+        if ( $result['isSuccessful'] ) {
+            $user    = $userService->getUserUsingUsernameOrEmail($email);
+            $this->logger->log(sprintf('User: [%s] reset password at %s.', $user, $ipAddress), Logger::INFO);
         }
         $response = new Response();
         $response->setHeader('Content-Type', 'application/json');

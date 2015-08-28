@@ -419,6 +419,9 @@ class ProductsController extends BaseController {
      * @return the best language for multi-language content
      */
     private function getBestLanguageForContent($content, $request, $session) {
+        if ( !is_array($content) ) {
+            return $content;
+        }
         $languageDectorPlugin   = new LanguageDectorPlugin();
         $currentLanguage        = $languageDectorPlugin->getCurrentLanguage($request, $session);
         $defaultLanguage        = 'en';
