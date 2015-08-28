@@ -160,6 +160,10 @@ class AccountsController extends BaseController {
             $response->redirect('/');
             return $response;
         }
+        if ( $isTokenSet ) {
+            $userService    = ServiceFactory::getService('UserService');
+            $isTokenValid   = $userService->isEmailTokenValid($email, $token);
+        }
 
         $this->tag->prependTitle($this->localization['accounts.reset-password.title']);
         $this->view->setVar('email', $email);
@@ -168,26 +172,44 @@ class AccountsController extends BaseController {
         $this->view->setVar('isTokenValid', $isTokenValid);
     }
 
+    /**
+     * Verify the username and email and send verification email.
+     * @return an HttpResponse which contains JSON data infers whether the username and email exists
+     */
     public function doForgotPasswordAction() {
         $username       = $this->request->get('username');
         $email          = $this->request->get('email');
         $isTokenValid   = $this->security->checkToken();
-        $result         = array();
+        $userService    = ServiceFactory::getService('UserService');
+        $result         = $userService->forgotPassword($username, $email, $isTokenValid);
 
+        if ( $isTokenValid ) {
+            $result['csrfTokenKey'] = $this->security->getTokenKey();
+            $result['csrfToken']    = $this->security->getToken();
+        }
         $response = new Response();
         $response->setHeader('Content-Type', 'application/json');
         $response->setContent(json_encode($result));
         return $response;
     }
 
+    /**
+     * Reset the password if the email and token is correct.
+     * @return an HttpResponse which contains JSON data infers whether the password is reset
+     */
     public function doResetPasswordAction() {
         $email              = $this->request->get('email');
         $token              = $this->request->get('token');
         $newPassword        = $this->request->get('newPassword');
         $confirmPassword    = $this->request->get('confirmPassword');
         $isTokenValid       = $this->security->checkToken();
-        $result             = array();
+        $userService        = ServiceFactory::getService('UserService');
+        $result             = $userService->resetPassword($email, $token, $newPassword, $confirmPassword, $isTokenValid);
 
+        if ( $isTokenValid ) {
+            $result['csrfTokenKey'] = $this->security->getTokenKey();
+            $result['csrfToken']    = $this->security->getToken();
+        }
         $response = new Response();
         $response->setHeader('Content-Type', 'application/json');
         $response->setContent(json_encode($result));

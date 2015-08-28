@@ -203,4 +203,139 @@ class UserService extends Service {
         ));
         return $user != NULL;
     }
+
+    /**
+     * Verify if the token and the email address is valid.
+     * @param  String  $email - the email address to verify
+     * @param  String  $token - the token used for verify the email
+     * @return whether the token and the email address is valid
+     */
+    public function isEmailTokenValid($email, $token) {
+        $emailVerification = EmailVerification::findFirst(array(
+            'conditions'    => 'email = ?1',
+            'bind'          => array(
+                1           => $email,
+            ),
+        ));
+
+        if ( $emailVerification != NULL && 
+             $emailVerification->getToken() == $token &&
+             strtotime($emailVerification->getExpireTime()) >= strtotime('now') ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Verify the username and email and send verification email.
+     * @param  String  $username     - the username of the user
+     * @param  String  $email        - the email of the user
+     * @param  boolean $isTokenValid - the CSRF token is valid
+     * @return an array which contains data infer whether the username and email exists
+     */
+    public function forgotPassword($username, $email, $isTokenValid) {
+        $isUserExists   = false;
+        if ( $isTokenValid && !empty($username) && !empty($email) ) {
+            $user               = $this->getUserUsingEmail($email);
+            if ( $user != NULL && 
+                 $user->getUsername() == $username) {
+                $isUserExists   = true;
+                $this->sendVerificationEmail($username, $email);
+            }
+        }
+
+        $result         = array(
+            'isSuccessful'      => false,
+            'isCsrfTokenValid'  => $isTokenValid,
+            'isUserExists'      => $isUserExists,
+        );
+        $result['isSuccessful'] = $result['isCsrfTokenValid'] && $result['isUserExists'];
+
+        return $result;
+    }
+
+    /**
+     * Send the verification email to the user.
+     * @param  String $username - the username of the user
+     * @param  String $email    - the email of the user
+     * @return whether the mail is successfully sent
+     */
+    private function sendVerificationEmail($username, $email) {
+        $token              = uniqid();
+        $tomorrowDateTime   = date('Y-m-d H:i:s', strtotime('+1 day'));
+
+        $emailVerification  = EmailVerification::findFirst(array(
+            'conditions'    => 'email = ?1',
+            'bind'          => array(
+                1           => $email,
+            ),
+        ));
+        if ( $emailVerification != NULL ) {
+            $emailVerification->delete();
+        }
+
+        $emailVerification  = new EmailVerification();
+        $emailVerification->setEmail($email);
+        $emailVerification->setToken($token);
+        $emailVerification->setExpireTime($tomorrowDateTime);
+        $emailVerification->create();
+
+        $subject            = 'Reset Your Password';
+        $templateName       = 'resetPassword';
+        $parameters         = array(
+            'username'      => $username,
+            'email'         => $email,
+            'token'         => $token,
+        );
+        return $this->mailSender->sendMail($email, $subject, $templateName, $parameters);
+    }
+
+    /**
+     * Reset the password if the email and token is correct.
+     * @param  String  $email           - the email address to verify
+     * @param  String  $token           - the token used for verify the email
+     * @param  String  $newPassword     - the new password
+     * @param  String  $confirmPassword - the confirmation of the new password
+     * @param  boolean $isTokenValid    - the CSRF token is valid
+     * @return an array which contains data infer whether the password is reset
+     */
+    public function resetPassword($email, $token, $newPassword, $confirmPassword, $isTokenValid) {
+        $isEmailTokenValid      = false;
+        if ( $isTokenValid ) {
+            $emailVerification  = EmailVerification::findFirst(array(
+                'conditions'    => 'email = ?1 AND token = ?2 AND expire_time >= ?3',
+                'bind'          => array(
+                    1           => $email,
+                    2           => $token,
+                    3           => date('Y-m-d H:i:s', strtotime('now')),
+                ),
+            ));
+
+            if ( $emailVerification != NULL ) {
+                $isEmailTokenValid = true;
+            }
+        }
+
+        $result                 = array(
+            'isSuccessful'              => false,
+            'isCsrfTokenValid'          => $isTokenValid,
+            'isEmailTokenValid'         => $isEmailTokenValid,
+            'isNewPasswordEmpty'        => empty($newPassword),
+            'isNewPasswordLegal'        => $this->isPasswordLegal($newPassword),
+            'isConfirmPasswordMatched'  => $newPassword == $confirmPassword,
+        );
+        $result['isSuccessful'] =  $result['isCsrfTokenValid']   && $result['isEmailTokenValid']  && 
+                                  !$result['isNewPasswordEmpty'] && $result['isNewPasswordLegal'] && 
+                                   $result['isConfirmPasswordMatched'];
+
+        if ( $result['isSuccessful'] ) {
+            $user = $this->getUserUsingEmail($email);
+            $user->setPassword(md5($newPassword));
+
+            if ( !$user->update() ) {
+                $result['isSuccessful'] = false;
+            }
+        }
+        return $result;
+    }
 }
