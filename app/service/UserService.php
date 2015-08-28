@@ -188,6 +188,7 @@ class UserService extends Service {
             $user->setPassword(md5($password));
             $user->setEmail($email);
             $user->setUserGroup($defaultUserGroup);
+            $this->updateUserMeta($user, 'registerTime', date('Y-m-d H:i:s'));
             
             if ( !$user->create() ) {
                 $result['isSuccessful']      = false;

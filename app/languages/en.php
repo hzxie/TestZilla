@@ -73,6 +73,11 @@ $messages = array(
     'accounts.signup.email-taken'                       => 'Someone has taken that email address.',
     'accounts.signup.password-empty'                    => 'You can&acute;t leave Password empty.',
     'accounts.signup.password-illegal'                  => 'The length of Password must between 6 and 16 characters.',
+    # accounts/user.phtml
+    'accounts.user.joined-on'                           => 'Joined on',
+    'accounts.user.products'                            => 'Products',
+    'accounts.user.issues'                              => 'Issues',
+    'accounts.user.about-me'                            => 'About Me',
     # accounts/reset-password.phtml
     'accounts.reset-password.title'                     => 'Reset Password',
     'accounts.reset-password.reset-password'            => 'Reset Password',

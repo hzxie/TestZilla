@@ -1,0 +1,113 @@
+<?php echo Phalcon\Tag::stylesheetLink("{$cdnUrl}/css/accounts/user.css?ver={$appVerion}"); ?>
+<div class="container">
+    <div class="row-fluid">
+        <div id="sidebar" class="span3">
+            <div id="vcard" class="section">
+                <img src="https://secure.gravatar.com/avatar/<?php echo md5(strtolower(trim($user['email']))); ?>?s=200" alt="@<?php echo $user['username']; ?>">
+                <h5><?php echo $user['username']; ?></h5>
+            </div> <!-- #vcard -->
+            <?php if ( !empty($socialLinks) ): ?>
+            <div id="social-links" class="section">
+                <ul class="inline">
+                <?php if ( array_key_exists('Facebook', $socialLinks) ): ?>
+                    <li><a href="https://facebook.com/${socialLinks[]}" target="_blank" class="facebook" title="Facebook"><i class="fa fa-facebook"></i></a></li>
+                <?php endif; ?>
+                <?php if ( array_key_exists('Twitter', $socialLinks) ): ?>
+                    <li><a href="https://twitter.com/${socialLinks['Twitter']}" target="_blank" class="twitter" title="Twitter"><i class="fa fa-twitter"></i></a></li>
+                <?php endif; ?>
+                <?php if ( array_key_exists('Weibo', $socialLinks) ): ?>
+                    <li><a href="http://weibo.com/${socialLinks['Weibo']}" target="_blank" class="weibo" title="Weibo"><i class="fa fa-weibo"></i></a></li>
+                <?php endif; ?>
+                <?php if ( array_key_exists('Instagram', $socialLinks) ): ?>
+                    <li><a href="https://instagram.com/${socialLinks['Instagram']}" target="_blank" class="instagram" title="Instagram"><i class="fa fa-instagram"></i></a></li>
+                <?php endif; ?>
+                <?php if ( array_key_exists('GitHub', $socialLinks) ): ?>
+                    <li><a href="https://github.com/${socialLinks['GitHub']}" target="_blank" class="github" title="GitHub"><i class="fa fa-github"></i></a></li>
+                <?php endif; ?>
+                <?php if ( array_key_exists('StackOverflow', $socialLinks) ): ?>
+                    <li><a href="http://stackoverflow.com/users/${socialLinks['StackOverflow']}" target="_blank" class="stackoverflow" title="StackOverflow"><i class="fa fa-stack-overflow"></i></a></li>
+                <?php endif; ?>
+                <?php if ( array_key_exists('LinkedIn', $socialLinks) ): ?>
+                    <li><a href="https://www.linkedin.com/profile/view?id=${socialLinks['LinkedIn']}" target="_blank" class="linkedin" title="LinkedIn"><i class="fa fa-linkedin-square"></i></a></li>
+                <?php endif; ?>
+                </ul>
+            </div> <!-- #social-links -->
+            <?php endif; ?>
+            <div id="vcard-details" class="section">
+                <ul>
+                <?php if ( isset($location) && !empty($location) ): ?>
+                    <li><span class="icon"><i class="fa fa-map-marker"></i></span> <?php echo $location; ?></li>
+                <?php endif; ?>
+                    <li><span class="icon"><i class="fa fa-envelope-o"></i></span> <?php echo $user['email']; ?></li>
+                <?php if ( isset($website) && !empty($website) ): ?>
+                    <li><span class="icon"><i class="fa fa-link"></i></span> <a href="<?php echo $website; ?>" target="_blank"><?php echo $website; ?></a></li>
+                <?php endif; ?>
+                    <li><span class="icon"><i class="fa fa-users"></i></span> <?php echo $user['userGroup']['userGroupName']; ?></li>
+                <?php if (isset($registerTime) && !empty($registerTime) ): ?>
+                    <li>
+                        <span class="icon"><i class="fa fa-clock-o"></i></span> 
+                        <?php 
+                            $formatter = new MessageFormatter($language, ' {0, date}');
+                            echo $localization['accounts.user.joined-on']; 
+                            echo $formatter->format(array(strtotime($registerTime)));
+                        ?>
+                    </li>
+                <?php endif; ?>
+                </ul>
+            </div> <!-- vcard-details -->
+            <div id="vcard-stats">
+                <div class="row-fluid">
+                    <div class="span6">
+                        <h3>0</h3>
+                        <?php echo $localization['accounts.user.products']; ?>
+                    </div> <!-- .span6 -->
+                    <div class="span6">
+                        <h3>0</h3>
+                        <?php echo $localization['accounts.user.issues']; ?>
+                    </div> <!-- .span6 -->
+                </div> <!-- .row-fluid -->
+            </div> <!-- #vcard-stats -->
+        </div> <!-- .span4 -->
+        <div id="main-content" class="span9">
+        <c:if test="${not empty aboutMe}">
+            <div class="section">
+                <div class="header">
+                    <h4><?php echo $localization['accounts.user.about-me']; ?></h4>
+                </div> <!-- .header -->
+                <div class="body markdown"><?php echo $aboutMe; ?></div> <!-- .body -->
+            </div> <!-- .section -->
+        </c:if>
+            <div class="section">
+                <div class="header">
+                    <h4><spring:message code="voj.accounts.user.submissions" text="Submissions" /></h4>
+                </div> <!-- .header -->
+                <div class="body">
+                    <table id="issues" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Issue Name</th>
+                                <th>Issue Category</th>
+                                <th>Issue Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div> <!-- .body -->
+            </div> <!-- .section -->
+        </div> <!-- .span8 -->
+    </div> <!-- .row-fluid -->
+</div> <!-- .container -->
+
+<script type="text/javascript">
+    $.getScript('<?php echo $cdnUrl; ?>/js/markdown.min.js', function() {
+        converter = Markdown.getSanitizingConverter();
+
+        $('.markdown').each(function() {
+            var plainContent    = $(this).text(),
+                markdownContent = converter.makeHtml(plainContent.replace(/\\n/g, '\n'));
+
+            $(this).html(markdownContent);
+        });
+    });
+</script>

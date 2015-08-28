@@ -73,6 +73,11 @@ $messages = array(
     'accounts.signup.email-taken'                       => '电子邮件地址已被他人使用.',
     'accounts.signup.password-empty'                    => '请填写密码.',
     'accounts.signup.password-illegal'                  => '密码的长度必须在6-16个字符之间',
+    # accounts/user.phtml
+    'accounts.user.joined-on'                           => '注册于',
+    'accounts.user.products'                            => '产品',
+    'accounts.user.issues'                              => '问题',
+    'accounts.user.about-me'                            => '关于我',
     # accounts/reset-password.phtml
     'accounts.reset-password.title'                     => '重置密码',
     'accounts.reset-password.reset-password'            => '重置密码',
