@@ -40,8 +40,18 @@ class DashboardController extends BaseController {
      * @return a HttpResponse contains JSON data infer whether the operation is successful
      */
     public function changePasswordAction() {
-        $result   = array();
+        $oldPassword        = $this->request->getPost('oldPassword');
+        $newPassword        = $this->request->getPost('newPassword');
+        $confirmPassword    = $this->request->getPost('confirmPassword');
+        $currentUser        = $this->getCurrentUserObject($this->session);
 
+        $userService        = ServiceFactory::getService('UserService');
+        $result             = $userService->changePassword($currentUser, $oldPassword, $newPassword, $confirmPassword);
+
+        if ( $result['isSuccessful'] ) {
+            $ipAddress      = $this->request->getClientAddress();
+            $this->logger->log(sprintf('User: [%s] changed password at %s.', $currentUser, $ipAddress), Logger::INFO);
+        }
         $response = new Response();
         $response->setHeader('Content-Type', 'application/json');
         $response->setContent(json_encode($result));

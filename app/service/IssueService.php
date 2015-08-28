@@ -271,7 +271,7 @@ class IssueService extends Service {
             'isProductVersionEmpty' => empty($productVersion),
             'isProductVersionLegal' => $this->isProductVersionLegal($productVersion),
             'isIssueCategoryEmpty'  => $issueCategory == NULL,
-            'isUserLogined'         => $hunter != NULL,
+            'isUserLoggedIn'        => $hunter != NULL,
             'isIssueTitleEmpty'     => empty($issueTitle),
             'isIssueTitleLegal'     => $this->isIssueTitleLegal($issueTitle),
             'isDescriptionEmpty'    => empty($issueDescription),
@@ -279,7 +279,7 @@ class IssueService extends Service {
         );
         $result['isSuccessful']     =  $result['isProductExists']       && !$result['isProductVersionEmpty'] &&
                                        $result['isProductVersionLegal'] && !$result['isIssueCategoryEmpty']  &&  
-                                       $result['isUserLogined']         && !$result['isIssueTitleEmpty']     &&
+                                       $result['isUserLoggedIn']        && !$result['isIssueTitleEmpty']     &&
                                        $result['isIssueTitleLegal']     && !$result['isDescriptionEmpty']    &&
                                        $result['isTokenValid'];
 
@@ -389,11 +389,11 @@ class IssueService extends Service {
         $result                 = array(
             'isSuccessful'      => false,
             'isIssueExists'     => $issue != NULL,
-            'isUserLogined'     => $submiter != NULL,
+            'isUserLoggedIn'    => $submiter != NULL,
             'isContentEmpty'    => empty($description),
             'isTokenValid'      => $isTokenValid,
         );
-        $result['isSuccessful'] = $result['isIssueExists'] &&  $result['isUserLogined'] &&
+        $result['isSuccessful'] = $result['isIssueExists'] &&  $result['isUserLoggedIn'] &&
                                   $result['isTokenValid']  && !$result['isContentEmpty'];
 
         if ( $result['isSuccessful'] ) {

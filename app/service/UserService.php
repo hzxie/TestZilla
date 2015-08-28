@@ -228,6 +228,36 @@ class UserService extends Service {
     }
 
     /**
+     * Change password for user logged in.
+     * @param  User   $user            - the user who wants to change password
+     * @param  String $oldPassword     - the password the user used now
+     * @param  String $newPassword     - the new password
+     * @param  String $confirmPassword - the confirmation of the new password
+     * @return an array contains data infer whether the password is changed
+     */
+    public function changePassword($user, $oldPassword, $newPassword, $confirmPassword) {
+        $result     = array(
+            'isSuccessful'              => false,
+            'isUserLoggedIn'            => $user != NULL,
+            'isOldPasswordCorrect'      => $user->getPassword() == md5($oldPassword),
+            'isNewPasswordEmpty'        => empty($newPassword),
+            'isNewPasswordLegal'        => $this->isPasswordLegal($newPassword),
+            'isConfirmPasswordMatched'  => $newPassword == $confirmPassword,
+        );
+        $result['isSuccessful'] =  $result['isUserLoggedIn']     && $result['isOldPasswordCorrect'] &&
+                                  !$result['isNewPasswordEmpty'] && $result['isNewPasswordLegal']   &&
+                                   $result['isConfirmPasswordMatched'];
+
+        if ( $result['isSuccessful'] ) {
+            $user->setPassword(md5($newPassword));
+            if ( !$user->update() ) {
+                $result['isSuccessful'] = false;
+            }
+        }
+        return $result;
+    }
+
+    /**
      * Verify if the token and the email address is valid.
      * @param  String  $email - the email address to verify
      * @param  String  $token - the token used for verify the email

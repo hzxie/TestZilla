@@ -179,6 +179,9 @@
     function processChangePasswordResult(result) {
         if ( result['isSuccessful'] ) {
             $('.alert-success', '#password-form').removeClass('hide');
+            $('#old-password').val('');
+            $('#new-password').val('');
+            $('#confirm-new-password').val('');
         } else {
             var errorMessage  = '';
 

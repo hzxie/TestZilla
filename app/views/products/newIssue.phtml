@@ -125,7 +125,7 @@
             if ( !result['isTokenValid'] ) {
                 errorMessage += '<?php echo $localization['products.new-issue.invalid-token']; ?><br>';
             }
-            if ( !result['isUserLogined'] ) {
+            if ( !result['isUserLoggedIn'] ) {
                 errorMessage += '<?php echo $localization['products.new-issue.user-not-logged-in']; ?><br>';
             }
             if ( !result['isProductExists'] ) {

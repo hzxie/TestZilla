@@ -123,7 +123,6 @@ class AccountsController extends BaseController {
      * @return a HTTP response object with JSON
      */
     public function doSignUpAction() {
-        $ipAddress      = $this->request->getClientAddress();
         $username       = $this->request->getPost('username');
         $password       = $this->request->getPost('password');
         $email          = $this->request->getPost('email');
@@ -136,7 +135,8 @@ class AccountsController extends BaseController {
             $result['csrfToken']    = $this->security->getToken();
         }
         if ( $result['isSuccessful'] ) {
-            $user    = $userService->getUserUsingUsernameOrEmail($username);
+            $user       = $userService->getUserUsingUsernameOrEmail($username);
+            $ipAddress  = $this->request->getClientAddress();
             $this->getSession($this->session, $user);
             $this->logger->log(sprintf('User: [%s] created at %s.', $user, $ipAddress), Logger::INFO);
         }
@@ -228,7 +228,8 @@ class AccountsController extends BaseController {
             $result['csrfToken']    = $this->security->getToken();
         }
         if ( $result['isSuccessful'] ) {
-            $user    = $userService->getUserUsingUsernameOrEmail($email);
+            $user       = $userService->getUserUsingUsernameOrEmail($email);
+            $ipAddress  = $this->request->getClientAddress();
             $this->logger->log(sprintf('User: [%s] reset password at %s.', $user, $ipAddress), Logger::INFO);
         }
         $response = new Response();
