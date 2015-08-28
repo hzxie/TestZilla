@@ -16,7 +16,6 @@ class User extends Model {
      */
     public function initialize() {
         $this->belongsTo('user_group_id', 'UserGroup', 'user_group_id');
-        $this->belongsTo('uid', 'Product', 'product_developer_id');
     }
 
     /**
