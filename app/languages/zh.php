@@ -78,6 +78,11 @@ $messages = array(
     'accounts.user.products'                            => '产品',
     'accounts.user.issues'                              => '问题',
     'accounts.user.about-me'                            => '关于我',
+    'accounts.user.issue-name'                          => '问题名称',
+    'accounts.user.issue-category'                      => '问题分类',
+    'accounts.user.issue-status'                        => '问题状态',
+    'accounts.user.more-issues'                         => '加载更多问题...',
+    'accounts.user.no-issues'                           => '暂无该用户提交的问题.',
     # accounts/reset-password.phtml
     'accounts.reset-password.title'                     => '重置密码',
     'accounts.reset-password.reset-password'            => '重置密码',

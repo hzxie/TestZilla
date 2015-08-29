@@ -58,41 +58,49 @@
             <div id="vcard-stats">
                 <div class="row-fluid">
                     <div class="span6">
-                        <h3>0</h3>
+                        <h3><?php echo $productCount; ?></h3>
                         <?php echo $localization['accounts.user.products']; ?>
                     </div> <!-- .span6 -->
                     <div class="span6">
-                        <h3>0</h3>
+                        <h3><?php echo $issueCount; ?></h3>
                         <?php echo $localization['accounts.user.issues']; ?>
                     </div> <!-- .span6 -->
                 </div> <!-- .row-fluid -->
             </div> <!-- #vcard-stats -->
         </div> <!-- .span4 -->
         <div id="main-content" class="span9">
-        <c:if test="${not empty aboutMe}">
+        <?php if ( isset($aboutMe) && !empty($aboutMe) ): ?>
             <div class="section">
                 <div class="header">
                     <h4><?php echo $localization['accounts.user.about-me']; ?></h4>
                 </div> <!-- .header -->
                 <div class="body markdown"><?php echo $aboutMe; ?></div> <!-- .body -->
             </div> <!-- .section -->
-        </c:if>
+        <?php endif; ?>
             <div class="section">
                 <div class="header">
-                    <h4><spring:message code="voj.accounts.user.submissions" text="Submissions" /></h4>
+                    <h4><?php echo $localization['accounts.user.issues']; ?></h4>
                 </div> <!-- .header -->
                 <div class="body">
+                <?php if ( $issueCount != 0 ): ?>
                     <table id="issues" class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Issue Name</th>
-                                <th>Issue Category</th>
-                                <th>Issue Status</th>
+                                <th class="issue-name"><?php echo $localization['accounts.user.issue-name']; ?></th>
+                                <th class="issue-category"><?php echo $localization['accounts.user.issue-category']; ?></th>
+                                <th class="issue-status"><?php echo $localization['accounts.user.issue-status']; ?></th>
                             </tr>
                         </thead>
                         <tbody>
                         </tbody>
                     </table>
+                    <div id="more-issues">
+                        <p class="availble"><?php echo $localization['accounts.user.more-issues']; ?></p>
+                        <img class="hide" src="<?php echo $cdnUrl; ?>/img/loading.gif" alt="Loading" />
+                    </div> <!-- #more-issues -->
+                <?php else: ?>
+                    <p><?php echo $localization['accounts.user.no-issues']; ?></p>
+                <?php endif; ?>
                 </div> <!-- .body -->
             </div> <!-- .section -->
         </div> <!-- .span8 -->
@@ -110,4 +118,77 @@
             $(this).html(markdownContent);
         });
     });
+</script>
+<script type="text/javascript">
+    $(function() {
+        return getIssues();
+    });
+</script>
+<script type="text/javascript">
+    $('#more-issues').click(function() {
+        if ( $('img', '#more-issues').hasClass('hide') ) {
+            getIssues();
+        }
+    });
+</script>
+<script type="text/javascript">
+    function getIssues() {
+        var currentIssues = $('tr', '#issues > tbody').length;
+
+        $('a', '#more-issues').addClass('hide');
+        $('img', '#more-issues').removeClass('hide');
+        return getIssuesAction(currentIssues);
+    }
+</script>
+<script type="text/javascript">
+    function getIssuesAction(currentIssues) {
+        var pageRequest = {
+            'currentIssues': currentIssues,
+        };
+
+        $.ajax({
+            type: 'GET',
+            url: '<?php echo $this->url->get("/user/{$user['uid']}/getIssues.action"); ?>',
+            data: pageRequest,
+            dataType: 'JSON',
+            success: function(result){
+                return processResult(result);
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    function processResult(result) {
+        $('img', '#more-issues').addClass('hide');
+        if ( !result['hasMore'] ) {
+            $('#more-issues').addClass('hide');
+        }
+        if ( result['isSuccessful'] ) {
+            return displayIssues(result['issues']);
+        }
+    }
+</script>
+<script type="text/javascript">
+    function displayIssues(issues) {
+        for ( var i = 0; i < issues.length; ++ i ) {
+            $('#issues > tbody').append(
+                getIssueContent(issues[i])
+            );
+        }
+    }
+</script>
+<script type="text/javascript">
+    function getIssueContent(issue) {
+        var issueTemplate = '<tr>' + 
+                            '    <td>' +
+                            '        <a href="<?php echo $this->url->get('/issue/'); ?>%s">%s</a>' +
+                            '    </td>' + 
+                            '    <td>%s</td>' + 
+                            '    <td>%s</td>' + 
+                            '</tr>';
+
+        return issueTemplate.format(issue['issueId'], issue['issueTitle'], 
+                    issue['issueCategory']['issueCategoryName'], 
+                    issue['issueStatus']['issueStatusName']);
+    }
 </script>

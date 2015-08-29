@@ -152,6 +152,8 @@ class AccountsController extends BaseController {
      */
     public function userAction($uid) {
         $userService    = ServiceFactory::getService('UserService');
+        $issueService   = ServiceFactory::getService('IssueService');
+        $productService = ServiceFactory::getService('ProductService');
         $user           = $userService->getUserUsingUid($uid);
 
         if ( $user == NULL ) {
@@ -160,9 +162,37 @@ class AccountsController extends BaseController {
         }
 
         $userMeta       = $userService->getUserMetaUsingUid($uid);
+        $issueCount     = $issueService->getNumberOfIssueUsingHunter($uid);
+        $productCount   = $productService->getNumberOfProductsUsingDeveloper($uid);
+
         $this->tag->prependTitle($user['username']);
         $this->view->setVar('user', $user);
+        $this->view->setVar('issueCount', $issueCount);
+        $this->view->setVar('productCount', $productCount);
         $this->view->setVars($userMeta);
+    }
+
+    /**
+     * [getIssuesAction description]
+     * @param  [type] $uid [description]
+     * @return [type]      [description]
+     */
+    public function getIssuesAction($uid) {
+        $limit          = self::NUMBER_OF_ISSUES_PER_REQUEST;
+        $offset         = $this->request->get('currentIssues');
+
+        $issueService   = ServiceFactory::getService('IssueService');
+        $issues         = $this->getIssuesInBestLanguage($issueService->getIssuesUsingHunter($uid, $offset, $limit));
+
+        $result         = array(
+            'isSuccessful'  => !empty($issues),
+            'hasMore'       => count($issues) == $limit,
+            'issues'        => $issues,
+        );
+        $response = new Response();
+        $response->setHeader('Content-Type', 'application/json');
+        $response->setContent(json_encode($result));
+        return $response;
     }
 
     /**
@@ -239,6 +269,11 @@ class AccountsController extends BaseController {
         $response->setContent(json_encode($result));
         return $response;
     }
+
+    /**
+     * Number of issues to get in a request.
+     */
+    const NUMBER_OF_ISSUES_PER_REQUEST = 15;
 
     /**
      * The logger of AccountsController.

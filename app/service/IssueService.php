@@ -144,6 +144,55 @@ class IssueService extends Service {
             'issueRepliesCount' => $rowSet->getNumberOfIssueReplies(),
         );
     }
+    
+    /**
+     * Get number of issues submitted by a hunter.
+     * @param  long $uid - the unique user ID of the hunter
+     * @return number of issues submitted by a hunter
+     */
+    public function getNumberOfIssueUsingHunter($uid) {
+        $resultSet          = Issue::find(array(
+            'conditions'    => 'issue_hunter_id = ?1',
+            'bind'          => array(
+                1           => $uid,
+            ),
+        ));
+        return $resultSet->count();
+    }
+
+    /**
+     * Get issues submitted by a hunter.
+     * @param  long $uid - the unique user ID of the hunter
+     * @return an array contains issues submitted by a hunter
+     */
+    public function getIssuesUsingHunter($uid, $offset, $limit) {
+        $issues             = array();
+        $resultSet          = Issue::find(array(
+            'conditions'    => 'issue_hunter_id = ?1',
+            'bind'          => array(
+                1           => $uid,
+            ),
+            'limit'         => $limit,
+            'offset'        => $offset,
+            'order'         => 'issue_id DESC',
+        ));
+
+        foreach ( $resultSet as $rowSet ) {
+            array_push($issues, array(
+                'issueId'           => $rowSet->getIssueId(),
+                'issueCategory'     => array(
+                    'issueCategoryId'   => $rowSet->getIssueCategory()->getIssueCategoryId(),
+                    'issueCategoryName' => (array)json_decode($rowSet->getIssueCategory()->getIssueCategoryName()),
+                ),
+                'issueStatus'       => array(
+                    'issueStatusId'     => $rowSet->getIssueStatus()->getIssueStatusId(),
+                    'issueStatusName'   => (array)json_decode($rowSet->getIssueStatus()->getIssueStatusName()),
+                ),
+                'issueTitle'        => $rowSet->getIssueTitle(),
+            ));
+        }
+        return $issues;
+    }
 
     /**
      * Get issues in a certain category, status and founded by a certain user.
@@ -220,7 +269,7 @@ class IssueService extends Service {
     private function getQueryOfIssuesUsingCategoryAndStatusAndHunter($productId, $issueCategoryId, $issueStatusId, $hunterUsername) {
         $conditions             = 'product_id = ?1';
         $parameters             = array(
-            1               => $productId,
+            1                   => $productId,
         );
 
         if ( $issueCategoryId != 0 ) {

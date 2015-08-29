@@ -23,7 +23,7 @@
             <div class="row-fluid">
                 <div class="span2">
                     <div class="avatar">
-                        <a href="<?php echo $this->url->get("/accounts/user/{$user['uid']}"); ?>">
+                        <a href="<?php echo $this->url->get("/user/{$user['uid']}"); ?>">
                             <img src="https://secure.gravatar.com/avatar/<?php echo md5(strtolower(trim($user['email']))); ?>" alt="@<?php echo $user['username']; ?>">
                         </a>
                     </div> <!-- .avatar -->

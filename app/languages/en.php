@@ -78,6 +78,11 @@ $messages = array(
     'accounts.user.products'                            => 'Products',
     'accounts.user.issues'                              => 'Issues',
     'accounts.user.about-me'                            => 'About Me',
+    'accounts.user.issue-name'                          => 'Issue Name',
+    'accounts.user.issue-category'                      => 'Issue Category',
+    'accounts.user.issue-status'                        => 'Issue Status',
+    'accounts.user.more-issues'                         => 'More Issues...',
+    'accounts.user.no-issues'                           => 'No Issues submitted by the user.',
     # accounts/reset-password.phtml
     'accounts.reset-password.title'                     => 'Reset Password',
     'accounts.reset-password.reset-password'            => 'Reset Password',

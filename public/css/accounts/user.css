@@ -109,6 +109,30 @@ div#content div#main-content table#issues thead {
 }
 
 div#content div#main-content table#issues th {
-	text-align: center;
 	vertical-align: middle;
+}
+
+div#content div#main-content table#issues th.issue-category {
+	width: 25%;
+}
+
+div#content div#main-content table#issues th.issue-status {
+	width: 20%;
+}
+
+div#content div#main-content div#more-issues {
+	background-color: #f9f9f9;
+	border-bottom: 5px solid #3498db;
+	cursor: pointer;
+	padding: 10px;
+	text-align: center;
+}
+
+div#content div#main-content div#more-issues p {
+	margin-bottom: 0;
+}
+
+div#content div#main-content div#more-issues img {
+	max-height: 15px;
+	height: 15px;
 }

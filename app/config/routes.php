@@ -58,10 +58,6 @@ $router->add('/accounts/signout', array(
     'controller' => 'accounts',
     'action'     => 'signOut',
 ));
-$router->add('/accounts/user/${uid}', array(
-    'controller' => 'accounts',
-    'action'     => 'user',
-));
 $router->add('/accounts/reset-password', array(
     'controller' => 'accounts',
     'action'     => 'resetPassword',
@@ -73,6 +69,14 @@ $router->add('/accounts/forgotPassword.action', array(
 $router->add('/accounts/resetPassword.action', array(
     'controller' => 'accounts',
     'action'     => 'doResetPassword',
+));
+$router->add('/user/{uid}', array(
+    'controller' => 'accounts',
+    'action'     => 'user',
+));
+$router->add('/user/{uid}/getIssues.action', array(
+    'controller' => 'accounts',
+    'action'     => 'getIssues',
 ));
 
 /* Routers for DashboardController */

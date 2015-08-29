@@ -6,7 +6,7 @@
             <h3><?php echo $issue['issueTitle']; ?></h3>
             <ul class="inline">
                 <li><i class="fa fa-clock-o"></i> <span class="datetime"><?php echo $issue['createTime']; ?></span></li>
-                <li><i class="fa fa-user"></i> <a href="<?php echo $this->url->get("/accounts/user/{$issue['hunter']['uid']}"); ?>"><?php echo $issue['hunter']['username']; ?></a></li>
+                <li><i class="fa fa-user"></i> <a href="<?php echo $this->url->get("/user/{$issue['hunter']['uid']}"); ?>"><?php echo $issue['hunter']['username']; ?></a></li>
                 <li><i class="fa fa-comments"></i> <span id="comments-count"><?php echo $issue['issueRepliesCount']; ?></span> <?php echo $localization['product.issue.comments']; ?></li>
             </ul>
         </div> <!-- .span9 -->
@@ -19,7 +19,7 @@
             <div class="row-fluid">
                 <div class="span2">
                     <div class="avatar">
-                        <a href="<?php echo $this->url->get("/accounts/user/{$issue['hunter']['uid']}"); ?>">
+                        <a href="<?php echo $this->url->get("/user/{$issue['hunter']['uid']}"); ?>">
                             <img src="https://secure.gravatar.com/avatar/<?php echo md5(strtolower(trim($issue['hunter']['email']))); ?>" alt="@<?php echo $issue['hunter']['username']; ?>">
                         </a>
                     </div> <!-- .avatar -->
@@ -27,7 +27,7 @@
                 <div class="span10">
                     <div class="issue-reply <?php if ( $issue['hunter']['uid'] == (isset($user) ? $user['uid'] : '') ): echo 'current-user'; endif;?>">
                         <div class="reply-header">
-                            <a href="<?php echo $this->url->get("/accounts/user/{$issue['hunter']['uid']}"); ?>">
+                            <a href="<?php echo $this->url->get("/user/{$issue['hunter']['uid']}"); ?>">
                                 <?php echo $issue['hunter']['username']; ?>
                             </a>
                             <?php echo $localization['products.issue.commented-on']; ?>
@@ -50,7 +50,7 @@
             <div id="editor" class="row-fluid">
                 <div class="span2">
                     <div class="avatar">
-                        <a href="<?php echo $this->url->get("/accounts/user/{$user['uid']}"); ?>">
+                        <a href="<?php echo $this->url->get("/user/{$user['uid']}"); ?>">
                             <img src="https://secure.gravatar.com/avatar/<?php echo md5(strtolower(trim($user['email']))); ?>" alt="@<?php echo $issue['hunter']['username']; ?>">
                         </a>
                     </div> <!-- .avatar -->
@@ -197,7 +197,7 @@
         var issueReplyTemplate = '<li class="row-fluid">' + 
                                  '    <div class="span2">' +
                                  '        <div class="avatar">' +
-                                 '            <a href="<?php echo $this->url->get("/accounts/user/%s"); ?>">' +
+                                 '            <a href="<?php echo $this->url->get("/user/%s"); ?>">' +
                                  '                <img src="https://secure.gravatar.com/avatar/%s" alt="@%s">' +
                                  '            </a>' +
                                  '        </div> <!-- .avatar -->' +
@@ -205,7 +205,7 @@
                                  '    <div class="span10">' +
                                  '        <div class="issue-reply %s">' +
                                  '            <div class="reply-header">' +
-                                 '                <a href="<?php echo $this->url->get("/accounts/user/%s"); ?>">%s</a>' +
+                                 '                <a href="<?php echo $this->url->get("/user/%s"); ?>">%s</a>' +
                                  '                <?php echo $localization['products.issue.commented-on']; ?>' +
                                  '                %s' +
                                  '                </span>' +

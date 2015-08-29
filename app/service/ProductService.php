@@ -130,6 +130,21 @@ class ProductService extends Service {
     }
 
     /**
+     * Get number of products developed by the user.
+     * @param  long $uid - the unique user ID of the developer
+     * @return number of products developed by the user
+     */
+    public function getNumberOfProductsUsingDeveloper($uid) {
+        $resultSet  = Product::find(array(
+            'conditions'    => 'product_developer_id = ?1',
+            'bind'          => array(
+                1           => $uid,
+            ),
+        ));
+        return $resultSet->count();
+    }
+
+    /**
      * Get products of a certain category.
      * @param  int    $productCategoryId - the unique ID of the category of product
      * @param  String $keyword           - the keyword of the product name
