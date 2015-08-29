@@ -1,6 +1,6 @@
 html, body {
 	background-color: #f5f5f5;
-	font-family: "Microsoft YaHei", "Segoe UI Light", "Segoe UI";
+	font-family: "Microsoft YaHei", "Segoe UI Light", "Segoe UI", "Heiti SC";
 	margin: 0;
 	padding: 0;
 }
@@ -10,7 +10,7 @@ a {
 }
 
 button {
-	font-family: "Microsoft YaHei", "Segoe UI Light", "Segoe UI";
+	font-family: "Microsoft YaHei", "Segoe UI Light", "Segoe UI", "Heiti SC";
 }
 
 .text-bold {
