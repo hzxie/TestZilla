@@ -8,26 +8,30 @@ div#dashboard div#sidebar ul#sidebar-nav {
 	padding: 0;
 }
 
-div#dashboard div#sidebar ul#sidebar-nav > li {
+div#dashboard div#sidebar ul#sidebar-nav li > a {
+	color: #0296C9;
+	display: block;
 	padding: 5px 10px;
+	text-decoration: none !important;
 	-webkit-border-radius: 4px;
 	   -moz-border-radius: 4px;
 	        border-radius: 4px;
 }
 
-div#dashboard div#sidebar ul#sidebar-nav > li > a{
+div#dashboard div#sidebar ul#sidebar-nav li.active > a {
+	background-color: #e6edf4;
 	color: #556473;
-	text-decoration: none !important;
 }
 
-div#dashboard div#sidebar ul#sidebar-nav > li.active {
-	background-color: #24b8eb;
+div#dashboard div#sidebar ul#sidebar-nav ul.sub-nav {
+	list-style: none;
+	margin: 5px 0 0;
+	padding: 0 0 0 10px;
 }
 
-div#dashboard div#sidebar ul#sidebar-nav > li.active > a {
-	color: #fff !important;
-}
-
-div#dashboard div#sidebar ul#sidebar-nav > li:hover > a{
-	color: #000;
+div#dashboard div#sidebar ul#sidebar-nav ul.sub-nav > li {
+	padding: 0 0 0 20px;
+	-webkit-border-radius: 4px;
+	   -moz-border-radius: 4px;
+	        border-radius: 4px;
 }

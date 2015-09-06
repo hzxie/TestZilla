@@ -135,7 +135,7 @@
     function getIssues() {
         var currentIssues = $('tr', '#issues > tbody').length;
 
-        $('a', '#more-issues').addClass('hide');
+        $('p', '#more-issues').addClass('hide');
         $('img', '#more-issues').removeClass('hide');
         return getIssuesAction(currentIssues);
     }
@@ -160,6 +160,7 @@
 <script type="text/javascript">
     function processResult(result) {
         $('img', '#more-issues').addClass('hide');
+        $('p', '#more-issues').removeClass('hide');
         if ( !result['hasMore'] ) {
             $('#more-issues').addClass('hide');
         }

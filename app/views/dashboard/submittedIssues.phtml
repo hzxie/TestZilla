@@ -1,0 +1,74 @@
+<?php echo Phalcon\Tag::stylesheetLink("{$cdnUrl}/css/dashboard/style.css?ver={$appVerion}"); ?>
+<?php echo Phalcon\Tag::stylesheetLink("{$cdnUrl}/css/dashboard/issues.css?ver={$appVerion}"); ?>
+<div id="dashboard" class="container">
+    <div class="row-fluid">
+        <div id="sidebar" class="span4">
+            <ul id="sidebar-nav">
+                <li>
+                    <a href="<?php echo $this->url->get('/dashboard'); ?>"><?php echo $localization['dashboard.sidebar.dashboard']; ?></a>
+                </li>
+                <li>
+                    <a href="<?php echo $this->url->get('/dashboard/profile'); ?>"><?php echo $localization['dashboard.sidebar.profile']; ?></a>
+                </li>
+                <li>
+                    <a href="<?php echo $this->url->get('/dashboard/products'); ?>"><?php echo $localization['dashboard.sidebar.my-products']; ?></a>
+                </li>
+                <li class="active">
+                    <a href="<?php echo $this->url->get('/dashboard/issues'); ?>"><?php echo $localization['dashboard.sidebar.my-issues']; ?></a>
+                    <ul class="sub-nav">
+                        <li>
+                            <a href="<?php echo $this->url->get('/dashboard/issues/received'); ?>"><?php echo $localization['dashboard.sidebar-received-issues']; ?></a>
+                        </li>
+                        <li class="active">
+                            <a href="<?php echo $this->url->get('/dashboard/issues/submitted'); ?>"><?php echo $localization['dashboard.sidebar-submitted-issues']; ?></a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div> <!-- #sidebar -->
+        <div class="span8">
+            <div id="main-content">
+                <div class="row-fluid">
+                    <div class="span6">
+                        <h4><?php echo $localization['dashboard.issues.quick-search']; ?></h4>
+                    </div> <!-- .span6 -->
+                    <div class="span6 text-right">
+                        <button id="issue-filter" class="btn btn-primary"><?php echo $localization['dashboard.issues.filter']; ?></button>
+                    </div> <!-- .span6 -->
+                </div> <!-- .row-fluid -->
+                <div class="row-fluid">
+                    <div class="span4">
+                        <select id="products">
+                            <option value=""><?php echo $localization['dashboard.issues.product-name']; ?></option>
+                        <?php foreach ( $products as $product ): ?>
+                            <option value="<?php echo $product['productId']; ?>"><?php echo $product['productName']; ?></option>
+                        <?php endforeach; ?>
+                        </select>
+                    </div> <!-- .span4 -->
+                    <div class="span4">
+                        <select id="issue-category">
+                            <option value=""><?php echo $localization['dashboard.issues.issue-category']; ?></option>
+                        <?php foreach ( $issueCategories as $issueCategory ): ?>
+                            <option value="<?php echo $issueCategory['issueCategorySlug']; ?>"><?php echo $issueCategory['issueCategoryName']; ?></option>
+                        <?php endforeach; ?>
+                        </select>
+                    </div> <!-- .span4 -->
+                    <div class="span4">
+                        <select id="issue-status">
+                            <option value=""><?php echo $localization['dashboard.issues.issue-status']; ?></option>
+                        <?php foreach ( $issueStatusList as $issueStatus ): ?>
+                            <option value="<?php echo $issueStatus['issueStatusSlug']; ?>"><?php echo $issueStatus['issueStatusName']; ?></option>
+                        <?php endforeach; ?>
+                        </select>
+                    </div> <!-- .span4 -->
+                </div> <!-- .row-fluid -->
+                <p id="no-issues" class="hide"><?php echo $localization['dashboard.submitted-issues.no-issues']; ?></p>
+                <p id="loading" class="text-center"><img src="<?php echo $cdnUrl; ?>/img/loading.gif" alt=""></p>
+                <ul id="issues"></ul>
+                <div id="pagination" class="pagination text-center">
+                    <ul></ul>
+                </div> <!-- #pagination -->
+            </div> <!-- #main-content -->
+        </div> <!-- .span8 -->
+    </div> <!-- .row-fluid -->
+</div> <!-- .container -->

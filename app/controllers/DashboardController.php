@@ -92,10 +92,32 @@ class DashboardController extends BaseController {
     }
 
     /**
-     * Render to issues page.
+     * Render to received issues page.
      */
-    public function issuesAction() {
-        $this->tag->prependTitle($this->localization['dashboard.issues.title']);
+    public function receivedIssuesAction() {
+        $issueService       = ServiceFactory::getService('IssueService');
+        $issueCategories    = $this->getIssueCategoriesInBestLanguage($issueService->getIssueCategories());
+        $issueStatusList    = $this->getIssueStatusListInBestLanguage($issueService->getIssueStatusList());
+     
+        $this->tag->prependTitle($this->localization['dashboard.received-issues.title']);
+        $this->view->setVar('issueCategories', $issueCategories);
+        $this->view->setVar('issueStatusList', $issueStatusList);
+    }
+
+    /**
+     * Render to submitted issues page.
+     */
+    public function submittedIssuesAction() {
+        $uid                = $this->session->get('uid');
+        $issueService       = ServiceFactory::getService('IssueService');
+        $products           = $this->getProductsInBestLanguage($issueService->getProductsRelatedToSubmittedIssues($uid));
+        $issueCategories    = $this->getIssueCategoriesInBestLanguage($issueService->getIssueCategories());
+        $issueStatusList    = $this->getIssueStatusListInBestLanguage($issueService->getIssueStatusList());
+     
+        $this->tag->prependTitle($this->localization['dashboard.submitted-issues.title']);
+        $this->view->setVar('products', $products);
+        $this->view->setVar('issueCategories', $issueCategories);
+        $this->view->setVar('issueStatusList', $issueStatusList);
     }
 
     /**

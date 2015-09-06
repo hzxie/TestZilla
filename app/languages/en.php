@@ -105,6 +105,8 @@ $messages = array(
     'dashboard.sidebar.profile'                         => 'Profile',
     'dashboard.sidebar.my-products'                     => 'My Products',
     'dashboard.sidebar.my-issues'                       => 'My Issues',
+    'dashboard.sidebar-received-issues'                 => 'Received Issues',
+    'dashboard.sidebar-submitted-issues'                => 'Submitted Issues',
     # dashboard/index.phtml
     'dashboard.index.title'                             => 'Dashboard',
     # dashboard/profile.phtml
@@ -115,6 +117,7 @@ $messages = array(
     'dashboard.profile.new-password'                    => 'New Password',
     'dashboard.profile.confirm-new-password'            => 'Confirm New Password',
     'dashboard.profile.profile'                         => 'Profile',
+    'dashboard.profile.preview'                         => 'Preview',
     'dashboard.profile.profile-changed'                 => 'You&acute;ve changed your profile.',
     'dashboard.profile.email'                           => 'Email',
     'dashboard.profile.location'                        => 'Location',
@@ -140,8 +143,17 @@ $messages = array(
     'dashboard.profile.about-me-legal'                  => 'The length of About Me CANNOT exceed 256 characters.',
     # dashboard/products.phtml
     'dashboard.products.title'                          => 'Products',
-    # dashboard/issues.phtml
-    'dashboard.issues.title'                            => 'Issues',
+    # dashboard/receivedIssues.phtml + submittedIssues.phtml
+    'dashboard.issues.quick-search'                     => 'Quick Search',
+    'dashboard.issues.filter'                           => 'Filter',
+    'dashboard.issues.product-name'                     => 'Product Name',
+    'dashboard.issues.issue-category'                   => 'Issue Category',
+    'dashboard.issues.issue-status'                     => 'Issue Status',
+    # dashboard/receivedIssues.phtml
+    'dashboard.received-issues.title'                   => 'Received Issues',
+    # dashboard/submittedIssues.phtml
+    'dashboard.submitted-issues.title'                  => 'Submitted Issues',
+    'dashboard.submitted-issues.no-issues'              => 'No submitted issues.',
     # products/index.phtml
     'products.index.title'                              => 'Products',
     'products.index.search'                             => 'Search Products',

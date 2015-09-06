@@ -105,6 +105,8 @@ $messages = array(
     'dashboard.sidebar.profile'                         => '个人资料',
     'dashboard.sidebar.my-products'                     => '我的产品',
     'dashboard.sidebar.my-issues'                       => '我的问题',
+    'dashboard.sidebar-received-issues'                 => '收到的问题',
+    'dashboard.sidebar-submitted-issues'                => '提出的问题',
     # dashboard/index.phtml
     'dashboard.index.title'                             => '控制板',
     # dashboard/profile.phtml
@@ -115,6 +117,7 @@ $messages = array(
     'dashboard.profile.new-password'                    => '新密码',
     'dashboard.profile.confirm-new-password'            => '确认新密码',
     'dashboard.profile.profile'                         => '个人资料',
+    'dashboard.profile.preview'                         => '预览',
     'dashboard.profile.profile-changed'                 => '您的个人资料已修改.',
     'dashboard.profile.email'                           => '电子邮件地址',
     'dashboard.profile.location'                        => '所在城市',
@@ -140,8 +143,17 @@ $messages = array(
     'dashboard.profile.about-me-legal'                  => '关于我的描述不得超过256个字符.',
     # dashboard/products.phtml
     'dashboard.products.title'                          => '我的产品',
-    # dashboard/issues.phtml
-    'dashboard.issues.title'                            => '我的问题',
+    # dashboard/receivedIssues.phtml + submittedIssues.phtml
+    'dashboard.issues.quick-search'                     => '快速搜索',
+    'dashboard.issues.filter'                           => '筛选',
+    'dashboard.issues.product-name'                     => '产品名称',
+    'dashboard.issues.issue-category'                   => '问题分类',
+    'dashboard.issues.issue-status'                     => '问题状态',
+    # dashboard/receivedIssues.phtml
+    'dashboard.received-issues.title'                   => '收到的问题',
+    # dashboard/submittedIssues.phtml
+    'dashboard.submitted-issues.title'                  => '提出的问题',
+    'dashboard.submitted-issues.no-issues'              => '暂无提出的问题.',
     # products/index.phtml
     'products.index.title'                              => '产品列表',
     'products.index.search'                             => '搜索产品',

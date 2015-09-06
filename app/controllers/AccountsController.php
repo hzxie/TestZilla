@@ -173,9 +173,9 @@ class AccountsController extends BaseController {
     }
 
     /**
-     * [getIssuesAction description]
-     * @param  [type] $uid [description]
-     * @return [type]      [description]
+     * Get the issues submitted by a user.
+     * @param  long $uid - the unique ID of the user
+     * @return an HttpResponse with JSON data infer issues submitted by a user
      */
     public function getIssuesAction($uid) {
         $limit          = self::NUMBER_OF_ISSUES_PER_REQUEST;
@@ -273,7 +273,7 @@ class AccountsController extends BaseController {
     /**
      * Number of issues to get in a request.
      */
-    const NUMBER_OF_ISSUES_PER_REQUEST = 15;
+    const NUMBER_OF_ISSUES_PER_REQUEST = 25;
 
     /**
      * The logger of AccountsController.

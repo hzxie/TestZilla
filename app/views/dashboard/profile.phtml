@@ -66,7 +66,10 @@
                     </div> <!-- .row-fluid -->
                 </form> <!-- #password-form -->
                 <form id="profile-form" class="section" method="POST" onSubmit="onChangeProfileSubmit(); return false;">
-                    <h4><?php echo $localization['dashboard.profile.profile']; ?></h4>
+                    <h4>
+                        <?php echo $localization['dashboard.profile.profile']; ?> 
+                        <a href="<?php echo $this->url->get("/user/{$user['uid']}"); ?>" class="preview"><?php echo $localization['dashboard.profile.preview']; ?></a>
+                    </h4>
                     <div class="row-fluid">
                         <div class="alert alert-error hide"></div>
                         <div class="alert alert-success hide"><?php echo $localization['dashboard.profile.profile-changed']; ?></div>

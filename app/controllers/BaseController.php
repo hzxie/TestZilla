@@ -198,6 +198,46 @@ class BaseController extends Controller {
     }
 
     /**
+     * Get the best language for multi-language content for products.
+     * @param  Array $products - an array of product list in multi-languages
+     * @return an array of a list of product with the best language
+     */
+    protected function getProductsInBestLanguage($products) {
+        if ( empty($products) ) {
+            return $products;
+        }
+        foreach ( $products as &$product ) {
+            $product = $this->getProductInBestLanguage($product);
+        }
+        return $products;
+    }
+
+    /**
+     * Get the best language for multi-language content for product.
+     * @param  Array $product - an array contains detail information of the product
+     * @return an array contains detail information of the product with the best language
+     */
+    protected function getProductInBestLanguage($product) {
+        if ( empty($product) ) {
+            return $product;
+        }
+        if ( array_key_exists('productName', $product) ) {
+            $product['productName']     = $this->getBestLanguageForContent($product['productName'], $this->request, $this->session);
+        }
+        if ( array_key_exists('productCategory', $product) ) {
+            $product['productCategory']['productCategoryName'] = 
+                $this->getBestLanguageForContent($product['productCategory']['productCategoryName'], $this->request, $this->session);
+        }
+        if ( array_key_exists('prerequisites', $product) ) {
+            $product['prerequisites']   = $this->getBestLanguageForContent($product['prerequisites'], $this->request, $this->session);
+        }
+        if ( array_key_exists('description', $product) ) {
+            $product['description']     = $this->getBestLanguageForContent($product['description'], $this->request, $this->session);
+        }
+        return $product;
+    }
+
+    /**
      * Get the best language for multi-language content for issues.
      * @param  Array $issues - an array of issue list in multi-languages
      * @return an array of a list of issue with the best language
@@ -235,6 +275,21 @@ class BaseController extends Controller {
     }
 
     /**
+     * Get the best language for multi-language content for categories of issues.
+     * @param  Array $issueCategories - an array of product list in multi-languages
+     * @return an array of a list of category of issues with the best language
+     */
+    protected function getIssueCategoriesInBestLanguage($issueCategories) {
+        if ( empty($issueCategories) ) {
+            return $issueCategories;
+        }
+        foreach ( $issueCategories as &$issueCategory ) {
+            $issueCategory = $this->getIssueCategoryInBestLanguage($issueCategory);
+        }
+        return $issueCategories;
+    }
+
+    /**
      * Get the best language for multi-language content for category of issues.
      * @param  Array $issueCategory - an array contains detail information of the category of issues
      * @return an array contains detail information of the category of issues with the best language
@@ -247,6 +302,21 @@ class BaseController extends Controller {
             $issueCategory['issueCategoryName'] = $this->getBestLanguageForContent($issueCategory['issueCategoryName'], $this->request, $this->session);
         }
         return $issueCategory;
+    }
+
+    /**
+     * * Get the best language for multi-language content for status of issues list.
+     * @param  Array $issueStatusList - an array of status of issues list in multi-languages
+     * @return an array of a list of status of issues with the best language
+     */
+    protected function getIssueStatusListInBestLanguage($issueStatusList) {
+        if ( empty($issueStatusList) ) {
+            return $issueStatusList;
+        }
+        foreach ( $issueStatusList as &$issueStatus ) {
+            $issueStatus = $this->getIssueStatusInBestLanguage($issueStatus);
+        }
+        return $issueStatusList;
     }
 
     /**

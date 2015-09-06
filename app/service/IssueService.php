@@ -459,4 +459,31 @@ class IssueService extends Service {
         }
         return $result;
     }
+
+    /**
+     * Get product list of submitted issues of a user.
+     * @param  long $uid - the unique ID of the user
+     * @return an array contains essential information of products
+     */
+    public function getProductsRelatedToSubmittedIssues($uid) {
+        $products       = array();
+        $resultSet      = $this->modelsManager->executeQuery(
+            'SELECT DISTINCT ("Issue.product_id") AS productId, product_name  AS productName
+             FROM Issue 
+             NATURAL JOIN Product
+             WHERE issue_hunter_id = ?1 
+             ORDER BY issue_id DESC',
+            array(
+                1       => $uid,
+            )
+        );
+
+        foreach ( $resultSet as $rowSet ) {
+            array_push($products, array(
+                'productId'     => $rowSet->productId,
+                'productName'   => (array)json_decode($rowSet->productName),
+            ));
+        }
+        return $products;
+    }
 }

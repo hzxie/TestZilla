@@ -17,6 +17,7 @@ class Product extends Model {
     public function initialize() {
         $this->belongsTo('product_category_id', 'ProductCategory', 'product_category_id');
         $this->belongsTo('product_developer_id', 'User', 'uid');
+        
         $this->hasMany('product_id', 'Issue', 'product_id');
     }
 
@@ -197,6 +198,14 @@ class Product extends Model {
             throw new InvalidArgumentException('[Model\Product] The description seems not a valid JSON.');
         }
         $this->product_description = $description;
+    }
+
+    /**
+     * Get number of issues of the product.
+     * @return number of issues of the product
+     */
+    public function getNumberOfIssues() {
+        return $this->issue->count();
     }
 
     /**

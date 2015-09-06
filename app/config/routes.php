@@ -102,7 +102,15 @@ $router->add('/dashboard/products', array(
 ));
 $router->add('/dashboard/issues', array(
     'controller' => 'dashboard',
-    'action'     => 'issues',
+    'action'     => 'receivedIssues',
+));
+$router->add('/dashboard/issues/received', array(
+    'controller' => 'dashboard',
+    'action'     => 'receivedIssues',
+));
+$router->add('/dashboard/issues/submitted', array(
+    'controller' => 'dashboard',
+    'action'     => 'submittedIssues',
 ));
 
 /* Routers for ProductsController */

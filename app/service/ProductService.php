@@ -171,6 +171,7 @@ class ProductService extends Service {
                 'productLogo'       => $rowSet->getProductLogo(),
                 'latestVersion'     => $rowSet->getLatestVersion(),
                 'description'       => (array)json_decode($rowSet->getDescription()),
+                'issuesCount'       => $rowSet->getNumberOfIssues(),
             ));
         }
         return $products;

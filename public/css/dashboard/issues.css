@@ -1,0 +1,48 @@
+div#content div#main-content {
+	background-color: #fff;
+	border-top: 5px solid #24b8eb;
+	margin-bottom: 20px;
+	padding: 20px 15px;
+	-webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+	   -moz-box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+	        box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+}
+
+div#content div#main-content button#issue-filter {
+    margin-bottom: 10px;
+}
+
+div#content div#main-content p#loading img {
+	max-height: 24px;
+}
+
+div#content div#main-content ul#issues {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+div#content div#main-content ul#issues li.issue {
+	border-bottom: 1px solid #dedede;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+}
+
+div#content div#main-content ul#issues li.issue:last-child {
+	border-bottom: none;
+}
+
+div#content div#main-content ul#issues li.issue h5 {
+	height: 20px;
+	overflow: hidden;
+}
+
+div#content div#main-content ul#issues li.issue ul.inline a {
+	color: #34495e;
+}
+
+div#content div#main-content ul#issues li.issue div.issue-reply {
+	color: #666;
+	font-size: 16px;
+	padding: 25px 0 15px;
+}

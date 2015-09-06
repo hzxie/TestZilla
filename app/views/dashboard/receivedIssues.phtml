@@ -1,4 +1,5 @@
 <?php echo Phalcon\Tag::stylesheetLink("{$cdnUrl}/css/dashboard/style.css?ver={$appVerion}"); ?>
+<?php echo Phalcon\Tag::stylesheetLink("{$cdnUrl}/css/dashboard/issues.css?ver={$appVerion}"); ?>
 <div id="dashboard" class="container">
     <div class="row-fluid">
         <div id="sidebar" class="span4">
@@ -14,6 +15,14 @@
                 </li>
                 <li class="active">
                     <a href="<?php echo $this->url->get('/dashboard/issues'); ?>"><?php echo $localization['dashboard.sidebar.my-issues']; ?></a>
+                    <ul class="sub-nav">
+                        <li class="active">
+                            <a href="<?php echo $this->url->get('/dashboard/issues/received'); ?>"><?php echo $localization['dashboard.sidebar-received-issues']; ?></a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $this->url->get('/dashboard/issues/submitted'); ?>"><?php echo $localization['dashboard.sidebar-submitted-issues']; ?></a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div> <!-- #sidebar -->

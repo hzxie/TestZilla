@@ -8,6 +8,17 @@ div#content div#main-content form {
 	        box-shadow: 0 0 5px rgba(0, 0, 0, .1);
 }
 
+div#content div#main-content h4 {
+	position: relative;
+}
+
+div#content div#main-content h4 a.preview {
+	font-size: 12px;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
 div#content div#main-content label {
     font-weight: bold;
     padding-top: 10px;

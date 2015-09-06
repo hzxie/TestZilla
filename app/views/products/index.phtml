@@ -154,7 +154,7 @@
                               '</li> <!-- .product -->';
 
         return productTemplate.format(product['productLogo'], product['productId'], product['productName'],
-                product['productCategory']['productCategoryName'], product['latestVersion'], 0, 
+                product['productCategory']['productCategoryName'], product['latestVersion'], product['issuesCount'], 
                 stripHtml(converter.makeHtml(product['description'].replace(/\\n/g, '\n'))));
     }
 </script>

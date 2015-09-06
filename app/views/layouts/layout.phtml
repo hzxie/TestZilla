@@ -10,7 +10,6 @@
                 <ul class="inline">
                     <li><a href="<?php echo $this->url->get('/'); ?>"><?php echo $localization['layout.home']; ?></a></li>
                     <li><a href="<?php echo $this->url->get('/products'); ?>"><?php echo $localization['layout.products']; ?></a></li>
-                    <li><a href="<?php echo $this->url->get('/contests'); ?>"><?php echo $localization['layout.contests']; ?></a></li>
                     <?php if ( isset($isLoggedIn) && $isLoggedIn ): ?>
                     <li class="dropdown">
                     <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="javascript:void(0);">
