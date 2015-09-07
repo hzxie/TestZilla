@@ -108,9 +108,17 @@ $router->add('/dashboard/issues/received', array(
     'controller' => 'dashboard',
     'action'     => 'receivedIssues',
 ));
+$router->add('/dashboard/getReceivedIssues.action', array(
+    'controller' => 'dashboard',
+    'action'     => 'getReceivedIssues', 
+));
 $router->add('/dashboard/issues/submitted', array(
     'controller' => 'dashboard',
     'action'     => 'submittedIssues',
+));
+$router->add('/dashboard/getSubmittedIssues.action', array(
+    'controller' => 'dashboard',
+    'action'     => 'getSubmittedIssues', 
 ));
 
 /* Routers for ProductsController */

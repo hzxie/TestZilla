@@ -112,9 +112,9 @@ class ProductsController extends BaseController {
         $issueCategoryId    = $issueService->getIssueCategoryId($issueCategorySlug);
         $issueStatusId      = $issueService->getIssueStatusId($issueStatusSlug);
         $issues             = $this->getIssuesInBestLanguage(
-                                $issueService->getIssuesUsingCategoryAndStatusAndHunter($productId, $issueCategoryId, $issueStatusId, $hunterUsername, $offset, $limit)
+                                $issueService->getIssuesUsingCategoryAndStatusAndHunterUsername($productId, $issueCategoryId, $issueStatusId, $hunterUsername, $offset, $limit)
                               );
-        $numberOfIssues     = $issueService->getIssuesCountUsingCategoryAndStatusAndHunter($productId, $issueCategoryId, $issueStatusId, $hunterUsername);
+        $numberOfIssues     = $issueService->getIssuesCountUsingCategoryAndStatusAndHunterUsername($productId, $issueCategoryId, $issueStatusId, $hunterUsername);
 
         $result             = array(
             'isSuccessful'  => !empty($issues),

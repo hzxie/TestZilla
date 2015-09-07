@@ -121,6 +121,43 @@ class DashboardController extends BaseController {
     }
 
     /**
+     * Get issues list submitted by the user logged in.
+     * @return a HttpResponse contains JSON data contains information of issues submitted by the user
+     */
+    public function getSubmittedIssuesAction() {
+        $hunterUid          = $this->session->get('uid');
+        $productId          = $this->request->get('product');
+        $issueCategorySlug  = $this->request->get('issueCategory');
+        $issueStatusSlug    = $this->request->get('issueStatus');
+        $pageNumber         = $this->request->get('page');
+        $limit              = self::NUMBER_OF_ISSUES_PER_REQUEST;
+        $offset             = $pageNumber <= 1 ? 0 :  ($pageNumber - 1) * $limit;
+
+        $issueService       = ServiceFactory::getService('IssueService');
+        $issueCategoryId    = $issueService->getIssueCategoryId($issueCategorySlug);
+        $issueStatusId      = $issueService->getIssueStatusId($issueStatusSlug);
+        $issues             = $this->getIssuesInBestLanguage(
+                                $issueService->getIssuesUsingHunterUidAndProductAndCategoryAndStatus($hunterUid, $productId, $issueCategoryId, $issueStatusId, $offset, $limit)
+                              );
+        $numberOfIssues     = $issueService->getIssuesCountUsingHunterUidAndProductAndCategoryAndStatus($hunterUid, $productId, $issueCategoryId, $issueStatusId);
+
+        $result             = array(
+            'isSuccessful'  => !empty($issues),
+            'issues'        => $issues,
+            'totalPages'    => ceil($numberOfIssues / $limit),
+        );
+        $response   = new Response();
+        $response->setHeader('Content-Type', 'application/json');
+        $response->setContent(json_encode($result));
+        return $response;
+    }
+
+    /**
+     * Number of issues to get in a request.
+     */
+    const NUMBER_OF_ISSUES_PER_REQUEST = 15;
+
+    /**
      * The logger of DashboardController.
      * @var Phalcon\Logger\Adapter\File
      */

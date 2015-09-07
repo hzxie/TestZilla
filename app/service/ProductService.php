@@ -41,6 +41,9 @@ class ProductService extends Service {
      * @return the unique ID of the ProductCategory
      */
     public function getProductCategoryId($productCategorySlug) {
+        if ( empty($productCategorySlug) ) {
+            return 0;
+        }
         $rowSet = ProductCategory::findFirst(array(
             'conditions'    => 'product_category_slug = ?1',
             'bind'          => array(
