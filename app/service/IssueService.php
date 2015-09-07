@@ -202,17 +202,17 @@ class IssueService extends Service {
 
     /**
      * Get issues in a certain product, category, status and founded by a certain user.
+     * @param  String $hunterUsername  - the username who founded the issue
      * @param  long   $productId       - the unique ID of the product
      * @param  int    $issueCategoryId - the unique ID of a category of issue
      * @param  int    $issueStatusId   - the unique ID of a status of issue
-     * @param  String $hunterUsername  - the username who founded the issue
      * @param  long   $offset          - the index of first record of result set
      * @param  int    $limit           - the number of records to get for each request
      * @return an array which contains issues of a certain product, category, status and founded by a certain user
      */
-    public function getIssuesUsingCategoryAndStatusAndHunterUsername($productId, $issueCategoryId, $issueStatusId, $hunterUsername, $offset, $limit) {
+    public function getIssuesUsingHunterUsernameAndProductAndCategoryAndStatus($hunterUsername, $productId, $issueCategoryId, $issueStatusId, $offset, $limit) {
         $issues         = array();
-        $conditions     = $this->getIssuesCountUsingCategoryAndStatusAndHunterUsername($productId, $issueCategoryId, $issueStatusId, $hunterUsername);
+        $conditions     = $this->getQueryOfIssuesUsingHunterUsernameAndProductAndCategoryAndStatus($hunterUsername, $productId, $issueCategoryId, $issueStatusId);
 
         $resultSet      = Issue::find(array_merge($conditions, array(
             'limit'     => $limit,
@@ -251,14 +251,14 @@ class IssueService extends Service {
 
     /**
      * Get number of issues in a certain product, category, status and founded by a certain user.
+     * @param  String $hunterUsername  - the username who founded the issue
      * @param  long   $productId       - the unique ID of the product
      * @param  int    $issueCategoryId - the unique ID of a category of issue
      * @param  int    $issueStatusId   - the unique ID of a status of issue
-     * @param  String $hunterUsername  - the username who founded the issue
      * @return number of issues in a certain product, category, status and founded by a certain user
      */
-    public function getIssuesCountUsingCategoryAndStatusAndHunterUsername($productId, $issueCategoryId, $issueStatusId, $hunterUsername) {
-        $conditions     = $this->getIssuesCountUsingCategoryAndStatusAndHunterUsername($productId, $issueCategoryId, $issueStatusId, $hunterUsername);
+    public function getIssuesCountUsingHunterUsernameAndProductAndCategoryAndStatus($hunterUsername, $productId, $issueCategoryId, $issueStatusId) {
+        $conditions     = $this->getQueryOfIssuesUsingHunterUsernameAndProductAndCategoryAndStatus($hunterUsername, $productId, $issueCategoryId, $issueStatusId);
         $resultSet      = Issue::find($conditions);
 
         return $resultSet->count();
@@ -266,45 +266,21 @@ class IssueService extends Service {
 
     /**
      * Get the conditions of query statement.
+     * @param  String $hunterUsername  - the username who founded the issue
      * @param  long   $productId       - the unique ID of the product
      * @param  int    $issueCategoryId - the unique ID of a category of issue
      * @param  int    $issueStatusId   - the unique ID of a status of issue
-     * @param  String $hunterUsername  - the username who founded the issue
      * @return the conditions of query statement
      */
-    private function getQueryOfIssuesUsingCategoryAndStatusAndHunterUsername($productId, $issueCategoryId, $issueStatusId, $hunterUsername) {
-        $conditions             = 'product_id = ?1';
-        $parameters             = array(
-            1                   => $productId,
-        );
+    private function getQueryOfIssuesUsingHunterUsernameAndProductAndCategoryAndStatus($hunterUsername, $productId, $issueCategoryId, $issueStatusId) {
+        $hunterUid              = 0;
 
-        if ( $issueCategoryId != 0 ) {
-            $conditions        .= ' AND issue_category_id = ?2';
-            $parameters         = array_replace($parameters, array(
-                2               => $issueCategoryId,
-            ));
-        }
-        if ( $issueStatusId != 0 ) {
-            $isFirstCondition   = false;
-            $conditions        .= ' AND issue_status_id = ?3';
-            $parameters         = array_replace($parameters, array(
-                3               => $issueStatusId,
-            ));
-        }
         if ( !empty($hunterUsername) ) {
             $userService        = ServiceFactory::getService('UserService');
             $hunter             = $userService->getUserUsingUsername($hunterUsername);
-            $hunterUid          = $hunter == NULL ? 0 : $hunter->getUid();
-
-            $conditions        .= ' AND issue_hunter_id = ?4';
-            $parameters         = array_replace($parameters, array(
-                4               => $hunterUid,
-            ));
+            $hunterUid          = $hunter == NULL ? -1 : $hunter->getUid();
         }
-        return array(
-            'conditions'        => $conditions,
-            'bind'              => $parameters,
-        );
+        return $this->getQueryOfIssuesUsingHunterUidAndProductAndCategoryAndStatus($hunterUid, $productId, $issueCategoryId, $issueStatusId);
     }
 
     /**
@@ -360,7 +336,7 @@ class IssueService extends Service {
      * @param  int    $issueStatusId   - the unique ID of a status of issue
      * @return number of issues in a certain product, category, status and founded by a certain user
      */
-    public function getIssuesCountUsingHunterUidAndProductAndCategoryAndStatus($hunterUid, $productId, $issueCategoryId, $issueStatusId) {
+    public function getIssuesCountUsingHunterUidAndProductAndCategoryAndStatus($hunterUsername, $productId, $issueCategoryId, $issueStatusId) {
         $conditions     = $this->getQueryOfIssuesUsingHunterUidAndProductAndCategoryAndStatus($hunterUid, $productId, $issueCategoryId, $issueStatusId);
         $resultSet      = Issue::find($conditions);
 
@@ -376,11 +352,15 @@ class IssueService extends Service {
      * @return the conditions of query statement
      */
     private function getQueryOfIssuesUsingHunterUidAndProductAndCategoryAndStatus($hunterUid, $productId, $issueCategoryId, $issueStatusId) {
-        $conditions             = 'issue_hunter_id = ?1';
-        $parameters             = array(
-            1                   => $hunterUid,
-        );
+        $conditions             = ' 1 = 1';
+        $parameters             = array();
 
+        if ( $hunterUid != 0 ) {
+            $conditions        .= ' AND issue_hunter_id = ?1';
+            $parameters         = array_replace($parameters, array(
+                1               => $hunterUid,
+            ));
+        }
         if ( $productId != 0 ) {
             $conditions        .= ' AND product_id = ?2';
             $parameters         = array_replace($parameters, array(
@@ -394,7 +374,6 @@ class IssueService extends Service {
             ));
         }
         if ( $issueStatusId != 0 ) {
-            $isFirstCondition   = false;
             $conditions        .= ' AND issue_status_id = ?4';
             $parameters         = array_replace($parameters, array(
                 4               => $issueStatusId,
