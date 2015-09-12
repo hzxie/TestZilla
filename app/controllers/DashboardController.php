@@ -95,13 +95,48 @@ class DashboardController extends BaseController {
      * Render to received issues page.
      */
     public function receivedIssuesAction() {
+        $uid                = $this->session->get('uid');
         $issueService       = ServiceFactory::getService('IssueService');
+        $products           = $this->getProductsInBestLanguage($issueService->getProductsRelatedToDevelopers($uid));
         $issueCategories    = $this->getIssueCategoriesInBestLanguage($issueService->getIssueCategories());
         $issueStatusList    = $this->getIssueStatusListInBestLanguage($issueService->getIssueStatusList());
      
         $this->tag->prependTitle($this->localization['dashboard.received-issues.title']);
+        $this->view->setVar('products', $products);
         $this->view->setVar('issueCategories', $issueCategories);
         $this->view->setVar('issueStatusList', $issueStatusList);
+    }
+
+    /**
+     * Get issues list of the product the user developed.
+     * @return a HttpResponse contains JSON data contains information of issues related to the products the user developed
+     */
+    public function getReceivedIssuesAction() {
+        $uid                = $this->session->get('uid');
+        $productId          = $this->request->get('product');
+        $issueCategorySlug  = $this->request->get('issueCategory');
+        $issueStatusSlug    = $this->request->get('issueStatus');
+        $pageNumber         = $this->request->get('page');
+        $limit              = self::NUMBER_OF_ISSUES_PER_REQUEST;
+        $offset             = $pageNumber <= 1 ? 0 :  ($pageNumber - 1) * $limit;
+
+        $issueService       = ServiceFactory::getService('IssueService');
+        $issueCategoryId    = $issueService->getIssueCategoryId($issueCategorySlug);
+        $issueStatusId      = $issueService->getIssueStatusId($issueStatusSlug);
+        $issues             = $this->getIssuesInBestLanguage(
+                                $issueService->getIssuesUsingDeveloperUidAndProductAndCategoryAndStatus($uid, $productId, $issueCategoryId, $issueStatusId, $offset, $limit)
+                              );
+        $numberOfIssues     = $issueService->getIssuesCountUsingDeveloperUidAndProductAndCategoryAndStatus($uid, $productId, $issueCategoryId, $issueStatusId);
+
+        $result             = array(
+            'isSuccessful'  => !empty($issues),
+            'issues'        => $issues,
+            'totalPages'    => ceil($numberOfIssues / $limit),
+        );
+        $response   = new Response();
+        $response->setHeader('Content-Type', 'application/json');
+        $response->setContent(json_encode($result));
+        return $response;
     }
 
     /**

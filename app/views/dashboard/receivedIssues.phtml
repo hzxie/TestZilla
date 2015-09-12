@@ -72,3 +72,152 @@
         </div> <!-- .span8 -->
     </div> <!-- .row-fluid -->
 </div> <!-- .container -->
+
+<script type="text/javascript">
+    $.when(
+        $.getScript('<?php echo $cdnUrl; ?>/js/moment.min.js'),
+        $.getScript('<?php echo $cdnUrl; ?>/js/markdown.min.js'),
+        $.Deferred(function(deferred) {
+            $(deferred.resolve);
+        })
+    ).done(function() {
+        moment.locale('<?php echo $language; ?>');
+
+        converter = Markdown.getSanitizingConverter();
+        $('.markdown').each(function() {
+            var plainContent    = $(this).text(),
+                markdownContent = converter.makeHtml(plainContent.replace(/\\n/g, '\n'));
+            
+            $(this).html(markdownContent);
+        });
+       
+        getIssues();
+    });
+</script>
+<script type="text/javascript">
+    $('#issue-filter').click(function() {
+        return getIssues();
+    });
+</script>
+<script type="text/javascript">
+    $('#pagination > ul').delegate('li', 'click', function(e) {
+        e.preventDefault();
+        if ( $(this).hasClass('disabled') ) {
+            return;
+        }
+        var currentPage = parseInt($('li.active > a', '#pagination > ul').html());
+        
+        $('#pagination > li.active').removeClass('active');
+        $(this).addClass('active');
+        var pageNumber  = $('a', this).html();
+
+        if ( pageNumber === '&lt;' ) {
+            pageNumber  = currentPage - 1;
+        } else if ( pageNumber === '&gt;' ) {
+            pageNumber  = currentPage + 1;
+        }
+        getIssues(pageNumber);
+    });
+</script>
+<script type="text/javascript">
+    function getIssues(pageNumber) {
+        var productId     = $('#product').val(),
+            issueCategory = $('#issue-category').val(),
+            issueStatus   = $('#issue-status').val();
+
+        if ( typeof(pageNumber) == 'undefined' ) {
+            pageNumber = 1;
+        }
+        $('#no-issues').addClass('hide');
+        $('#issues').addClass('hide');
+        $('#pagination').addClass('hide');
+        $('#loading').removeClass('hide');
+        return getIssuesAction(productId, issueCategory, issueStatus, pageNumber);
+    }
+</script>
+<script type="text/javascript">
+    function getIssuesAction(productId, issueCategory, issueStatus, pageNumber) {
+        var pageRequest = {
+            'product': productId,
+            'issueCategory': issueCategory,
+            'issueStatus': issueStatus,
+            'page': pageNumber,
+        };
+        $.ajax({
+            type: 'GET',
+            url: '<?php echo $this->url->get('/dashboard/getReceivedIssues.action'); ?>',
+            data: pageRequest,
+            dataType: 'JSON',
+            success: function(result){
+                return processResult(result, pageNumber);
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    function processResult(result, pageNumber) {
+        $('#loading').addClass('hide');
+
+        if ( !result['isSuccessful'] ) {
+            $('#no-issues').removeClass('hide');
+        } else {
+            $('#issues').removeClass('hide');
+            $('#pagination').removeClass('hide');
+            displayIssues(result['issues'])
+            displayPagination(pageNumber, result['totalPages']);
+        }
+    }
+</script>
+<script type="text/javascript">
+    function displayIssues(issues) {
+        $('#issues').empty();
+
+        for ( var i = 0; i < issues.length; ++ i ) {
+            $('#issues').append(
+                getIssueContent(issues[i])
+            );
+        }
+    }
+</script>
+<script type="text/javascript">
+    function getIssueContent(issue) {
+        var issueTemplate = '<li class="issue row-fluid" data-value="%s">' +
+                            '    <div class="span10">' +
+                            '        <h5><a href="<?php echo $this->url->get('/issue/'); ?>%s">%s</a></h5>' +
+                            '        <ul class="inline">' +
+                            '            <li><i class="fa fa-list"></i> %s</li>' +
+                            '            <li><i class="fa fa-caret-square-o-down"></i> %s</li>' +
+                            '            <li><i class="fa fa-clock-o"></i> %s</li>' +
+                            '        </ul>' + 
+                            '    </div> <!-- .span10 -->' +
+                            '    <div class="issue-reply span2 text-right">' + 
+                            '        <i class="fa fa-comments"></i> %s' +
+                            '    </div> <!-- .span2 -->' +
+                            '</li>';
+
+        return issueTemplate.format(issue['issueId'], issue['issueId'], issue['issueTitle'], 
+                issue['issueCategory']['issueCategoryName'], issue['issueStatus']['issueStatusName'],
+                getTimeElapsed(issue['createTime']), issue['issueRepliesCount']);
+    }
+</script>
+<script type="text/javascript">
+    function getTimeElapsed(dateTimeString) {
+        var dateTime = moment(dateTimeString);
+        return dateTime.fromNow();
+    }
+</script>
+<script type="text/javascript">
+    function displayPagination(currentPage, totalPages) {
+        $('#pagination > ul').empty();
+
+        var lowerBound = currentPage - 5 > 0 ? currentPage - 5 : 1,
+            upperBound = currentPage + 5 < totalPages ? currentPage + 5 : totalPages;
+            paginationString  = '<li class="previous ' + ( currentPage > 1 ? '' : 'disabled') + '"><a href="#">&lt;</a></li>';
+
+        for ( var i = lowerBound; i <= upperBound; ++ i ) {
+            paginationString += '<li' + ( currentPage == i ? ' class="active"' : '' ) + '><a href="#">' + i + '</a></li>';
+        }
+        paginationString     += '<li class="next ' + ( currentPage < totalPages ? '' : 'disabled') + '"><a href="#">&gt;</a></li>';
+        $('#pagination > ul').append(paginationString);
+    }
+</script>

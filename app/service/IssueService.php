@@ -336,10 +336,99 @@ class IssueService extends Service {
      * @param  int    $issueStatusId   - the unique ID of a status of issue
      * @return number of issues in a certain product, category, status and founded by a certain user
      */
-    public function getIssuesCountUsingHunterUidAndProductAndCategoryAndStatus($hunterUsername, $productId, $issueCategoryId, $issueStatusId) {
+    public function getIssuesCountUsingHunterUidAndProductAndCategoryAndStatus($hunterUid, $productId, $issueCategoryId, $issueStatusId) {
         $conditions     = $this->getQueryOfIssuesUsingHunterUidAndProductAndCategoryAndStatus($hunterUid, $productId, $issueCategoryId, $issueStatusId);
         $resultSet      = Issue::find($conditions);
 
+        return $resultSet->count();
+    }
+
+    /**
+     * Get issues in a certain product, category, status and developed by a certain user.
+     * @param  long   $developerUid    - the unique ID of the user who develop products
+     * @param  long   $productId       - the unique ID of the product
+     * @param  int    $issueCategoryId - the unique ID of a category of issue
+     * @param  int    $issueStatusId   - the unique ID of a status of issue
+     * @param  long   $offset          - the index of first record of result set
+     * @param  int    $limit           - the number of records to get for each request
+     * @return an array which contains issues of a certain product, category, status and developed by a certain user
+     */
+    public function getIssuesUsingDeveloperUidAndProductAndCategoryAndStatus($developerUid, $productId, $issueCategoryId, $issueStatusId, $offset, $limit) {
+        if ( $productId != 0 ) {
+            return $this->getIssuesUsingHunterUidAndProductAndCategoryAndStatus(0, $productId, $issueCategoryId, $issueStatusId, $offset, $limit);
+        }
+
+        $issues         = array();
+        $conditions     = array('developerUid' => $developerUid);
+        $criteria       = Issue::query()
+                        ->join('Product')
+                        ->where('product_developer_id = :developerUid:');
+
+        if ( $issueCategoryId != 0 ) {
+            $criteria->andWhere('issue_category_id = :issueCategoryId:');
+            $conditions = array_replace($conditions, array(
+                'issueCategoryId'   => $issueCategoryId,
+            ));
+        }
+        if ( $issueStatusId != 0 ) {
+            $criteria->andWhere('issue_status_id = :issueStatusId:');
+            $conditions = array_replace($conditions, array(
+                'issueStatusId'     => $issueStatusId,
+            ));
+        }
+        $criteria->bind($conditions)
+                 ->limit($limit, $offset)
+                 ->orderBy('issue_id DESC');
+        $resultSet      = $criteria->execute();
+
+        foreach ( $resultSet as $rowSet ) {
+            array_push($issues, array(
+                'issueId'           => $rowSet->getIssueId(),
+                'product'           => array(
+                    'productId'         => $rowSet->getProduct()->getProductId(),
+                    'productName'       => (array)json_decode($rowSet->getProduct()->getProductName()),
+                    'latestVersion'     => $rowSet->getProduct()->getLatestVersion(),
+                ),
+                'productVersion'    => $rowSet->getProductVersion(),
+                'issueCategory'     => array(
+                    'issueCategoryId'   => $rowSet->getIssueCategory()->getIssueCategoryId(),
+                    'issueCategoryName' => (array)json_decode($rowSet->getIssueCategory()->getIssueCategoryName()),
+                ),
+                'issueStatus'       => array(
+                    'issueStatusId'     => $rowSet->getIssueStatus()->getIssueStatusId(),
+                    'issueStatusName'   => (array)json_decode($rowSet->getIssueStatus()->getIssueStatusName()),
+                ),
+                'createTime'        => $rowSet->getCreateTime(),
+                'issueTitle'        => $rowSet->getIssueTitle(),
+                'issueRepliesCount' => $rowSet->getNumberOfIssueReplies(),
+            ));
+        }
+        return $issues;
+    }
+
+    /**
+     * Get number of issues in a certain product, category, status and developed by a certain user.
+     * @param  long   $developerUid    - the unique ID of the user who develop products
+     * @param  long   $productId       - the unique ID of the product
+     * @param  int    $issueCategoryId - the unique ID of a category of issue
+     * @param  int    $issueStatusId   - the unique ID of a status of issue
+     * @return number of issues in a certain product, category, status and developed by a certain user
+     */
+    public function getIssuesCountUsingDeveloperUidAndProductAndCategoryAndStatus($developerUid, $productId, $issueCategoryId, $issueStatusId) {
+        if ( $productId != 0 ) {
+            return $this->getIssuesCountUsingHunterUidAndProductAndCategoryAndStatus(0, $productId, $issueCategoryId, $issueStatusId);
+        }
+
+        $resultSet      = $this->modelsManager->executeQuery(
+            'SELECT *
+             FROM Issue 
+             NATURAL JOIN Product
+             WHERE product_developer_id = ?1 
+             ORDER BY issue_id DESC',
+            array(
+                1       => $developerUid,
+            )
+        );
         return $resultSet->count();
     }
 
@@ -542,6 +631,28 @@ class IssueService extends Service {
             }
         }
         return $result;
+    }
+
+    /**
+     * Get product list developered by a user.
+     * @param  long $uid - the unique ID of the user
+     * @return an array contains essential information of products
+     */
+    public function getProductsRelatedToDevelopers($uid) {
+        $products       = array();
+        $resultSet      = Product::find(array(
+            'conditions'    => 'product_developer_id = ?1',
+            'bind'          => array(
+                1           => $uid,
+            ),
+        ));
+        foreach ( $resultSet as $rowSet ) {
+            array_push($products, array(
+                'productId'     => $rowSet->productId,
+                'productName'   => (array)json_decode($rowSet->productName),
+            ));
+        }
+        return $products;
     }
 
     /**
