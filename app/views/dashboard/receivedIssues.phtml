@@ -185,6 +185,7 @@
                             '    <div class="span10">' +
                             '        <h5><a href="<?php echo $this->url->get('/issue/'); ?>%s">%s</a></h5>' +
                             '        <ul class="inline">' +
+                            '            <li><i class="fa fa-hdd-o"></i> %s</li>' +
                             '            <li><i class="fa fa-list"></i> %s</li>' +
                             '            <li><i class="fa fa-caret-square-o-down"></i> %s</li>' +
                             '            <li><i class="fa fa-clock-o"></i> %s</li>' +
@@ -195,9 +196,10 @@
                             '    </div> <!-- .span2 -->' +
                             '</li>';
 
-        return issueTemplate.format(issue['issueId'], issue['issueId'], issue['issueTitle'], 
-                issue['issueCategory']['issueCategoryName'], issue['issueStatus']['issueStatusName'],
-                getTimeElapsed(issue['createTime']), issue['issueRepliesCount']);
+        return issueTemplate.format(issue['issueId'], issue['issueId'], issue['issueTitle'],
+                issue['product']['productName'], issue['issueCategory']['issueCategoryName'], 
+                issue['issueStatus']['issueStatusName'], getTimeElapsed(issue['createTime']), 
+                issue['issueRepliesCount']);
     }
 </script>
 <script type="text/javascript">

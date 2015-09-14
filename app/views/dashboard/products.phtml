@@ -1,4 +1,5 @@
 <?php echo Phalcon\Tag::stylesheetLink("{$cdnUrl}/css/dashboard/style.css?ver={$appVerion}"); ?>
+<?php echo Phalcon\Tag::stylesheetLink("{$cdnUrl}/css/dashboard/products.css?ver={$appVerion}"); ?>
 <div id="dashboard" class="container">
     <div class="row-fluid">
         <div id="sidebar" class="span4">
@@ -17,7 +18,123 @@
                 </li>
             </ul>
         </div> <!-- #sidebar -->
-        <div id="main-content" class="span8">
-        </div> <!-- #main-content -->
+        <div class="span8">
+            <div id="main-content">
+                <h4><?php echo $localization['dashboard.products.my-products']; ?></h4>
+                <p id="no-products" class="hide"><?php echo $localization['dashboard.products.no-products']; ?></p>
+                <p id="loading" class="text-center"><img src="<?php echo $cdnUrl; ?>/img/loading.gif" alt=""></p>
+                <ul id="product-list"></ul>
+                <div id="pagination" class="pagination">
+                    <ul></ul>
+                </div> <!-- #pagination -->
+            </div> <!-- #main-content -->
+        </div> <!-- .span8 -->
     </div> <!-- .row-fluid -->
 </div> <!-- .container -->
+
+<script type="text/javascript">
+    $.getScript('<?php echo $cdnUrl; ?>/js/markdown.min.js', function() {
+        converter = Markdown.getSanitizingConverter();
+        getProducts();
+    });
+</script>
+<script type="text/javascript">
+    function getProducts(pageNumber) {
+        var productCategory = $('li.active', '#product-categories').attr('data-value'),
+            keyword         = $('#keyword').val();
+
+        if ( typeof(pageNumber) == 'undefined' ) {
+            pageNumber = 1;
+        }
+        $('#no-products').addClass('hide');
+        $('#product-list').addClass('hide');
+        $('#pagination').addClass('hide');
+        $('#loading').removeClass('hide');
+        return getProductsAction(productCategory, keyword, pageNumber);
+    }
+</script>
+<script type="text/javascript">
+    function getProductsAction(productCategory, keyword, pageNumber) {
+        var pageRequest = {
+            'productCategory': productCategory,
+            'keyword': keyword,
+            'page': pageNumber,
+        };
+        $.ajax({
+            type: 'GET',
+            url: '<?php echo $this->url->get('/dashboard/getProducts.action'); ?>',
+            data: pageRequest,
+            dataType: 'JSON',
+            success: function(result){
+                return processResult(result, pageNumber);
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    function processResult(result, currentPage) {
+        $('#loading').addClass('hide');
+
+        if ( !result['isSuccessful'] ) {
+            $('#no-products').removeClass('hide');
+        } else {
+            $('#product-list').removeClass('hide');
+            $('#pagination').removeClass('hide');
+            displayProducts(result['products']);
+            displayPagination(currentPage, result['totalPages']);
+        }
+    }
+</script>
+<script type="text/javascript">
+    function displayProducts(products) {
+        $('#product-list').empty();
+
+        for ( var i = 0; i < products.length; ++ i ) {
+            $('#product-list').append(
+                getProductContent(products[i])
+            );
+        }
+    }
+</script>
+<script type="text/javascript">
+    function getProductContent(product) {
+        var productTemplate = '<li class="product row-fluid" data-value="%s">' +
+                              '    <div class="span3">' + 
+                              '        <img src="%s" alt="Product Logo" />' +
+                              '    </div>' +
+                              '    <div class="span9">' +
+                              '        <h5><a href="<?php echo $this->url->get('/product/') ?>%s">%s</a></h5>' +
+                              '        <ul class="inline">' +
+                              '            <li><i class="fa fa-list"></i> %s</li>' +
+                              '            <li><i class="fa fa-ticket"></i> %s</li>' +
+                              '            <li><i class="fa fa-bug"></i> %s <?php echo $localization['products.index.issues-reported']; ?></li>' +
+                              '        </ul>' +
+                              '        <div class="markdown">%s</div>'
+                              '    </div>' +
+                              '</li> <!-- .product -->';
+
+        return productTemplate.format(product['productId'], product['productLogo'], product['productId'], 
+                product['productName'], product['productCategory']['productCategoryName'], product['latestVersion'], 
+                product['issuesCount'], stripHtml(converter.makeHtml(product['description'].replace(/\\n/g, '\n'))));
+    }
+</script>
+<script type="text/javascript">
+    function stripHtml(str) {
+        return str.replace(/<(?:.|\s)*?>/g, " ");
+    }
+</script>
+<script type="text/javascript">
+    function displayPagination(currentPage, totalPages) {
+        $('#pagination > ul').empty();
+
+        var lowerBound = currentPage - 5 > 0 ? currentPage - 5 : 1,
+            upperBound = currentPage + 5 < totalPages ? currentPage + 5 : totalPages;
+            paginationString  = '<li class="previous ' + ( currentPage > 1 ? '' : 'disabled') + '"><a href="#">&lt;</a></li>';
+
+        for ( var i = lowerBound; i <= upperBound; ++ i ) {
+            paginationString += '<li' + ( currentPage == i ? ' class="active"' : '' ) + '><a href="#">' + i + '</a></li>';
+        }
+        paginationString     += '<li class="next ' + ( currentPage < totalPages ? '' : 'disabled') + '"><a href="#">&gt;</a></li>';
+        $('#pagination > ul').append(paginationString);
+    }
+</script>

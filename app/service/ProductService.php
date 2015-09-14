@@ -104,6 +104,55 @@ class ProductService extends Service {
     }
 
     /**
+     * Get the products developered by a user.
+     * @param  long   $developerUid - the unique ID of the developer
+     * @param  long   $offset       - the index of first record of result set
+     * @param  int    $limit        - the number of records to get for each request
+     * @return an array which contains products developered by a user
+     */
+    public function getProductUsingDeveloper($developerUid, $offset, $limit) {
+        $products       = array();
+        $resultSet      = Product::find(array(
+            'conditions'    => 'product_developer_id = ?1',
+            'bind'          => array(
+                1           => $developerUid,
+            ),
+            'limit'     => $limit,
+            'offset'    => $offset,
+            'order'     => 'product_id DESC',
+        ));
+        foreach ( $resultSet as $rowSet ) {
+            array_push($products, array(
+                'productId'         => $rowSet->getProductId(),
+                'productName'       => (array)json_decode($rowSet->getProductName()),
+                'productCategory'   => array(
+                    'productCategoryName'   => (array)json_decode($rowSet->getProductCategory()->getProductCategoryName()),
+                ),
+                'productLogo'       => $rowSet->getProductLogo(),
+                'latestVersion'     => $rowSet->getLatestVersion(),
+                'description'       => (array)json_decode($rowSet->getDescription()),
+                'issuesCount'       => $rowSet->getNumberOfIssues(),
+            ));
+        }
+        return $products;
+    }
+
+    /**
+     * Get the number of products developered by a user.
+     * @param  long   $developerUid - the unique ID of the developer
+     * @return number of products developered by a user
+     */
+    public function getProducCounttUsingDeveloper($developerUid) {
+        $resultSet      = Product::find(array(
+            'conditions'    => 'product_developer_id = ?1',
+            'bind'          => array(
+                1           => $developerUid,
+            ),
+        ));
+        return $resultSet->count();
+    }
+
+    /**
      * Get products in a certain category.
      * @param  int    $productCategoryId - the unique ID of the category of product
      * @param  long   $offset            - the index of first record of result set

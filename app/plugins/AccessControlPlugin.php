@@ -94,7 +94,7 @@ class AccessControlPlugin extends Plugin {
             // Resources for users logged in
             $loggedInResources  = array(
                 'products'      => array('createIssue', 'createIssueReply'),
-                'dashboard'     => array('index', 'profile', 'changePassword', 'updateProfile', 'products', 'receivedIssues', 'getReceivedIssues', 'submittedIssues', 'getSubmittedIssues'),
+                'dashboard'     => array('index', 'profile', 'changePassword', 'updateProfile', 'products', 'getProducts','receivedIssues', 'getReceivedIssues', 'submittedIssues', 'getSubmittedIssues'),
             );
             foreach ( $loggedInResources as $resource => $actions ) {
                 $acl->addResource(new Resource($resource), $actions);

@@ -143,6 +143,8 @@ $messages = array(
     'dashboard.profile.about-me-legal'                  => '关于我的描述不得超过256个字符.',
     # dashboard/products.phtml
     'dashboard.products.title'                          => '我的产品',
+    'dashboard.products.my-products'                    => '我的产品',
+    'dashboard.products.no-products'                    => '暂无可用产品.',
     # dashboard/receivedIssues.phtml + submittedIssues.phtml
     'dashboard.issues.quick-search'                     => '快速搜索',
     'dashboard.issues.filter'                           => '筛选',

@@ -92,6 +92,33 @@ class DashboardController extends BaseController {
     }
 
     /**
+     * Get the products developered by a user.
+     * @return a HttpResponse contains JSON data contains information of products developered by a user
+     */
+    public function getProductsAction() {
+        $uid                = $this->session->get('uid');
+        $pageNumber         = $this->request->get('page');
+        $limit              = self::NUMBER_OF_PRODUCTS_PER_REQUEST;
+        $offset             = $pageNumber <= 1 ? 0 :  ($pageNumber - 1) * $limit;
+        
+        $productService     = ServiceFactory::getService('ProductService');
+        $products           = $this->getProductsInBestLanguage(
+                                $productService->getProductUsingDeveloper($uid, $offset, $limit)
+                              );
+        $numberOfProducts   = $productService->getProducCounttUsingDeveloper($uid);
+
+        $result             = array(
+            'isSuccessful'  => !empty($products),
+            'products'      => $products,
+            'totalPages'    => ceil($numberOfProducts / $limit),
+        );
+        $response = new Response();
+        $response->setHeader('Content-Type', 'application/json');
+        $response->setContent(json_encode($result));
+        return $response;
+    }
+
+    /**
      * Render to received issues page.
      */
     public function receivedIssuesAction() {
@@ -186,6 +213,11 @@ class DashboardController extends BaseController {
         $response->setContent(json_encode($result));
         return $response;
     }
+
+    /**
+     * Number of products to get in a request.
+     */
+    const NUMBER_OF_PRODUCTS_PER_REQUEST = 15;
 
     /**
      * Number of issues to get in a request.

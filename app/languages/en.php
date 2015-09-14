@@ -143,6 +143,8 @@ $messages = array(
     'dashboard.profile.about-me-legal'                  => 'The length of About Me CANNOT exceed 256 characters.',
     # dashboard/products.phtml
     'dashboard.products.title'                          => 'Products',
+    'dashboard.products.my-products'                    => 'My Products',
+    'dashboard.products.no-products'                    => 'No Products.',
     # dashboard/receivedIssues.phtml + submittedIssues.phtml
     'dashboard.issues.quick-search'                     => 'Quick Search',
     'dashboard.issues.filter'                           => 'Filter',
