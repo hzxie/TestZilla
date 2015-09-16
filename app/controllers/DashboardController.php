@@ -25,7 +25,9 @@ class DashboardController extends BaseController {
      * Render to dashboard page.
      */
     public function indexAction() {
-        $this->tag->prependTitle($this->localization['dashboard.index.title']);
+        $response = new Response();
+        $response->redirect('/dashboard/issues');
+        return $response;
     }
 
     /**
