@@ -179,6 +179,7 @@ $messages = array(
     'products.product.filter'                           => 'Filter',
     'products.product.issue-category'                   => 'Issue Category',
     'products.product.issue-status'                     => 'Issue Status',
+    'products.product.filter-username'                  => 'Username',
     'products.product.no-issues'                        => 'No Issues.',
     'products.index.no-products'                        => 'No Products.',
     'products.product.user'                             => 'User',
