@@ -79,6 +79,8 @@ div#product div.panel div.body ul#issues li.issue:last-child {
 div#product div.panel div.body ul#issues li.issue h5 {
 	height: 20px;
 	overflow: hidden;
+	position: relative;
+	z-index: 2;
 }
 
 div#product div.panel div.body ul#issues li.issue ul.inline a {
@@ -157,6 +159,7 @@ div#relational-products li.product p {
 		position: absolute;
 		top: 0;
 		right: 0;
+		z-index: 1;
 	}
 }
 
