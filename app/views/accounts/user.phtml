@@ -10,25 +10,25 @@
             <div id="social-links" class="section">
                 <ul class="inline">
                 <?php if ( array_key_exists('Facebook', $socialLinks) ): ?>
-                    <li><a href="https://facebook.com/${socialLinks[]}" target="_blank" class="facebook" title="Facebook"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="https://facebook.com/<?php echo $socialLinks['Facebook']?>" target="_blank" class="facebook" title="Facebook"><i class="fa fa-facebook"></i></a></li>
                 <?php endif; ?>
                 <?php if ( array_key_exists('Twitter', $socialLinks) ): ?>
-                    <li><a href="https://twitter.com/${socialLinks['Twitter']}" target="_blank" class="twitter" title="Twitter"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="https://twitter.com/<?php echo $socialLinks['Twitter']?>" target="_blank" class="twitter" title="Twitter"><i class="fa fa-twitter"></i></a></li>
                 <?php endif; ?>
                 <?php if ( array_key_exists('Weibo', $socialLinks) ): ?>
-                    <li><a href="http://weibo.com/${socialLinks['Weibo']}" target="_blank" class="weibo" title="Weibo"><i class="fa fa-weibo"></i></a></li>
+                    <li><a href="http://weibo.com/<?php echo $socialLinks['Weibo']?>" target="_blank" class="weibo" title="Weibo"><i class="fa fa-weibo"></i></a></li>
                 <?php endif; ?>
                 <?php if ( array_key_exists('Instagram', $socialLinks) ): ?>
-                    <li><a href="https://instagram.com/${socialLinks['Instagram']}" target="_blank" class="instagram" title="Instagram"><i class="fa fa-instagram"></i></a></li>
+                    <li><a href="https://instagram.com/<?php echo $socialLinks['Instagram']?>" target="_blank" class="instagram" title="Instagram"><i class="fa fa-instagram"></i></a></li>
                 <?php endif; ?>
                 <?php if ( array_key_exists('GitHub', $socialLinks) ): ?>
-                    <li><a href="https://github.com/${socialLinks['GitHub']}" target="_blank" class="github" title="GitHub"><i class="fa fa-github"></i></a></li>
+                    <li><a href="https://github.com/<?php echo $socialLinks['GitHub']?>" target="_blank" class="github" title="GitHub"><i class="fa fa-github"></i></a></li>
                 <?php endif; ?>
                 <?php if ( array_key_exists('StackOverflow', $socialLinks) ): ?>
-                    <li><a href="http://stackoverflow.com/users/${socialLinks['StackOverflow']}" target="_blank" class="stackoverflow" title="StackOverflow"><i class="fa fa-stack-overflow"></i></a></li>
+                    <li><a href="http://stackoverflow.com/users/<?php echo $socialLinks['StackOverflow']?>" target="_blank" class="stackoverflow" title="StackOverflow"><i class="fa fa-stack-overflow"></i></a></li>
                 <?php endif; ?>
                 <?php if ( array_key_exists('LinkedIn', $socialLinks) ): ?>
-                    <li><a href="https://www.linkedin.com/profile/view?id=${socialLinks['LinkedIn']}" target="_blank" class="linkedin" title="LinkedIn"><i class="fa fa-linkedin-square"></i></a></li>
+                    <li><a href="https://www.linkedin.com/profile/view?id=<?php echo $socialLinks['LinkedIn']?>" target="_blank" class="linkedin" title="LinkedIn"><i class="fa fa-linkedin-square"></i></a></li>
                 <?php endif; ?>
                 </ul>
             </div> <!-- #social-links -->
