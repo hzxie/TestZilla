@@ -8,6 +8,10 @@ div#content div#main-content {
 	        box-shadow: 0 0 5px rgba(0, 0, 0, .1);
 }
 
+div#content div#main-content p#loading img {
+	max-height: 24px;
+}
+
 div#content div#main-content ul#product-list {
 	list-style: none;
 	margin: 0;
@@ -39,9 +43,33 @@ div#content div#main-content ul#product-list li.product ul.inline > li {
 }
 
 div#content div#main-content ul#product-list li.product div.markdown {
-	margin-top: 10px;
+	margin: 10px 0;
+}
+
+div#content div#main-content ul#product-list li.product p.edit-link {
+	font-size: 13px;
+	margin-bottom: 0;
 }
 
 div#content div#main-content div#pagination {
 	text-align: center;
+}
+
+div#product-modal {
+	position: absolute;
+}
+
+div#product-modal div.modal-body {
+	max-height: 32767px;
+}
+
+div#product-modal ul.nav-tabs {
+	margin: 0;
+}
+
+div#product-modal div.tab-content {
+	border: 1px solid #ddd;
+	border-top: 0;
+	overflow: hidden;
+	padding: 20px;
 }

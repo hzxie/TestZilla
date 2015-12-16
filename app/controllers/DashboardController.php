@@ -90,7 +90,11 @@ class DashboardController extends BaseController {
      * Render to products page.
      */
     public function productsAction() {
+        $productService = ServiceFactory::getService('ProductService');
+        $categories     = $productService->getProductCategories();
+
         $this->tag->prependTitle($this->localization['dashboard.products.title']);
+        $this->view->setVar('productCategories', $categories);
     }
 
     /**
@@ -113,6 +117,30 @@ class DashboardController extends BaseController {
             'isSuccessful'  => !empty($products),
             'products'      => $products,
             'totalPages'    => ceil($numberOfProducts / $limit),
+        );
+        $response = new Response();
+        $response->setHeader('Content-Type', 'application/json');
+        $response->setContent(json_encode($result));
+        return $response;
+    }
+
+    /**
+     * Get detail information of a product using product ID.
+     * @return a HttpResponse contains JSON data contains information of the product
+     */
+    public function getProductAction() {
+        $uid                = $this->session->get('uid');
+        $productId          = $this->request->get('productId');
+
+        $productService     = ServiceFactory::getService('ProductService');
+        $product            = $productService->getProductUsingId($productId);
+
+        if ( $product['developer']['uid'] != $uid ) {
+            $product        = NULL;
+        }
+        $result             = array(
+            'isSuccessful'  => $product != NULL,
+            'product'       => $product,
         );
         $response = new Response();
         $response->setHeader('Content-Type', 'application/json');

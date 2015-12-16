@@ -104,6 +104,10 @@ $router->add('/dashboard/getProducts.action', array(
     'controller' => 'dashboard',
     'action'     => 'getProducts',
 ));
+$router->add('/dashboard/getProduct.action', array(
+    'controller' => 'dashboard',
+    'action'     => 'getProduct',
+));
 $router->add('/dashboard/issues', array(
     'controller' => 'dashboard',
     'action'     => 'receivedIssues',

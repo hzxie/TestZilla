@@ -17,7 +17,14 @@
         </div> <!-- #sidebar -->
         <div class="span8">
             <div id="main-content">
-                <h4><?php echo $localization['dashboard.products.my-products']; ?></h4>
+                <div class="row-fluid">
+                    <div class="span6">
+                        <h4><?php echo $localization['dashboard.products.my-products']; ?></h4>
+                    </div> <!-- .span6 -->
+                    <div class="span6 text-right">
+                        <button id="new-product-button" class="btn btn-primary"><?php echo $localization['dashboard.products.new-product']; ?></button>
+                    </div> <!-- .span6 -->
+                </div> <!-- .row-fluid -->
                 <p id="no-products" class="hide"><?php echo $localization['dashboard.products.no-products']; ?></p>
                 <p id="loading" class="text-center"><img src="<?php echo $cdnUrl; ?>/img/loading.gif" alt=""></p>
                 <ul id="product-list"></ul>
@@ -29,9 +36,82 @@
     </div> <!-- .row-fluid -->
 </div> <!-- .container -->
 
+<div id="product-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h5></h5>
+    </div> <!-- .modal-header -->
+    <div class="modal-body">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#en" data-toggle="tab">English</a></li>
+            <li><a href="#zh" data-toggle="tab">简体中文</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="en">
+                <div class="row-fluid">
+                    <label for="product-name"><?php echo $localization['dashboard.products.product-name']; ?></label>
+                    <input id="product-name" name="product-name" class="span12" type="text" maxlength="64">
+                </div> <!-- .row-fluid -->
+                <div class="row-fluid">
+                    <label for="product-category"><?php echo $localization['dashboard.products.product-category']; ?></label>
+                    <select id="product-category" name="product-category" class="span12">
+                    <?php foreach ( $productCategories as $productCategory ): ?>
+                    <?php 
+                        $DEFAULT_LANGUAGE     = 'en';
+                        $productCategoryNames = $productCategory['productCategoryName'];
+                        
+                        if ( array_key_exists($language, $productCategoryNames) ):
+                    ?>
+                        <option value="<?php echo $productCategory['productCategorySlug']; ?>"><?php echo $productCategoryNames[$language]; ?></option>
+                    <?php elseif ( array_key_exists($DEFAULT_LANGUAGE, $productCategoryNames) ): ?>
+                        <option value="<?php echo $productCategory['productCategorySlug']; ?>"><?php echo $productCategoryNames[$DEFAULT_LANGUAGE]; ?></option>
+                    <?php endif; ?>
+                    <?php endforeach; ?>
+                    </select>
+                </div> <!-- .row-fluid -->
+                <div class="row-fluid">
+                    <label for="product-logo-url"><?php echo $localization['dashboard.products.product-logo-url']; ?></label>
+                    <input id="product-logo-url" name="product-logo-url" class="span12" type="text" maxlength="256">
+                </div> <!-- .row-fluid -->
+                <div class="row-fluid">
+                    <label for="latest-version"><?php echo $localization['dashboard.products.latest-version']; ?></label>
+                    <input id="latest-version" name="latest-version" class="span12" type="text" maxlength="24">
+                </div> <!-- .row-fluid -->
+                <div class="row-fluid">
+                    <label for="product-url"><?php echo $localization['dashboard.products.product-url']; ?></label>
+                    <input id="product-url" name="product-url" class="span12" type="text" maxlength="256">
+                </div> <!-- .row-fluid -->
+                <div class="row-fluid">
+                    <label for="product-prerequisites"><?php echo $localization['dashboard.products.product-prerequisites']; ?></label>
+                    <input id="product-prerequisites" name="product-prerequisites" class="span12" type="text" maxlength="256">
+                </div> <!-- .row-fluid -->
+                <div class="row-fluid">
+                    <label for="wmd-input"><?php echo $localization['dashboard.products.product-description']; ?></label>    
+                    <div id="markdown-editor">
+                        <div class="wmd-panel">
+                            <div id="wmd-button-bar"></div> <!-- #wmd-button-bar -->
+                            <textarea id="wmd-input" class="wmd-input" placeholder="<?php echo $localization['dashboard.products.introduce-product']; ?>"></textarea>
+                        </div> <!-- .wmd-panel -->
+                        <div id="wmd-preview" class="wmd-panel wmd-preview"></div> <!-- .wmd-preview -->
+                    </div> <!-- #markdown-editor -->
+                </div> <!-- .row-fluid -->
+            </div> <!-- .tab-pane -->
+            <div class="tab-pane" id="zh">
+            </div> <!-- .tab-pane -->
+        </div>
+    </div> <!-- .modal-body -->
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo $localization['dashboard.products.close']; ?></button>
+        <button class="btn btn-primary"><?php echo $localization['dashboard.products.save-changes']; ?></button>
+    </div> <!-- .modal-footer -->
+</div> <!-- #product-modal -->
+
 <script type="text/javascript">
     $.getScript('<?php echo $cdnUrl; ?>/js/markdown.min.js', function() {
         converter = Markdown.getSanitizingConverter();
+        editor    = new Markdown.Editor(converter);
+        editor.run();
+
         getProducts();
     });
 </script>
@@ -63,13 +143,13 @@
             data: pageRequest,
             dataType: 'JSON',
             success: function(result){
-                return processResult(result, pageNumber);
+                return processProductsResult(result, pageNumber);
             }
         });
     }
 </script>
 <script type="text/javascript">
-    function processResult(result, currentPage) {
+    function processProductsResult(result, currentPage) {
         $('#loading').addClass('hide');
 
         if ( !result['isSuccessful'] ) {
@@ -104,9 +184,10 @@
                               '        <ul class="inline">' +
                               '            <li><i class="fa fa-list"></i> %s</li>' +
                               '            <li><i class="fa fa-ticket"></i> %s</li>' +
-                              '            <li><i class="fa fa-bug"></i> %s <?php echo $localization['products.index.issues-reported']; ?></li>' +
+                              '            <li><i class="fa fa-bug"></i> %s <?php echo $localization['dashboard.products.issues-reported']; ?></li>' +
                               '        </ul>' +
-                              '        <div class="markdown">%s</div>'
+                              '        <div class="markdown">%s</div>' +
+                              '        <p class="edit-link"><a href="javascript:void(0)"><?php echo $localization['dashboard.products.edit']; ?></a></p>' + 
                               '    </div>' +
                               '</li> <!-- .product -->';
 
@@ -133,5 +214,50 @@
         }
         paginationString     += '<li class="next ' + ( currentPage < totalPages ? '' : 'disabled') + '"><a href="#">&gt;</a></li>';
         $('#pagination > ul').append(paginationString);
+    }
+</script>
+<script type="text/javascript">
+    $('#new-product-button').click(function() {
+        $('h5', '#product-modal').html('<?php echo $localization['dashboard.products.new-product']; ?>');
+        $('input textarea', '#product-modal').val('');
+
+        $('#product-modal').modal({
+            'backdrop': 'static'
+        });
+    });
+</script>
+<script type="text/javascript">
+    $('#product-list').delegate('p.edit-link', 'click', function() {
+        var productId = $(this).parent().parent().attr('data-value');
+        return getProductAction(productId);
+    });
+</script>
+<script type="text/javascript">
+    function getProductAction(productId) {
+        var pageRequest = {
+            'productId': productId
+        };
+        $.ajax({
+            type: 'GET',
+            url: '<?php echo $this->url->get('/dashboard/getProduct.action'); ?>',
+            data: pageRequest,
+            dataType: 'JSON',
+            success: function(result){
+                if ( result['isSuccessful'] ) {
+                    return processProductResult(result);
+                } else {
+                    alert('<?php echo $localization['dashboard.products.product-not-found']; ?>');
+                }
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    function processProductResult(result) {
+        $('h5', '#product-modal').html('<?php echo $localization['dashboard.products.edit-product']; ?>');
+
+        $('#product-modal').modal({
+            'backdrop': 'static'
+        });
     }
 </script>
