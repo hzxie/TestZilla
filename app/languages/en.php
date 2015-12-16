@@ -200,6 +200,7 @@ $messages = array(
     'products.product.user'                             => 'User',
     'products.product.developer'                        => 'Developer',
     'products.product.relational-products'              => 'Relational Products',
+    'products.product.no-relational-products'           => 'No Relational Products.',
     # products/issue.phtml
     'products.issue.new-issue'                          => 'New Issue',
     'product.issue.comments'                            => 'comment(s)',

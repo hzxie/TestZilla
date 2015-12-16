@@ -199,6 +199,7 @@ $messages = array(
     'products.product.user'                             => '用户',
     'products.product.developer'                        => '开发者',
     'products.product.relational-products'              => '相关产品',
+    'products.product.no-relational-products'           => '暂无相关产品.',
     # products/issue.phtml
     'products.issue.new-issue'                          => '新问题',
     'product.issue.comments'                            => '条评论',

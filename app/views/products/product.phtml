@@ -106,6 +106,9 @@
             </div> <!-- #developer -->
             <div id="relational-products">
                 <h5><?php echo $localization['products.product.relational-products']; ?></h5>
+                <?php if ( count($relationalProducts) <= 1 ): ?>
+                <p><?php echo $localization['products.product.no-relational-products']; ?></p>
+                <?php else: ?>
                 <ul>
                 <?php foreach ( $relationalProducts as $rProduct ): ?>
                 <?php if ( $rProduct['productId'] != $product['productId'] ): ?>
@@ -125,6 +128,7 @@
                 <?php endif; ?>
                 <?php endforeach; ?>
                 </ul>
+                <?php endif; ?>
             </div> <!-- #relational-products -->
         </div> <!-- .span3 -->
     </div> <!-- .row-fluid -->
