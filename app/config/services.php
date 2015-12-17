@@ -109,27 +109,16 @@ $di->set('session', function() {
 /**
  * Security component used for CSRF protection. 
  */
-$di->set('security', function(){
+$di->set('security', function() {
     $security = new Security();
     $security->setWorkFactor(12);
     return $security;
 }, true);
 
 /**
- * Register the flash service with custom CSS classes
- */
-$di->set('flash', function() {
-    return new FlashSession(array(
-        'error'   => 'alert alert-danger',
-        'success' => 'alert alert-success',
-        'notice'  => 'alert alert-info',
-    ));
-});
-
-/**
  * Mail Service.
  */
-$di->set('mailSender', function(){
+$di->set('mailSender', function() {
     return new MailSender();
 });
 
@@ -152,4 +141,10 @@ $di->set('localization', function() use ($di, $config) {
     return new TranslateArray(array(
         "content" => $messages
     ));
+});
+$di->set('languages', function() {
+    return array(
+        'en'    => 'English',
+        'zh'    => '简体中文',
+    );
 });

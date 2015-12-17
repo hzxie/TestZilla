@@ -63,13 +63,22 @@ div#product-modal div.modal-body {
 	max-height: 32767px;
 }
 
-div#product-modal ul.nav-tabs {
+div#product-modal ul#product-names,
+div#product-modal ul#product-prerequisites {
 	margin: 0;
+}
+
+div#product-modal div.trash > a {
+	display: block;
+	padding: 12px 10px;
+}
+
+div#product-modal ul.nav-tabs {
+	margin-bottom: 0;
 }
 
 div#product-modal div.tab-content {
 	border: 1px solid #ddd;
-	border-top: 0;
-	overflow: hidden;
-	padding: 20px;
+	border-top: none;
+	padding: 10px;
 }

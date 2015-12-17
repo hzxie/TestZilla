@@ -42,63 +42,105 @@
         <h5></h5>
     </div> <!-- .modal-header -->
     <div class="modal-body">
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#en" data-toggle="tab">English</a></li>
-            <li><a href="#zh" data-toggle="tab">简体中文</a></li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane active" id="en">
+        <div class="alert alert-error hide"></div> <!-- .alert-error -->
+        <p>
+            <label for="product-name">
+                <?php echo $localization['dashboard.products.product-name']; ?>
+                <a href="javascript:void(0);" id="new-product-name-language" class="pull-right"><i class="fa fa-plus-circle"></i></a>
+            </label>
+            <ul id="product-names">
                 <div class="row-fluid">
-                    <label for="product-name"><?php echo $localization['dashboard.products.product-name']; ?></label>
-                    <input id="product-name" name="product-name" class="span12" type="text" maxlength="64">
+                    <div class="span4">
+                        <select class="product-name-language">
+                        <?php foreach ( $this->languages as $key => $value ): ?>
+                            <option value="<?php echo $key; ?>" <?php echo ($language == $key ? 'selected' : ''); ?>><?php echo $value; ?></option>
+                        <?php endforeach; ?>
+                        </select>
+                    </div> <!-- .span4 -->
+                    <div class="span8">
+                        <div class="control-group">
+                            <input id="product-name" class="product-name span12" type="text" maxlength="64">
+                        </div> <!-- .control-group -->
+                    </div> <!-- .span8 -->
                 </div> <!-- .row-fluid -->
+            </ul>
+        </p>
+        <p class="row-fluid">
+            <label for="product-category"><?php echo $localization['dashboard.products.product-category']; ?></label>
+            <select id="product-category" name="product-category" class="span12">
+            <?php foreach ( $productCategories as $productCategory ): ?>
+            <?php 
+                $DEFAULT_LANGUAGE     = 'en';
+                $productCategoryNames = $productCategory['productCategoryName'];
+                
+                if ( array_key_exists($language, $productCategoryNames) ):
+            ?>
+                <option value="<?php echo $productCategory['productCategorySlug']; ?>"><?php echo $productCategoryNames[$language]; ?></option>
+            <?php elseif ( array_key_exists($DEFAULT_LANGUAGE, $productCategoryNames) ): ?>
+                <option value="<?php echo $productCategory['productCategorySlug']; ?>"><?php echo $productCategoryNames[$DEFAULT_LANGUAGE]; ?></option>
+            <?php endif; ?>
+            <?php endforeach; ?>
+            </select>
+        </p> <!-- .row-fluid -->
+        <p class="row-fluid">
+            <label for="product-logo-url"><?php echo $localization['dashboard.products.product-logo-url']; ?></label>
+            <input id="product-logo-url" name="product-logo-url" class="span12" type="text" maxlength="256">
+        </p> <!-- .row-fluid -->
+        <p class="row-fluid">
+            <label for="latest-version"><?php echo $localization['dashboard.products.latest-version']; ?></label>
+            <input id="latest-version" name="latest-version" class="span12" type="text" maxlength="24">
+        </p> <!-- .row-fluid -->
+        <p class="row-fluid">
+            <label for="product-url"><?php echo $localization['dashboard.products.product-url']; ?></label>
+            <input id="product-url" name="product-url" class="span12" type="text" maxlength="256">
+        </p> <!-- .row-fluid -->
+        <p>
+            <label for="product-prerequisite">
+                <?php echo $localization['dashboard.products.product-prerequisite']; ?>
+                <a href="javascript:void(0);" id="new-product-prerequisite-language" class="pull-right"><i class="fa fa-plus-circle"></i></a>
+            </label>
+            <ul id="product-prerequisites">
                 <div class="row-fluid">
-                    <label for="product-category"><?php echo $localization['dashboard.products.product-category']; ?></label>
-                    <select id="product-category" name="product-category" class="span12">
-                    <?php foreach ( $productCategories as $productCategory ): ?>
-                    <?php 
-                        $DEFAULT_LANGUAGE     = 'en';
-                        $productCategoryNames = $productCategory['productCategoryName'];
-                        
-                        if ( array_key_exists($language, $productCategoryNames) ):
-                    ?>
-                        <option value="<?php echo $productCategory['productCategorySlug']; ?>"><?php echo $productCategoryNames[$language]; ?></option>
-                    <?php elseif ( array_key_exists($DEFAULT_LANGUAGE, $productCategoryNames) ): ?>
-                        <option value="<?php echo $productCategory['productCategorySlug']; ?>"><?php echo $productCategoryNames[$DEFAULT_LANGUAGE]; ?></option>
-                    <?php endif; ?>
-                    <?php endforeach; ?>
-                    </select>
+                    <div class="span4">
+                        <select class="product-prerequisite-language">
+                        <?php foreach ( $this->languages as $key => $value ): ?>
+                            <option value="<?php echo $key; ?>" <?php echo ($language == $key ? 'selected' : ''); ?>><?php echo $value; ?></option>
+                        <?php endforeach; ?>
+                        </select>
+                    </div> <!-- .span4 -->
+                    <div class="span8">
+                        <div class="control-group">
+                            <input id="product-prerequisite" class="product-prerequisite span12" type="text" maxlength="256">
+                        </div> <!-- .control-group -->
+                    </div> <!-- .span8 -->
                 </div> <!-- .row-fluid -->
-                <div class="row-fluid">
-                    <label for="product-logo-url"><?php echo $localization['dashboard.products.product-logo-url']; ?></label>
-                    <input id="product-logo-url" name="product-logo-url" class="span12" type="text" maxlength="256">
-                </div> <!-- .row-fluid -->
-                <div class="row-fluid">
-                    <label for="latest-version"><?php echo $localization['dashboard.products.latest-version']; ?></label>
-                    <input id="latest-version" name="latest-version" class="span12" type="text" maxlength="24">
-                </div> <!-- .row-fluid -->
-                <div class="row-fluid">
-                    <label for="product-url"><?php echo $localization['dashboard.products.product-url']; ?></label>
-                    <input id="product-url" name="product-url" class="span12" type="text" maxlength="256">
-                </div> <!-- .row-fluid -->
-                <div class="row-fluid">
-                    <label for="product-prerequisites"><?php echo $localization['dashboard.products.product-prerequisites']; ?></label>
-                    <input id="product-prerequisites" name="product-prerequisites" class="span12" type="text" maxlength="256">
-                </div> <!-- .row-fluid -->
-                <div class="row-fluid">
-                    <label for="wmd-input"><?php echo $localization['dashboard.products.product-description']; ?></label>    
-                    <div id="markdown-editor">
-                        <div class="wmd-panel">
-                            <div id="wmd-button-bar"></div> <!-- #wmd-button-bar -->
-                            <textarea id="wmd-input" class="wmd-input" placeholder="<?php echo $localization['dashboard.products.introduce-product']; ?>"></textarea>
-                        </div> <!-- .wmd-panel -->
-                        <div id="wmd-preview" class="wmd-panel wmd-preview"></div> <!-- .wmd-preview -->
-                    </div> <!-- #markdown-editor -->
-                </div> <!-- .row-fluid -->
-            </div> <!-- .tab-pane -->
-            <div class="tab-pane" id="zh">
-            </div> <!-- .tab-pane -->
-        </div>
+            </ul>
+        </p>
+        <p>
+            <label for="wmd-input">
+                <?php echo $localization['dashboard.products.product-description']; ?>
+                <a href="javascript:void(0);" id="new-product-description-language" class="pull-right"><i class="fa fa-plus-circle"></i></a>
+            </label>
+            <div id="product-descriptions">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#product-description-<?php echo $language; ?>-tab" data-toggle="tab"><?php echo $this->languages[$language]; ?></a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="product-description-<?php echo $language; ?>-tab">
+                        <div class="row-fluid">
+                            <textarea id="product-description-<?php echo $language; ?>" class="hide"></textarea>
+                            <div id="markdown-editor">
+                                <div class="wmd-panel">
+                                    <div id="wmd-button-bar"></div> <!-- #wmd-button-bar -->
+                                    <textarea id="wmd-input" class="wmd-input" placeholder="<?php echo $localization['dashboard.products.introduce-product']; ?>"></textarea>
+                                </div> <!-- .wmd-panel -->
+                                <div id="wmd-preview" class="wmd-panel wmd-preview"></div> <!-- .wmd-preview -->
+                            </div> <!-- #markdown-editor -->
+                        </div> <!-- .row-fluid -->
+                    </div> <!-- .tab-pane -->
+                </div> <!-- .tab-content -->
+            </div> <!-- #product-descriptions -->
+        </p>
     </div> <!-- .modal-body -->
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo $localization['dashboard.products.close']; ?></button>
@@ -259,5 +301,117 @@
         $('#product-modal').modal({
             'backdrop': 'static'
         });
+    }
+</script>
+<script type="text/javascript">
+    $('#new-product-name-language').click(function() {
+        $('#product-names').append(getMultiLanguageInputControlGroup('product-name', 64));
+    });
+</script>
+<script type="text/javascript">
+    $('#new-product-prerequisite-language').click(function() {
+        $('#product-prerequisites').append(getMultiLanguageInputControlGroup('product-prerequisite', 256));
+    });
+</script>
+<script type="text/javascript">
+    $('#product-modal').delegate('.trash', 'click', function() {
+        $(this).parent().remove();
+    });
+</script>
+<script type="text/javascript">
+    function getMultiLanguageInputControlGroup(controlName, maxLength, language, value) {
+        var productNameControlGroup = '<div class="row-fluid">' +
+                                      '    <div class="span4">' +
+                                      '        <select class="%s-language">' +
+                                      <?php foreach ( $this->languages as $key => $value ): ?>
+                                      '            <option value="<?php echo $key; ?>" %s><?php echo $value; ?></option>' +
+                                      <?php endforeach; ?>
+                                      '        </select>' +
+                                      '    </div> <!-- .span4 -->' +
+                                      '    <div class="span7">' +
+                                      '        <div class="control-group">' +
+                                      '            <input class="%s span12" type="text" maxlength="%s" value="%s">' +
+                                      '        </div> <!-- .control-group -->' +
+                                      '    </div> <!-- .span7 -->' +
+                                      '    <div class="span1 trash">' +
+                                      '        <a href="javascript:void(0);"><i class="fa fa-trash"></i></a>' + 
+                                      '    </div> <!-- .span1 -->' +
+                                      '</div> <!-- .row-fluid -->';
+        return productNameControlGroup.format(
+            controlName, 
+        <?php foreach ( $this->languages as $key => $value ): ?>
+            language == '<?php echo $key; ?>',
+        <?php endforeach; ?>
+            controlName, maxLength, typeof(value) == 'undefined' ? '' : value
+        );
+    }
+</script>
+<script type="text/javascript">
+    $('.nav-tabs', '#product-modal').delegate('li', 'click', function(e) {
+        var currentActiveTabNav         = $('li.active', '#product-modal'),
+            currentActiveTabName        = $('a', currentActiveTabNav).attr('href').substr(1),
+            currentActiveTextareaName   = currentActiveTabName.substr(0, currentActiveTabName.length - 4),
+            currentActiveTextarea       = $('#' + currentActiveTextareaName),
+            currentClickTabNav          = $(this),
+            currentClickTabName        = $('a', currentClickTabNav).attr('href').substr(1),
+            currentClickTextareaName   = currentClickTabName.substr(0, currentClickTabName.length - 4),
+            currentClickTextarea       = $('#' + currentClickTextareaName);
+
+        $(currentActiveTextarea).val($('#wmd-input').val());
+        $('#wmd-input').val($(currentClickTextarea).val());
+        $('#wmd-preview').html(converter.makeHtml($('#wmd-input').val()));
+        $('#markdown-editor').appendTo($('.row-fluid', '#' + currentClickTabName));
+    });
+</script>
+<script type="text/javascript">
+    $('#new-product-description-language').click(function() {
+        var nextLanguage = getNextAvailableLanguage();
+
+        if ( typeof(nextLanguage) != 'undefined' ) {
+            $('.nav-tabs').append(getTabNavContent(nextLanguage));
+            $('.tab-content').append(getTabPaneContent(nextLanguage));
+        }
+    });
+</script>
+<script type="text/javascript">
+    function getNextAvailableLanguage() {
+        var allLanguages = {
+        <?php 
+        $index = 0;
+        foreach ( $this->languages as $key => $value ): ?>
+            '<?php echo $key; ?>': '<?php echo $value; ?>'<?php echo (++ $index != count($this->languages) ? ',' : '' ); ?>
+        <?php endforeach; ?>
+        };
+        var addedLanguages = [];
+        $('.tab-pane', '.tab-content').each(function() {
+            var tabPaneId    = $(this).attr('id'),
+                languageName = tabPaneId.substr(20, tabPaneId.length - 24); 
+            addedLanguages.push(languageName);
+        });
+
+        for ( var language in allLanguages ) {
+            if ( !~addedLanguages.indexOf(language) ) {
+                return {
+                    'languageSlug': language,
+                    'languageName': allLanguages[language]
+                };
+            }
+        }
+    }
+</script>
+<script type="text/javascript">
+    function getTabNavContent(nextLanguage) {
+        var tabNavContent = '<li><a href="#product-description-%s-tab" data-toggle="tab">%s</a></li>';
+        return tabNavContent.format(nextLanguage['languageSlug'], nextLanguage['languageName']);
+    }
+</script>
+<script type="text/javascript">
+    function getTabPaneContent(nextLanguage) {
+        var tabPaneContent = '<div class="tab-pane" id="product-description-%s-tab">' +
+                             '    <div class="row-fluid">' +
+                             '        <textarea id="product-description-%s" class="hide"></textarea>' +
+                             '    </div> <!-- .row-fluid -->' +
+                             '</div> <!-- .tab-pane -->';
+        return tabPaneContent.format(nextLanguage['languageSlug'], nextLanguage['languageSlug']);
     }
 </script>

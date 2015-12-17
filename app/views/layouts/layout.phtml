@@ -53,8 +53,9 @@
             <div class="span3">
                 <h5><?php echo $localization['layout.internationalization']; ?></h5>
                 <ul>
-                    <li><a href="javascript:setLanguage('en');">English</a></li>
-                    <li><a href="javascript:setLanguage('zh');">简体中文</a></li>
+                <?php foreach ( $this->languages as $key => $value ): ?>
+                    <li><a href="javascript:setLanguage('<?php echo $key; ?>');"><?php echo $value; ?></a></li>
+                <?php endforeach; ?>
                 </ul>
             </div> <!-- .span3 -->
             <div class="span3">
