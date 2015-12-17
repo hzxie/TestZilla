@@ -261,7 +261,7 @@
 <script type="text/javascript">
     $('#new-product-button').click(function() {
         $('h5', '#product-modal').html('<?php echo $localization['dashboard.products.new-product']; ?>');
-        $('input textarea', '#product-modal').val('');
+        $('input, textarea', '#product-modal').val('');
 
         $('#product-modal').modal({
             'backdrop': 'static'
