@@ -88,6 +88,7 @@ class ProductService extends Service {
             'productName'       => (array)json_decode($rowSet->getProductName()),
             'productCategory'   => array(
                 'productCategoryId'     => $rowSet->getProductCategory()->getProductCategoryId(),
+                'productCategorySlug'   => $rowSet->getProductCategory()->getProductCategorySlug(),
                 'productCategoryName'   => (array)json_decode($rowSet->getProductCategory()->getProductCategoryName()),
             ),
             'productLogo'       => $rowSet->getProductLogo(),
