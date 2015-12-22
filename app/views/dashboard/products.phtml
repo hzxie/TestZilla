@@ -43,6 +43,7 @@
     </div> <!-- .modal-header -->
     <div class="modal-body">
         <div class="alert alert-error hide"></div> <!-- .alert-error -->
+        <input id="product-id" name="product-id" type="hidden" />
         <p>
             <label for="product-name">
                 <?php echo $localization['dashboard.products.product-name']; ?>
@@ -143,6 +144,7 @@
         </p>
     </div> <!-- .modal-body -->
     <div class="modal-footer">
+        <input id="csrf-token" name="<?php echo $this->security->getTokenKey(); ?>" value="<?php echo $this->security->getToken(); ?>" type="hidden" />
         <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo $localization['dashboard.products.close']; ?></button>
         <button class="btn btn-primary"><?php echo $localization['dashboard.products.save-changes']; ?></button>
     </div> <!-- .modal-footer -->
@@ -261,12 +263,13 @@
 <script type="text/javascript">
     $('#new-product-button').click(function() {
         $('h5', '#product-modal').html('<?php echo $localization['dashboard.products.new-product']; ?>');
-        $('input, textarea', '#product-modal').val('');
+        $('input#product-id, input[type=text], textarea', '#product-modal').val('');
         $('.row-fluid', 'ul#product-names').slice(1).remove();
         $('.row-fluid', 'ul#product-prerequisites').slice(1).remove();
         $('.nav-tabs li', '#product-modal').not('.active').remove();
         $('.tab-pane', '#product-modal').not('.active').remove();
         $('#wmd-preview').html('');
+        $('.alert-error').addClass('hide');
 
         $('#product-modal').modal({
             'backdrop': 'static'
@@ -370,6 +373,7 @@
 <script type="text/javascript">
     function processProductResult(result) {
         $('h5', '#product-modal').html('<?php echo $localization['dashboard.products.edit-product']; ?>');
+        $('#product-id', '#product-modal').val(result['product']['productId']);
         $('#product-logo-url', '#product-modal').val(result['product']['productLogo']);
         $('#product-category', '#product-modal').val(result['product']['productCategory']['productCategorySlug']);
         $('#latest-version', '#product-modal').val(result['product']['latestVersion']);
@@ -492,5 +496,130 @@
         return tabPaneContent.format(
             language['languageSlug'], language['languageSlug'], 
             typeof(value) == 'undefined' ? '' : value);
+    }
+</script>
+<script type="text/javascript">
+    $('.btn-primary', '#product-modal').click(function() {
+        var productId       = $('#product-id').val(),
+            productName     = getProductName(),
+            productCategory = $('#product-category').val(),
+            productLogoUrl  = $('#product-logo-url').val(),
+            latestVersion   = $('#latest-version').val(), 
+            productUrl      = $('#product-url').val(),
+            prerequisites   = getPrerequisites(),
+            description     = getDescription(),
+            csrfKey         = $('#csrf-token').attr('name'),
+            csrfValue       = $('#csrf-token').val();
+
+        $('.alert-error').addClass('hide');
+        $('.btn-primary', '#product-modal').attr('disabled', 'disabled');
+        $('.btn-primary', '#product-modal').html('<?php echo $localization['dashboard.products.saving']; ?>');
+        if ( productId == '' ) {
+            return createProduct(productName, productCategory, productLogoUrl, latestVersion, productUrl, prerequisites, description, csrfKey, csrfValue);
+        } else {
+            return editProduct(productId, productName, productCategory, productLogoUrl, latestVersion, productUrl, prerequisites, description, csrfKey, csrfValue);
+        }
+    });
+</script>
+<script type="text/javascript">
+    function getProductName() {
+        var productNames = {};
+
+        $('.row-fluid', '#product-names').each(function() {
+            var language    = $('.product-name-language', $(this)).val(),
+                productName = $('.product-name', $(this)).val();
+
+            productNames[language] = productName;
+        });
+        return productNames;
+    }
+</script>
+<script type="text/javascript">
+    function getPrerequisites() {
+        var prerequisites = {};
+
+        $('.row-fluid', '#product-prerequisites').each(function() {
+            var language        = $('.product-prerequisite-language', $(this)).val(),
+                prerequisite    = $('.product-prerequisite', $(this)).val();
+
+            prerequisites[language] = prerequisite;
+        });
+        return prerequisites;
+    }
+</script>
+<script type="text/javascript">
+    function getDescription() {
+        $('textarea.hide', '.tab-pane.active').val($('#wmd-input').val());
+
+        var descriptions = {};
+
+        $('.tab-pane', '#product-descriptions').each(function() {
+            var tabName     = $(this).attr('id'),
+                language    = tabName.substr(20, tabName.length - 24),
+                description = $('#product-description-' + language).val();
+
+            descriptions[language] = description;
+        });
+        return descriptions;
+    }
+</script>
+<script type="text/javascript">
+    function createProduct(productName, productCategory, productLogoUrl, latestVersion, productUrl, prerequisites, description, csrfKey, csrfValue) {
+        var postData = {
+            'productId': productId,
+            'productName': JSON.stringify(productName),
+            'productCategory': productCategory,
+            'productLogoUrl': productLogoUrl,
+            'latestVersion': latestVersion,
+            'productUrl': productUrl,
+            'prerequisites': JSON.stringify(prerequisites),
+            'description': JSON.stringify(description)
+        };
+        postData[csrfKey] = csrfValue;
+
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo $this->url->get('/dashboard/createProduct.action'); ?>',
+            data: postData,
+            dataType: 'JSON',
+            success: function(result) {
+                return processCreateProductResult(result);
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    function editProduct(productId, productName, productCategory, productLogoUrl, latestVersion, productUrl, prerequisites, description, csrfKey, csrfValue) {
+        var postData = {
+            'productId': productId,
+            'productName': JSON.stringify(productName),
+            'productCategory': productCategory,
+            'productLogoUrl': productLogoUrl,
+            'latestVersion': latestVersion,
+            'productUrl': productUrl,
+            'prerequisites': JSON.stringify(prerequisites),
+            'description': JSON.stringify(description)
+        };
+        postData[csrfKey] = csrfValue;
+
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo $this->url->get('/dashboard/editProduct.action'); ?>',
+            data: postData,
+            dataType: 'JSON',
+            success: function(result) {
+                return processEditProductResult(result);
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    function processCreateProductResult(result) {
+        
+    }
+</script>
+<script type="text/javascript">
+    function processEditProductResult(result) {
+        
     }
 </script>

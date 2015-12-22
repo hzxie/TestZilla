@@ -49,11 +49,11 @@
             rememberMe = $('input#remember-me').is(':checked');
         
         $('#password').val(password);
-        return dosigninAction(username, password, rememberMe);
+        return doSigninAction(username, password, rememberMe);
     };
 </script>
 <script type="text/javascript">
-    function dosigninAction(username, password, rememberMe) {
+    function doSigninAction(username, password, rememberMe) {
         var postData = {
             'username': username,
             'password': password,
@@ -66,13 +66,13 @@
             data: postData,
             dataType: 'JSON',
             success: function(result){
-                return processsigninResult(result);
+                return processSigninResult(result);
             }
         });
     }
 </script>
 <script type="text/javascript">
-    function processsigninResult(result) {
+    function processSigninResult(result) {
         if ( result['isSuccessful'] ) {
             var forwardUrl       = '<?php echo $this->url->get("{$forwardUrl}"); ?>' || '<?php echo $this->url->get('/'); ?>';
             window.location.href = forwardUrl;

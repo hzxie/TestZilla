@@ -159,6 +159,7 @@ $messages = array(
     'dashboard.products.close'                          => 'Close',
     'dashboard.products.save-changes'                   => 'Save Changes',
     'dashboard.products.issues-reported'                => 'issue(s) reported',
+    'dashboard.products.saving'                         => 'Saving...',
     'dashboard.products.product-not-found'              => 'Product not found!',
     # dashboard/receivedIssues.phtml + submittedIssues.phtml
     'dashboard.issues.quick-search'                     => 'Quick Search',

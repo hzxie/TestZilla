@@ -160,6 +160,7 @@ $messages = array(
     'dashboard.products.close'                          => '关闭',
     'dashboard.products.save-changes'                   => '保存更改',
     'dashboard.products.product-not-found'              => '未找到相关产品!',
+    'dashboard.products.saving'                         => '正在保存...',
     # dashboard/receivedIssues.phtml + submittedIssues.phtml
     'dashboard.issues.quick-search'                     => '快速搜索',
     'dashboard.issues.filter'                           => '筛选',
