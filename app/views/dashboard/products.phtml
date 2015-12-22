@@ -615,11 +615,23 @@
 </script>
 <script type="text/javascript">
     function processCreateProductResult(result) {
-        
+        if ( result['isSuccessful'] ) {
+            
+        } else {
+            
+        }
+        $('.btn-primary', '#product-modal').removeAttr('disabled');
+        $('.btn-primary', '#product-modal').html('<?php echo $localization['dashboard.products.save-changes']; ?>');
     }
 </script>
 <script type="text/javascript">
     function processEditProductResult(result) {
-        
+        if ( result['isSuccessful'] ) {
+
+        } else {
+
+        }
+        $('.btn-primary', '#product-modal').removeAttr('disabled');
+        $('.btn-primary', '#product-modal').html('<?php echo $localization['dashboard.products.save-changes']; ?>');
     }
 </script>

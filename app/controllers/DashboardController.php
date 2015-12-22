@@ -135,13 +135,80 @@ class DashboardController extends BaseController {
         $productService     = ServiceFactory::getService('ProductService');
         $product            = $productService->getProductUsingId($productId);
 
-        if ( $product['developer']['uid'] != $uid ) {
+        if ( $product != NULL && $product['developer']['uid'] != $uid ) {
             $product        = NULL;
         }
         $result             = array(
             'isSuccessful'  => $product != NULL,
             'product'       => $product,
         );
+        $response = new Response();
+        $response->setHeader('Content-Type', 'application/json');
+        $response->setContent(json_encode($result));
+        return $response;
+    }
+
+    /**
+     * Create a new product.
+     * @return a HttpResponse contains JSON data infers whether the product is created
+     */
+    public function createProductAction() {
+        $productName            = $this->request->getPost('productName');
+        $productCategorySlug    = $this->request->getPost('productCategory');
+        $productLogoUrl         = $this->request->getPost('productLogoUrl');
+        $latestVersion          = $this->request->getPost('latestVersion');
+        $productUrl             = $this->request->getPost('productUrl');
+        $prerequisites          = $this->request->getPost('prerequisites');
+        $description            = $this->request->getPost('description');
+        $isTokenValid           = $this->security->checkToken();
+        $user                   = $this->getCurrentUser($this->session);
+
+        $productService         = ServiceFactory::getService('ProductService');
+        $result                 = $productService->createProduct($productName, $productCategorySlug, 
+                                    $user, $productLogoUrl, $latestVersion, $productUrl, 
+                                    $prerequisites, $description, $isTokenValid);
+        if ( $isTokenValid ) {
+            $result['csrfTokenKey'] = $this->security->getTokenKey();
+            $result['csrfToken']    = $this->security->getToken();
+        }
+        if ( $result['isSuccessful'] ) {
+            $ipAddress   = $this->request->getClientAddress();
+            $this->logger->log(sprintf('User: [%s] created a product[%s] at %s.', $user, $productName, $ipAddress), Logger::INFO);
+        }
+        $response = new Response();
+        $response->setHeader('Content-Type', 'application/json');
+        $response->setContent(json_encode($result));
+        return $response;
+    }
+
+    /**
+     * Edit an existing product.
+     * @return a HttpResponse contains JSON data infers whether the product is edited
+     */
+    public function editProductAction() {
+        $productId              = $this->request->getPost('productId');
+        $productName            = $this->request->getPost('productName');
+        $productCategorySlug    = $this->request->getPost('productCategory');
+        $productLogoUrl         = $this->request->getPost('productLogoUrl');
+        $latestVersion          = $this->request->getPost('latestVersion');
+        $productUrl             = $this->request->getPost('productUrl');
+        $prerequisites          = $this->request->getPost('prerequisites');
+        $description            = $this->request->getPost('description');
+        $isTokenValid           = $this->security->checkToken();
+        $user                   = $this->getCurrentUser($this->session);
+
+        $productService         = ServiceFactory::getService('ProductService');
+        $result                 = $productService->editProduct($productId, $productName, 
+                                    $productCategorySlug, $user, $productLogoUrl, $latestVersion, 
+                                    $productUrl, $prerequisites, $description, $isTokenValid);
+        if ( $isTokenValid ) {
+            $result['csrfTokenKey'] = $this->security->getTokenKey();
+            $result['csrfToken']    = $this->security->getToken();
+        }
+        if ( $result['isSuccessful'] ) {
+            $ipAddress   = $this->request->getClientAddress();
+            $this->logger->log(sprintf('User: [%s] edited a product[%d] at %s.', $user, $productId, $ipAddress), Logger::INFO);
+        }
         $response = new Response();
         $response->setHeader('Content-Type', 'application/json');
         $response->setContent(json_encode($result));

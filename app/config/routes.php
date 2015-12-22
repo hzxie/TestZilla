@@ -108,6 +108,14 @@ $router->add('/dashboard/getProduct.action', array(
     'controller' => 'dashboard',
     'action'     => 'getProduct',
 ));
+$router->add('/dashboard/createProduct.action', array(
+    'controller' => 'dashboard',
+    'action'     => 'createProduct',
+));
+$router->add('/dashboard/editProduct.action', array(
+    'controller' => 'dashboard',
+    'action'     => 'editProduct',
+));
 $router->add('/dashboard/issues', array(
     'controller' => 'dashboard',
     'action'     => 'receivedIssues',

@@ -275,4 +275,47 @@ class ProductService extends Service {
             'bind'              => $parameters,
         );
     }
+
+    /**
+     * The handler of creating product.
+     * @param  String  $productName         - the name of product in JSON format
+     * @param  String  $productCategorySlug - the unique slug of the product category
+     * @param  User    $developer           - the user object of the developer of the product
+     * @param  String  $productLogoUrl      - the URL of the logo of the product
+     * @param  String  $latestVersion       - the latest version of the product
+     * @param  String  $productUrl          - the homepage of the product
+     * @param  String  $prerequisites       - the prerequisites of testing in JSON format
+     * @param  String  $description         - the description of the product in JSON format
+     * @param  boolean $isTokenValid        - whether the CSRF token is valid
+     * @return an array infers whether the creation is successful
+     */
+    public function createProduct($productName, $productCategorySlug, $developer, $productLogoUrl, 
+            $latestVersion, $productUrl, $prerequisites, $description, $isTokenValid) {
+        $result = array(
+            'isSuccessful'      => false,
+        );
+        return $result;
+    }
+
+    /**
+     * The handler of editing product.
+     * @param  int    $productId           - the unique ID of the product
+     * @param  String  $productName         - the name of product in JSON format
+     * @param  String  $productCategorySlug - the unique slug of the product category
+     * @param  User    $developer           - the user object of the developer of the product
+     * @param  String  $productLogoUrl      - the URL of the logo of the product
+     * @param  String  $latestVersion       - the latest version of the product
+     * @param  String  $productUrl          - the homepage of the product
+     * @param  String  $prerequisites       - the prerequisites of testing in JSON format
+     * @param  String  $description         - the description of the product in JSON format
+     * @param  boolean $isTokenValid        - whether the CSRF token is valid
+     * @return an array infers whether the edit is successful
+     */
+    public function editProduct($productId, $productName, $productCategorySlug, $developer, $productLogoUrl, 
+            $latestVersion, $productUrl, $prerequisites, $description, $isTokenValid) {
+        $result = array(
+            'isSuccessful'      => false,
+        );
+        return $result;
+    }
 }
