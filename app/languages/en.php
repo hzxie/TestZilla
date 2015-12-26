@@ -83,6 +83,10 @@ $messages = array(
     'accounts.user.issue-status'                        => 'Issue Status',
     'accounts.user.more-issues'                         => 'More Issues...',
     'accounts.user.no-issues'                           => 'No Issues submitted by the user.',
+    # accounts/verify-email.phtml
+    'accounts.verify-email.title'                       => 'Email Verification',
+    'accounts.verify-email.email-verified'              => 'Your email has been verified.',
+    'accounts.verify-email.invalid-token'               => 'The token seems invalid.',
     # accounts/reset-password.phtml
     'accounts.reset-password.title'                     => 'Reset Password',
     'accounts.reset-password.reset-password'            => 'Reset Password',

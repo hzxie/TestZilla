@@ -1,0 +1,9 @@
+div#content div#verify-email {
+	margin: 0 auto 60px;
+	width: 960px;
+}
+
+div#content div#verify-email div.alert {
+	margin-top: 20px;
+	font-size: 13px;
+}

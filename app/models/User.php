@@ -119,6 +119,22 @@ class User extends Model {
     }
 
     /**
+     * The getter of the field is_email_verified.
+     * @return whether the email of the user is verified
+     */
+    public function isEmailVerified() {
+        return $this->is_email_verified;
+    }
+
+    /**
+     * The setter of the field is_email_verified.
+     * @param boolean $isEmailVerified - whether the email of the user is verified
+     */
+    public function setEmailVerified($isEmailVerified) {
+        $this->is_email_verified = $isEmailVerified;
+    }
+
+    /**
      * Get the description of the User object.
      * @return the description of the User object
      */
@@ -158,7 +174,7 @@ class User extends Model {
     protected $user_group_id;
 
     /**
-     * The full name of the user.
+     * Whether the email of the user is verified.
      * @var String
      */
     protected $is_email_verified;

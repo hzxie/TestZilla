@@ -1,0 +1,12 @@
+<?php echo Phalcon\Tag::stylesheetLink("{$cdnUrl}/css/accounts/verify-email.css?ver={$appVerion}"); ?>
+<div id="verify-email">
+<?php if ( $isSuccessful ): ?>
+    <div class="alert alert-success">
+        <?php echo $localization['accounts.verify-email.email-verified']; ?>
+    </div> <!-- .alert-success -->
+<?php else: ?>
+    <div class="alert alert-error">
+        <?php echo $localization['accounts.verify-email.invalid-token']; ?>
+    </div> <!-- .alert-error -->
+<?php endif; ?>
+</div> <!-- #verify-email -->

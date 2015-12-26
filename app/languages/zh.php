@@ -83,6 +83,10 @@ $messages = array(
     'accounts.user.issue-status'                        => '问题状态',
     'accounts.user.more-issues'                         => '加载更多问题...',
     'accounts.user.no-issues'                           => '暂无该用户提交的问题.',
+    # accounts/verify-email.phtml
+    'accounts.verify-email.title'                       => '验证电子邮件地址验证',
+    'accounts.verify-email.email-verified'              => '您的电子邮件地址已验证.',
+    'accounts.verify-email.invalid-token'               => 'Token似乎是无效的.',
     # accounts/reset-password.phtml
     'accounts.reset-password.title'                     => '重置密码',
     'accounts.reset-password.reset-password'            => '重置密码',

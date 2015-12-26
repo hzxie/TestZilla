@@ -193,10 +193,37 @@ class UserService extends Service {
                 $result['isSuccessful']      = false;
             } else {
                 $this->updateUserMeta($user, 'registerTime', date('Y-m-d H:i:s'));
-                $this->sendVerificationEmail('Welcome to TestZilla', 'HelloMessage', $username, $email);
+                $this->sendVerificationEmail('Please Confirm Your Email Address', 'HelloMessage', $username, $email);
             }
         }
         return $result;
+    }
+
+    /**
+     * Verify email address for users.
+     * @param  String $email - the email 
+     * @param  String $token - the token used to verify email
+     * @return whether the email is verified
+     */
+    public function verifyEmail($email, $token) {
+        $isEmailTokenValid  = false;
+        $emailVerification  = EmailVerification::findFirst(array(
+            'conditions'    => 'email = ?1',
+            'bind'          => array(
+                1           => $email,
+            ),
+        ));
+        if ( $emailVerification != NULL && 
+             $emailVerification->getToken() == $token &&
+             strtotime($emailVerification->getExpireTime()) >= strtotime('now') ) {
+            $emailVerification->delete();
+            $user = $this->getUserUsingEmail($email);
+            $user->setEmailVerified(true);
+            $user->update();
+
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -254,6 +281,9 @@ class UserService extends Service {
                                    $result['isWebsiteLegal'] && $result['isAboutMeLegal'];
 
         if ( $result['isSuccessful'] ) {
+            if ( $user->getEmail() != $email ) {
+                $user->setEmailVerified(false);
+            }
             $user->setEmail($email);
             $user->update();
 
@@ -475,18 +505,7 @@ class UserService extends Service {
     public function resetPassword($email, $token, $newPassword, $confirmPassword, $isTokenValid) {
         $isEmailTokenValid      = false;
         if ( $isTokenValid ) {
-            $emailVerification  = EmailVerification::findFirst(array(
-                'conditions'    => 'email = ?1 AND token = ?2 AND expire_time >= ?3',
-                'bind'          => array(
-                    1           => $email,
-                    2           => $token,
-                    3           => date('Y-m-d H:i:s', strtotime('now')),
-                ),
-            ));
-
-            if ( $emailVerification != NULL ) {
-                $isEmailTokenValid = true;
-            }
+            $isEmailTokenValid  = $this->isEmailTokenValid($email, $token); 
         }
 
         $result                 = array(
