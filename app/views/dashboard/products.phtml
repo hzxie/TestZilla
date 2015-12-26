@@ -512,6 +512,7 @@
             csrfValue       = $('#csrf-token').val();
 
         $('.alert-error').addClass('hide');
+        $('input, select, textarea').attr('disabled', 'disabled');
         $('.btn-primary', '#product-modal').attr('disabled', 'disabled');
         $('.btn-primary', '#product-modal').html('<?php echo $localization['dashboard.products.saving']; ?>');
         if ( productId == '' ) {
@@ -566,7 +567,6 @@
 <script type="text/javascript">
     function createProduct(productName, productCategory, productLogoUrl, latestVersion, productUrl, prerequisites, description, csrfKey, csrfValue) {
         var postData = {
-            'productId': productId,
             'productName': JSON.stringify(productName),
             'productCategory': productCategory,
             'productLogoUrl': productLogoUrl,
@@ -616,10 +616,14 @@
 <script type="text/javascript">
     function processCreateProductResult(result) {
         if ( result['isSuccessful'] ) {
-            
+            getProducts();
+            $('#product-modal').modal('hide');
         } else {
             
         }
+        $('#csrf-token').attr('name', result['csrfTokenKey']);
+        $('#csrf-token').val(result['csrfToken']);
+        $('input, select, textarea').removeAttr('disabled');
         $('.btn-primary', '#product-modal').removeAttr('disabled');
         $('.btn-primary', '#product-modal').html('<?php echo $localization['dashboard.products.save-changes']; ?>');
     }
@@ -627,10 +631,15 @@
 <script type="text/javascript">
     function processEditProductResult(result) {
         if ( result['isSuccessful'] ) {
-
+            var currentPage = $('li.active > a', '#pagination').html();
+            getProducts(currentPage);
+            $('#product-modal').modal('hide');
         } else {
 
         }
+        $('#csrf-token').attr('name', result['csrfTokenKey']);
+        $('#csrf-token').val(result['csrfToken']);
+        $('input, select, textarea').removeAttr('disabled');
         $('.btn-primary', '#product-modal').removeAttr('disabled');
         $('.btn-primary', '#product-modal').html('<?php echo $localization['dashboard.products.save-changes']; ?>');
     }

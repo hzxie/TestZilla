@@ -161,7 +161,7 @@ class DashboardController extends BaseController {
         $prerequisites          = $this->request->getPost('prerequisites');
         $description            = $this->request->getPost('description');
         $isTokenValid           = $this->security->checkToken();
-        $user                   = $this->getCurrentUser($this->session);
+        $user                   = $this->getCurrentUserObject($this->session);
 
         $productService         = ServiceFactory::getService('ProductService');
         $result                 = $productService->createProduct($productName, $productCategorySlug, 
