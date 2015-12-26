@@ -146,6 +146,30 @@ class AccountsController extends BaseController {
         return $response;
     }
 
+    public function verifyEmailAction() {
+        $email              = $this->request->get('email');
+        $token              = $this->request->get('token');
+        $newPassword        = $this->request->get('newPassword');
+        $confirmPassword    = $this->request->get('confirmPassword');
+        $isTokenValid       = $this->security->checkToken();
+        $userService        = ServiceFactory::getService('UserService');
+        $result             = $userService->resetPassword($email, $token, $newPassword, $confirmPassword, $isTokenValid);
+
+        if ( $isTokenValid ) {
+            $result['csrfTokenKey'] = $this->security->getTokenKey();
+            $result['csrfToken']    = $this->security->getToken();
+        }
+        if ( $result['isSuccessful'] ) {
+            $user       = $userService->getUserUsingUsernameOrEmail($email);
+            $ipAddress  = $this->request->getClientAddress();
+            $this->logger->log(sprintf('User: [%s] reset password at %s.', $user, $ipAddress), Logger::INFO);
+        }
+        $response = new Response();
+        $response->setHeader('Content-Type', 'application/json');
+        $response->setContent(json_encode($result));
+        return $response;
+    }
+
     /**
      * Render to user's profile page.
      * @param  long $uid - the unique ID of the user
