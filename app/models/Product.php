@@ -223,7 +223,7 @@ class Product extends Model {
      * @var long
      */
     protected $product_id;
-    
+
     /**
      * The name of the product (JSON format).
      * @var String

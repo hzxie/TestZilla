@@ -269,7 +269,7 @@
         $('.nav-tabs li', '#product-modal').not('.active').remove();
         $('.tab-pane', '#product-modal').not('.active').remove();
         $('#wmd-preview').html('');
-        $('.alert-error').addClass('hide');
+        $('.alert-error', '#product-modal').addClass('hide');
 
         $('#product-modal').modal({
             'backdrop': 'static'
@@ -511,7 +511,7 @@
             csrfKey         = $('#csrf-token').attr('name'),
             csrfValue       = $('#csrf-token').val();
 
-        $('.alert-error').addClass('hide');
+        $('.alert-error', '#product-modal').addClass('hide');
         $('input, select, textarea').attr('disabled', 'disabled');
         $('.btn-primary', '#product-modal').attr('disabled', 'disabled');
         $('.btn-primary', '#product-modal').html('<?php echo $localization['dashboard.products.saving']; ?>');
@@ -619,7 +619,10 @@
             getProducts();
             $('#product-modal').modal('hide');
         } else {
+            var errorMessage = getErrorMessage(result);
             
+            $('.alert-error', '#product-modal').html(errorMessage);
+            $('.alert-error', '#product-modal').removeClass('hide');
         }
         $('#csrf-token').attr('name', result['csrfTokenKey']);
         $('#csrf-token').val(result['csrfToken']);
@@ -635,12 +638,64 @@
             getProducts(currentPage);
             $('#product-modal').modal('hide');
         } else {
+            var errorMessage = getErrorMessage(result);
 
+            $('.alert-error', '#product-modal').html(errorMessage);
+            $('.alert-error', '#product-modal').removeClass('hide');
         }
         $('#csrf-token').attr('name', result['csrfTokenKey']);
         $('#csrf-token').val(result['csrfToken']);
         $('input, select, textarea').removeAttr('disabled');
         $('.btn-primary', '#product-modal').removeAttr('disabled');
         $('.btn-primary', '#product-modal').html('<?php echo $localization['dashboard.products.save-changes']; ?>');
+    }
+</script>
+<script type="text/javascript">
+    function getErrorMessage(result) {
+        var errorMessage  = '';
+
+        if ( !result['isTokenValid'] ) {
+            errorMessage += '<?php echo $localization['dashboard.products.invalid-token']; ?><br>';
+        }
+        if ( result.hasOwnProperty('isProductExists') && !result['isProductExists'] ) {
+            errorMessage += '<?php echo $localization['dashboard.products.product-not-exists']; ?><br>';
+        }
+        if ( result.hasOwnProperty('isDeveloperLegal') && !result['isDeveloperLegal'] ) {
+            errorMessage += '<?php echo $localization['dashboard.products.invalid-developer']; ?><br>';
+        }
+        if ( result['isProductNameEmpty'] ) {
+            errorMessage += '<?php echo $localization['dashboard.products.product-name-empty']; ?><br>';
+        } else if ( !result['isProductNameLegal'] ) {
+            errorMessage += '<?php echo $localization['dashboard.products.product-name-illegal']; ?><br>';
+        }
+        if ( !result['isProductCategoryLegal'] ) {
+            errorMessage += '<?php echo $localization['dashboard.products.product-category-illegal']; ?><br>';
+        }
+        if ( result['isProductLogoEmpty'] ) {
+            errorMessage += '<?php echo $localization['dashboard.products.product-logo-empty']; ?><br>';
+        } else if ( !result['isProductLogoLegal'] ) {
+            errorMessage += '<?php echo $localization['dashboard.products.product-logo-illegal']; ?><br>';
+        }
+        if ( result['isLatestVersionEmpty'] ) {
+            errorMessage += '<?php echo $localization['dashboard.products.product-version-empty']; ?><br>';
+        } else if ( !result['isLatestVersionLegal'] ) {
+            errorMessage += '<?php echo $localization['dashboard.products.product-version-illegal']; ?><br>';
+        }
+        if ( result['isProductUrlEmpty'] ) {
+            errorMessage += '<?php echo $localization['dashboard.products.product-url-empty']; ?><br>';
+        } else if ( !result['isProductUrlLegal'] ) {
+            errorMessage += '<?php echo $localization['dashboard.products.product-url-illegal']; ?><br>';
+        }
+        if ( result['isPrerequisitesEmpty'] ) {
+            errorMessage += '<?php echo $localization['dashboard.products.product-prerequisites-empty']; ?><br>';
+        } else if ( !result['isPrerequisitesLegal'] ) {
+            errorMessage += '<?php echo $localization['dashboard.products.product-prerequisites-illegal']; ?><br>';
+        }
+        if ( result['isDescriptionEmpty'] ) {
+            errorMessage += '<?php echo $localization['dashboard.products.product-description-empty']; ?><br>';
+        } else if ( !result['isDescriptionLegal'] ) {
+            errorMessage += '<?php echo $localization['dashboard.products.product-description-illegal']; ?><br>';
+        }
+        return errorMessage;
     }
 </script>

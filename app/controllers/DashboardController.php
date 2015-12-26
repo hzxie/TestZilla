@@ -153,13 +153,13 @@ class DashboardController extends BaseController {
      * @return a HttpResponse contains JSON data infers whether the product is created
      */
     public function createProductAction() {
-        $productName            = $this->request->getPost('productName');
+        $productName            = $this->getFilteredContent(strip_tags($this->request->getPost('productName')));
         $productCategorySlug    = $this->request->getPost('productCategory');
         $productLogoUrl         = $this->request->getPost('productLogoUrl');
-        $latestVersion          = $this->request->getPost('latestVersion');
+        $latestVersion          = $this->getFilteredContent(strip_tags($this->request->getPost('latestVersion')));
         $productUrl             = $this->request->getPost('productUrl');
-        $prerequisites          = $this->request->getPost('prerequisites');
-        $description            = $this->request->getPost('description');
+        $prerequisites          = $this->getFilteredContent(strip_tags($this->request->getPost('prerequisites')));
+        $description            = $this->getFilteredContent(strip_tags($this->request->getPost('description')));
         $isTokenValid           = $this->security->checkToken();
         $user                   = $this->getCurrentUserObject($this->session);
 
@@ -187,13 +187,13 @@ class DashboardController extends BaseController {
      */
     public function editProductAction() {
         $productId              = $this->request->getPost('productId');
-        $productName            = $this->request->getPost('productName');
+        $productName            = $this->getFilteredContent(strip_tags($this->request->getPost('productName')));
         $productCategorySlug    = $this->request->getPost('productCategory');
         $productLogoUrl         = $this->request->getPost('productLogoUrl');
-        $latestVersion          = $this->request->getPost('latestVersion');
+        $latestVersion          = $this->getFilteredContent(strip_tags($this->request->getPost('latestVersion')));
         $productUrl             = $this->request->getPost('productUrl');
-        $prerequisites          = $this->request->getPost('prerequisites');
-        $description            = $this->request->getPost('description');
+        $prerequisites          = $this->getFilteredContent(strip_tags($this->request->getPost('prerequisites')));
+        $description            = $this->getFilteredContent(strip_tags($this->request->getPost('description')));
         $isTokenValid           = $this->security->checkToken();
         $user                   = $this->getCurrentUser($this->session);
 

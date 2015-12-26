@@ -171,13 +171,13 @@ class BaseController extends Controller {
     }
 
     /**
-     * Get content without sensitive words.
+     * Get content without offensive words.
      * @param  String $content - the content need to be filtered
-     * @return the content without sensitive words
+     * @return the content without offensive words
      */
     protected function getFilteredContent($content) {
-        $sensitiveWordPlugin = new SensitiveWordPlugin();
-        return $sensitiveWordPlugin->getFilteredContent($content);
+        $offensiveWordPlugin = new OffensiveWordPlugin();
+        return $offensiveWordPlugin->getFilteredContent($content);
     }
 
     /**
