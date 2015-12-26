@@ -188,10 +188,12 @@ class UserService extends Service {
             $user->setPassword(md5($password));
             $user->setEmail($email);
             $user->setUserGroup($defaultUserGroup);
-            $this->updateUserMeta($user, 'registerTime', date('Y-m-d H:i:s'));
             
             if ( !$user->create() ) {
                 $result['isSuccessful']      = false;
+            } else {
+                $this->updateUserMeta($user, 'registerTime', date('Y-m-d H:i:s'));
+                $this->sendVerificationEmail('Welcome to TestZilla', 'HelloMessage', $username, $email);
             }
         }
         return $result;
@@ -227,6 +229,16 @@ class UserService extends Service {
         return $result;
     }
 
+    /**
+     * Update profile of user.
+     * @param  User   $user        - the user who wants to update profile
+     * @param  String $email       - the email of the user
+     * @param  String $location    - the location of the user
+     * @param  String $website     - the website of the user
+     * @param  String $socialLinks - the social links of the user (in JSON format)
+     * @param  String $aboutMe     - the introcution of the user
+     * @return an array contains information of updateing profile
+     */
     public function updateProfile($user, $email, $location, $website, $socialLinks, $aboutMe) {
         $result = array(
             'isSuccessful'      => false,
@@ -356,9 +368,9 @@ class UserService extends Service {
     }
 
     /**
-     * [isWebsiteLegal description]
-     * @param  [type]  $website [description]
-     * @return boolean          [description]
+     * Check if the URL of website is legal.
+     * @param  String  $website - the URL of the website
+     * @return whether the URL of the website is legal
      */
     private function isWebsiteLegal($website) {
         return strlen($website) <= 64 &&
@@ -401,7 +413,7 @@ class UserService extends Service {
             if ( $user != NULL && 
                  $user->getUsername() == $username) {
                 $isUserExists   = true;
-                $this->sendVerificationEmail($username, $email);
+                $this->sendVerificationEmail('Reset Your Password', 'ResetPassword', $username, $email);
             }
         }
 
@@ -417,11 +429,13 @@ class UserService extends Service {
 
     /**
      * Send the verification email to the user.
-     * @param  String $username - the username of the user
-     * @param  String $email    - the email of the user
+     * @param  String $subject      - the subject of the email
+     * @param  String $templateName - the template name of the email
+     * @param  String $username     - the username of the user
+     * @param  String $email        - the email of the user
      * @return whether the mail is successfully sent
      */
-    private function sendVerificationEmail($username, $email) {
+    private function sendVerificationEmail($subject, $templateName, $username, $email) {
         $token              = uniqid();
         $tomorrowDateTime   = date('Y-m-d H:i:s', strtotime('+1 day'));
 
@@ -441,8 +455,6 @@ class UserService extends Service {
         $emailVerification->setExpireTime($tomorrowDateTime);
         $emailVerification->create();
 
-        $subject            = 'Reset Your Password';
-        $templateName       = 'resetPassword';
         $parameters         = array(
             'username'      => $username,
             'email'         => $email,
@@ -499,4 +511,10 @@ class UserService extends Service {
         }
         return $result;
     }
+
+    /**
+     * The logger of AccountsController.
+     * @var Phalcon\Logger\Adapter\File
+     */
+    private $logger;
 }
