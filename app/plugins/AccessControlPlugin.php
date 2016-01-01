@@ -102,7 +102,7 @@ class AccessControlPlugin extends Plugin {
 
             // Resources for administrators only
             $administrationResources    = array(
-                'administration'        => array('index', 'profile', 'products', 'issues'),
+                'administration'        => array('index', 'users', 'user', 'products', 'product', 'issues', 'issue'),
             );
             foreach ( $administrationResources as $resource => $actions ) {
                 $acl->addResource(new Resource($resource), $actions);

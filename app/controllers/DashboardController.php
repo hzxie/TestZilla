@@ -25,8 +25,15 @@ class DashboardController extends BaseController {
      * Render to dashboard page.
      */
     public function indexAction() {
+        $uid            = $this->session->get('uid');
+        $currentUser    = $this->getCurrentUserObject($this->session);
+        $redirectUrl    = '/dashboard/issues';
+
+        if ( $currentUser->getUserGroup()->getUserGroupSlug() == 'administrator' ) {
+            $redirectUrl = '/administration';
+        }
         $response = new Response();
-        $response->redirect('/dashboard/issues');
+        $response->redirect($redirectUrl);
         return $response;
     }
 

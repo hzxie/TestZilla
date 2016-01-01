@@ -179,4 +179,10 @@ $router->add('/issue/{issueId}/createIssueReply.action', array(
     'action'     => 'createIssueReply',
 ));
 
+/* Routers for AdministrationController */
+$router->add('/administration', array(
+    'controller' => 'administration',
+    'action'     => 'index',
+));
+
 $router->handle();
