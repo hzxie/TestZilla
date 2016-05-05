@@ -24,7 +24,6 @@ class AdministrationController extends BaseController {
     }
 
     public function indexAction() {
-        var_dump('Hello');
         $this->tag->prependTitle($this->localization['administration.index.title']);
     }
 

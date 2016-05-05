@@ -181,7 +181,7 @@ class AccountsController extends BaseController {
         $productCount   = $productService->getNumberOfProductsUsingDeveloper($uid);
 
         $this->tag->prependTitle($user['username']);
-        $this->view->setVar('user', $user);
+        $this->view->setVar('anotherUser', $user);
         $this->view->setVar('issueCount', $issueCount);
         $this->view->setVar('productCount', $productCount);
         $this->view->setVars($userMeta);
