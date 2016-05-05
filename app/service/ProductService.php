@@ -463,7 +463,7 @@ class ProductService extends Service {
      */
     private function isProductLogoLegal($productLogo) {
         return strlen($productLogo) <= 128 && 
-               preg_match('/^(http|https):\/\/[A-Za-z0-9-]+\.[A-Za-z0-9\.-\/]+\/[A-Za-z0-9-_]+\.(jpg|png|gif|svg)$/', $productLogo);
+               preg_match('/^(http|https):\/\/[A-Za-z0-9-]+\.[A-Za-z0-9\.\-\/\_]+\.(jpg|png|gif|svg)$/', $productLogo);
     }
 
     /**
