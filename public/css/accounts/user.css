@@ -95,6 +95,11 @@ div#content div#main-content div.section {
 	margin-bottom: 20px;
 }
 
+div#content div#main-content div.section p {
+	overflow: hidden;
+	word-wrap: break-word;
+}
+
 div#content div#main-content table#issues {
 	border: 1px solid #e8e8e8;
 	margin-bottom: 0;
