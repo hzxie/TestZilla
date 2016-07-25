@@ -83,7 +83,9 @@
             <div id="copyright" class="span6">
                 <p><?php echo $localization['layout.copyright']; ?>&copy; <?php echo date('Y'); ?> <?php echo $copyright; ?>. <?php echo $localization['layout.all-rights-reserved']; ?>.</p>
                 <p>
+                <?php if ( isset($icpNumber) && !empty($icpNumber) ): ?>
                     <span id="icp-number"><?php echo $icpNumber; ?>.</span>
+                <?php endif; ?>
                 <?php if ( isset($policeIcpNumber) && !empty($policeIcpNumber) ): ?>
                     <span id="police-icp-number">
                         <img src="http://www.beian.gov.cn/img/ghs.png" alt="Police Logo">

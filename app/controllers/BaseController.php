@@ -35,6 +35,8 @@ class BaseController extends Controller {
         $this->view->setVar('contactAddress', $this->getContactAddress());
         $this->view->setVar('contactPhone', $this->getContactPhone());
         $this->view->setVar('contactEmail', $this->getContactEmail());
+        $this->view->setVar('icpNumber', $this->getIcpNumber());
+        $this->view->setVar('policeIcpNumber', $this->getPoliceIcpNumber());
 
         // Load Profile for users
         $isLoggedIn = $this->isLoggedIn($this->session);
@@ -120,6 +122,22 @@ class BaseController extends Controller {
      */
     private function getContactEmail() {
         return $this->getOptionValue('ContactEmail');
+    }
+
+    /**
+     * Get the ICP number of the website.
+     * @return the ICP number of the website
+     */
+    private function getIcpNumber() {
+        return $this->getOptionValue('icpNumber');
+    }
+
+    /**
+     * Get the Police ICP number of the website.
+     * @return the Police ICP number of the website
+     */
+    private function getPoliceIcpNumber() {
+        return $this->getOptionValue('PoliceIcpNumber');
     }
 
     /**
