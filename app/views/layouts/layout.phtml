@@ -81,7 +81,16 @@
         </div> <!-- .row-fluid -->
         <div id="footer-bottom" class="row-fluid">
             <div id="copyright" class="span6">
-                <?php echo $localization['layout.copyright']; ?>&copy; <?php echo date('Y'); ?> <?php echo $copyright; ?>. <?php echo $localization['layout.all-rights-reserved']; ?>.
+                <p><?php echo $localization['layout.copyright']; ?>&copy; <?php echo date('Y'); ?> <?php echo $copyright; ?>. <?php echo $localization['layout.all-rights-reserved']; ?>.</p>
+                <p>
+                    <span id="icp-number"><?php echo $icpNumber; ?>.</span>
+                <?php if ( isset($policeIcpNumber) && !empty($policeIcpNumber) ): ?>
+                    <span id="police-icp-number">
+                        <img src="http://www.beian.gov.cn/img/ghs.png" alt="Police Logo">
+                        <?php echo $policeIcpNumber; ?>.
+                    </span>
+                <?php endif; ?>
+                </p>
             </div> <!-- .span6 -->
             <div class="span6 text-right">
                 <a href="https://www.upyun.com" target="_blank">

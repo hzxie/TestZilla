@@ -134,7 +134,7 @@ div#footer div#footer-bottom {
 }
 
 div#footer div#copyright {
-	padding: 15px 0;
+	padding: 5px 0;
 }
 
 /* Style for Markdown Editor */
@@ -290,5 +290,10 @@ div.markdown code {
 @media only screen and (max-width: 479px) {
 	div.container {
 		width: 300px;
+	}
+
+	div#footer span#icp-number,
+	div#footer span#police-icp-number {
+		display: block;
 	}
 }

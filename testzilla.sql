@@ -181,7 +181,9 @@ INSERT INTO `tz_options` (`option_id`, `option_key`, `option_value`, `is_autoloa
 (6, 'ContactPhone', '', 1),
 (7, 'ContactEmail', 'support@testzilla.org', 1),
 (8, 'SocialLinks', '{}', 1),
-(9, 'SensitiveWords', '["法轮","中央","六四","军区","共产党","国民党"]', 0);
+(9, 'SensitiveWords', '["法轮","中央","六四","军区","共产党","国民党"]', 0),
+(10, 'icpNumber', '', 1),
+(11, 'policeIcpNumber', '', 1);
 
 -- --------------------------------------------------------
 
