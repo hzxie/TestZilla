@@ -129,7 +129,7 @@ class BaseController extends Controller {
      * @return the ICP number of the website
      */
     private function getIcpNumber() {
-        return $this->getOptionValue('icpNumber');
+        return $this->getOptionValue('IcpNumber');
     }
 
     /**
