@@ -137,6 +137,11 @@ div#footer div#copyright {
 	padding: 5px 0;
 }
 
+div#footer div#copyright span#police-icp-number img {
+	height: 14px;
+	width: 14px;
+}
+
 /* Style for Markdown Editor */
 div#wmd-button-bar {
 	background-color: transparent;
