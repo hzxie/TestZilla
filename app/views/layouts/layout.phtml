@@ -88,7 +88,7 @@
                 <?php endif; ?>
                 <?php if ( isset($policeIcpNumber) && !empty($policeIcpNumber) ): ?>
                     <span id="police-icp-number">
-                        <img src="http://www.beian.gov.cn/img/ghs.png" alt="Police Logo">
+                        <img src="<?php echo $cdnUrl; ?>/img/police-badge-of-china.png" alt="Police Logo" />
                         <?php echo $policeIcpNumber; ?>.
                     </span>
                 <?php endif; ?>
