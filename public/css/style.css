@@ -140,6 +140,7 @@ div#footer div#copyright {
 div#footer div#copyright span#police-icp-number img {
 	height: 14px;
 	width: 14px;
+	margin-top: -3px;
 }
 
 /* Style for Markdown Editor */
