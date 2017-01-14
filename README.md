@@ -1,11 +1,11 @@
-![TestZilla](https://raw.githubusercontent.com/zjhzxhz/TestZilla/master/public/img/logo.png)
+![TestZilla](https://raw.githubusercontent.com/hzxie/TestZilla/master/public/img/logo.png)
 
 Version: 2.0.0
 
-[![Build Status](https://travis-ci.org/zjhzxhz/TestZilla.png?branch=master)](https://travis-ci.org/zjhzxhz/TestZilla)
+[![Build Status](https://travis-ci.org/hzxie/TestZilla.png?branch=master)](https://travis-ci.org/hzxie/TestZilla)
 
-[**Official Website**](http://www.testzilla.org) | 
-[**Tech Support**](http://www.zjhzxhz.com) |
+[**Official Website**](https://testzilla.org) | 
+[**Tech Support**](https://haozhexie.com) |
 [**Change Log**](#)
 
 ---
