@@ -1,15 +1,21 @@
 <?php
-
+/**
+ * @Author: Haozhe Xie
+ * @Date:   2020-01-16 11:07:07
+ * @Last Modified by:   Haozhe Xie
+ * @Last Modified time: 2020-01-16 11:11:17
+ */
 error_reporting(E_ALL);
 
-use Phalcon\Mvc\Application;
 use Phalcon\Config\Adapter\Ini as ConfigIni;
+use Phalcon\Http\Request;
+use Phalcon\Mvc\Application;
 
 /**
  * Application BootStrap.
  *
  * @package TestZilla
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
 try {
     /**
@@ -38,10 +44,10 @@ try {
      */
     require APP_PATH . 'app/config/services.php';
 
+    $request = new Request();
     $application = new Application($di);
-
-    echo $application->handle()->getContent();
-
+    $response = $application->handle($request->getURI());
+    $response->send();
 } catch (Exception $e){
-    echo $e->getMessage();
+    echo $e->getTraceAsString();
 }

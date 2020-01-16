@@ -1,12 +1,17 @@
 <?php
-
+/**
+ * @Author: Haozhe Xie
+ * @Date:   2020-01-16 12:53:19
+ * @Last Modified by:   Haozhe Xie
+ * @Last Modified time: 2020-01-16 12:53:51
+ */
 use Phalcon\Mvc\Model;
 
 /**
  * The users in the application.
  *
  * @package TestZilla\model\Model\User
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class User extends Model {
     /**
@@ -15,15 +20,8 @@ class User extends Model {
      * the N-1 relationship in this function.
      */
     public function initialize() {
+        $this->setSource(self::TABLE_NAME);
         $this->belongsTo('user_group_id', 'UserGroup', 'user_group_id');
-    }
-
-    /**
-     * Override the name of table in database.
-     * @return the name of table in database
-     */
-    public function getSource() {
-        return self::TABLE_NAME;
     }
     
     /**

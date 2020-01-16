@@ -9,7 +9,7 @@ use Phalcon\Mvc\View;
  * The controller used for handling profile and product management.
  * 
  * @package TestZilla\controller\DashboardController
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class DashboardController extends BaseController {
     /**

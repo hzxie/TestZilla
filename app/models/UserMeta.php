@@ -1,4 +1,10 @@
 <?php
+/**
+ * @Author: Haozhe Xie
+ * @Date:   2020-01-16 12:54:02
+ * @Last Modified by:   Haozhe Xie
+ * @Last Modified time: 2020-01-16 12:54:29
+ */
 
 use Phalcon\Mvc\Model;
 
@@ -6,7 +12,7 @@ use Phalcon\Mvc\Model;
  * The meta of users in the application.
  *
  * @package TestZilla\model\Model\UserMeta
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class UserMeta extends Model {
     /**
@@ -15,15 +21,8 @@ class UserMeta extends Model {
      * the N-1 relationship in this function.
      */
     public function initialize() {
+        $this->setSource(self::TABLE_NAME);
         $this->belongsTo('uid', 'User', 'uid');
-    }
-
-    /**
-     * Override the name of table in database.
-     * @return the name of table in database
-     */
-    public function getSource() {
-        return self::TABLE_NAME;
     }
 
     /**

@@ -1,7 +1,13 @@
 <?php
+/**
+ * @Author: Haozhe Xie
+ * @Date:   2020-01-16 11:19:51
+ * @Last Modified by:   Haozhe Xie
+ * @Last Modified time: 2020-01-16 11:20:22
+ */
 
+use Phalcon\Di\Injectable;
 use Phalcon\Events\Event;
-use Phalcon\Mvc\User\Plugin;
 use Phalcon\Mvc\Dispatcher;
 
 /**
@@ -9,9 +15,9 @@ use Phalcon\Mvc\Dispatcher;
  * HTTP header.
  * 
  * @package TestZilla\plugin\LanguageDectorPlugin
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
-class LanguageDectorPlugin extends Plugin {
+class LanguageDectorPlugin extends Injectable {
     /**
      * Recommend best language for user according to the Accept-Language 
      * in HTTP header.

@@ -1,4 +1,10 @@
 <?php
+/**
+ * @Author: Haozhe Xie
+ * @Date:   2020-01-16 12:54:11
+ * @Last Modified by:   Haozhe Xie
+ * @Last Modified time: 2020-01-16 12:54:38
+ */
 
 use Phalcon\Mvc\Model;
 
@@ -6,7 +12,7 @@ use Phalcon\Mvc\Model;
  * The categories of product in the application.
  *
  * @package TestZilla\model\Model\ProductCategory
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class ProductCategory extends Model {
     /**
@@ -15,15 +21,8 @@ class ProductCategory extends Model {
      * the 1-N relationship in this function.
      */
     public function initialize() {
+        $this->setSource(self::TABLE_NAME);
         $this->belongsTo('product_category_id', 'Product', 'product_category_id');
-    }
-
-    /**
-     * Override the name of table in database.
-     * @return the name of table in database
-     */
-    public function getSource() {
-        return self::TABLE_NAME;
     }
 
     /**

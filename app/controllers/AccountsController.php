@@ -9,7 +9,7 @@ use Phalcon\Mvc\View;
  * The controller used for handling account management.
  * 
  * @package TestZilla\controller\AccountsController
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class AccountsController extends BaseController {
     /**

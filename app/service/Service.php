@@ -1,12 +1,12 @@
 <?php
 
-use Phalcon\Mvc\User\Component;
+use Phalcon\Di\Injectable;
 
 /**
  * The base class of all Services.
  * 
  * @package TestZilla\Service\Service
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
-class Service extends Component { 
+class Service extends Injectable { 
 }

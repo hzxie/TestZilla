@@ -1,4 +1,10 @@
 <?php
+/**
+ * @Author: Haozhe Xie
+ * @Date:   2020-01-16 12:31:04
+ * @Last Modified by:   Haozhe Xie
+ * @Last Modified time: 2020-01-16 12:31:08
+ */
 
 use Phalcon\Mvc\Model;
 
@@ -6,15 +12,14 @@ use Phalcon\Mvc\Model;
  * The options of the application.
  *
  * @package TestZilla\model\Option
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class Option extends Model {
     /**
-     * Override the name of table in database.
-     * @return the name of table in database
+     * Initialize this model.
      */
-    public function getSource() {
-        return self::TABLE_NAME;
+    public function initialize() {
+        $this->setSource(self::TABLE_NAME);
     }
 
     /**

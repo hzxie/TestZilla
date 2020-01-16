@@ -1,4 +1,10 @@
 <?php
+/**
+ * @Author: Haozhe Xie
+ * @Date:   2020-01-16 12:52:29
+ * @Last Modified by:   Haozhe Xie
+ * @Last Modified time: 2020-01-16 12:52:34
+ */
 
 use Phalcon\Mvc\Model;
 
@@ -6,7 +12,7 @@ use Phalcon\Mvc\Model;
  * The issues in the application.
  *
  * @package TestZilla\model\Issue
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class Issue extends Model {
     /**
@@ -15,20 +21,13 @@ class Issue extends Model {
      * the N-1 relationship in this function.
      */
     public function initialize() {
+        $this->setSource(self::TABLE_NAME);
         $this->belongsTo('product_id', 'Product', 'product_id');
         $this->belongsTo('issue_category_id', 'IssueCategory', 'issue_category_id');
         $this->belongsTo('issue_status_id', 'IssueStatus', 'issue_status_id');
         $this->belongsTo('issue_hunter_id', 'User', 'uid');
         
         $this->hasMany('issue_id', 'IssueReply', 'issue_id');
-    }
-
-    /**
-     * Override the name of table in database.
-     * @return the name of table in database
-     */
-    public function getSource() {
-        return self::TABLE_NAME;
     }
 
     /**

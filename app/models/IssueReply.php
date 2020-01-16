@@ -1,4 +1,10 @@
 <?php
+/**
+ * @Author: Haozhe Xie
+ * @Date:   2020-01-16 12:52:51
+ * @Last Modified by:   Haozhe Xie
+ * @Last Modified time: 2020-01-16 12:52:57
+ */
 
 use Phalcon\Mvc\Model;
 
@@ -6,7 +12,7 @@ use Phalcon\Mvc\Model;
  * The reply of issues in the application.
  *
  * @package TestZilla\model\IssueReply
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class IssueReply extends Model {
     /**
@@ -15,16 +21,9 @@ class IssueReply extends Model {
      * the N-1 relationship in this function.
      */
     public function initialize() {
+        $this->setSource(self::TABLE_NAME);
         $this->belongsTo('issue_id', 'Issue', 'issue_id');
         $this->belongsTo('issue_reply_submiter_uid', 'User', 'uid');
-    }
-
-    /**
-     * Override the name of table in database.
-     * @return the name of table in database
-     */
-    public function getSource() {
-        return self::TABLE_NAME;
     }
 
     /**

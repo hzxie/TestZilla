@@ -7,7 +7,7 @@ use Phalcon\Logger\Adapter\File as FileAdapter;
  * The bussiness layer for products.
  *
  * @package TestZilla\Service\ProductService
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class ProductService extends Service {
     /**

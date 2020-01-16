@@ -9,7 +9,7 @@ use Phalcon\Mvc\View;
  * The controller used for handling system management.
  * 
  * @package TestZilla\controller\AdministrationController
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class AdministrationController extends BaseController {
     /**

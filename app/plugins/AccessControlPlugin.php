@@ -1,20 +1,25 @@
 <?php
+/**
+ * @Author: Haozhe Xie
+ * @Date:   2020-01-16 11:19:40
+ * @Last Modified by:   Haozhe Xie
+ * @Last Modified time: 2020-01-16 12:50:53
+ */
 
-use Phalcon\Acl;
-use Phalcon\Acl\Adapter\Memory as AclList;
+use Phalcon\Acl\Adapter\Memory as AclAdapter;
+use Phalcon\Acl\Enum as AclEnum;
 use Phalcon\Acl\Role;
-use Phalcon\Acl\Resource;
+use Phalcon\Di\Injectable;
 use Phalcon\Events\Event;
-use Phalcon\Mvc\User\Plugin;
 use Phalcon\Mvc\Dispatcher;
 
 /**
  * AccessControlPlugincontrols that users only have access to the modules they're assigned to.
  *
  * @package TestZilla\plugin\AccessControlPlugin
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
-class AccessControlPlugin extends Plugin {
+class AccessControlPlugin extends Injectable {
     /**
      * This action is executed before execute any action in the application
      *
@@ -37,7 +42,7 @@ class AccessControlPlugin extends Plugin {
         $acl             = $this->getAcl();
         $isAllowed       = $acl->isAllowed($userGroup, $controller, $action);
 
-        if ( $isAllowed != Acl::ALLOW ) {
+        if ( $isAllowed != AclEnum::ALLOW ) {
             $dispatcher->forward(array(
                 'controller' => 'errors',
                 'action'     => 'resourceNotFound',
@@ -67,8 +72,8 @@ class AccessControlPlugin extends Plugin {
      */
     private function getAcl() {
         if ( !isset($this->persistent->acl) ) {
-            $acl = new AclList();
-            $acl->setDefaultAction(Acl::DENY);
+            $acl = new AclAdapter();
+            $acl->setDefaultAction(AclEnum::DENY);
 
             //Register roles
             $roles = array(
@@ -80,54 +85,48 @@ class AccessControlPlugin extends Plugin {
                 $acl->addRole($role);
             }
 
-            // Resources for all users
-            $publicResources    = array(
+            // Components for all users
+            $publicComponents   = array(
                 'default'       => array('index', 'getCsrfToken', 'terms', 'privacy', 'changeLanguage'),
                 'errors'        => array('notSupportedError', 'resourceNotFound', 'internalServerError'),
                 'accounts'      => array('signIn', 'doSignIn', 'signUp', 'doSignUp', 'verifyEmail', 'signOut', 'user', 'getIssues', 'resetPassword', 'doForgotPassword', 'doResetPassword'),
                 'products'      => array('index', 'getProducts', 'product', 'getIssues', 'newIssue', 'issue', 'getIssueReplies'),
             );
-            foreach ( $publicResources as $resource => $actions ) {
-                $acl->addResource(new Resource($resource), $actions);
+            foreach ( $publicComponents as $comp => $actions ) {
+                $acl->addComponent($comp, $actions);
             }
 
-            // Resources for users logged in
-            $loggedInResources  = array(
+            // Components for users logged in
+            $loggedInComponents = array(
                 'products'      => array('createIssue', 'createIssueReply'),
                 'dashboard'     => array('index', 'profile', 'changePassword', 'updateProfile', 'products', 'getProducts', 'getProduct', 'createProduct', 'editProduct', 'receivedIssues', 'getReceivedIssues', 'submittedIssues', 'getSubmittedIssues'),
             );
-            foreach ( $loggedInResources as $resource => $actions ) {
-                $acl->addResource(new Resource($resource), $actions);
+            foreach ( $loggedInComponents as $comp => $actions ) {
+                $acl->addComponent($comp, $actions);
             }
 
-            // Resources for administrators only
-            $administrationResources    = array(
+            // Components for administrators only
+            $administrationComponents   = array(
                 'administration'        => array('index', 'users', 'user', 'products', 'product', 'issues', 'issue'),
             );
-            foreach ( $administrationResources as $resource => $actions ) {
-                $acl->addResource(new Resource($resource), $actions);
+            foreach ( $administrationComponents as $comp => $actions ) {
+                $acl->addComponent($comp, $actions);
             }
 
             // Grant access to public areas to both guests, users and administrators
             foreach ( $roles as $role ) {
-                foreach ( $publicResources as $resource => $actions ) {
-                    foreach ( $actions as $action ){
-                        $acl->allow($role->getName(), $resource, $action);
-                    }
+                foreach ( $publicComponents as $comp => $actions ) {
+                    $acl->allow($role->getName(), $comp, $actions);
                 }
             }
             // Grant acess to dashboard area to role users and administrators
-            foreach ( $loggedInResources as $resource => $actions) {
-                foreach ($actions as $action){
-                    $acl->allow('user', $resource, $action);
-                    $acl->allow('administrator', $resource, $action);
-                }
+            foreach ( $loggedInComponents as $comp => $actions) {
+                $acl->allow('user', $comp, $actions);
+                $acl->allow('administrator', $comp, $actions);
             }
             // Grant acess to administration area to role administrators
-            foreach ( $administrationResources as $resource => $actions) {
-                foreach ($actions as $action){
-                    $acl->allow('administrator', $resource, $action);
-                }
+            foreach ( $administrationComponents as $comp => $actions) {
+                $acl->allow('administrator', $comp, $actions);
             }
 
             // The acl is stored in session, APC would be useful here too

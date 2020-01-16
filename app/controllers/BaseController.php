@@ -8,7 +8,7 @@ use Phalcon\Mvc\View;
  * other controllers.
  *
  * @package TestZilla\controller\BaseController
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class BaseController extends Controller {
     /**

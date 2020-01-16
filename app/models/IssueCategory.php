@@ -1,4 +1,10 @@
 <?php
+/**
+ * @Author: Haozhe Xie
+ * @Date:   2020-01-16 12:52:21
+ * @Last Modified by:   Haozhe Xie
+ * @Last Modified time: 2020-01-16 12:52:26
+ */
 
 use Phalcon\Mvc\Model;
 
@@ -6,7 +12,7 @@ use Phalcon\Mvc\Model;
  * The category of issues in the application.
  *
  * @package TestZilla\model\IssueCategory
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class IssueCategory extends Model {
     /**
@@ -15,15 +21,8 @@ class IssueCategory extends Model {
      * the 1-N relationship in this function.
      */
     public function initialize() {
+        $this->setSource(self::TABLE_NAME);
         $this->hasMany('issue_category_id', 'Issue', 'issue_category_id');
-    }
-
-    /**
-     * Override the name of table in database.
-     * @return the name of table in database
-     */
-    public function getSource() {
-        return self::TABLE_NAME;
     }
 
     /**

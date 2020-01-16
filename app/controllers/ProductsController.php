@@ -9,7 +9,7 @@ use Phalcon\Mvc\View;
  * The controller used for handling products management.
  * 
  * @package TestZilla\controller\ProductController
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class ProductsController extends BaseController {
     /**

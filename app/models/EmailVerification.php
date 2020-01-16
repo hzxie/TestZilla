@@ -1,4 +1,10 @@
 <?php
+/**
+ * @Author: Haozhe Xie
+ * @Date:   2020-01-16 12:30:54
+ * @Last Modified by:   Haozhe Xie
+ * @Last Modified time: 2020-01-16 12:31:00
+ */
 
 use Phalcon\Mvc\Model;
 
@@ -6,15 +12,14 @@ use Phalcon\Mvc\Model;
  * The email validation records of the application.
  *
  * @package TestZilla\model\EmailVerification
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class EmailVerification extends Model {
-	/**
-     * Override the name of table in database.
-     * @return the name of table in database
+    /**
+     * Initialize this model.
      */
-    public function getSource() {
-        return self::TABLE_NAME;
+    public function initialize() {
+        $this->setSource(self::TABLE_NAME);
     }
 
     /**

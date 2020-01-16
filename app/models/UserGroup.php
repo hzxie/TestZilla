@@ -1,4 +1,10 @@
 <?php
+/**
+ * @Author: Haozhe Xie
+ * @Date:   2020-01-16 12:53:55
+ * @Last Modified by:   Haozhe Xie
+ * @Last Modified time: 2020-01-16 12:54:00
+ */
 
 use Phalcon\Mvc\Model;
 
@@ -7,7 +13,7 @@ use Phalcon\Mvc\Model;
  * Different user groups have different privileges.
  *
  * @package TestZilla\model\UserGroup
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class UserGroup extends Model {
     /**
@@ -16,15 +22,8 @@ class UserGroup extends Model {
      * the 1-N relationship in this function.
      */
     public function initialize() {
+        $this->setSource(self::TABLE_NAME);
         $this->hasMany('user_group_id', 'User', 'user_group_id');
-    }
-
-    /**
-     * Override the name of table in database.
-     * @return the name of table in database
-     */
-    public function getSource() {
-        return self::TABLE_NAME;
     }
 
     /**

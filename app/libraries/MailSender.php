@@ -2,16 +2,16 @@
 
 require_once __DIR__ . '/../../vendor/swiftmailer/swiftmailer/lib/swift_required.php';
 
-use Phalcon\Mvc\User\Component;
+use Phalcon\Di\Injectable;
 use Phalcon\Mvc\View;
 
 /**
  * Send e-mails based on pre-defined templates.
  *
  * @package TestZilla\library\MailSender
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
-class MailSender extends Component {
+class MailSender extends Injectable {
     /**
      * Send email to a recipient.
      * @param  String $recipient    - the recipient of the email

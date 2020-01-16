@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `tz_mail_verification` (
 --
 
 INSERT INTO `tz_mail_verification` (`email`, `token`, `expire_time`) VALUES
-('zjhzxhz@gmail.com', '55df165fd7adf', '2015-08-28 15:53:35'),
+('cshzxie@gmail.com', '55df165fd7adf', '2015-08-28 15:53:35'),
 ('zjhzxhz@qq.com', '3d6f91cd-2868-44ee-b907-df87146a512a', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
@@ -323,7 +323,7 @@ CREATE TABLE IF NOT EXISTS `tz_users` (
 
 INSERT INTO `tz_users` (`uid`, `username`, `password`, `user_group_id`, `email`, `is_email_verified`) VALUES
 (1000, 'Administrator', '785ee107c11dfe36de668b1ae7baacbb', 2, 'webmaster@testzilla.org', 1),
-(1001, 'zjhzxhz', '44171448dff153570f22e1323a1db9cf', 1, 'zjhzxhz@gmail.com', 1),
+(1001, 'zjhzxhz', '44171448dff153570f22e1323a1db9cf', 1, 'cshzxie@gmail.com', 1),
 (1002, 'TestZilla', '785ee107c11dfe36de668b1ae7baacbb', 1, 'support@testzilla.org', 1),
 (1003, 'tester', '785ee107c11dfe36de668b1ae7baacbb', 1, 'noreply@zjhzxhz.com', 0);
 

@@ -4,7 +4,7 @@
  * The bussiness layer for AccountsController.
  *
  * @package TestZilla\Service\ServiceFactory
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class ServiceFactory {
 	/**

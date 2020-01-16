@@ -1,16 +1,22 @@
 <?php
+/**
+ * @Author: Haozhe Xie
+ * @Date:   2020-01-16 11:19:59
+ * @Last Modified by:   Haozhe Xie
+ * @Last Modified time: 2020-01-16 11:20:14
+ */
 
+use Phalcon\Di\Injectable;
 use Phalcon\Events\Event;
-use Phalcon\Mvc\User\Plugin;
 use Phalcon\Mvc\Dispatcher;
 
 /**
  * Filter the offensive words.
  * 
  * @package TestZilla\plugin\OffensiveWordPlugin
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
-class OffensiveWordPlugin extends Plugin {
+class OffensiveWordPlugin extends Injectable {
     /**
      * Get content without offensive words.
      * @param  String $content - the content need to be filtered

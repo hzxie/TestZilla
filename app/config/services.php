@@ -1,4 +1,10 @@
 <?php
+/**
+ * @Author: Haozhe Xie
+ * @Date:   2020-01-16 11:49:16
+ * @Last Modified by:   Haozhe Xie
+ * @Last Modified time: 2020-01-16 12:50:00
+ */
 
 use Phalcon\Config\Adapter\Ini as ConfigIni;
 use Phalcon\DI\FactoryDefault;
@@ -6,18 +12,21 @@ use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Flash\Session as FlashSession;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
-use Phalcon\Mvc\Url as UrlProvider;
+use Phalcon\Url as UrlProvider;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaData;
 use Phalcon\Security;
-use Phalcon\Session\Adapter\Files as SessionAdapter;
-use Phalcon\Translate\Adapter\NativeArray as TranslateArray;
+use Phalcon\Session\Adapter\Stream as SessionAdapter;
+use Phalcon\Session\Bag as SessionBag;
+use Phalcon\Session\Manager as SessionManager;
+use Phalcon\Translate\InterpolatorFactory;
+use Phalcon\Translate\TranslateFactory;
 
 /**
  * The FactoryDefault Dependency Injector automatically register the right services 
  * providing a full stack framework.
  *
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
 $di = new FactoryDefault();
 
@@ -101,9 +110,17 @@ $di->set('modelsMetadata', function() {
  * Start the session the first time some component request the session service
  */
 $di->set('session', function() {
-    $session = new SessionAdapter();
-    $session->start();
+    $session = new SessionManager();
+    $files = new SessionAdapter([
+        'savePath' => '/tmp',
+    ]);
+    $session->setAdapter($files);
     return $session;
+});
+
+$di->set('sessionBag', function () {
+    $session_bag = new SessionBag('sessionBag');
+    return $session_bag;
 });
 
 /**
@@ -138,9 +155,14 @@ $di->set('localization', function() use ($di, $config) {
     } else {
         require "${languageDir}/en.php";
     }
-    return new TranslateArray(array(
-        "content" => $messages
-    ));
+    $interpolator = new InterpolatorFactory();
+    $factory      = new TranslateFactory($interpolator);
+    
+    return $factory->newInstance(
+        'array', [
+            'content' => $messages,
+        ]
+    );
 });
 $di->set('languages', function() {
     return array(

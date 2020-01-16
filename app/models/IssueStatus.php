@@ -1,4 +1,10 @@
 <?php
+/**
+ * @Author: Haozhe Xie
+ * @Date:   2020-01-16 12:53:00
+ * @Last Modified by:   Haozhe Xie
+ * @Last Modified time: 2020-01-16 12:53:14
+ */
 
 use Phalcon\Mvc\Model;
 
@@ -6,7 +12,7 @@ use Phalcon\Mvc\Model;
  * The status of issues in the application.
  *
  * @package TestZilla\model\IssueStatus
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class IssueStatus extends Model {
     /**
@@ -15,15 +21,8 @@ class IssueStatus extends Model {
      * the 1-N relationship in this function.
      */
     public function initialize() {
+        $this->setSource(self::TABLE_NAME);
         $this->hasMany('issue_status_id', 'Issue', 'issue_status_id');
-    }
-
-    /**
-     * Override the name of table in database.
-     * @return the name of table in database
-     */
-    public function getSource() {
-        return self::TABLE_NAME;
     }
 
     /**

@@ -1,11 +1,16 @@
 <?php
-
+/**
+ * @Author: Haozhe Xie
+ * @Date:   2020-01-16 11:11:27
+ * @Last Modified by:   Haozhe Xie
+ * @Last Modified time: 2020-01-16 11:13:15
+ */
 use Phalcon\Mvc\Router;
 
 /**
  * The global router of the application.
  *
- * @author Xie Haozhe <zjhzxhz@gmail.com>
+ * @author Haozhe Xie <cshzxie@gmail.com>
  */
 $router = new Router();
 
@@ -185,4 +190,4 @@ $router->add('/administration', array(
     'action'     => 'index',
 ));
 
-$router->handle();
+$router->handle($_SERVER["REQUEST_URI"]);
