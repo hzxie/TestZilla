@@ -44,12 +44,12 @@ class AccountsController extends BaseController {
 
         $userService = ServiceFactory::getService('UserService');
         $result      = $userService->isAccountValid($username, $password);
-        $this->logger->log(sprintf('User: [Username=%s] tried to sign in at %s.', $username, $ipAddress));
+        $this->logger->info(sprintf('User: [Username=%s] tried to sign in at %s.', $username, $ipAddress));
 
         if ( $result['isSuccessful'] ) {
             $user    = $userService->getUserUsingUsernameOrEmail($username);
             $this->getSession($this->session, $user);
-            $this->logger->log(sprintf('User: [%s] signed in at %s.', $user, $ipAddress));
+            $this->logger->info(sprintf('User: [%s] signed in at %s.', $user, $ipAddress));
         }
         $response    = new Response();
         $response->setHeader('Content-Type', 'application/json');
@@ -76,7 +76,7 @@ class AccountsController extends BaseController {
         $user        = $this->getCurrentUser($this->session);
 
         $this->destroySession($this->session);
-        $this->logger->log(sprintf('User: [%s] signed out at %s.', $user, $ipAddress));
+        $this->logger->info(sprintf('User: [%s] signed out at %s.', $user, $ipAddress));
         
         $response    = new Response();
         $response->redirect('/accounts/signin?logout=true');
@@ -133,7 +133,7 @@ class AccountsController extends BaseController {
             $user       = $userService->getUserUsingUsernameOrEmail($username);
             $ipAddress  = $this->request->getClientAddress();
             $this->getSession($this->session, $user);
-            $this->logger->log(sprintf('User: [%s] created at %s.', $user, $ipAddress));
+            $this->logger->info(sprintf('User: [%s] created at %s.', $user, $ipAddress));
         }
         $response = new Response();
         $response->setHeader('Content-Type', 'application/json');
@@ -272,7 +272,7 @@ class AccountsController extends BaseController {
         if ( $result['isSuccessful'] ) {
             $user       = $userService->getUserUsingUsernameOrEmail($email);
             $ipAddress  = $this->request->getClientAddress();
-            $this->logger->log(sprintf('User: [%s] reset password at %s.', $user, $ipAddress));
+            $this->logger->info(sprintf('User: [%s] reset password at %s.', $user, $ipAddress));
         }
         $response = new Response();
         $response->setHeader('Content-Type', 'application/json');

@@ -59,7 +59,7 @@ class DashboardController extends BaseController {
 
         if ( $result['isSuccessful'] ) {
             $ipAddress      = $this->request->getClientAddress();
-            $this->logger->log(sprintf('User: [%s] changed password at %s.', $currentUser, $ipAddress));
+            $this->logger->info(sprintf('User: [%s] changed password at %s.', $currentUser, $ipAddress));
         }
         $response = new Response();
         $response->setHeader('Content-Type', 'application/json');
@@ -175,7 +175,7 @@ class DashboardController extends BaseController {
         }
         if ( $result['isSuccessful'] ) {
             $ipAddress   = $this->request->getClientAddress();
-            $this->logger->log(sprintf('User: [%s] created a product[%s] at %s.', $user, $productName, $ipAddress));
+            $this->logger->info(sprintf('User: [%s] created a product[%s] at %s.', $user, $productName, $ipAddress));
         }
         $response = new Response();
         $response->setHeader('Content-Type', 'application/json');
@@ -209,7 +209,7 @@ class DashboardController extends BaseController {
         }
         if ( $result['isSuccessful'] ) {
             $ipAddress   = $this->request->getClientAddress();
-            $this->logger->log(sprintf('User: [%s] edited a product[%d] at %s.', $user, $productId, $ipAddress));
+            $this->logger->info(sprintf('User: [%s] edited a product[%d] at %s.', $user, $productId, $ipAddress));
         }
         $response = new Response();
         $response->setHeader('Content-Type', 'application/json');

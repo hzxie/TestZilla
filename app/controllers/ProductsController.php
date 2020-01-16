@@ -188,7 +188,7 @@ class ProductsController extends BaseController {
         if ( $isSuccessful ) {
             $issueReplyId   = $result['issueReplyId'];
             $ipAddress      = $this->request->getClientAddress();
-            $this->logger->log(sprintf('IssueReply #%d created by User[%s] at %s.', $issueReplyId, $submiter, $ipAddress));
+            $this->logger->info(sprintf('IssueReply #%d created by User[%s] at %s.', $issueReplyId, $submiter, $ipAddress));
         }
         $response       = new Response();
         $response->setHeader('Content-Type', 'application/json');
@@ -251,7 +251,7 @@ class ProductsController extends BaseController {
         if ( $isSuccessful ) {
             $issueId        = $result['issueId'];
             $ipAddress      = $this->request->getClientAddress();
-            $this->logger->log(sprintf('Issue #%d created by User[%s] at %s.', $issueId, $hunter, $ipAddress));
+            $this->logger->info(sprintf('Issue #%d created by User[%s] at %s.', $issueId, $hunter, $ipAddress));
         }
         $response = new Response();
         $response->setHeader('Content-Type', 'application/json');

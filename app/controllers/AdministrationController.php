@@ -20,10 +20,4 @@ class AdministrationController extends BaseController {
     public function indexAction() {
         $this->tag->prependTitle($this->localization['administration.index.title']);
     }
-
-    /**
-     * The logger of AdministrationController.
-     * @var Phalcon\Logger\Adapter\File
-     */
-    private $logger;
 }
