@@ -3,14 +3,13 @@
  * @Author: Haozhe Xie
  * @Date:   2020-01-16 11:11:27
  * @Last Modified by:   Haozhe Xie
- * @Last Modified time: 2020-01-16 11:13:15
+ * @Last Modified time: 2020-01-16 13:20:53
  */
+
 use Phalcon\Mvc\Router;
 
 /**
  * The global router of the application.
- *
- * @author Haozhe Xie <cshzxie@gmail.com>
  */
 $router = new Router();
 

@@ -3,7 +3,7 @@
  * @Author: Haozhe Xie
  * @Date:   2020-01-16 11:19:40
  * @Last Modified by:   Haozhe Xie
- * @Last Modified time: 2020-01-16 12:50:53
+ * @Last Modified time: 2020-01-16 13:07:01
  */
 
 use Phalcon\Acl\Adapter\Memory as AclAdapter;
@@ -17,7 +17,6 @@ use Phalcon\Mvc\Dispatcher;
  * AccessControlPlugincontrols that users only have access to the modules they're assigned to.
  *
  * @package TestZilla\plugin\AccessControlPlugin
- * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class AccessControlPlugin extends Injectable {
     /**

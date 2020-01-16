@@ -3,7 +3,7 @@
  * @Author: Haozhe Xie
  * @Date:   2020-01-16 11:07:07
  * @Last Modified by:   Haozhe Xie
- * @Last Modified time: 2020-01-16 11:11:17
+ * @Last Modified time: 2020-01-16 13:30:41
  */
 error_reporting(E_ALL);
 
@@ -15,7 +15,6 @@ use Phalcon\Mvc\Application;
  * Application BootStrap.
  *
  * @package TestZilla
- * @author Haozhe Xie <cshzxie@gmail.com>
  */
 try {
     /**
@@ -46,7 +45,8 @@ try {
 
     $request = new Request();
     $application = new Application($di);
-    $response = $application->handle($request->getURI());
+    $uri = substr($request->getUri(), strlen($config->application->baseUri));
+    $response = $application->handle($uri);
     $response->send();
 } catch (Exception $e){
     echo $e->getTraceAsString();

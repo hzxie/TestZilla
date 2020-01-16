@@ -8,7 +8,6 @@ use Phalcon\Mvc\View;
  * The default controller of the application.
  * 
  * @package TestZilla\controller\DefaultController
- * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class DefaultController extends BaseController {
     /**

@@ -1,15 +1,12 @@
 <?php
 
 use Phalcon\Http\Response;
-use Phalcon\Logger;
-use Phalcon\Logger\Adapter\File as FileAdapter;
 use Phalcon\Mvc\View;
 
 /**
  * The controller used for handling products management.
  * 
  * @package TestZilla\controller\ProductController
- * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class ProductsController extends BaseController {
     /**
@@ -17,8 +14,6 @@ class ProductsController extends BaseController {
      */
     public function initialize() {
         parent::__initialize();
-        $logDir         = $this->config->application->logDir;
-        $this->logger   = new FileAdapter(APP_PATH . "/{$logDir}/TestZilla.log");
     }
 
     /**
@@ -193,7 +188,7 @@ class ProductsController extends BaseController {
         if ( $isSuccessful ) {
             $issueReplyId   = $result['issueReplyId'];
             $ipAddress      = $this->request->getClientAddress();
-            $this->logger->log(sprintf('IssueReply #%d created by User[%s] at %s.', $issueReplyId, $submiter, $ipAddress), Logger::INFO);
+            $this->logger->log(sprintf('IssueReply #%d created by User[%s] at %s.', $issueReplyId, $submiter, $ipAddress));
         }
         $response       = new Response();
         $response->setHeader('Content-Type', 'application/json');
@@ -256,7 +251,7 @@ class ProductsController extends BaseController {
         if ( $isSuccessful ) {
             $issueId        = $result['issueId'];
             $ipAddress      = $this->request->getClientAddress();
-            $this->logger->log(sprintf('Issue #%d created by User[%s] at %s.', $issueId, $hunter, $ipAddress), Logger::INFO);
+            $this->logger->log(sprintf('Issue #%d created by User[%s] at %s.', $issueId, $hunter, $ipAddress));
         }
         $response = new Response();
         $response->setHeader('Content-Type', 'application/json');
@@ -278,10 +273,4 @@ class ProductsController extends BaseController {
      * Number of replies of issue to get in a request.
      */
     const NUMBER_OF_ISSUE_REPLIES_PER_REQUEST = 50;
-
-    /**
-     * The logger of AccountsController.
-     * @var Phalcon\Logger\Adapter\File
-     */
-    private $logger;
 }

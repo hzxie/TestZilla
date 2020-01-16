@@ -7,7 +7,6 @@ use Phalcon\Logger\Adapter\File as FileAdapter;
  * The bussiness layer for issues.
  *
  * @package TestZilla\Service\IssueService
- * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class IssueService extends Service {
     /**

@@ -1,11 +1,15 @@
 <?php
+/**
+ * @Author: Haozhe Xie
+ * @Date:   2020-01-16 13:07:07
+ * @Last Modified by:   Haozhe Xie
+ * @Last Modified time: 2020-01-16 13:07:11
+ */
 
 $loader = new \Phalcon\Loader();
 
 /**
  * We're a registering a set of directories taken from the configuration file
- *
- * @author Haozhe Xie <cshzxie@gmail.com>
  */
 $loader->registerDirs(
 	array(

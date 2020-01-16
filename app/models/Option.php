@@ -3,7 +3,7 @@
  * @Author: Haozhe Xie
  * @Date:   2020-01-16 12:31:04
  * @Last Modified by:   Haozhe Xie
- * @Last Modified time: 2020-01-16 12:31:08
+ * @Last Modified time: 2020-01-16 13:07:01
  */
 
 use Phalcon\Mvc\Model;
@@ -12,7 +12,6 @@ use Phalcon\Mvc\Model;
  * The options of the application.
  *
  * @package TestZilla\model\Option
- * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class Option extends Model {
     /**

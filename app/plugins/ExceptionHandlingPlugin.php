@@ -3,7 +3,7 @@
  * @Author: Haozhe Xie
  * @Date:   2020-01-16 11:19:27
  * @Last Modified by:   Haozhe Xie
- * @Last Modified time: 2020-01-16 11:45:03
+ * @Last Modified time: 2020-01-16 13:07:01
  */
 
 use Phalcon\Di\Injectable;
@@ -17,7 +17,6 @@ use Phalcon\Dispatcher\AbstractDispatcher as MvcDispatcher;
  * ExceptionPlugin handles all exceptions and display error pages for the application.
  *
  * @package TestZilla\plugin\ExceptionHandlingPlugin
- * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class ExceptionHandlingPlugin extends Injectable {
     /**

@@ -3,7 +3,7 @@
  * @Author: Haozhe Xie
  * @Date:   2020-01-16 11:49:16
  * @Last Modified by:   Haozhe Xie
- * @Last Modified time: 2020-01-16 12:50:00
+ * @Last Modified time: 2020-01-16 13:05:03
  */
 
 use Phalcon\Config\Adapter\Ini as ConfigIni;
@@ -25,8 +25,6 @@ use Phalcon\Translate\TranslateFactory;
 /**
  * The FactoryDefault Dependency Injector automatically register the right services 
  * providing a full stack framework.
- *
- * @author Haozhe Xie <cshzxie@gmail.com>
  */
 $di = new FactoryDefault();
 

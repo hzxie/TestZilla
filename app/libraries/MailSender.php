@@ -9,7 +9,6 @@ use Phalcon\Mvc\View;
  * Send e-mails based on pre-defined templates.
  *
  * @package TestZilla\library\MailSender
- * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class MailSender extends Injectable {
     /**

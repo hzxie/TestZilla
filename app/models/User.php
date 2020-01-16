@@ -3,7 +3,7 @@
  * @Author: Haozhe Xie
  * @Date:   2020-01-16 12:53:19
  * @Last Modified by:   Haozhe Xie
- * @Last Modified time: 2020-01-16 12:53:51
+ * @Last Modified time: 2020-01-16 13:07:01
  */
 use Phalcon\Mvc\Model;
 
@@ -11,7 +11,6 @@ use Phalcon\Mvc\Model;
  * The users in the application.
  *
  * @package TestZilla\model\Model\User
- * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class User extends Model {
     /**

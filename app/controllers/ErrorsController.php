@@ -6,7 +6,6 @@ use Phalcon\Mvc\View;
  * The error handling controller for the application.
  * 
  * @package TestZilla\controller\ErrorsController
- * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class ErrorsController extends BaseController {
     /**

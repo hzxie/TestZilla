@@ -3,7 +3,7 @@
  * @Author: Haozhe Xie
  * @Date:   2020-01-16 12:54:11
  * @Last Modified by:   Haozhe Xie
- * @Last Modified time: 2020-01-16 12:54:38
+ * @Last Modified time: 2020-01-16 13:07:01
  */
 
 use Phalcon\Mvc\Model;
@@ -12,7 +12,6 @@ use Phalcon\Mvc\Model;
  * The categories of product in the application.
  *
  * @package TestZilla\model\Model\ProductCategory
- * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class ProductCategory extends Model {
     /**

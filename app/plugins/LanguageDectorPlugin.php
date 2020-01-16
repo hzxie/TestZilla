@@ -3,7 +3,7 @@
  * @Author: Haozhe Xie
  * @Date:   2020-01-16 11:19:51
  * @Last Modified by:   Haozhe Xie
- * @Last Modified time: 2020-01-16 11:20:22
+ * @Last Modified time: 2020-01-16 13:07:01
  */
 
 use Phalcon\Di\Injectable;
@@ -15,7 +15,6 @@ use Phalcon\Mvc\Dispatcher;
  * HTTP header.
  * 
  * @package TestZilla\plugin\LanguageDectorPlugin
- * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class LanguageDectorPlugin extends Injectable {
     /**

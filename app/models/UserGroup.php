@@ -3,7 +3,7 @@
  * @Author: Haozhe Xie
  * @Date:   2020-01-16 12:53:55
  * @Last Modified by:   Haozhe Xie
- * @Last Modified time: 2020-01-16 12:54:00
+ * @Last Modified time: 2020-01-16 13:07:01
  */
 
 use Phalcon\Mvc\Model;
@@ -13,7 +13,6 @@ use Phalcon\Mvc\Model;
  * Different user groups have different privileges.
  *
  * @package TestZilla\model\UserGroup
- * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class UserGroup extends Model {
     /**

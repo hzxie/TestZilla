@@ -3,7 +3,7 @@
  * @Author: Haozhe Xie
  * @Date:   2020-01-16 12:52:29
  * @Last Modified by:   Haozhe Xie
- * @Last Modified time: 2020-01-16 12:52:34
+ * @Last Modified time: 2020-01-16 13:07:01
  */
 
 use Phalcon\Mvc\Model;
@@ -12,7 +12,6 @@ use Phalcon\Mvc\Model;
  * The issues in the application.
  *
  * @package TestZilla\model\Issue
- * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class Issue extends Model {
     /**

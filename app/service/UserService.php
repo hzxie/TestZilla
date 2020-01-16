@@ -7,7 +7,6 @@ use Phalcon\Logger\Adapter\File as FileAdapter;
  * The bussiness layer for accounts.
  *
  * @package TestZilla\Service\UserService
- * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class UserService extends Service {
     /**

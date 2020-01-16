@@ -3,7 +3,7 @@
  * @Author: Haozhe Xie
  * @Date:   2020-01-16 12:53:00
  * @Last Modified by:   Haozhe Xie
- * @Last Modified time: 2020-01-16 12:53:14
+ * @Last Modified time: 2020-01-16 13:07:01
  */
 
 use Phalcon\Mvc\Model;
@@ -12,7 +12,6 @@ use Phalcon\Mvc\Model;
  * The status of issues in the application.
  *
  * @package TestZilla\model\IssueStatus
- * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class IssueStatus extends Model {
     /**

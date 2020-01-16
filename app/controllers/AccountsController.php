@@ -1,15 +1,12 @@
 <?php
 
 use Phalcon\Http\Response;
-use Phalcon\Logger;
-use Phalcon\Logger\Adapter\File as FileAdapter;
 use Phalcon\Mvc\View;
 
 /**
  * The controller used for handling account management.
  * 
  * @package TestZilla\controller\AccountsController
- * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class AccountsController extends BaseController {
     /**
@@ -17,8 +14,6 @@ class AccountsController extends BaseController {
      */
     public function initialize() {
         parent::__initialize();
-        $logDir        = $this->config->application->logDir;
-        $this->logger  = new FileAdapter(APP_PATH . "/{$logDir}/TestZilla.log");
     }
 
     /**
@@ -49,12 +44,12 @@ class AccountsController extends BaseController {
 
         $userService = ServiceFactory::getService('UserService');
         $result      = $userService->isAccountValid($username, $password);
-        $this->logger->log(sprintf('User: [Username=%s] tried to sign in at %s.', $username, $ipAddress), Logger::INFO);
+        $this->logger->log(sprintf('User: [Username=%s] tried to sign in at %s.', $username, $ipAddress));
 
         if ( $result['isSuccessful'] ) {
             $user    = $userService->getUserUsingUsernameOrEmail($username);
             $this->getSession($this->session, $user);
-            $this->logger->log(sprintf('User: [%s] signed in at %s.', $user, $ipAddress), Logger::INFO);
+            $this->logger->log(sprintf('User: [%s] signed in at %s.', $user, $ipAddress));
         }
         $response    = new Response();
         $response->setHeader('Content-Type', 'application/json');
@@ -81,7 +76,7 @@ class AccountsController extends BaseController {
         $user        = $this->getCurrentUser($this->session);
 
         $this->destroySession($this->session);
-        $this->logger->log(sprintf('User: [%s] signed out at %s.', $user, $ipAddress), Logger::INFO);
+        $this->logger->log(sprintf('User: [%s] signed out at %s.', $user, $ipAddress));
         
         $response    = new Response();
         $response->redirect('/accounts/signin?logout=true');
@@ -138,7 +133,7 @@ class AccountsController extends BaseController {
             $user       = $userService->getUserUsingUsernameOrEmail($username);
             $ipAddress  = $this->request->getClientAddress();
             $this->getSession($this->session, $user);
-            $this->logger->log(sprintf('User: [%s] created at %s.', $user, $ipAddress), Logger::INFO);
+            $this->logger->log(sprintf('User: [%s] created at %s.', $user, $ipAddress));
         }
         $response = new Response();
         $response->setHeader('Content-Type', 'application/json');
@@ -277,7 +272,7 @@ class AccountsController extends BaseController {
         if ( $result['isSuccessful'] ) {
             $user       = $userService->getUserUsingUsernameOrEmail($email);
             $ipAddress  = $this->request->getClientAddress();
-            $this->logger->log(sprintf('User: [%s] reset password at %s.', $user, $ipAddress), Logger::INFO);
+            $this->logger->log(sprintf('User: [%s] reset password at %s.', $user, $ipAddress));
         }
         $response = new Response();
         $response->setHeader('Content-Type', 'application/json');
@@ -289,10 +284,4 @@ class AccountsController extends BaseController {
      * Number of issues to get in a request.
      */
     const NUMBER_OF_ISSUES_PER_REQUEST = 25;
-
-    /**
-     * The logger of AccountsController.
-     * @var Phalcon\Logger\Adapter\File
-     */
-    private $logger;
 }

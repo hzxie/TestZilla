@@ -1,15 +1,12 @@
 <?php
 
 use Phalcon\Http\Response;
-use Phalcon\Logger;
-use Phalcon\Logger\Adapter\File as FileAdapter;
 use Phalcon\Mvc\View;
 
 /**
  * The controller used for handling profile and product management.
  * 
  * @package TestZilla\controller\DashboardController
- * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class DashboardController extends BaseController {
     /**
@@ -17,8 +14,6 @@ class DashboardController extends BaseController {
      */
     public function initialize() {
         parent::__initialize();
-        $logDir        = $this->config->application->logDir;
-        $this->logger  = new FileAdapter(APP_PATH . "/{$logDir}/TestZilla.log");
     }
 
     /**
@@ -64,7 +59,7 @@ class DashboardController extends BaseController {
 
         if ( $result['isSuccessful'] ) {
             $ipAddress      = $this->request->getClientAddress();
-            $this->logger->log(sprintf('User: [%s] changed password at %s.', $currentUser, $ipAddress), Logger::INFO);
+            $this->logger->log(sprintf('User: [%s] changed password at %s.', $currentUser, $ipAddress));
         }
         $response = new Response();
         $response->setHeader('Content-Type', 'application/json');
@@ -180,7 +175,7 @@ class DashboardController extends BaseController {
         }
         if ( $result['isSuccessful'] ) {
             $ipAddress   = $this->request->getClientAddress();
-            $this->logger->log(sprintf('User: [%s] created a product[%s] at %s.', $user, $productName, $ipAddress), Logger::INFO);
+            $this->logger->log(sprintf('User: [%s] created a product[%s] at %s.', $user, $productName, $ipAddress));
         }
         $response = new Response();
         $response->setHeader('Content-Type', 'application/json');
@@ -214,7 +209,7 @@ class DashboardController extends BaseController {
         }
         if ( $result['isSuccessful'] ) {
             $ipAddress   = $this->request->getClientAddress();
-            $this->logger->log(sprintf('User: [%s] edited a product[%d] at %s.', $user, $productId, $ipAddress), Logger::INFO);
+            $this->logger->log(sprintf('User: [%s] edited a product[%d] at %s.', $user, $productId, $ipAddress));
         }
         $response = new Response();
         $response->setHeader('Content-Type', 'application/json');
@@ -327,10 +322,4 @@ class DashboardController extends BaseController {
      * Number of issues to get in a request.
      */
     const NUMBER_OF_ISSUES_PER_REQUEST = 15;
-
-    /**
-     * The logger of DashboardController.
-     * @var Phalcon\Logger\Adapter\File
-     */
-    private $logger;
 }

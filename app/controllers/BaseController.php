@@ -1,6 +1,8 @@
 <?php
 
 use Phalcon\Mvc\Controller;
+use Phalcon\Logger;
+use Phalcon\Logger\Adapter\Stream as LoggerAdapter;
 use Phalcon\Mvc\View;
 
 /**
@@ -8,7 +10,6 @@ use Phalcon\Mvc\View;
  * other controllers.
  *
  * @package TestZilla\controller\BaseController
- * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class BaseController extends Controller {
     /**
@@ -45,6 +46,13 @@ class BaseController extends Controller {
             $user   = $this->getCurrentUser($this->session);
             $this->view->setVar('user', $user);
         }
+
+        // Set up logger
+        $logDir       = $this->config->application->logDir;
+        $adapter      = new LoggerAdapter(APP_PATH . "/{$logDir}/TestZilla.log");
+        $this->logger = new Logger('messages', [
+            'main' => $adapter,
+        ]);
     }
 
     /**
@@ -381,4 +389,9 @@ class BaseController extends Controller {
      * @var array
      */
     private static $options = array();
+
+    /**
+     * Logger
+     */
+    protected $logger;
 }

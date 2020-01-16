@@ -3,7 +3,7 @@
  * @Author: Haozhe Xie
  * @Date:   2020-01-16 12:30:54
  * @Last Modified by:   Haozhe Xie
- * @Last Modified time: 2020-01-16 12:31:00
+ * @Last Modified time: 2020-01-16 13:07:01
  */
 
 use Phalcon\Mvc\Model;
@@ -12,7 +12,6 @@ use Phalcon\Mvc\Model;
  * The email validation records of the application.
  *
  * @package TestZilla\model\EmailVerification
- * @author Haozhe Xie <cshzxie@gmail.com>
  */
 class EmailVerification extends Model {
     /**
