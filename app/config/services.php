@@ -3,7 +3,7 @@
  * @Author: Haozhe Xie
  * @Date:   2020-01-16 11:49:16
  * @Last Modified by:   Haozhe Xie
- * @Last Modified time: 2020-01-16 13:05:03
+ * @Last Modified time: 2020-01-16 14:42:00
  */
 
 use Phalcon\Config\Adapter\Ini as ConfigIni;
@@ -112,7 +112,8 @@ $di->set('session', function() {
     $files = new SessionAdapter([
         'savePath' => '/tmp',
     ]);
-    $session->setAdapter($files);
+    $session->setAdapter($files)
+            ->start();
     return $session;
 });
 
